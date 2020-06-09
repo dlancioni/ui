@@ -1,13 +1,13 @@
-class Menu {
+class Button {
   // Constructor
   constructor(json) {
       this.json = json;
   }
-  // Public methods
+  // Public methods  
   do() {
-      return "Json to generate form " + this.json;
+      return "Json to generate button " + this.json;
   }
 }
 module.exports = {
-  Menu
+  Button
 };
