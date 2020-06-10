@@ -13,7 +13,7 @@ class Table {
         let field = "";
         let struct = JSON.parse(this.struct);
         let data = JSON.parse(this.data);
-        html += "<table>";
+        html += "<center><table>";
         
         // Prepare table html
         html += "<tr>";
@@ -31,8 +31,8 @@ class Table {
           }
         }
         html += "</tr>";        
+        html += "</table></center>";
 
-        html += "</table>";       
         return html;
     }
 }  
