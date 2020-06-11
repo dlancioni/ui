@@ -1,4 +1,4 @@
-const { Button } = require("./button.js");
+const { Button } = require("../button.js");
 
 let struct = '{}';
 let data = '{}';

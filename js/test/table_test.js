@@ -1,4 +1,4 @@
-const { Table } = require("./table.js");
+const { Table } = require("../table.js");
 
 let struct = '{}';
 let data = '{}';
