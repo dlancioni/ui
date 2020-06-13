@@ -7,36 +7,34 @@ class Table {
     }
 
     // Public methods  
-    do() {
+    createTable() {
 
         let html = "";
-        let field = "";
-        let struct = JSON.parse(this.struct);
-        let data = JSON.parse(this.data);
-        html += "<table>";
+        let field = "";        
+        let struct = '';
+        let data = '';
+
+        struct = JSON.parse(this.struct);
+        data = JSON.parse(this.data);        
         
         // Prepare table html
+        html += "<table>";        
         html += "<tr>";
         for (let i in struct) {
-          html += "<th>" + struct[i].field_label + "</th>";          
+            html += "<th>" + struct[i].field_label + "</th>";          
         }
         html += "</tr>";
 
         // Prepare table contents
-        html += "<tr>";
         for (let i in data) {
-          for (let j in struct) {
-            field = struct[j].field_name;
-            html += "<td>" + data[i][field] + "</td>";
-          }
+            html += "<tr>";
+            for (let j in struct) {
+                field = struct[j].field_name;
+                html += "<td>" + data[i].field[field] + "</td>";
+            }
+            html += "</tr>";
         }
-        html += "</tr>";        
         html += "</table>";
-
         return html;
     }
-}  
-
-module.exports = {
-  Table
-};
+}

@@ -1,4 +1,5 @@
 class Menu {
+    
   // Constructor
   constructor(json) {
       this.json = json;

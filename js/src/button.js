@@ -24,6 +24,3 @@ class Button {
       return html;
   }
 }
-module.exports = {
-  Button
-};

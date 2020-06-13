@@ -49,32 +49,26 @@ class Form {
         let fieldName = '';
         let fieldType = '';
         let fieldValue = '';
-        let struct = JSON.parse(this.struct);
-        let data = JSON.parse(this.data);
+        let struct = '';
+        let data = '';
         
         // Prepare table html
         try {
 
-            html += `<div class="container">`
+            struct = JSON.parse(this.struct);
+            data = JSON.parse(this.data);            
+
             html += `<form id="form1">`;
-
             for (let i in struct) {
-
                 fieldLabel = struct[i].field_label;
                 fieldName = struct[i].field_name;
                 if (data.length > 0)
                     fieldValue = data[0][fieldName];
-
-                html += `<div class="row">`
                 html += this.createLabel(fieldLabel, fieldName);
-                html += `</div>`;
-                html += `<div class="row">`
                 html += this.createTextbox(fieldName, fieldValue, '', false);
-                html += `</div>`;
+                html += '<br>';
             }
-
             html += `</form>`;
-            html += `</div">`
             return html;
 
         } catch (err) {
@@ -82,6 +76,3 @@ class Form {
         }
     }
 }
-module.exports = {
-    Form
-};
