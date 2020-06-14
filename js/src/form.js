@@ -1,9 +1,8 @@
 class Form {
 
     // Constructor
-    constructor(struct, data) {
-        this.struct = struct;
-        this.data = data;
+    constructor(id) {
+        this.id = id;
     }
 
     // Create new label
@@ -51,12 +50,18 @@ class Form {
         let fieldValue = '';
         let struct = '';
         let data = '';
-        
+        let http = new HTTPService();
+
         // Prepare table html
         try {
 
-            struct = JSON.parse(this.struct);
-            data = JSON.parse(this.data);            
+            // Get data from database
+            struct = http.query('struct');
+            data = http.query('data');
+
+            // Conver to json array    
+            struct = JSON.parse(struct);
+            data = JSON.parse(data);            
 
             html += `<form id="form1">`;
             for (let i in struct) {

@@ -12,52 +12,31 @@ for (let i=0; i<1; i++) {
 }
 document.getElementsByTagName('head').item(0).appendChild(se);
 
-    // Execute URL and return data
-    async function httpQuery(param) {
-        var data = new URLSearchParams();    
-        data.append('param', param);
-        let response = await fetch('api/src/query.php', {method: 'post', body: data})
-        if (response.ok) {
-            let json = await response.text();
-            return json;
-        } else {
-            alert("HTTP-Error: " + response.status);
-        }
-    }
-
-async function go(dest) {
-
-    let struct = '{}';
-    let data = '{}';
-    let html = ''; 
+function go(dest) {
 
     let table = '';
-    let button= '';
-    let form= '';
+    let button = '';
+    let form = '';
 
     try {
 
-        // Get data
-        struct = await httpQuery('struct');
-        data = await httpQuery('data');
-
-        // Present screen
+        // Present the screen
         switch (dest.trim()) {
             case 'table':
-                table = new Table(struct, data);
+                table = new Table(0);
                 setDiv('div2', table.createTable());
                 break;
             case 'form':
-                form = new Form(struct, data);                
+                form = new Form(0);
                 setDiv('div2', form.createForm());
                 break;
             default:
-            setDiv('div2', '');
-    }
+                setDiv('div2', '');
+        }
 
-    // Present screen according to user action
-    button = new Button(data);    
-    setDiv('div3', button.do());
+        // Present screen according to user action
+        button = new Button(data);    
+        setDiv('div3', button.do());
 
     } catch (err) {    
         setDiv('div1', '');

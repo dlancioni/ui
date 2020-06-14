@@ -1,9 +1,8 @@
 class Table {
 
     // Constructor
-    constructor(struct, data) {
-        this.struct = struct;
-        this.data = data;
+    constructor(id) {
+        this.id = id;
     }
 
     // Public methods  
@@ -13,28 +12,40 @@ class Table {
         let field = "";        
         let struct = '';
         let data = '';
+        let http = new HTTPService();
 
-        struct = JSON.parse(this.struct);
-        data = JSON.parse(this.data);        
-        
-        // Prepare table html
-        html += "<table>";        
-        html += "<tr>";
-        for (let i in struct) {
-            html += "<th>" + struct[i].field_label + "</th>";          
-        }
-        html += "</tr>";
+        try {
 
-        // Prepare table contents
-        for (let i in data) {
+            // Get data from database
+            struct = http.query('struct');
+            data = http.query('data');
+
+            // Conver to json array    
+            struct = JSON.parse(struct);
+            data = JSON.parse(data);
+
+            // Prepare table html
+            html += "<table>";        
             html += "<tr>";
-            for (let j in struct) {
-                field = struct[j].field_name;
-                html += "<td>" + data[i].field[field] + "</td>";
+            for (let i in struct) {
+                html += "<th>" + struct[i].field_label + "</th>";          
             }
             html += "</tr>";
-        }
-        html += "</table>";
-        return html;
+
+            // Prepare table contents
+            for (let i in data) {
+                html += "<tr>";
+                for (let j in struct) {
+                    field = struct[j].field_name;
+                    html += "<td>" + data[i].field[field] + "</td>";
+                }
+                html += "</tr>";
+            }
+            html += "</table>";
+            return html;            
+
+        } catch (err) {
+            return err.message;
+        }        
     }
 }
