@@ -17,6 +17,7 @@ function go(dest) {
     let table = '';
     let button = '';
     let form = '';
+    let data = '';
 
     try {
 
@@ -35,7 +36,7 @@ function go(dest) {
         }
 
         // Present screen according to user action
-        button = new Button(data);    
+        button = new Button();
         setDiv('div3', button.do());
 
     } catch (err) {    

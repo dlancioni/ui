@@ -27,6 +27,7 @@ class Table {
             // Prepare table html
             html += "<table>";        
             html += "<tr>";
+            html += "<th></th>";
             for (let i in struct) {
                 html += "<th>" + struct[i].field_label + "</th>";          
             }
@@ -35,6 +36,7 @@ class Table {
             // Prepare table contents
             for (let i in data) {
                 html += "<tr>";
+                html += `<td><input type="radio" id="selection" name="selection" value=""></td>`;
                 for (let j in struct) {
                     field = struct[j].field_name;
                     html += "<td>" + data[i].field[field] + "</td>";
