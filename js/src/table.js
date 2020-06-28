@@ -1,18 +1,20 @@
 class Table {
 
     // Constructor
-    constructor(id) {
-        this.id = id;
+    constructor() {
     }
 
     // Public methods  
     createTable() {
 
         let html = "";
+        let cols = "";
+        let rows = "";
         let field = "";        
         let struct = '';
         let data = '';
         let http = new HTTPService();
+        let element = new HTMLElement();
 
         try {
 
@@ -25,29 +27,29 @@ class Table {
             data = JSON.parse(data);
 
             // Prepare table html
-            html += "<table>";        
-            html += "<tr>";
-            html += "<th></th>";
+            cols = element.createTableHeader('');
             for (let i in struct) {
-                html += "<th>" + struct[i].field_label + "</th>";          
+                cols += element.createTableHeader(struct[i].field_label);
             }
-            html += "</tr>";
+            rows += element.createTableRow(cols);
 
             // Prepare table contents
             for (let i in data) {
-                html += "<tr>";
-                html += `<td><input type="radio" id="selection" name="selection" value=""></td>`;
+                cols = '';
+                cols += element.createTableCol(element.createRadio("selection", "selection", false));
                 for (let j in struct) {
                     field = struct[j].field_name;
-                    html += "<td>" + data[i].field[field] + "</td>";
+                    cols += element.createTableCol(data[i].field[field]);
                 }
-                html += "</tr>";
+                rows += element.createTableRow(cols);
             }
-            html += "</table>";
+
+            html += element.createTable(rows);
+
             return html;            
 
         } catch (err) {
-            return err.message;
+            return "createTable():" + err.message;
         }        
     }
 }

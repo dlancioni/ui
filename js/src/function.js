@@ -35,10 +35,6 @@ function go(dest) {
                 setDiv('div2', '');
         }
 
-        // Present screen according to user action
-        button = new Button();
-        setDiv('div3', button.do());
-
     } catch (err) {    
         setDiv('div1', '');
         setDiv('div2', err.message);

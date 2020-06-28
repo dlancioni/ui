@@ -5,41 +5,6 @@ class Form {
         this.id = id;
     }
 
-    // Create new label
-    createLabel(label='', name='') {
-
-        let html = '';
-
-        try {
-            html += `<label for="${name}">${label}</label>`;
-            return html.trim();
-        } catch (err) {
-            return err.message;
-        }
-    }
-
-    // Create textbox
-    createTextbox(label='', name='', value='', placeholder='', disabled=false) {
-
-        let html = '';
-
-        try {
-            html += `<input`;
-            html += ` type="text"`;
-            html += ` id="${name}"`; 
-            html += ` name="${name}"`; 
-            html += ` value="${value}"`;
-            if (placeholder != '')
-                html += ` placeholder="${placeholder}"`;
-            if (disabled) html += ` disabled`;
-                html += '>';
-            return html.trim();
-
-        } catch (err) {
-            return err.message;
-        }
-    }
-
     // Generate form
     createForm() {
         
@@ -51,6 +16,7 @@ class Form {
         let struct = '';
         let data = '';
         let http = new HTTPService();
+        let element = new HTMLElement();
 
         // Prepare table html
         try {
@@ -69,8 +35,8 @@ class Form {
                 fieldName = struct[i].field_name;
                 if (data.length > 0)
                     fieldValue = data[0][fieldName];
-                html += this.createLabel(fieldLabel, fieldName);
-                html += this.createTextbox(fieldName, fieldValue, '', false);
+                html += element.createLabel(fieldLabel, fieldName);
+                html += element.createTextbox(fieldName, fieldValue, '', false);
                 html += '<br>';
             }
             html += `</form>`;
