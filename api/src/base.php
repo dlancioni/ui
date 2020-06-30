@@ -1,5 +1,5 @@
 <?php
-    class Base extends Db {
+    class Base {
         // Current session
         private $systemId = 0;
         private $tableId = 0;
@@ -7,7 +7,8 @@
         private $languageId = 0;
 
         // Error Handling
-        private $error;
+        private $error = "";
+        private $lastId = 0;
 
         // Constructor
         function __construct($systemId, $tableId, $userId, $languageId) {
@@ -51,5 +52,14 @@
         function getError() {
             return $this->error;
         }
+
+        // Last ID
+        function setLastId($id) {
+            $this->lastId = $id;
+        }
+        function getLastId() {
+            return $this->lastId;
+        }
+
     }
 ?>

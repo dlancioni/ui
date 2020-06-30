@@ -1,17 +1,7 @@
 <?php
-    class Db {
+    class Db extends Base {
 
-        private $error;
         function __construct() {
-        }
-
-        // Error handling    
-        function setError($source, $error) {
-            if ($error != "")
-            $this->error = $source . ": " . $error;
-        }
-        function getError() {
-            return $this->error;
         }
 
         public function getConnection() {
@@ -44,6 +34,47 @@
             }
             return $resultset;
         }
+
+        public function persist() {
+
+            // General Declaration
+            $db = "";
+            $conn = "";
+
+            try {
+                // Get connection
+                $conn = $this->getConnection();
+                $this->setError("", "");
+    
+                // Open transaction
+                pg_query($conn, "begin");
+        
+                // Execute statement            
+                $result = pg_query($conn, "insert into tb (ds) values ('abcde') returning id;");
+                if (!$result) {
+                    throw new Exception(pg_last_error($conn));
+                }
+
+                // Get inserted ID
+                while ($row = pg_fetch_array($result)) {
+                    $this->setLastId($row['id']);
+                }               
+        
+                // Commit transaction
+                pg_query($conn, "commit");        
+    
+            } catch (Exception $ex) {
+    
+                // Undo transaction    
+                pg_query($conn, "rollback");
+
+                // Keep last error
+                $this->setError("Persist.Insert()", $ex->getMessage());
+    
+            } finally {
+                pg_close($conn); 
+            }
+        }        
 
     } // End of class
 ?>
