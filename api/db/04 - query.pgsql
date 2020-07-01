@@ -35,6 +35,7 @@ tb_field.id,
 (tb_field.field->>'id_mandatory')::int as field_mandatory,
 (tb_field.field->>'id_unique')::int as field_unique,
 (tb_field.field->>'id_fk')::int as field_fk,
+(tb_table_fk.field->>'table_name')::text as table_fk,
 (tb_field.field->>'domain')::text as field_domain,
 case 
     when (tb_field.field->>'id_type')::int = 1 then 'int'
@@ -45,5 +46,6 @@ case
 end data_type  
 from tb_field
 inner join tb_table on (tb_field.field->>'id_table')::int = tb_table.id
+left join tb_table tb_table_fk on (tb_field.field->>'id_fk')::int = tb_table_fk.id
 where (tb_field.field->>'id_system')::int = 1
-and (tb_field.field->>'id_table')::int = 3
+and (tb_field.field->>'id_table')::int = 4
