@@ -22,7 +22,7 @@
             $connection = "";
             $resultset = "";
             try {
-                $sql = "select json_agg(t) from (" . $sql . ") t";
+                //$sql = "select json_agg(t) from (" . $sql . ") t";
                 $connection = $this->getConnection();
                 $resultset = pg_query($connection, $sql);
                 $this->setError("", "");

@@ -35,7 +35,15 @@ tb_field.id,
 (tb_field.field->>'id_mandatory')::int as field_mandatory,
 (tb_field.field->>'id_unique')::int as field_unique,
 (tb_field.field->>'id_fk')::int as field_fk,
-(tb_field.field->>'domain')::text as field_domain
+(tb_field.field->>'domain')::text as field_domain,
+case 
+    when (tb_field.field->>'id_type')::int = 1 then 'int'
+    when (tb_field.field->>'id_type')::int = 2 then 'float'
+    when (tb_field.field->>'id_type')::int = 3 then 'text'
+    when (tb_field.field->>'id_type')::int = 4 then 'date'
+    when (tb_field.field->>'id_type')::int = 5 then 'boolean'
+end data_type  
 from tb_field
 inner join tb_table on (tb_field.field->>'id_table')::int = tb_table.id
-where (tb_field.field->>'id_table')::int = 3
+where (tb_field.field->>'id_system')::int = 1
+and (tb_field.field->>'id_table')::int = 3
