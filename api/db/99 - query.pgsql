@@ -20,7 +20,7 @@ field->>'id_type' as id_type,
 field->>'title' as title,
 field->>'table_name' as table_name
 from tb_table
-*/
+
 -- -----------------------------------------------------
 -- TB_FIELD
 -- -----------------------------------------------------
@@ -49,6 +49,15 @@ from tb_field
 inner join tb_table on (tb_field.field->>'id_table')::int = tb_table.id
 left join tb_table tb_table_fk on (tb_field.field->>'id_fk')::int = tb_table_fk.id
 where (tb_field.field->>'id_system')::int = 1
-and (tb_field.field->>'id_table')::int = 2
-order by (tb_field.field->>'id_table'), (tb_field.field->>'id_field')
+and (tb_field.field->>'id_table')::int = 1
+order by tb_field.id
+*/
 
+select *
+from tb_field 
+left join tb_table on (tb_field.field->>'id_table')::int = tb_table.id 
+inner join tb_domain tb_id_type on (tb_field.field->>'id_type')::text = (tb_id_type.field->>'key')::text and (tb_id_type.field->>'domain')::text = 'tb_id_type' 
+inner join tb_domain tb_bool on (tb_field.field->>'id_mandatory')::text = (tb_bool.field->>'key')::text and (tb_bool.field->>'domain')::text = 'tb_bool' 
+inner join tb_domain tb_bool on (tb_field.field->>'id_unique')::text = (tb_bool.field->>'key')::text and (tb_bool.field->>'domain')::text = 'tb_bool' 
+left join tb_field on (tb_field.field->>'id_fk')::int = tb_field.id 
+where (tb_field.field->>'id_system')::int = 1

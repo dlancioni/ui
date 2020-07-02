@@ -26,7 +26,7 @@
     $jsonUtil = new JsonUtil();
     //echo $jsonUtil->jfield($table, $field, $type);
     //echo $jsonUtil->jsel($table, $field, $type, $alias);
-    //echo $jsonUtil->jcond($table, $field, $type, $operator, $value);
+    //echo $jsonUtil->condition($table, $field, $type, $operator, $value);
     //echo $jsonUtil->join("tb_cliente", "id_pedido", "tbped", "tb_pedido", "id");
     echo $jsonUtil->join("tb_cliente", "id_pedido", "tbped", "tb_pedido", "id","tb_domain");
 

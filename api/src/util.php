@@ -30,30 +30,21 @@
         // Condition
         public function condition($table, $field, $type, $operator, $value) {
             $jfield = $this->field($table, $field, $type);
-            $jfield .= $operator;
+            $jfield .= " " . $operator . " ";
             $jfield .= (is_numeric($value) ? $value : $this->qt($value));
             return $jfield;
         }
         // Join
-        public function join($table1, $field1, $table2, $alias2, $field2, $domain="") {
+        public function join($table1, $field1, $table2, $domain="") {
             // General declaration
             $join = "";
-            $fieldType = "int";
-            $joinType = "left";
-            // Domain use inner
-            if (trim($domain) != "") {
-                $fieldType = "text";
-                $joinType = "inner";
-            }
-            if (trim($alias2) == "") {
-                $alias2 = $table2;
-            }
-            // Prepare base join
-            $join .= " $joinType join " . $table2 . " " . $alias2 . " on ";
-            $join .= $this->field($table1, $field1, $fieldType) . " = " . $this->field($alias2, $field2, $fieldType);
-            // Domain
-            if (trim($domain) != "") {
-                $join .= " and " . $this->condition($table2, $field2, $fieldType, " = ", $domain);
+            if (trim($domain) == "") {
+                $join .= " left join " . $table2 . " on ";
+                $join .= $this->field($table1, $field1, "int") . " = " . $table2 . ".id";
+            } else {
+                $join .= " inner join " . $table2 . " " . $domain . " on ";
+                $join .= $this->field($table1, $field1, "text") . " = " . $this->field($domain, "key", "text");
+                $join .= " and " . $this->condition($domain, "domain", "text", " = ", $domain);
             }
             return $join;
         }        

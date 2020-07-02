@@ -10,12 +10,6 @@ drop table if exists tb_system cascade;
 create table if not exists tb_system (id serial, field jsonb);
 
 -- -----------------------------------------------------
--- table tb_menu
--- -----------------------------------------------------
-drop table if exists tb_menu cascade;
-create table if not exists tb_menu (id serial, field jsonb);
-
--- -----------------------------------------------------
 -- table tb_table
 -- -----------------------------------------------------
 drop table if exists tb_table cascade;
@@ -44,9 +38,3 @@ create table if not exists tb_event (id serial, field jsonb);
 -- -----------------------------------------------------
 drop table if exists tb_code cascade;
 create table if not exists tb_code (id serial, field jsonb);
-
--- -----------------------------------------------------
--- table tb_catalog
--- -----------------------------------------------------
-drop table if exists tb_catalog cascade;
-create table if not exists tb_catalog (id serial, field jsonb);

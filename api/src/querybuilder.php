@@ -31,13 +31,15 @@ class QueryBuilder extends Base {
             // Get table structure
             $tableDef = $this->getTableDef();
             // Get field list
-            $sql = $this->getFieldList($tableDef);
+            $sql .= $this->getFieldList($tableDef);
             // Get from
-            $sql = $this->getFrom($tableDef);
+            $sql .= $this->getFrom($tableDef);
             // Get join
-            $sql = $this->getJoin($tableDef);
+            $sql .= $this->getJoin($tableDef);
+            // Get where
+            $sql .= $this->getWhere($tableDef);            
             // Get condition
-            $sql = $this->getCondition($tableDef);
+            //$sql = $this->getCondition($tableDef);
             // Return sql
             return $sql;
         } catch (Exception $ex) {
@@ -81,7 +83,7 @@ class QueryBuilder extends Base {
         left join tb_table tb_table_fk on (tb_field.field->>'id_fk')::int = tb_table_fk.id       
         where (tb_field.field->>'id_system')::int = p1
         and (tb_field.field->>'id_table')::int = p2
-        order by (tb_field.field->>'id_table'), (tb_field.field->>'id_field')       
+        order by tb_field.id
         ";
 
         // Set parameters
@@ -105,13 +107,18 @@ class QueryBuilder extends Base {
     private function getFieldList($tableDef) {
         // General Declaration
         $sql = "";
+        $count = 0;
         $jsonUtil = new JsonUtil();
         try {
-            // Generate select list
+            // Get id            
             pg_result_seek($tableDef, 0);
-            while ($row = pg_fetch_row($tableDef)) {
-                $sql .= $jsonUtil->select($row[$this->TABLE_NAME], $row[$this->FIELD_NAME], $row[$this->FIELD_TYPE], $row[$this->FIELD_NAME]);
-                $sql .= ",";
+            $row = pg_fetch_row($tableDef);
+            $sql .= "select " . trim($row[$this->TABLE_NAME]) . ".id";
+            // Generate select list            
+            pg_result_seek($tableDef, 0);
+            while ($row = pg_fetch_row($tableDef)) {               
+                $sql .= ", ";
+                $sql .= $jsonUtil->select($row[$this->TABLE_NAME], $row[$this->FIELD_NAME], $row[$this->DATA_TYPE], $row[$this->FIELD_NAME]);
             }
         } catch (Exception $ex) {
             $this->setError("QueryBuilder.getFieldList()", $ex.getMessage());
@@ -123,14 +130,16 @@ class QueryBuilder extends Base {
      * Get from
      */
     private function getFrom($tableDef) {
+        $sql = "";
+        $jsonUtil = new JsonUtil();
         try {
             pg_result_seek($tableDef, 0);
-            while ($row = pg_fetch_row($tableDef)) {
-                return " from " . $row[$this->TABLE_NAME];
-            }
+            $row = pg_fetch_row($tableDef);
+            $sql .= " from " . $row[$this->TABLE_NAME];
         } catch (Exception $ex) {
             $this->setError("QueryBuilder.getFrom()", $ex.getMessage());
         }
+        return $sql;
     }
 
     /*
@@ -147,14 +156,32 @@ class QueryBuilder extends Base {
                     $sql .= $jsonUtil->join($row[$this->TABLE_NAME], 
                                             $row[$this->FIELD_NAME], 
                                             $row[$this->TABLE_FK], 
-                                            $row[$this->FIELD_DOMAIN],
-                                            "id",
                                             $row[$this->FIELD_DOMAIN]);
                 }
             }
         } catch (Exception $ex) {
             $this->setError("QueryBuilder.getJoin()", $ex.getMessage());
-        }        
+        }
+        return $sql;
+    }
+
+    /*
+     * Get where
+     */
+    private function getWhere($tableDef) {
+        $sql = "";
+        $jsonUtil = new JsonUtil();
+        try {
+            pg_result_seek($tableDef, 0);
+            $row = pg_fetch_row($tableDef);
+            if ($row[$this->TABLE_NAME] != "tb_system") {
+                $sql .= " where " . $jsonUtil->condition($row[$this->TABLE_NAME], "id_system", "int", "=", $this->getSystem());
+            }
+
+        } catch (Exception $ex) {
+            $this->setError("QueryBuilder.getWhere()", $ex.getMessage());
+        }
+        return $sql;
     }
 
     /*
