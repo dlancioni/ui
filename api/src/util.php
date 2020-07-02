@@ -45,6 +45,9 @@
                 $fieldType = "text";
                 $joinType = "inner";
             }
+            if (trim($alias2) == "") {
+                $alias2 = $table2;
+            }
             // Prepare base join
             $join .= " $joinType join " . $table2 . " " . $alias2 . " on ";
             $join .= $this->field($table1, $field1, $fieldType) . " = " . $this->field($alias2, $field2, $fieldType);

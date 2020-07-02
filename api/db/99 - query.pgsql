@@ -1,3 +1,4 @@
+/*
 -- -----------------------------------------------------
 -- TB_SYSTEM
 -- -----------------------------------------------------
@@ -19,7 +20,7 @@ field->>'id_type' as id_type,
 field->>'title' as title,
 field->>'table_name' as table_name
 from tb_table
-
+*/
 -- -----------------------------------------------------
 -- TB_FIELD
 -- -----------------------------------------------------
@@ -48,4 +49,6 @@ from tb_field
 inner join tb_table on (tb_field.field->>'id_table')::int = tb_table.id
 left join tb_table tb_table_fk on (tb_field.field->>'id_fk')::int = tb_table_fk.id
 where (tb_field.field->>'id_system')::int = 1
-and (tb_field.field->>'id_table')::int = 4
+and (tb_field.field->>'id_table')::int = 2
+order by (tb_field.field->>'id_table'), (tb_field.field->>'id_field')
+

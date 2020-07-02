@@ -5,20 +5,31 @@ class QueryBuilder extends Base {
     /*
      * Column definition
      */
+    private $ID = 0;
+    private $SYSTEM_ID = 1;
     private $TABLE_NAME = 2;
+    private $FIELD_LABEL = 3;
     private $FIELD_NAME = 4;
-    private $FIELD_TYPE = 13;
+    private $FIELD_TYPE = 5;
+    private $FIELD_SIZE = 6;
+    private $FIELD_MASK = 7;
+    private $FIELD_MANDATORY = 8;
+    private $FIELD_UNIQUE = 9;
+    private $FIELD_FK = 10;
+    private $TABLE_FK = 11;
+    private $FIELD_DOMAIN = 12;
+    private $DATA_TYPE = 13;
 
     /*
      * Return query based on mapping
      */
-    public function query($systemId, $tableId) {
+    public function query() {
         // General Declaration
         $sql = "";
         $tableDef = "";
         try {
             // Get table structure
-            $tableDef = $this->getTableDef($systemId, $tableId);
+            $tableDef = $this->getTableDef();
             // Get field list
             $sql = $this->getFieldList($tableDef);
             // Get from
@@ -44,7 +55,7 @@ class QueryBuilder extends Base {
         $rs = "";
         // Get table structure and related information
         $sql = "
-        select 
+        select
         tb_field.id,
         (tb_field.field->>'id_system')::int as id_system,
         (tb_table.field->>'table_name')::text as table_name,
@@ -67,14 +78,16 @@ class QueryBuilder extends Base {
         end data_type  
         from tb_field
         inner join tb_table on (tb_field.field->>'id_table')::int = tb_table.id
-        left join tb_table tb_table_fk on (tb_field.field->>'id_fk')::int = tb_table_fk.id
+        left join tb_table tb_table_fk on (tb_field.field->>'id_fk')::int = tb_table_fk.id       
         where (tb_field.field->>'id_system')::int = p1
         and (tb_field.field->>'id_table')::int = p2
+        order by (tb_field.field->>'id_table'), (tb_field.field->>'id_field')       
         ";
 
         // Set parameters
         $sql = str_replace("p1", $this->getSystem(), $sql);
         $sql = str_replace("p2", $this->getTable(), $sql);
+        error_log($sql);
 
         // Execute query and return data
         try {
@@ -93,17 +106,15 @@ class QueryBuilder extends Base {
         // General Declaration
         $sql = "";
         $jsonUtil = new JsonUtil();
-        
         try {
             // Generate select list
             pg_result_seek($tableDef, 0);
             while ($row = pg_fetch_row($tableDef)) {
                 $sql .= $jsonUtil->select($row[$this->TABLE_NAME], $row[$this->FIELD_NAME], $row[$this->FIELD_TYPE], $row[$this->FIELD_NAME]);
-                $sql .= ","; 
-                $sql .= $jsonUtil->lb();
+                $sql .= ",";
             }
         } catch (Exception $ex) {
-            $this->setError("QueryBuilder.getTableDef()", $ex.getMessage());
+            $this->setError("QueryBuilder.getFieldList()", $ex.getMessage());
         }
         return $sql;
     }
@@ -115,7 +126,7 @@ class QueryBuilder extends Base {
         try {
             pg_result_seek($tableDef, 0);
             while ($row = pg_fetch_row($tableDef)) {
-                return $row["table_name"];
+                return " from " . $row[$this->TABLE_NAME];
             }
         } catch (Exception $ex) {
             $this->setError("QueryBuilder.getFrom()", $ex.getMessage());
@@ -126,13 +137,23 @@ class QueryBuilder extends Base {
      * Get the joins
      */
     private function getJoin($tableDef) {
+        // General declaration
+        $sql = "";
+        $jsonUtil = new JsonUtil();        
         try {
             pg_result_seek($tableDef, 0);
             while ($row = pg_fetch_row($tableDef)) {
-                echo $row[3];
+                if ($row[$this->FIELD_FK] > 0) {
+                    $sql .= $jsonUtil->join($row[$this->TABLE_NAME], 
+                                            $row[$this->FIELD_NAME], 
+                                            $row[$this->TABLE_FK], 
+                                            $row[$this->FIELD_DOMAIN],
+                                            "id",
+                                            $row[$this->FIELD_DOMAIN]);
+                }
             }
         } catch (Exception $ex) {
-            $this->setError("QueryBuilder.getTableDef()", $ex.getMessage());
+            $this->setError("QueryBuilder.getJoin()", $ex.getMessage());
         }        
     }
 
