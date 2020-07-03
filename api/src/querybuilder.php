@@ -3,6 +3,14 @@ include "../src/util.php";
 class QueryBuilder extends Base {
 
     /*
+     * System definition
+     */
+    private $SYSTEM_SYSTEM = 1;
+    private $SYSTEM_TABLE = 2;
+    private $SYSTEM_FIELD = 3;
+    private $SYSTEM_DOMAIN = 4;
+
+    /*
      * Column definition
      */
     private $ID = 0;
@@ -69,7 +77,7 @@ class QueryBuilder extends Base {
         (tb_field.field->>'id_mandatory')::int as field_mandatory,
         (tb_field.field->>'id_unique')::int as field_unique,
         (tb_field.field->>'id_fk')::int as field_fk,
-        (tb_table_fk.field->>'table_name')::text as table_fk,
+        (tb_table_id_fk.field->>'table_name')::text as table_fk,
         (tb_field.field->>'domain')::text as field_domain,
         case 
             when (tb_field.field->>'id_type')::int = 1 then 'int'
@@ -80,7 +88,7 @@ class QueryBuilder extends Base {
         end data_type  
         from tb_field
         inner join tb_table on (tb_field.field->>'id_table')::int = tb_table.id
-        left join tb_table tb_table_fk on (tb_field.field->>'id_fk')::int = tb_table_fk.id       
+        left join tb_table tb_table_id_fk on (tb_field.field->>'id_fk')::int = tb_table_id_fk.id
         where (tb_field.field->>'id_system')::int = p1
         and (tb_field.field->>'id_table')::int = p2
         order by tb_field.id
@@ -109,6 +117,14 @@ class QueryBuilder extends Base {
         $sql = "";
         $count = 0;
         $jsonUtil = new JsonUtil();
+        $fk = "";
+        $tableName = "";
+        $fieldName = "";
+        $fieldType = "";
+        $fieldDomain = "";
+        $fieldAlias = "";
+        $tableFk = "";
+
         try {
             // Get id            
             pg_result_seek($tableDef, 0);
@@ -116,9 +132,30 @@ class QueryBuilder extends Base {
             $sql .= "select " . trim($row[$this->TABLE_NAME]) . ".id";
             // Generate select list            
             pg_result_seek($tableDef, 0);
-            while ($row = pg_fetch_row($tableDef)) {               
+            while ($row = pg_fetch_row($tableDef)) {
+                $fk = $row[$this->FIELD_FK];
+                $tableName = $row[$this->TABLE_NAME];
+                $fieldName = $row[$this->FIELD_NAME];
+                $fieldType = $row[$this->DATA_TYPE];
+                $fieldDomain = $row[$this->FIELD_DOMAIN];
+                $tableFk = $row[$this->TABLE_FK];
+                $fieldAlias = "";
                 $sql .= ", ";
-                $sql .= $jsonUtil->select($row[$this->TABLE_NAME], $row[$this->FIELD_NAME], $row[$this->DATA_TYPE], $row[$this->FIELD_NAME]);
+
+                if ($fk == 0) {
+                    $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias);
+                } else if ($fk == $this->SYSTEM_DOMAIN) {
+                    $tableName = $fieldDomain . "_" . $fieldName;
+                    $fieldAlias = $fieldName;
+                    $fieldName = "value";
+                    $fieldType = "text";
+                    $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias);
+                } else {
+                    $tableName = $tableFk . "_" . $fieldName;
+                    $fieldName = "name";
+                    $fieldType = "text";
+                    $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias);
+                }                
             }
         } catch (Exception $ex) {
             $this->setError("QueryBuilder.getFieldList()", $ex.getMessage());

@@ -4,7 +4,7 @@
     include "../src/db.php";
     include "../src/querybuilder.php";
 
-    $queryBuilder = new QueryBuilder(1, 3, 1, 1);
+    $queryBuilder = new QueryBuilder(1, 2, 1, 1);
     echo $queryBuilder->query();
 
 

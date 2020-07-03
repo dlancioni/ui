@@ -38,13 +38,16 @@
         public function join($table1, $field1, $table2, $domain="") {
             // General declaration
             $join = "";
+            $alias = "";
             if (trim($domain) == "") {
-                $join .= " left join " . $table2 . " on ";
-                $join .= $this->field($table1, $field1, "int") . " = " . $table2 . ".id";
+                $alias = $table2 . "_" . $field1;
+                $join .= " left join " . $table2 . " " . $alias . " on ";
+                $join .= $this->field($table1, $field1, "int") . " = " . $alias . ".id";
             } else {
-                $join .= " inner join " . $table2 . " " . $domain . " on ";
-                $join .= $this->field($table1, $field1, "text") . " = " . $this->field($domain, "key", "text");
-                $join .= " and " . $this->condition($domain, "domain", "text", " = ", $domain);
+                $alias = $domain . "_" . $field1;
+                $join .= " inner join " . $table2 . " " . $alias . " on ";
+                $join .= $this->field($table1, $field1, "text") . " = " . $this->field($alias, "key", "text");
+                $join .= " and " . $this->condition($alias, "domain", "text", " = ", $domain);
             }
             return $join;
         }        
