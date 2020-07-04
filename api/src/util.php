@@ -1,40 +1,84 @@
 <?php
     class StringUtil {
-        // Put value between single quote
+
+        /*
+         * Put value between single quote
+         */        
         function qt($value) {
             return "'" . trim($value) . "'";
         }
-        // Line break
+
+        /*
+         * Line break
+         */
         function lb() {
             return "\n";
         }        
     }
     class JsonUtil extends StringUtil {
-        // Set value in specific tag
+
+        /*
+         * Set value in specific tag
+         */
         public function setValue($json, $field, $value) {
             $json = json_decode($json, true);
             $json[$field] = $value;
             $json = json_encode($json);
             return $json;
         }
-        // Plain field
-        public function field($table, $field, $type) {
-            $jfield = "(" . $table . ".field" . '->>' . $this->qt($field) . ")::" . $type;
-            return $jfield;
+
+        /*
+         * Plain field
+         */
+        public function field($table, $field, $type, $mask="") {
+            $output = "";
+            if ($type == "date") {
+                $output = "to_date(" . $table . ".field" . '->>' . $this->qt($field) . ", " . $this->qt($mask) . ")";
+            } else {
+                $output = "(" . $table . ".field" . '->>' . $this->qt($field) . ")::" . $type;
+            }
+            return $output;
         }
-        // Select
+
+        /*
+         * Select field
+         */
         public function select($table, $field, $type, $alias="") {
-            $jfield = $this->field($table, $field, $type) . " as " . (trim($alias) == "" ? $field : $alias);
-            return $jfield;
+            $output = "";
+            $output = $this->field($table, $field, $type) . " as " . (trim($alias) == "" ? $field : $alias);
+            return $output;
         }
-        // Condition
-        public function condition($table, $field, $type, $operator, $value) {
-            $jfield = $this->field($table, $field, $type);
-            $jfield .= " " . $operator . " ";
-            $jfield .= (is_numeric($value) ? $value : $this->qt($value));
-            return $jfield;
+
+        /*
+         * Condition (and clause)
+         */
+        public function condition($table, $field, $type, $operator, $value, $mask="") {
+            // General Declaration
+            $condition = "";
+            // Base field            
+            $condition .= $this->field($table, $field, $type, $mask);
+            // Operator
+            if (trim($operator) == "") {
+                $operator = "=";
+            } else {
+                $operator = trim($operator);
+            }
+            $condition .= " " . $operator . " ";
+            // Handle quotes
+            $value = (is_numeric($value) ? $value : $this->qt($value));
+            // Set value
+            if ($type == "date") {
+                $condition .= "to_date(" . $value . ", " . $this->qt($mask) . ")";
+            } else {
+                $condition .= $value;
+            }
+            // Return condition
+            return $condition;
         }
-        // Join
+
+        /*
+         * Join (inner and left)
+         */
         public function join($table1, $field1, $table2, $domain="") {
             // General declaration
             $join = "";

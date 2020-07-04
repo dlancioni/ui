@@ -31,7 +31,7 @@ class QueryBuilder extends Base {
     /*
      * Return query based on mapping
      */
-    public function query() {
+    public function query($filter) {
         // General Declaration
         $sql = "";
         $tableDef = "";
@@ -47,7 +47,9 @@ class QueryBuilder extends Base {
             // Get where
             $sql .= $this->getWhere($tableDef);            
             // Get condition
-            //$sql = $this->getCondition($tableDef);
+            $sql = $this->getCondition($filter);
+            // Get ordering
+            $sql .= $this->getOrderBy($tableDef);             
             // Return sql
             return $sql;
         } catch (Exception $ex) {
@@ -152,6 +154,7 @@ class QueryBuilder extends Base {
                     $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias);
                 } else {
                     $tableName = $tableFk . "_" . $fieldName;
+                    $fieldAlias = $fieldName;
                     $fieldName = "name";
                     $fieldType = "text";
                     $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias);
@@ -212,7 +215,11 @@ class QueryBuilder extends Base {
             pg_result_seek($tableDef, 0);
             $row = pg_fetch_row($tableDef);
             if ($row[$this->TABLE_NAME] != "tb_system") {
-                $sql .= " where " . $jsonUtil->condition($row[$this->TABLE_NAME], "id_system", "int", "=", $this->getSystem());
+                $sql .= " where " . $jsonUtil->condition($row[$this->TABLE_NAME], 
+                                                         "id_system",
+                                                         "int", 
+                                                         "=", 
+                                                         $this->getSystem());
             }
 
         } catch (Exception $ex) {
@@ -224,16 +231,37 @@ class QueryBuilder extends Base {
     /*
      * Get conditions
      */
-    private function getCondition($tableDef) {
+    private function getCondition($filter) {
+        $sql = "";
         try {
-            pg_result_seek($tableDef, 0);
-            while ($row = pg_fetch_row($tableDef)) {
-                echo $row[3];
+            if (trim($filter) != "") {
+                foreach($filter as $item) {
+                    $sql .= " and " . $jsonUtil->condition($item['table'], 
+                                                           $item['field'], 
+                                                           $item['type'], 
+                                                           $item['operator'], 
+                                                           $item['value'], 
+                                                           $item['mask']);
+                }
             }
         } catch (Exception $ex) {
-            $this->setError("QueryBuilder.getTableDef()", $ex.getMessage());
-        }        
+            $this->setError("QueryBuilder.getCondition()", $ex.getMessage());
+        }
+        return $sql;
     }
+
+    /*
+     * Get ordering
+     */
+    private function getOrderBy($tableDef) {
+        $sql = "";
+        try {
+            $sql = " order by tb_field.id";
+        } catch (Exception $ex) {
+            $this->setError("QueryBuilder.getOrderBy()", $ex.getMessage());
+        }
+        return $sql;
+    }    
 
 } // End of class
 ?>

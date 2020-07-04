@@ -8,6 +8,15 @@
     $operator = "=";
     $value = "David";
 
+    $jsonUtil = new JsonUtil();
+    echo $jsonUtil->field("tb", "id", "int");
+    echo "<br><br>";
+    echo $jsonUtil->field("tb_system", "expire_date", "date", "dd/mm/yyyy");
+    echo "<br><br>";
+    echo $jsonUtil->condition("tb_system", "expire_date", "date", "=", "31/12/2020", "dd/mm/yyyy");
+    echo "<br><br>";
+    echo $jsonUtil->condition("tb_system", "code", "int", "=", "2020");
+
     /*
     $stringUtil = new StringUtil();
     echo "StringUtil:" . "<br>";
@@ -23,11 +32,11 @@
     echo $jsonUtil->jfield("tb_field", "id_system", 1) . "<br>";
     */
 
-    $jsonUtil = new JsonUtil();
+
     //echo $jsonUtil->jfield($table, $field, $type);
     //echo $jsonUtil->jsel($table, $field, $type, $alias);
     //echo $jsonUtil->condition($table, $field, $type, $operator, $value);
     //echo $jsonUtil->join("tb_cliente", "id_pedido", "tbped", "tb_pedido", "id");
-    echo $jsonUtil->join("tb_cliente", "id_pedido", "tbped", "tb_pedido", "id","tb_domain");
+    //echo $jsonUtil->join("tb_cliente", "id_pedido", "tbped", "tb_pedido", "id","tb_domain");
 
 ?>
