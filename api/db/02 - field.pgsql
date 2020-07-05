@@ -13,12 +13,12 @@ insert into tb_system (field) values ('{"name":"Forms","expire_date":"31/12/2020
 -- table tb_table
 -- -----------------------------------------------------
 delete from tb_table;
-insert into tb_table (field) values ('{"id_system":1,"name":"System","id_type":1,"title":"System","table_name":"tb_system"}');
-insert into tb_table (field) values ('{"id_system":1,"name":"Table","id_type":1,"title":"Table","table_name":"tb_table"}');
-insert into tb_table (field) values ('{"id_system":1,"name":"Field","id_type":1,"title":"Field","table_name":"tb_field"}');
-insert into tb_table (field) values ('{"id_system":1,"name":"Domain","id_type":1,"title":"Domain","table_name":"tb_domain"}');
-insert into tb_table (field) values ('{"id_system":1,"name":"Event","id_type":1,"title":"Event", "table_name":"tb_event"}');
-insert into tb_table (field) values ('{"id_system":1,"name":"Code","id_type":1,"title":"Code","table_name":"tb_code"}');
+insert into tb_table (field) values ('{"id_system":1,"name":"system","id_type":1,"title":"System","table_name":"tb_system"}');
+insert into tb_table (field) values ('{"id_system":1,"name":"table","id_type":1,"title":"Table","table_name":"tb_table"}');
+insert into tb_table (field) values ('{"id_system":1,"name":"field","id_type":1,"title":"Field","table_name":"tb_field"}');
+insert into tb_table (field) values ('{"id_system":1,"name":"domain","id_type":1,"title":"Domain","table_name":"tb_domain"}');
+insert into tb_table (field) values ('{"id_system":1,"name":"event","id_type":1,"title":"Event", "table_name":"tb_event"}');
+insert into tb_table (field) values ('{"id_system":1,"name":"code","id_type":1,"title":"Code","table_name":"tb_code"}');
 
 -- -----------------------------------------------------
 -- table tb_field

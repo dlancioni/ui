@@ -19,8 +19,8 @@ class Table {
         try {
 
             // Get data from database
-            struct = http.query('struct');
-            data = http.query('data');
+            struct = http.query(3);
+            data = http.query(2);
 
             // Conver to json array    
             struct = JSON.parse(struct);
