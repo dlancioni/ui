@@ -49,21 +49,14 @@ insert into tb_field (field) values ('{"id_system":1,"id_table":4,"label":"Key",
 insert into tb_field (field) values ('{"id_system":1,"id_table":4,"label":"Value","name":"value","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":2,"id_fk":0,"domain":""}');
 insert into tb_field (field) values ('{"id_system":1,"id_table":4,"label":"Domain","name":"domain","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":2,"id_fk":0,"domain":""}');
 -- tb_event
-insert into tb_field (field) values ('{"id_system":1,"id_table":5,"label":"Name","name":"name","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":2,"id_fk":0,"domain":""}');
 insert into tb_field (field) values ('{"id_system":1,"id_table":5,"label":"Target","name":"id_page","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":2,"id_fk":4,"domain":"tb_target"}');
 insert into tb_field (field) values ('{"id_system":1,"id_table":5,"label":"Table","name":"id_table","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":2,"id_fk":3,"domain":""}');
 insert into tb_field (field) values ('{"id_system":1,"id_table":5,"label":"Field","name":"id_field","id_type":1,"size":0,"mask":"","id_mandatory":2,"id_unique":2,"id_fk":4,"domain":""}');
+insert into tb_field (field) values ('{"id_system":1,"id_table":5,"label":"Label","name":"label","id_type":3,"size":50,"mask":"","id_mandatory":2,"id_unique":2,"id_fk":0,"domain":""}');
 insert into tb_field (field) values ('{"id_system":1,"id_table":5,"label":"Event","name":"id_event","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":2,"id_fk":4,"domain":"tb_event"}');
-insert into tb_field (field) values ('{"id_system":1,"id_table":5,"label":"Display Type","name":"id_event_type","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":2,"id_fk":4,"domain":"tb_event_type"}');
-insert into tb_field (field) values ('{"id_system":1,"id_table":5,"label":"Display","name":"display","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":2,"id_fk":0,"domain":""}');
-insert into tb_field (field) values ('{"id_system":1,"id_table":5,"label":"Code","name":"code","id_type":3,"size":500,"mask":"","id_mandatory":1,"id_unique":2,"id_fk":0,"domain":""}');
+insert into tb_field (field) values ('{"id_system":1,"id_table":5,"label":"Code","name":"code","id_type":3,"size":10000,"mask":"","id_mandatory":1,"id_unique":2,"id_fk":0,"domain":""}');
 -- tb_code
 insert into tb_field (field) values ('{"id_system":1,"id_table":6,"label":"Code","name":"code","id_type":3,"size":500,"mask":"","id_mandatory":1,"id_unique":2,"id_fk":0,"domain":""}');
--- tb_catalog
-insert into tb_field (field) values ('{"id_system":1,"id_table":7,"label":"Language","name":"id_language","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":2,"id_fk":4,"domain":"tb_language"}');
-insert into tb_field (field) values ('{"id_system":1,"id_table":7,"label":"Type","name":"id_type","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":2,"id_fk":4,"domain":"tb_catalog_type"}');
-insert into tb_field (field) values ('{"id_system":1,"id_table":7,"label":"Key","name":"key","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":2,"id_fk":0,"domain":""}');
-insert into tb_field (field) values ('{"id_system":1,"id_table":7,"label":"Value","name":"value","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":2,"id_fk":0,"domain":""}');
 
 -- -----------------------------------------------------
 -- table tb_domain
@@ -81,3 +74,8 @@ insert into tb_domain (field) values ('{"id_system":1,"key":2,"value":"Decimal",
 insert into tb_domain (field) values ('{"id_system":1,"key":3,"value":"Texto","domain":"tb_field_type"}');
 insert into tb_domain (field) values ('{"id_system":1,"key":4,"value":"Data","domain":"tb_field_type"}');
 insert into tb_domain (field) values ('{"id_system":1,"key":5,"value":"Booleano","domain":"tb_field_type"}');
+-- tb_event
+insert into tb_domain (field) values ('{"id_system":1,"key":"onLoad","value":"Carregar","domain":"tb_event"}');
+insert into tb_domain (field) values ('{"id_system":1,"key":"onClick","value":"Clicar","domain":"tb_event"}');
+insert into tb_domain (field) values ('{"id_system":1,"key":"onFocus","value":"Focar","domain":"tb_event"}');
+insert into tb_domain (field) values ('{"id_system":1,"key":"onBlur","value":"Desfocar","domain":"tb_event"}');

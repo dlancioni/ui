@@ -53,9 +53,11 @@ and (tb_field.field->>'id_table')::int = 3
 order by tb_field.id
 */
 
-select * from tb_system where to_date(field->>'expire_date', 'dd/mm/yyyy') = to_date('30/12/2020', 'dd/mm/yyyy')
-                              to_date(field->>'expire_date', 'dd/mm/yyyy')
-
-select * from tb_system where
-to_date(tb_system.field->>'expire_date', 'dd/mm/yyyy') = to_date('31/12/2021', 'dd/mm/yyyy')
-
+select 
+tb_table.id, (tb_system_id_system.field->>'name')::text as id_system, 
+(tb_table_type_id_type.field->>'value')::text as id_type, 
+(tb_table.field->>'title')::text as title, (tb_table.field->>'table_name')::text as table_name 
+from tb_table left join tb_system tb_system_id_system on (tb_table.field->>'id_system')::int = tb_system_id_system.id 
+inner join tb_domain tb_table_type_id_type on (tb_table.field->>'id_type')::text = (tb_table_type_id_type.field->>'key')::text 
+and (tb_table_type_id_type.field->>'domain')::text = 'tb_table_type' where (tb_table.field->>'id_system')::int = 1 
+order by tb_field.id

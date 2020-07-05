@@ -22,18 +22,39 @@
             $connection = "";
             $resultset = "";
             try {
-                //$sql = "select json_agg(t) from (" . $sql . ") t";
                 $connection = $this->getConnection();
                 $resultset = pg_query($connection, $sql);
                 $this->setError("", "");
             } catch (exception $ex) {                
                 $resultset = "";
-                $this->setError("db.Query()", pg_last_error($connection));
+                $this->setError("db.query()", pg_last_error($connection));
             } finally {
                 pg_close($connection);
             }
             return $resultset;
         }
+
+        public function queryJson($sql) {
+            $connection = "";
+            $resultset = "";
+            $json = "";
+            try {
+                $sql = "select json_agg(t) from (" . $sql . ") t";
+                $connection = $this->getConnection();
+                $resultset = pg_query($connection, $sql);
+                while ($row = pg_fetch_row($resultset)) {
+                    $json = $row[0];
+                    break;
+                }
+                $this->setError("", "");
+            } catch (exception $ex) {                
+                $resultset = "";
+                $this->setError("db.queryJson()", pg_last_error($connection));
+            } finally {
+                pg_close($connection);
+            }
+            return $json;
+        }        
 
         public function persist() {
 

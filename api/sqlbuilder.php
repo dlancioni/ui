@@ -1,6 +1,5 @@
 <?php
-include "../src/util.php";
-class QueryBuilder extends Base {
+class SqlBuilder extends Base {
 
     /*
      * System definition
@@ -31,7 +30,7 @@ class QueryBuilder extends Base {
     /*
      * Return query based on mapping
      */
-    public function query($filter) {
+    public function getQuery($filter) {
         // General Declaration
         $sql = "";
         $tableDef = "";
@@ -47,7 +46,7 @@ class QueryBuilder extends Base {
             // Get where
             $sql .= $this->getWhere($tableDef);            
             // Get condition
-            $sql = $this->getCondition($filter);
+            $sql .= $this->getCondition($filter);
             // Get ordering
             $sql .= $this->getOrderBy($tableDef);             
             // Return sql
@@ -256,7 +255,9 @@ class QueryBuilder extends Base {
     private function getOrderBy($tableDef) {
         $sql = "";
         try {
-            $sql = " order by tb_field.id";
+            pg_result_seek($tableDef, 0);
+            $row = pg_fetch_row($tableDef);
+            $sql = " order by " . trim($row[$this->TABLE_NAME]) . ".id";
         } catch (Exception $ex) {
             $this->setError("QueryBuilder.getOrderBy()", $ex.getMessage());
         }

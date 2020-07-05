@@ -4,7 +4,7 @@
     include "../src/base.php";
     include "../src/db.php";
 
-    $db = new Db();   
+    $db = new Db();
     $db->persist();
 
     if ($db->getError() != "") {
