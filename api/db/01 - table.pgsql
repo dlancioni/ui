@@ -38,3 +38,9 @@ create table if not exists tb_event (id serial, field jsonb);
 -- -----------------------------------------------------
 drop table if exists tb_code cascade;
 create table if not exists tb_code (id serial, field jsonb);
+
+-- -----------------------------------------------------
+-- table tb_login
+-- -----------------------------------------------------
+drop table if exists tb_login cascade;
+create table if not exists tb_login (id serial, field jsonb);

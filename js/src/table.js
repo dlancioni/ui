@@ -1,7 +1,8 @@
 class Table {
 
     // Constructor
-    constructor() {
+    constructor(id) {
+        this.id = id;
     }
 
     // Public methods  
@@ -10,26 +11,31 @@ class Table {
         let html = "";
         let cols = "";
         let rows = "";
-        let field = "";        
-        let struct = '';
+        let fieldName = "";        
+        let tableDef = '';
         let data = '';
         let http = new HTTPService();
         let element = new HTMLElement();
+        let filter = "";
 
         try {
 
-            // Get data from database
-            struct = http.query(3);
-            data = http.query(2);
+            // Get table structure
+            let filter = `[{"table":"tb_field","field":"id_table","type":"int","operator":"=","value":${this.id},"mask":""}]`;
+            tableDef = http.query(3, filter);
+
+            // Get data
+            filter = '[]';
+            data = http.query(this.id, filter);
 
             // Conver to json array    
-            struct = JSON.parse(struct);
+            tableDef = JSON.parse(tableDef);
             data = JSON.parse(data);
 
             // Prepare table html
             cols = element.createTableHeader('');
-            for (let i in struct) {
-                cols += element.createTableHeader(struct[i].field_label);
+            for (let i in tableDef) {
+                cols += element.createTableHeader(tableDef[i].label);
             }
             rows += element.createTableRow(cols);
 
@@ -37,16 +43,18 @@ class Table {
             for (let i in data) {
                 cols = '';
                 cols += element.createTableCol(element.createRadio("selection", "selection", false));
-                for (let j in struct) {
-                    field = struct[j].field_name;
-                    cols += element.createTableCol(data[i].field[field]);
+                for (let j in tableDef) {
+                    fieldName = tableDef[j].name;
+                    cols += element.createTableCol(data[i][fieldName]);
                 }
                 rows += element.createTableRow(cols);
             }
 
+            // Finalize table    
             html += element.createTable(rows);
 
-            return html;            
+            // Return it
+            return html;
 
         } catch (err) {
             return "createTable():" + err.message;

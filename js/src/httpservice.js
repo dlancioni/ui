@@ -15,8 +15,8 @@ class HTTPService {
     }
 
     // Query Data
-    query(code) {
-        let url = "api/query.php?system=1&user=1&language=1&table=" + code;
+    query(code, filter) {
+        let url = "api/query.php?system=1&user=1&language=1&table=" + code + "&filter=" + filter;
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.open('GET', url, false);
         xmlhttp.setRequestHeader("Content-Type", "text/plain, charset=UTF-8");

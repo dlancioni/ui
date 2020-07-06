@@ -9,30 +9,34 @@ class Form {
     createForm() {
         
         let html = "";
-        let fieldLabel = '';
-        let fieldName = '';
-        let fieldType = '';
-        let fieldValue = '';
-        let struct = '';
-        let data = '';
+        let fieldLabel = "";
+        let fieldName = "";
+        let fieldType = "";
+        let fieldValue = "";
+        let tableDef = "";
+        let data = "";
+        let filter = "";
         let http = new HTTPService();
         let element = new HTMLElement();
 
-        // Prepare table html
         try {
+            // Get table structure
+            let filter = `[{"table":"tb_field","field":"id_table","type":"int","operator":"=","value":${this.id},"mask":""}]`;
+            tableDef = http.query(3, filter);
 
-            // Get data from database
-            struct = http.query('struct');
-            data = http.query('data');
+            // Get data
+            filter = '[]';            
+            data = http.query(this.id, "");
 
             // Conver to json array    
-            struct = JSON.parse(struct);
+            tableDef = JSON.parse(tableDef);
             data = JSON.parse(data);            
 
+            // Create main form
             html += `<form id="form1">`;
-            for (let i in struct) {
-                fieldLabel = struct[i].field_label;
-                fieldName = struct[i].field_name;
+            for (let i in tableDef) {
+                fieldLabel = tableDef[i].label;
+                fieldName = tableDef[i].name;
                 if (data.length > 0)
                     fieldValue = data[0][fieldName];
                 html += element.createLabel(fieldLabel, fieldName);
@@ -40,6 +44,8 @@ class Form {
                 html += '<br>';
             }
             html += `</form>`;
+
+            // Return form
             return html;
 
         } catch (err) {

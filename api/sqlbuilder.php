@@ -49,12 +49,11 @@ class SqlBuilder extends Base {
             $sql .= $this->getCondition($filter);
             // Get ordering
             $sql .= $this->getOrderBy($tableDef);             
-            // Return sql
-            return $sql;
         } catch (Exception $ex) {
             $this->setError("QueryBuilder.query()", $ex.getMessage());
         }
-        return $rs;
+        // Return sql
+        return $sql;
     }
 
     /*
@@ -232,12 +231,14 @@ class SqlBuilder extends Base {
      */
     private function getCondition($filter) {
         $sql = "";
+        $jsonUtil = new JsonUtil();
         try {
             if (trim($filter) != "") {
+                $filter = json_decode($filter, true);
                 foreach($filter as $item) {
                     $sql .= " and " . $jsonUtil->condition($item['table'], 
                                                            $item['field'], 
-                                                           $item['type'], 
+                                                           $item['type'],   
                                                            $item['operator'], 
                                                            $item['value'], 
                                                            $item['mask']);

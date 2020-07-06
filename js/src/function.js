@@ -12,7 +12,7 @@ for (let i=0; i<1; i++) {
 }
 document.getElementsByTagName('head').item(0).appendChild(se);
 
-function go(dest) {
+function go(id=0, dest="Report") {
 
     let table = '';
     let button = '';
@@ -23,12 +23,12 @@ function go(dest) {
 
         // Present the screen
         switch (dest.trim()) {
-            case 'table':
-                table = new Table(0);
+            case 'Report':
+                table = new Table(id);
                 setDiv('div2', table.createTable());
                 break;
-            case 'form':
-                form = new Form(0);
+            case 'Form':
+                form = new Form(id);
                 setDiv('div2', form.createForm());
                 break;
             default:
