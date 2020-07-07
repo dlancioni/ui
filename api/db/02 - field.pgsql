@@ -19,6 +19,7 @@ insert into tb_table (field) values ('{"id_system":1,"name":"field","id_type":1,
 insert into tb_table (field) values ('{"id_system":1,"name":"domain","id_type":1,"title":"Domain","table_name":"tb_domain"}');
 insert into tb_table (field) values ('{"id_system":1,"name":"event","id_type":1,"title":"Event", "table_name":"tb_event"}');
 insert into tb_table (field) values ('{"id_system":1,"name":"code","id_type":1,"title":"Code","table_name":"tb_code"}');
+insert into tb_table (field) values ('{"id_system":1,"name":"code","id_type":1,"title":"Code","table_name":"tb_login"}');
 
 -- -----------------------------------------------------
 -- table tb_field
@@ -78,10 +79,10 @@ insert into tb_domain (field) values ('{"id_system":1,"key":3,"value":"Texto","d
 insert into tb_domain (field) values ('{"id_system":1,"key":4,"value":"Data","domain":"tb_field_type"}');
 insert into tb_domain (field) values ('{"id_system":1,"key":5,"value":"Booleano","domain":"tb_field_type"}');
 -- tb_event
-insert into tb_domain (field) values ('{"id_system":1,"key":1,"value":"Carregar","domain":"tb_event"}');
-insert into tb_domain (field) values ('{"id_system":1,"key":2,"value":"Clicar","domain":"tb_event"}');
-insert into tb_domain (field) values ('{"id_system":1,"key":3,"value":"Focar","domain":"tb_event"}');
-insert into tb_domain (field) values ('{"id_system":1,"key":4,"value":"Desfocar","domain":"tb_event"}');
+insert into tb_domain (field) values ('{"id_system":1,"key":1,"value":"onload","domain":"tb_event"}');
+insert into tb_domain (field) values ('{"id_system":1,"key":2,"value":"onClick","domain":"tb_event"}');
+insert into tb_domain (field) values ('{"id_system":1,"key":3,"value":"onFocus","domain":"tb_event"}');
+insert into tb_domain (field) values ('{"id_system":1,"key":4,"value":"onBlur","domain":"tb_event"}');
 -- tb_target
 insert into tb_domain (field) values ('{"id_system":1,"key":1,"value":"Tabela","domain":"tb_target"}');
 insert into tb_domain (field) values ('{"id_system":1,"key":2,"value":"Formulário","domain":"tb_target"}');
@@ -89,9 +90,9 @@ insert into tb_domain (field) values ('{"id_system":1,"key":2,"value":"Formulár
 -- -----------------------------------------------------
 -- table tb_event
 -- -----------------------------------------------------
-insert into tb_event (field) values ('{"id_system":1,"id_target":1,"id_table":7,"id_field":0,"label":"Login","id_event":2,"code":"login()"}');
+insert into tb_event (field) values ('{"id_system":1,"id_target":2,"id_table":7,"id_field":0,"label":"Login","id_event":2,"code":"login()"}');
 
 -- -----------------------------------------------------
 -- table tb_code
 -- -----------------------------------------------------
-insert into tb_code (field) values ('{"id_system":1,"code":"function novo() {alert(text(123));}"}');
+insert into tb_code (field) values ('{"id_system":1,"code":"function novo() {alert(txt(123));}"}');

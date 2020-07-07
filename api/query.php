@@ -33,5 +33,10 @@
     }
 
     // Output data
+    if (!$data) {
+        $data = "[]";
+    }
+
+    // Return data
     echo $data;
 ?>

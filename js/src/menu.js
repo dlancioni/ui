@@ -24,6 +24,7 @@ class Menu {
             html += `<a onclick="go(4)">Domain</a>` + '&nbsp';
             html += `<a onclick="go(5)">Event</a>` + '&nbsp';
             html += `<a onclick="go(6)">Code</a>` + '&nbsp';
+            html += `<a onclick="go(7, 2)">Login</a>` + '&nbsp';
             return html;  
         } catch (err) {
             throw this.errorMessage(this.className, this.methodName, err.message);

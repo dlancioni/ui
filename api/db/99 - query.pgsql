@@ -53,6 +53,7 @@ and (tb_field.field->>'id_table')::int = 3
 order by tb_field.id
 */
 
+
 select
 tb_field.id,
 (tb_field.field->>'id_system')::int as id_system,
@@ -78,5 +79,7 @@ from tb_field
 inner join tb_table on (tb_field.field->>'id_table')::int = tb_table.id
 left join tb_table tb_table_fk on (tb_field.field->>'id_fk')::int = tb_table_fk.id
 where (tb_field.field->>'id_system')::int = 1
-and (tb_field.field->>'id_table')::int = 3
+and (tb_field.field->>'id_table')::int = 7
 order by tb_field.id
+
+select * from tb_event

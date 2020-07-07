@@ -15,22 +15,26 @@ class Form {
         let fieldValue = "";
         let tableDef = "";
         let data = "";
+        let events = "";
         let filter = "";
         let http = new HTTPService();
         let element = new HTMLElement();
 
         try {
             // Get table structure
-            let filter = `[{"table":"tb_field","field":"id_table","type":"int","operator":"=","value":${this.id},"mask":""}]`;
-            tableDef = http.query(3, filter);
+            filter = `[{"table":"tb_field","field":"id_table","type":"int","operator":"=","value":${this.id},"mask":""}]`;
+            tableDef = JSON.parse(http.query(3, filter));
 
             // Get data
             filter = '[]';            
-            data = http.query(this.id, "");
+            data = JSON.parse(http.query(this.id, filter));
 
-            // Conver to json array    
-            tableDef = JSON.parse(tableDef);
-            data = JSON.parse(data);            
+            // Get controls (events)
+            filter = "[";
+            filter += `{"table":"tb_event","field":"id_table","type":"int","operator":"=","value":${this.id},"mask":""},`;
+            filter += `{"table":"tb_event","field":"id_target","type":"int","operator":"=","value":2,"mask":""}`;
+            filter += "]";
+            events = JSON.parse(http.query(5, filter));
 
             // Create main form
             html += `<form id="form1">`;
@@ -44,6 +48,12 @@ class Form {
                 html += '<br>';
             }
             html += `</form>`;
+
+            // Add controls
+            html += `<br>`;
+            for (let i in events) {
+                html += element.createButton(events[i].label, events[i].label, events[i].id_event + "=" + events[i].code);
+            }
 
             // Return form
             return html;
