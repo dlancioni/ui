@@ -6,6 +6,42 @@ ALTER ROLE qqbzxiqr IN DATABASE qqbzxiqr SET search_path TO system;
 -- -----------------------------------------------------
 -- table tb_system
 -- -----------------------------------------------------
+drop table if exists tb_system cascade;
+create table if not exists tb_system (id serial, field jsonb);
+-- -----------------------------------------------------
+-- table tb_table
+-- -----------------------------------------------------
+drop table if exists tb_table cascade;
+create table if not exists tb_table (id serial, field jsonb);
+-- -----------------------------------------------------
+-- table tb_field
+-- -----------------------------------------------------
+drop table if exists tb_field cascade;
+create table if not exists tb_field (id serial, field jsonb);
+-- -----------------------------------------------------
+-- table tb_domain
+-- -----------------------------------------------------
+drop table if exists tb_domain cascade;
+create table if not exists tb_domain (id serial, field jsonb);
+-- -----------------------------------------------------
+-- table tb_event
+-- -----------------------------------------------------
+drop table if exists tb_event cascade;
+create table if not exists tb_event (id serial, field jsonb);
+-- -----------------------------------------------------
+-- table tb_code
+-- -----------------------------------------------------
+drop table if exists tb_code cascade;
+create table if not exists tb_code (id serial, field jsonb);
+-- -----------------------------------------------------
+-- table tb_login
+-- -----------------------------------------------------
+drop table if exists tb_login cascade;
+create table if not exists tb_login (id serial, field jsonb);
+
+-- -----------------------------------------------------
+-- table tb_system
+-- -----------------------------------------------------
 delete from tb_system;
 insert into tb_system (field) values ('{"name":"Forms","expire_date":"31/12/2020","price":"100.00"}');
 
@@ -90,6 +126,31 @@ insert into tb_domain (field) values ('{"id_system":1,"key":2,"value":"Formulár
 -- -----------------------------------------------------
 -- table tb_event
 -- -----------------------------------------------------
+-- tb_system
+insert into tb_event (field) values ('{"id_system":1,"id_target":1,"id_table":1,"id_field":0,"label":"Novo","id_event":2,"code":"go(1,2)"}');
+insert into tb_event (field) values ('{"id_system":1,"id_target":2,"id_table":1,"id_field":0,"label":"Salvar","id_event":2,"code":"save(1)"}');
+insert into tb_event (field) values ('{"id_system":1,"id_target":2,"id_table":1,"id_field":0,"label":"Voltar","id_event":2,"code":"go(1,1)"}');
+-- tb_table
+insert into tb_event (field) values ('{"id_system":1,"id_target":1,"id_table":2,"id_field":0,"label":"Novo","id_event":2,"code":"go(2,2)"}');
+insert into tb_event (field) values ('{"id_system":1,"id_target":2,"id_table":2,"id_field":0,"label":"Salvar","id_event":2,"code":"save(2)"}');
+insert into tb_event (field) values ('{"id_system":1,"id_target":2,"id_table":2,"id_field":0,"label":"Voltar","id_event":2,"code":"go(2,1)"}');
+-- tb_field
+insert into tb_event (field) values ('{"id_system":1,"id_target":1,"id_table":3,"id_field":0,"label":"Novo","id_event":2,"code":"go(3,2)"}');
+insert into tb_event (field) values ('{"id_system":1,"id_target":2,"id_table":3,"id_field":0,"label":"Salvar","id_event":2,"code":"save(3)"}');
+insert into tb_event (field) values ('{"id_system":1,"id_target":2,"id_table":3,"id_field":0,"label":"Voltar","id_event":2,"code":"go(3,1)"}');
+-- tb_field
+insert into tb_event (field) values ('{"id_system":1,"id_target":1,"id_table":4,"id_field":0,"label":"Novo","id_event":2,"code":"go(4,2)"}');
+insert into tb_event (field) values ('{"id_system":1,"id_target":2,"id_table":4,"id_field":0,"label":"Salvar","id_event":2,"code":"save(4)"}');
+insert into tb_event (field) values ('{"id_system":1,"id_target":2,"id_table":4,"id_field":0,"label":"Voltar","id_event":2,"code":"go(4,1)"}');
+-- tb_event
+insert into tb_event (field) values ('{"id_system":1,"id_target":1,"id_table":5,"id_field":0,"label":"Novo","id_event":2,"code":"go(5,2)"}');
+insert into tb_event (field) values ('{"id_system":1,"id_target":2,"id_table":5,"id_field":0,"label":"Salvar","id_event":2,"code":"save(5)"}');
+insert into tb_event (field) values ('{"id_system":1,"id_target":2,"id_table":5,"id_field":0,"label":"Voltar","id_event":2,"code":"go(5,1)"}');
+-- tb_code
+insert into tb_event (field) values ('{"id_system":1,"id_target":1,"id_table":6,"id_field":0,"label":"Novo","id_event":2,"code":"go(6,2)"}');
+insert into tb_event (field) values ('{"id_system":1,"id_target":2,"id_table":6,"id_field":0,"label":"Salvar","id_event":2,"code":"save(6)"}');
+insert into tb_event (field) values ('{"id_system":1,"id_target":2,"id_table":6,"id_field":0,"label":"Voltar","id_event":2,"code":"go(6,1)"}');
+-- tb_login
 insert into tb_event (field) values ('{"id_system":1,"id_target":2,"id_table":7,"id_field":0,"label":"Login","id_event":2,"code":"login()"}');
 
 -- -----------------------------------------------------

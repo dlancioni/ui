@@ -32,7 +32,7 @@ class Table {
             // Get controls (events)
             filter = "[";
             filter += `{"table":"tb_event","field":"id_table","type":"int","operator":"=","value":${this.id},"mask":""},`;
-            filter += `{"table":"tb_event","field":"id_target","type":"int","operator":"=","value":2,"mask":""}`;
+            filter += `{"table":"tb_event","field":"id_target","type":"int","operator":"=","value":1,"mask":""}`;
             filter += "]";
             events = JSON.parse(http.query(5, filter));            
 

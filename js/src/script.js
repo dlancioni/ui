@@ -13,7 +13,7 @@ let func =
 ]
 var se = document.createElement('script');
 se.setAttribute('type', 'text/javascript');
-for (let i=0; i<1; i++) {
+for (let i=0; i<2; i++) {
   se.appendChild(document.createTextNode(func[i]));
 }
 document.getElementsByTagName('head').item(0).appendChild(se);
@@ -26,6 +26,9 @@ function go(id=0, dest=1) {
     let data = '';
 
     try {
+
+        // Keep current table destination
+        localStorage.table = id;
 
         // Present the screen
         switch (dest) {
@@ -46,4 +49,22 @@ function go(id=0, dest=1) {
         setDiv('div2', err.message);
         setDiv('div3', '');
     }
+}
+
+function login()  {
+
+    // Clear page body
+    setDiv('div2', ``);
+
+    // Create menu    
+    let menu = new Menu();
+    setDiv('div1', menu.createMenu());
+
+    // Keep credentials
+    localStorage.system = 1;        // Current system    
+    localStorage.table = 0;         // Current table (transation)
+    localStorage.user = 0;          // Logged user
+    localStorage.language = 1;      // System language
+    localStorage.id = 0;            // Selected Id in report
+    localStorage.target = 0;        // 1-Report, 2-Form
 }
