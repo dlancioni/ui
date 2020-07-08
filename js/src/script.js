@@ -23,7 +23,7 @@ for (let i=0; i<3; i++) {
 }
 document.getElementsByTagName('head').item(0).appendChild(se);
 
-function go(id=0, dest=1) {
+function go(id_table=0, dest=1) {
 
     let table = '';
     let button = '';
@@ -32,17 +32,14 @@ function go(id=0, dest=1) {
 
     try {
 
-        // Keep current table destination
-        localStorage.table = id;
-
         // Present the screen
         switch (dest) {
             case 1:
-                table = new Table(id);
+                table = new Table(id_table);
                 setDiv('div2', table.createTable());
                 break;
             case 2:
-                form = new Form(id);
+                form = new Form(id_table);
                 setDiv('div2', form.createForm());
                 break;
             default:
@@ -72,4 +69,10 @@ function login()  {
     localStorage.language = 1;      // System language
     localStorage.id = 0;            // Selected Id in report
     localStorage.target = 0;        // 1-Report, 2-Form
+}
+
+function filter(tableName, fieldName, fieldValue, fieldType="int", fieldOperator="=", fieldMask="") {
+    let output = '';
+    output = `{"table":"${tableName}","field":"${fieldName}","type":"${fieldType}","operator":"${fieldOperator}","value":${fieldValue},"mask":"${fieldMask}"}`;
+    return output;
 }
