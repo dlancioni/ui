@@ -32,11 +32,17 @@
          */
         public function field($table, $field, $type, $mask="") {
             $output = "";
-            if ($type == "date") {
-                $output = "to_date(" . $table . ".field" . '->>' . $this->qt($field) . ", " . $this->qt($mask) . ")";
+
+            if (trim($field) == "id") {
+                $output = $table . "." . $field;
             } else {
-                $output = "(" . $table . ".field" . '->>' . $this->qt($field) . ")::" . $type;
+                if ($type == "date") {
+                    $output = "to_date(" . $table . ".field" . '->>' . $this->qt($field) . ", " . $this->qt($mask) . ")";
+                } else {
+                    $output = "(" . $table . ".field" . '->>' . $this->qt($field) . ")::" . $type;
+                }
             }
+
             return $output;
         }
 

@@ -18,7 +18,7 @@ class Form {
         let events = "";
         let http = new HTTPService();
         let element = new HTMLElement();
-        let filter = new Filter();
+        let filter = "";
 
         try {
 
@@ -26,9 +26,12 @@ class Form {
             tableDef = http.getTableDef(localStorage.system, this.id_table);
 
             // Get data
-            data = JSON.parse(http.query(this.id_table, '[]'));
+            filter = new Filter();
+            filter.add(localStorage.table, "id", localStorage.id);
+            data = JSON.parse(http.query(this.id_table, filter.create()));
 
             // Get controls (events)
+            filter = new Filter();
             filter.add("tb_event", "id_table", this.id_table);
             filter.add("tb_event", "id_target", 2);
             events = JSON.parse(http.query(5, filter.create()));
@@ -41,7 +44,15 @@ class Form {
                 if (data.length > 0)
                     fieldValue = data[0][fieldName];
                 html += element.createLabel(fieldLabel, fieldName);
-                html += element.createTextbox(fieldName, fieldValue, '', false);
+                if (tableDef[0]["field_fk"] == 0) {
+                    html += element.createTextbox(fieldName, fieldValue, '', false);
+                } else {
+                    filter = new Filter();
+                    filter.add(tableDef[i]["table_fk"], "domain", tableDef[i]["domain"]);
+                    data = JSON.parse(http.query(tableDef[i]["field_fk"], filter.create()));
+                    html += element.createDropdown(fieldName, fieldValue, data);
+                }
+
                 html += '<br>';
             }
             html += `</form>`;

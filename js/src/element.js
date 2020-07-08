@@ -25,7 +25,7 @@ class HTMLElement {
     }
 
     // Create textbox
-    createTextbox(label='', name='', value='', placeholder='', disabled=false) {
+    createTextbox(name='', value='', placeholder='', disabled=false) {
         this.methodName = 'createTextbox';
         let html = '';
         try {
@@ -44,6 +44,24 @@ class HTMLElement {
         }
     }
     
+    // Create dropdown
+    createDropdown(name, value, data) {
+        this.methodName = 'createDropdown';
+        let html = '';
+        try {
+            html += `<select`;
+            html += ` id="${name}"`; 
+            html += ` name="${name}"`; 
+            html += `>`;
+            html += ` <option value="" selected></option>`; 
+            html += `</select>`;
+            return html.trim();
+        } catch (err) {
+            throw this.errorMessage(this.className, this.methodName, err.message);
+        }
+    }
+
+
     // Create buttons
     createButton(name='', value='', event='') {
         this.methodName = 'createButton';
@@ -57,11 +75,11 @@ class HTMLElement {
     }
 
     // Create radio
-    createRadio(name='', value='', selected=false, event="") {
+    createRadio(name='', value='', checked="", event="") {
         this.methodName = 'createRadio';
         let html = '';
         try {
-            html += `<input type="radio" id="${name}" name="${name}" value="${value}" ${selected} ${event}>`;
+            html += `<input type="radio" id="${name}" name="${name}" value="${value}" ${checked} ${event}>`;
         } catch (err) {
             throw this.errorMessage(this.className, this.methodName, err.message);
         }

@@ -17,7 +17,8 @@ class Table {
         let events = "";
         let http = new HTTPService();
         let element = new HTMLElement();
-        let filter = new Filter();
+        let filter = "";
+        let checked = "checked";
 
         try {
 
@@ -25,12 +26,14 @@ class Table {
             tableDef = http.getTableDef(localStorage.system, this.id_table);
 
             // Get data
-            data = JSON.parse(http.query(this.id_table, "[]"));
+            filter = new Filter();
+            data = JSON.parse(http.query(this.id_table, filter.create()));
 
             // Get controls (events)
+            filter = new Filter();
             filter.add("tb_event", "id_table", this.id_table);
             filter.add("tb_event", "id_target", 1);
-            events = JSON.parse(http.query(5, filter.create()));            
+            events = JSON.parse(http.query(5, filter.create()));
 
             // Prepare table html
             cols = element.createTableHeader('');
@@ -42,7 +45,8 @@ class Table {
             // Prepare table contents
             for (let i in data) {
                 cols = '';
-                cols += element.createTableCol(element.createRadio("selection", data[i]['id'], false, "onClick='setId(this.value)'"));
+                cols += element.createTableCol(element.createRadio("selection", data[i]['id'], checked, "onClick='setId(this.value)'"));
+                checked != "" ? localStorage.id = data[i]['id'] : ""; checked = "";
                 for (let j in tableDef) {
                     fieldName = tableDef[j].field_name;
                     cols += element.createTableCol(data[i][fieldName]);

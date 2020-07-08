@@ -64,9 +64,8 @@ function login()  {
 
     // Keep credentials
     localStorage.system = 1;        // Current system
-    localStorage.table = 0;         // Current table (transation)
+    localStorage.table = "";        // Current table name
     localStorage.user = 0;          // Logged user
     localStorage.language = 1;      // System language
     localStorage.id = 0;            // Selected Id in report
-    localStorage.target = 0;        // 1-Report, 2-Form
 }

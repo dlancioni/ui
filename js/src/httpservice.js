@@ -23,7 +23,7 @@ class HTTPService {
         if (xmlhttp.status == 200) {
             tableDef = JSON.parse(xmlhttp.responseText);
             if (tableDef.length > 0) {
-                localStorage.tableName = tableDef[0].table_name;
+                localStorage.table = tableDef[0].table_name;
             }
         }
 
