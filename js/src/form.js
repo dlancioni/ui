@@ -16,9 +16,9 @@ class Form {
         let tableDef = "";
         let data = "";
         let events = "";
-        let filter = "";
         let http = new HTTPService();
         let element = new HTMLElement();
+        let filter = new Filter();
 
         try {
 
@@ -26,15 +26,12 @@ class Form {
             tableDef = http.getTableDef(localStorage.system, this.id_table);
 
             // Get data
-            filter = '[]';            
-            data = JSON.parse(http.query(this.id_table, filter));
+            data = JSON.parse(http.query(this.id_table, '[]'));
 
             // Get controls (events)
-            filter = "[";
-            filter += `{"table":"tb_event","field":"id_table","type":"int","operator":"=","value":${this.id_table},"mask":""},`;
-            filter += `{"table":"tb_event","field":"id_target","type":"int","operator":"=","value":2,"mask":""}`;
-            filter += "]";
-            events = JSON.parse(http.query(5, filter));
+            filter.add("tb_event", "id_table", this.id_table);
+            filter.add("tb_event", "id_target", 2);
+            events = JSON.parse(http.query(5, filter.create()));
 
             // Create main form
             html += `<form id="form1">`;

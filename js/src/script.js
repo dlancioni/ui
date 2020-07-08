@@ -70,9 +70,3 @@ function login()  {
     localStorage.id = 0;            // Selected Id in report
     localStorage.target = 0;        // 1-Report, 2-Form
 }
-
-function filter(tableName, fieldName, fieldValue, fieldType="int", fieldOperator="=", fieldMask="") {
-    let output = '';
-    output = `{"table":"${tableName}","field":"${fieldName}","type":"${fieldType}","operator":"${fieldOperator}","value":${fieldValue},"mask":"${fieldMask}"}`;
-    return output;
-}
