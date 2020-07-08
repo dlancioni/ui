@@ -21,6 +21,7 @@ class Form {
         let element = new HTMLElement();
 
         try {
+
             // Get table structure
             filter = `[{"table":"tb_field","field":"id_table","type":"int","operator":"=","value":${this.id},"mask":""}]`;
             tableDef = JSON.parse(http.query(3, filter));

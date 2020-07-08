@@ -9,11 +9,16 @@ let func =
     function txt(value) {
         return "'" + value + "'";
     }
+    `,
+    `
+    function setId(id) {
+        localStorage.id = id;
+    }
     `
 ]
 var se = document.createElement('script');
 se.setAttribute('type', 'text/javascript');
-for (let i=0; i<2; i++) {
+for (let i=0; i<3; i++) {
   se.appendChild(document.createTextNode(func[i]));
 }
 document.getElementsByTagName('head').item(0).appendChild(se);
@@ -61,7 +66,7 @@ function login()  {
     setDiv('div1', menu.createMenu());
 
     // Keep credentials
-    localStorage.system = 1;        // Current system    
+    localStorage.system = 1;        // Current system
     localStorage.table = 0;         // Current table (transation)
     localStorage.user = 0;          // Logged user
     localStorage.language = 1;      // System language

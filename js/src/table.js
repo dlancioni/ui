@@ -46,7 +46,7 @@ class Table {
             // Prepare table contents
             for (let i in data) {
                 cols = '';
-                cols += element.createTableCol(element.createRadio("selection", "selection", false));
+                cols += element.createTableCol(element.createRadio("selection", data[i]['id'], false, "onClick='setId(this.value)'"));
                 for (let j in tableDef) {
                     fieldName = tableDef[j].name;
                     cols += element.createTableCol(data[i][fieldName]);

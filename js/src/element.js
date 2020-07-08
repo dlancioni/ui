@@ -57,11 +57,11 @@ class HTMLElement {
     }
 
     // Create radio
-    createRadio(name='', value='', selected=false) {
+    createRadio(name='', value='', selected=false, event="") {
         this.methodName = 'createRadio';
         let html = '';
         try {
-            html += `<input type="radio" id="${name}" name="${name}" value="${value}" ${selected}>`;
+            html += `<input type="radio" id="${name}" name="${name}" value="${value}" ${selected} ${event}>`;
         } catch (err) {
             throw this.errorMessage(this.className, this.methodName, err.message);
         }

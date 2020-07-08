@@ -15,12 +15,24 @@ class HTTPService {
     }
 
     // Query Data
-    query(code, filter) {
-        let url = "api/query.php?system=1&user=1&language=1&table=" + code + "&filter=" + filter;
+    query(tableId, filter) {
+
+        // General declaration
+        let url = "";
+        let systemId = parseInt(localStorage.system);
+        let userId = parseInt(localStorage.user);
+        let languageId = parseInt(localStorage.language);
+
+        // Prepare API call
+        url = `api/query.php?system=${systemId}&table=${tableId}&user=${userId}&language=${languageId}&filter=` + filter;
+
+        // Just call it
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.open('GET', url, false);
         xmlhttp.setRequestHeader("Content-Type", "text/plain, charset=UTF-8");
         xmlhttp.send(null);
+
+        // Handle status
         if (xmlhttp.status == 200) {
             return xmlhttp.responseText;
         }
