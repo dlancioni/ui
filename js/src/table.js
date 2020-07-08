@@ -2,7 +2,7 @@ class Table {
 
     // Constructor
     constructor(id) {
-        this.id = id;
+        this.id_table = id;
     }
 
     // Public methods  
@@ -22,16 +22,15 @@ class Table {
         try {
 
             // Get table structure
-            tableDef = JSON.parse(http.getTableDef(localStorage.system, localStorage.table));
-            localStorage.tableName = tableDef[0].table_name;
+            tableDef = http.getTableDef(localStorage.system, this.id_table);
 
             // Get data
             filter = '[]';
-            data = JSON.parse(http.query(this.id, filter));
+            data = JSON.parse(http.query(this.id_table, filter));
 
             // Get controls (events)
             filter = "[";
-            filter += `{"table":"tb_event","field":"id_table","type":"int","operator":"=","value":${this.id},"mask":""},`;
+            filter += `{"table":"tb_event","field":"id_table","type":"int","operator":"=","value":${this.id_table},"mask":""},`;
             filter += `{"table":"tb_event","field":"id_target","type":"int","operator":"=","value":1,"mask":""}`;
             filter += "]";
             events = JSON.parse(http.query(5, filter));            

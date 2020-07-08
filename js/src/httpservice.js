@@ -8,6 +8,7 @@ class HTTPService {
 
         // General declaration
         let url = "";
+        let tableDef = "[]";
 
         // Prepare API call
         url = `api/tabledef.php?system=${system}&table=${table}`;
@@ -20,8 +21,14 @@ class HTTPService {
 
         // Handle status
         if (xmlhttp.status == 200) {
-            return xmlhttp.responseText;
+            tableDef = JSON.parse(xmlhttp.responseText);
+            if (tableDef.length > 0) {
+                localStorage.tableName = tableDef[0].table_name;
+            }
         }
+
+        // Return def
+        return tableDef;
     }
 
     // Query Data
