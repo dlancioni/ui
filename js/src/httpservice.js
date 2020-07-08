@@ -3,12 +3,22 @@ class HTTPService {
     constructor() {
     }
 
-    persist(str) {
-        let url = "api/src/query.php?param=" + str;
+    // Query Data
+    getTableDef(system, table) {
+
+        // General declaration
+        let url = "";
+
+        // Prepare API call
+        url = `api/tabledef.php?system=${system}&table=${table}`;
+
+        // Just call it
         var xmlhttp = new XMLHttpRequest();
-        xmlhttp.open('POST', url, false);
+        xmlhttp.open('GET', url, false);
         xmlhttp.setRequestHeader("Content-Type", "text/plain, charset=UTF-8");
         xmlhttp.send(null);
+
+        // Handle status
         if (xmlhttp.status == 200) {
             return xmlhttp.responseText;
         }
@@ -37,4 +47,17 @@ class HTTPService {
             return xmlhttp.responseText;
         }
     }
+
+    persist(str) {
+        let url = "api/src/query.php?param=" + str;
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open('POST', url, false);
+        xmlhttp.setRequestHeader("Content-Type", "text/plain, charset=UTF-8");
+        xmlhttp.send(null);
+        if (xmlhttp.status == 200) {
+            return xmlhttp.responseText;
+        }
+    }
+
+
 }

@@ -22,8 +22,8 @@ class Table {
         try {
 
             // Get table structure
-            let filter = `[{"table":"tb_field","field":"id_table","type":"int","operator":"=","value":${this.id},"mask":""}]`;
-            tableDef = JSON.parse(http.query(3, filter));
+            tableDef = JSON.parse(http.getTableDef(localStorage.system, localStorage.table));
+            localStorage.tableName = tableDef[0].table_name;
 
             // Get data
             filter = '[]';
@@ -39,7 +39,7 @@ class Table {
             // Prepare table html
             cols = element.createTableHeader('');
             for (let i in tableDef) {
-                cols += element.createTableHeader(tableDef[i].label);
+                cols += element.createTableHeader(tableDef[i].field_label);
             }
             rows += element.createTableRow(cols);
 
@@ -48,7 +48,7 @@ class Table {
                 cols = '';
                 cols += element.createTableCol(element.createRadio("selection", data[i]['id'], false, "onClick='setId(this.value)'"));
                 for (let j in tableDef) {
-                    fieldName = tableDef[j].name;
+                    fieldName = tableDef[j].field_name;
                     cols += element.createTableCol(data[i][fieldName]);
                 }
                 rows += element.createTableRow(cols);

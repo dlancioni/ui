@@ -23,8 +23,8 @@ class Form {
         try {
 
             // Get table structure
-            filter = `[{"table":"tb_field","field":"id_table","type":"int","operator":"=","value":${this.id},"mask":""}]`;
-            tableDef = JSON.parse(http.query(3, filter));
+            tableDef = JSON.parse(http.getTableDef(localStorage.system, localStorage.table));
+            localStorage.tableName = tableDef[0].table_name;
 
             // Get data
             filter = '[]';            
@@ -40,8 +40,8 @@ class Form {
             // Create main form
             html += `<form id="form1">`;
             for (let i in tableDef) {
-                fieldLabel = tableDef[i].label;
-                fieldName = tableDef[i].name;
+                fieldLabel = tableDef[i].field_label;
+                fieldName = tableDef[i].field_name;
                 if (data.length > 0)
                     fieldValue = data[0][fieldName];
                 html += element.createLabel(fieldLabel, fieldName);

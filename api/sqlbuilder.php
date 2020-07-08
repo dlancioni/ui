@@ -36,7 +36,7 @@ class SqlBuilder extends Base {
         $tableDef = "";
         try {
             // Get table structure
-            $tableDef = $this->getTableDef();
+            $tableDef = $this->getTableDef("rs");
             // Get field list
             $sql .= $this->getFieldList($tableDef);
             // Get from
@@ -59,53 +59,28 @@ class SqlBuilder extends Base {
     /*
      * Get table definition
      */
-    public function getTableDef() {
+    public function getTableDef($resultType) {
         // General declaration    
+        $sql = "";
         $db = "";
         $rs = "";
-        // Get table structure and related information
-        $sql = "
-        select
-        tb_field.id,
-        (tb_field.field->>'id_system')::int as id_system,
-        (tb_table.field->>'table_name')::text as table_name,
-        (tb_field.field->>'label')::text as field_label,
-        (tb_field.field->>'name')::text as field_name,
-        (tb_field.field->>'id_type')::int as field_type,
-        (tb_field.field->>'size')::int as field_size,
-        (tb_field.field->>'mask')::text as field_mask,
-        (tb_field.field->>'id_mandatory')::int as field_mandatory,
-        (tb_field.field->>'id_unique')::int as field_unique,
-        (tb_field.field->>'id_fk')::int as field_fk,
-        (tb_table_id_fk.field->>'table_name')::text as table_fk,
-        (tb_field.field->>'domain')::text as field_domain,
-        case 
-            when (tb_field.field->>'id_type')::int = 1 then 'int'
-            when (tb_field.field->>'id_type')::int = 2 then 'float'
-            when (tb_field.field->>'id_type')::int = 3 then 'text'
-            when (tb_field.field->>'id_type')::int = 4 then 'date'
-            when (tb_field.field->>'id_type')::int = 5 then 'boolean'
-        end data_type  
-        from tb_field
-        inner join tb_table on (tb_field.field->>'id_table')::int = tb_table.id
-        left join tb_table tb_table_id_fk on (tb_field.field->>'id_fk')::int = tb_table_id_fk.id
-        where (tb_field.field->>'id_system')::int = p1
-        and (tb_field.field->>'id_table')::int = p2
-        order by tb_field.id
-        ";
 
-        // Set parameters
-        $sql = str_replace("p1", $this->getSystem(), $sql);
-        $sql = str_replace("p2", $this->getTable(), $sql);
-        error_log($sql);
+        // Get table structure and related information
+        $sql = $this->getSqlTableDef();
 
         // Execute query and return data
-        try {
+        try {           
             $db = new Db();
-            $rs = $db->query($sql);
+            if ($resultType == "rs") {
+                $rs = $db->query($sql);
+            } else if ($resultType == "json") {
+                $rs = $db->queryJson($sql);                
+            }
         } catch (Exception $ex) {
             $this->setError("QueryBuilder.getTableDef()", $ex.getMessage());
         }
+
+        // Return data
         return $rs;
     }
 
@@ -264,6 +239,46 @@ class SqlBuilder extends Base {
         }
         return $sql;
     }    
+
+    private function getSqlTableDef() {
+        $sql = "
+        select
+        tb_field.id,
+        (tb_field.field->>'id_system')::int as id_system,
+        (tb_table.field->>'table_name')::text as table_name,
+        (tb_field.field->>'label')::text as field_label,
+        (tb_field.field->>'name')::text as field_name,
+        (tb_field.field->>'id_type')::int as field_type,
+        (tb_field.field->>'size')::int as field_size,
+        (tb_field.field->>'mask')::text as field_mask,
+        (tb_field.field->>'id_mandatory')::int as field_mandatory,
+        (tb_field.field->>'id_unique')::int as field_unique,
+        (tb_field.field->>'id_fk')::int as field_fk,
+        (tb_table_id_fk.field->>'table_name')::text as table_fk,
+        (tb_field.field->>'domain')::text as field_domain,
+        case 
+            when (tb_field.field->>'id_type')::int = 1 then 'int'
+            when (tb_field.field->>'id_type')::int = 2 then 'float'
+            when (tb_field.field->>'id_type')::int = 3 then 'text'
+            when (tb_field.field->>'id_type')::int = 4 then 'date'
+            when (tb_field.field->>'id_type')::int = 5 then 'boolean'
+        end data_type  
+        from tb_field
+        inner join tb_table on (tb_field.field->>'id_table')::int = tb_table.id
+        left join tb_table tb_table_id_fk on (tb_field.field->>'id_fk')::int = tb_table_id_fk.id
+        where (tb_field.field->>'id_system')::int = p1
+        and (tb_field.field->>'id_table')::int = p2
+        order by tb_field.id
+        ";
+
+        // Set parameters
+        $sql = str_replace("p1", $this->getSystem(), $sql);
+        $sql = str_replace("p2", $this->getTable(), $sql);
+
+        // Return final query    
+        return $sql;
+    }
+
 
 } // End of class
 ?>
