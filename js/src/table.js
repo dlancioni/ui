@@ -29,12 +29,6 @@ class Table {
             filter = new Filter();
             data = JSON.parse(http.query(this.id_table, filter.create()));
 
-            // Get controls (events)
-            filter = new Filter();
-            filter.add("tb_event", "id_table", this.id_table);
-            filter.add("tb_event", "id_target", 1);
-            events = JSON.parse(http.query(5, filter.create()));
-
             // Prepare table html
             cols = element.createTableHeader('');
             for (let i in tableDef) {
@@ -57,7 +51,12 @@ class Table {
             // Finalize table    
             html += element.createTable(rows);
 
-            // Add controls
+            // Get controls (events)
+            filter = new Filter();
+            filter.add("tb_event", "id_table", this.id_table);
+            filter.add("tb_event", "id_target", 1);
+            events = JSON.parse(http.query(5, filter.create()));
+
             html += `<br>`;
             for (let i in events) {
                 html += element.createButton(events[i].label, events[i].label, events[i].id_event + "=" + events[i].code);
