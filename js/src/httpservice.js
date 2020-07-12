@@ -1,17 +1,21 @@
 class HTTPService {
 
-    constructor() {
+    constructor(systemId, tableId, userId, languageId) {
+        this.systemId = systemId;
+        this.tableId = tableId;
+        this.userId = userId;
+        this.languageId = languageId;
     }
 
     // Query Data
-    getTableDef(system, table) {
+    getTableDef(systemId, tableId) {
 
         // General declaration
         let url = "";
         let tableDef = "[]";
 
         // Prepare API call
-        url = `api/tabledef.php?system=${system}&table=${table}`;
+        url = `api/tabledef.php?system=${systemId}&table=${tableId}`;
 
         // Just call it
         var xmlhttp = new XMLHttpRequest();
@@ -32,16 +36,16 @@ class HTTPService {
     }
 
     // Query Data
-    query(tableId, filter) {
+    query(systemId, tableId, filter) {
 
         // General declaration
         let url = "";
-        let systemId = parseInt(localStorage.system);
-        let userId = parseInt(localStorage.user);
-        let languageId = parseInt(localStorage.language);
+
+        // Set table Id
+        this.tableId = tableId;
 
         // Prepare API call
-        url = `api/query.php?system=${systemId}&table=${tableId}&user=${userId}&language=${languageId}&filter=` + filter;
+        url = `api/query.php?system=${this.systemId}&table=${this.tableId}&user=${this.userId}&language=${this.languageId}&filter=` + filter;
 
         // Just call it
         var xmlhttp = new XMLHttpRequest();

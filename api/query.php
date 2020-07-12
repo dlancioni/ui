@@ -26,7 +26,7 @@
     try {
         $db = new Db();
         $sqlBuilder = new SqlBuilder($systemId, $tableId, $userId, $languageId);
-        $sql = $sqlBuilder->getQuery($filter);
+        $sql = $sqlBuilder->getQuery($filter);        
         $data = $db->queryJson($sql);
     } catch (Exception $ex) {
         $data = '{"status":"fail", "error":' . $ex.getMessage() . '}';

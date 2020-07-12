@@ -39,6 +39,7 @@
             $resultset = "";
             $json = "";
             try {
+                error_log($sql);
                 $sql = "select json_agg(t) from (" . $sql . ") t";
                 $connection = $this->getConnection();
                 $resultset = pg_query($connection, $sql);

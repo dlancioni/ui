@@ -1,8 +1,11 @@
 class Table {
 
     // Constructor
-    constructor(id) {
-        this.id_table = id;
+    constructor(systemId, tableId, userId, languageId) {
+        this.systemId = systemId;
+        this.tableId = tableId;
+        this.userId = userId;
+        this.languageId = languageId;
     }
 
     // Public methods  
@@ -15,19 +18,22 @@ class Table {
         let tableDef = '';
         let data = '';
         let events = "";
-        let http = new HTTPService();
+        let http = "";
         let element = new HTMLElement();
         let filter = "";
         let checked = "checked";
 
         try {
 
+            // New http session
+            http = new HTTPService(this.systemId, this.tableId, this.userId, this.languageId);
+
             // Get table structure
-            tableDef = http.getTableDef(localStorage.system, this.id_table);
+            tableDef = http.getTableDef(this.systemId, this.tableId);
 
             // Get data
             filter = new Filter();
-            data = JSON.parse(http.query(this.id_table, filter.create()));
+            data = JSON.parse(http.query(this.systemId, this.tableId, filter.create()));
 
             // Prepare table html
             cols = element.createTableHeader('');

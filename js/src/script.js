@@ -10,21 +10,32 @@ function setId(id) {
     localStorage.id = id;
 }
 
-function go(id_table=0, dest=1) {
+function go(tableId=0, dest=1) {
+
     // General declaration
-    let table = '';
-    let button = '';
-    let form = '';
-    let data = '';
+    let systemId = 0;
+    let userId = 0;
+    let languageId = 0;
+    let form = "";
+    let table = "";
+
     try {
+
+        // Current session    
+        systemId = parseInt(localStorage.systemId);
+        userId = parseInt(localStorage.userId);
+        languageId = parseInt(localStorage.languageId);     
+        
+        alert(systemId);
+
         // Present the screen
         switch (dest) {
             case 1:
-                table = new Table(id_table);
+                table = new Table(systemId, tableId, userId, languageId);
                 setDiv('div2', table.createTable());
                 break;
             case 2:
-                form = new Form(id_table);
+                form = new Form(systemId, tableId, userId, languageId);
                 setDiv('div2', form.createForm());
                 break;
             default:
@@ -44,12 +55,6 @@ function login()  {
         // Create menu    
         let menu = new Menu();
         setDiv('div1', menu.createMenu());
-        // Keep credentials
-        localStorage.system = 1;        // Current system
-        localStorage.table = "";        // Current table name
-        localStorage.user = 0;          // Logged user
-        localStorage.language = 1;      // System language
-        localStorage.id = 0;            // Selected Id in report
     } catch (err) {
         setDiv('div1', '');
         setDiv('div2', err.message);
@@ -58,7 +63,14 @@ function login()  {
 }
 
 
-
+function session() {
+    // Keep credentials
+    localStorage.systemId = 1;        // Current system
+    localStorage.tableId = "";        // Current table name
+    localStorage.userId = 0;          // Logged user
+    localStorage.languageId = 1;      // System language
+    localStorage.id = 0;            // Selected Id in report    
+}
 
 
 

@@ -22,10 +22,11 @@ class SqlBuilder extends Base {
     private $FIELD_MASK = 7;
     private $FIELD_MANDATORY = 8;
     private $FIELD_UNIQUE = 9;
-    private $FIELD_FK = 10;
+    private $FIELD_ID_FK = 10;
     private $TABLE_FK = 11;
-    private $FIELD_DOMAIN = 12;
-    private $DATA_TYPE = 13;
+    private $FIELD_FK = 12;
+    private $FIELD_DOMAIN = 13;
+    private $DATA_TYPE = 14;
 
     /*
      * Return query based on mapping
@@ -108,7 +109,7 @@ class SqlBuilder extends Base {
             // Generate select list            
             pg_result_seek($tableDef, 0);
             while ($row = pg_fetch_row($tableDef)) {
-                $fk = $row[$this->FIELD_FK];
+                $fk = $row[$this->FIELD_ID_FK];
                 $tableName = $row[$this->TABLE_NAME];
                 $fieldName = $row[$this->FIELD_NAME];
                 $fieldType = $row[$this->DATA_TYPE];
@@ -165,7 +166,7 @@ class SqlBuilder extends Base {
         try {
             pg_result_seek($tableDef, 0);
             while ($row = pg_fetch_row($tableDef)) {
-                if ($row[$this->FIELD_FK] > 0) {
+                if ($row[$this->FIELD_ID_FK] > 0) {
                     $sql .= $jsonUtil->join($row[$this->TABLE_NAME], 
                                             $row[$this->FIELD_NAME], 
                                             $row[$this->TABLE_FK], 
@@ -269,7 +270,7 @@ class SqlBuilder extends Base {
         left join tb_table tb_table_fk on (tb_field.field->>'id_table_fk')::int = tb_table_fk.id
         left join tb_field tb_field_fk on (tb_field.field->>'id_field_fk')::int = tb_field_fk.id
         where (tb_field.field->>'id_system')::int = p1
-        and (tb_field.field->>'id_table')::int = 02
+        and (tb_field.field->>'id_table')::int = p2
         order by tb_field.id
         ";
 
