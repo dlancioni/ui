@@ -19,7 +19,7 @@ class Form extends Base {
         try {
 
             // Keep instance of SqlBuilder for current session
-            $sqlBuilder = new SqlBuilder($this.getSystem(), $this.getTable(), $this.getUser(), $this.getLanguage());
+            $sqlBuilder = new SqlBuilder($this->getSystem(), $this->getTable(), $this->getUser(), $this->getLanguage());
 
             // Get table structure
             $tableDef = $sqlBuilder->getTableDef("json");
