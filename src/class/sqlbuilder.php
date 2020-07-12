@@ -51,7 +51,7 @@ class SqlBuilder extends Base {
             // Get ordering
             $sql .= $this->getOrderBy($tableDef);             
         } catch (Exception $ex) {
-            $this->setError("QueryBuilder.query()", $ex.getMessage());
+            $this->setError("QueryBuilder.query()", $ex->getMessage());
         }
         // Return sql
         return $sql;
@@ -78,7 +78,7 @@ class SqlBuilder extends Base {
                 $rs = $db->queryJson($sql);                
             }
         } catch (Exception $ex) {
-            $this->setError("QueryBuilder.getTableDef()", $ex.getMessage());
+            $this->setError("QueryBuilder.getTableDef()", $ex->getMessage());
         }
 
         // Return data
@@ -135,7 +135,7 @@ class SqlBuilder extends Base {
                 }                
             }
         } catch (Exception $ex) {
-            $this->setError("QueryBuilder.getFieldList()", $ex.getMessage());
+            $this->setError("QueryBuilder.getFieldList()", $ex->getMessage());
         }
         return $sql;
     }
@@ -151,7 +151,7 @@ class SqlBuilder extends Base {
             $row = pg_fetch_row($tableDef);
             $sql .= " from " . $row[$this->TABLE_NAME];
         } catch (Exception $ex) {
-            $this->setError("QueryBuilder.getFrom()", $ex.getMessage());
+            $this->setError("QueryBuilder.getFrom()", $ex->getMessage());
         }
         return $sql;
     }
@@ -174,7 +174,7 @@ class SqlBuilder extends Base {
                 }
             }
         } catch (Exception $ex) {
-            $this->setError("QueryBuilder.getJoin()", $ex.getMessage());
+            $this->setError("QueryBuilder.getJoin()", $ex->getMessage());
         }
         return $sql;
     }
@@ -197,7 +197,7 @@ class SqlBuilder extends Base {
             }
 
         } catch (Exception $ex) {
-            $this->setError("QueryBuilder.getWhere()", $ex.getMessage());
+            $this->setError("QueryBuilder.getWhere()", $ex->getMessage());
         }
         return $sql;
     }
@@ -221,7 +221,7 @@ class SqlBuilder extends Base {
                 }
             }
         } catch (Exception $ex) {
-            $this->setError("QueryBuilder.getCondition()", $ex.getMessage());
+            $this->setError("QueryBuilder.getCondition()", $ex->getMessage());
         }
         return $sql;
     }
@@ -236,7 +236,7 @@ class SqlBuilder extends Base {
             $row = pg_fetch_row($tableDef);
             $sql = " order by " . trim($row[$this->TABLE_NAME]) . ".id";
         } catch (Exception $ex) {
-            $this->setError("QueryBuilder.getOrderBy()", $ex.getMessage());
+            $this->setError("QueryBuilder.getOrderBy()", $ex->getMessage());
         }
         return $sql;
     }    

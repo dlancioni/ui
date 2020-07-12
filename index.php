@@ -1,3 +1,7 @@
+<?php
+include "src/session.php";
+?>
+
 <html>
 <head>    
 <title>UI</title>
@@ -10,17 +14,10 @@
 
 <div class="w3-container">
     <div id="div1">
+        <?php
+        include "src/page.php";
+        ?>
     </div>    
-</div>
-
-<br>
-
-<div class="w3-container">
-    <div id="div2" />
-</div>
-<br>
-<div class="w3-container">
-    <div id="div3" />
 </div>
 
 <script src="js/src/util.js"></script>
@@ -30,7 +27,6 @@
 <script src="js/src/menu.js"></script>
 <script src="js/src/table.js"></script>
 <script src="js/src/form.js"></script>
-<script src="js/src/init.js"></script>
 </body>
 </html>
         

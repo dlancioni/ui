@@ -1,11 +1,18 @@
 <?php
-    class StringUtil {
 
+    class StringUtil {
         /*
          * Put value between single quote
          */        
-        function qt($value) {
+        function sqt($value) {
             return "'" . trim($value) . "'";
+        }
+
+        /*
+         * Put value between double quote
+         */        
+        function dqt($value) {
+            return "\"" . trim($value) . "\"";
         }
 
         /*
@@ -15,8 +22,8 @@
             return "\n";
         }        
     }
+    
     class JsonUtil extends StringUtil {
-
         /*
          * Set value in specific tag
          */
