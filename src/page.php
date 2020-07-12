@@ -12,7 +12,7 @@
     try {
 
         $form = new Form(1,2,1,1);
-        $form->createForm(1);
+        echo $form->createForm(1);
 
 
     } catch (Exception $ex) {        
