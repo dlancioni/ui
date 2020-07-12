@@ -15,6 +15,7 @@ class Form extends Base {
         //$element = new HTMLElement();
         $filter = "";
         $db = new Db();
+        $filter = "";
 
         try {
 
@@ -26,7 +27,7 @@ class Form extends Base {
 
             // Get data
             $filter = new Filter();
-            $filter.add($this.getTable(), "id", $id);
+            $filter->add($this->getTable(), "id", $id);
             $sql = $sqlBuilder->getQuery($filter);
             $data = $db->queryJson($sql);
 
@@ -63,14 +64,13 @@ class Form extends Base {
                 $html .= element.createButton(events[i].label, events[i].label, events[i].id_event + "=" + events[i].code);
             }
 */
-            // Return form
-            return $html;
-
         } catch (Exception $ex) {        
-            $data = '{"status":"fail", "error":' . $ex->getMessage() . '}';
+            $html = '{"status":"fail", "error":' . $ex->getMessage() . '}';
         } finally {
-    
+                
         }
+
+        return $data;
     }
 }
 ?>

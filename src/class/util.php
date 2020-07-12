@@ -44,9 +44,9 @@
                 $output = $table . "." . $field;
             } else {
                 if ($type == "date") {
-                    $output = "to_date(" . $table . ".field" . '->>' . $this->qt($field) . ", " . $this->qt($mask) . ")";
+                    $output = "to_date(" . $table . ".field" . '->>' . $this->sqt($field) . ", " . $this->sqt($mask) . ")";
                 } else {
-                    $output = "(" . $table . ".field" . '->>' . $this->qt($field) . ")::" . $type;
+                    $output = "(" . $table . ".field" . '->>' . $this->sqt($field) . ")::" . $type;
                 }
             }
 
@@ -78,10 +78,10 @@
             }
             $condition .= " " . $operator . " ";
             // Handle quotes
-            $value = (is_numeric($value) ? $value : $this->qt($value));
+            $value = (is_numeric($value) ? $value : $this->sqt($value));
             // Set value
             if ($type == "date") {
-                $condition .= "to_date(" . $value . ", " . $this->qt($mask) . ")";
+                $condition .= "to_date(" . $value . ", " . $this->sqt($mask) . ")";
             } else {
                 $condition .= $value;
             }
