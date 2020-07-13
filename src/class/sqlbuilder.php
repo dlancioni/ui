@@ -31,11 +31,15 @@ class SqlBuilder extends Base {
     /*
      * Return query based on mapping
      */
-    public function getQuery($filter) {
+    public function getQuery($tableId=0, $filter="[]") {
         // General Declaration
         $sql = "";
         $tableDef = "";
         try {
+            // Handle table as parameter
+            if ($tableId > 0) {
+                $this->setTable($tableId);
+            }
             // Get table structure
             $tableDef = $this->getTableDef("rs");
             // Get field list

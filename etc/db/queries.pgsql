@@ -82,34 +82,9 @@ inner join tb_table on (tb_field.field->>'id_table')::int = tb_table.id
 left join tb_table tb_table_fk on (tb_field.field->>'id_table_fk')::int = tb_table_fk.id
 left join tb_field tb_field_fk on (tb_field.field->>'id_field_fk')::int = tb_field_fk.id
 where (tb_field.field->>'id_system')::int = 1
-and (tb_field.field->>'id_table')::int = 3
+and (tb_field.field->>'id_table')::int = 2
 order by tb_field.id
 
 
 
 
-
-
-select 
-tb_field.id, 
-(tb_table_id_table.field->>'name')::text as id_table, 
-(tb_field.field->>'label'):: as label, 
-(tb_field.field->>'name'):: as name, 
-(value_id_type.field->>'value')::text as id_type, 
-(tb_field.field->>'size'):: as size, 
-(tb_field.field->>'mask'):: as mask, 
-(value_id_mandatory.field->>'value')::text as id_mandatory, 
-(value_id_unique.field->>'value')::text as id_unique, 
-(tb_table_id_table_fk.field->>'name')::text as id_table_fk, 
-(tb_field_id_field_fk.field->>'name')::text as id_field_fk, 
-(tb_field.field->>'domain')::text as domain, 
-(tb_field.field->>'name')::text as name 
-from tb_field 
-inner join tb_table name_id_table on (tb_field.field->>'id_table')::text = (name_id_table.field->>'key')::text 
-and (name_id_table.field->>'domain')::text = 'name' 
-inner join tb_domain value_id_type on (tb_field.field->>'id_type')::text = (value_id_type.field->>'key')::text and (value_id_type.field->>'domain')::text = 'value' 
-inner join tb_domain value_id_mandatory on (tb_field.field->>'id_mandatory')::text = (value_id_mandatory.field->>'key')::text and (value_id_mandatory.field->>'domain')::text = 'value' 
-inner join tb_domain value_id_unique on (tb_field.field->>'id_unique')::text = (value_id_unique.field->>'key')::text and (value_id_unique.field->>'domain')::text = 'value' 
-inner join tb_table name_id_table_fk on (tb_field.field->>'id_table_fk')::text = (name_id_table_fk.field->>'key')::text and (name_id_table_fk.field->>'domain')::text = 'name' 
-inner join tb_field name_id_field_fk on (tb_field.field->>'id_field_fk')::text = (name_id_field_fk.field->>'key')::text and (name_id_field_fk.field->>'domain')::text = 'name' 
-where (tb_field.field->>'id_system')::int = 1 order by tb_field.id

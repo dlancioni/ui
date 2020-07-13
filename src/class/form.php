@@ -13,9 +13,12 @@ class Form extends Base {
         $fieldValue = "";
         $tableDef = "";
         $data = "";
+        $dataFk = "";
         $events = "";
         $filter = "";
         $tableName = "";
+        $fieldKey = "";
+        $fieldValue = "";
 
         try {
 
@@ -37,7 +40,8 @@ class Form extends Base {
 
             $html .= `<form id="form1">`;            
             foreach($tableDef as $item) {
-                
+                // Keep data
+                $fk = $item["id_fk"];
                 $fieldLabel = $item["field_label"];
                 $fieldName = $item["field_name"];
                 foreach($data as $col) {
@@ -45,14 +49,22 @@ class Form extends Base {
                     break;
                 }
                 $html .= $element->createLabel($fieldLabel, $fieldName);
-
-                if ($item["id_fk"] == 0) {
+                // Create fields
+                if ($fk == 0) {
                     $html .= $element->createTextbox($fieldName, $fieldValue, "", false);
                 } else {
-                    //$data = JSON.parse(http.query(tableDef[i]["field_fk"], '[]'));
-                    //$html .= element->createDropdown(fieldName, fieldValue, $data);
+                    if ($fk == 4) {
+                        $fieldKey = "key";
+                        $fieldValue = "value";
+                    } else {
+                        $fieldKey = "id";
+                        $fieldValue = $item["field_fk"];
+                    }
+                    $sql = $sqlBuilder->getQuery($fk);
+                    $dataFk = json_decode($db->queryJson($sql), true);
+                    $html .= $element->createDropdown($fieldName, $fieldValue, $dataFk, $fieldKey, $fieldValue);
                 }
-                $html .= '<br>';                
+                $html .= '<br>';
             }
 
             // Finalize form

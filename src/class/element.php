@@ -12,7 +12,7 @@
                 $html .= $label;
                 $html .= "</label>";                
             } catch (Exception $ex) {
-                throw $err;
+                throw $ex;
             }
             return $html;            
         }
@@ -33,13 +33,13 @@
                 if ($placeholder != "")
                     $html .= " placeholder=" . $stringUtil->dqt($placeholder);
 
-                if (disabled) 
+                if ($disabled) 
                     $html .= " disabled";
 
                 $html .= ">";
 
             } catch (Exception $ex) {
-                throw $err;
+                throw $ex;
             }
             return $html;            
         }
@@ -47,20 +47,46 @@
         /* 
          * Create dropdown
          */
-        public function createDropdown($name, $value, $data) {
-            $stringUtil = new StringUtil();
+        public function createDropdown($name, $value, $data, $fieldKey, $fieldValue, $event="") {
+
+            // General declaration
             $html = "";
+            $key = "";
+            $value = "";
+            $selected = "";
+            $stringUtil = new StringUtil();
+
             try {
+
+                // Open dropdown
                 $html .= " <select";
                 $html .= " id=" . $stringUtil->dqt($name); 
-                $html .= " name=" . $stringUtil->dqt($name); 
+                $html .= " name=" . $stringUtil->dqt($name);
                 $html .= ">";
-                //$html .= " <option value="" selected></option>"; 
+
+                // Add options
+                foreach($data as $item) {
+
+                    // Keep values
+                    $key = $data[$fieldKey];
+                    $value = $data[$fieldValue];
+
+                    // Create option
+                    $html .= "<option ";
+                    $html .= "value=" . $key . " " . $selected . ">";
+                    $html .= $value;
+                    $html .= "</option>";
+                }
+
+                // Close dropdown
                 $html .= " </select>";
-                return $html.trim();
+
             } catch (Exception $ex) {
-                throw $err;
+                throw $ex;
             }
+
+            // Return filled dropdown
+            return $html.trim();            
         }
 
 
@@ -78,7 +104,7 @@
                 $html .= $stringUtil->dqt($value); 
                 $html .= ">"; 
             } catch (Exception $ex) {
-                throw $err;
+                throw $ex;
             }
             return $html;
         }
@@ -98,7 +124,7 @@
                 $html .= " " . $stringUtil->dqt($event); 
                 $html .= ">";
             } catch (Exception $ex) {
-                throw $err;
+                throw $ex;
             }
             return $html;
         }
@@ -111,7 +137,7 @@
             try {
                 $html = "<table>" . $value . "</table>";
             } catch (Exception $ex) {
-                throw $err;
+                throw $ex;
             }
             return $html;
         }
@@ -124,7 +150,7 @@
             try {
                 $html = "<tr>" . $value . "</tr>";
             } catch (Exception $ex) {
-                throw $err;
+                throw $ex;
             }
             return $html;            
         }
@@ -137,7 +163,7 @@
             try {
                 $html = "<th>" . $value.trim() . "</th>";
             } catch (Exception $ex) {
-                throw $err;
+                throw $ex;
             }
             return $html;
         }
@@ -151,7 +177,7 @@
             try {
                 $html = "<td>" . $value . "</td>";
             } catch (Exception $ex) {
-                throw $err;
+                throw $ex;
             }
             return $html;            
         }
