@@ -58,7 +58,7 @@ class Form extends Base {
             // Return table
             $html = $data;
 
-        } catch (Exception $ex) {        
+        } catch (Exception $ex) {
             $html = '{"status":"fail", "error":' . $ex->getMessage() . '}';
         } finally {
                 
