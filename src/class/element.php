@@ -14,7 +14,7 @@
             } catch (Exception $ex) {
                 throw $err;
             }
-            return html;            
+            return $html;            
         }
 
         /* 
@@ -30,7 +30,7 @@
                 $html .= " name=" . $stringUtil->dqt($name); 
                 $html .= " value=" . $stringUtil->dqt($value);
 
-                if (placeholder != "")
+                if ($placeholder != "")
                     $html .= " placeholder=" . $stringUtil->dqt($placeholder);
 
                 if (disabled) 
@@ -109,7 +109,7 @@
         public function createTable($value) {
             $html = "";
             try {
-                $html = "<table>" + $value + "</table>";
+                $html = "<table>" . $value . "</table>";
             } catch (Exception $ex) {
                 throw $err;
             }
@@ -122,7 +122,7 @@
         public function createTableRow($value) {
             $html = "";
             try {
-                $html = "<tr>" + $value + "</tr>";
+                $html = "<tr>" . $value . "</tr>";
             } catch (Exception $ex) {
                 throw $err;
             }
@@ -135,7 +135,7 @@
         public function createTableHeader($value) {
             $html = "";
             try {
-                $html = "<th>" + $value.trim() + "</th>";
+                $html = "<th>" . $value.trim() . "</th>";
             } catch (Exception $ex) {
                 throw $err;
             }
@@ -149,7 +149,7 @@
             $html = "";
             $stringUtil = new StringUtil();
             try {
-                $html = "<td>" + $value + "</td>";
+                $html = "<td>" . $value . "</td>";
             } catch (Exception $ex) {
                 throw $err;
             }

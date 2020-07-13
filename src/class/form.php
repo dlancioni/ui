@@ -21,6 +21,7 @@ class Form extends Base {
 
             // DB interface
             $db = new Db();
+            $element = new HTMLElement();
 
             // Keep instance of SqlBuilder for current session
             $sqlBuilder = new SqlBuilder($this->getSystem(), $this->getTable(), $this->getUser(), $this->getLanguage());
@@ -32,31 +33,30 @@ class Form extends Base {
             $filter = new Filter();
             $filter->add($tableDef[0]["table_name"], "id", $id);
             $sql = $sqlBuilder->getQuery($filter->create());
-            $data = $db->queryJson($sql);
+            $data = json_decode($db->queryJson($sql), true);
 
-
-            /*
-            // Create main form
-            $html .= `<form id="form1">`;
-            for ($i in tableDef) {
-                fieldLabel = tableDef[i].field_label;
-                fieldName = tableDef[i].field_name;
-                if ($data.length > 0)
-                    fieldValue = $data[0][fieldName];
-                $html .= element.createLabel(fieldLabel, fieldName);
-                if (tableDef[i]["field_fk"] == 0) {
-                    $html .= element.createTextbox(fieldName, fieldValue, '', false);
-                } else {
-                    $data = JSON.parse(http.query(tableDef[i]["field_fk"], '[]'));
-                    $html .= element.createDropdown(fieldName, fieldValue, $data);
+            $html .= `<form id="form1">`;            
+            foreach($tableDef as $item) {
+                
+                $fieldLabel = $item["field_label"];
+                $fieldName = $item["field_name"];
+                foreach($data as $col) {
+                    $fieldValue = $col[$fieldName];
+                    break;
                 }
-                $html .= '<br>';
-            }
-            $html .= `</form>`;
-            */
+                $html .= $element->createLabel($fieldLabel, $fieldName);
 
-            // Return table
-            $html = $data;
+                if ($item["id_fk"] == 0) {
+                    $html .= $element->createTextbox($fieldName, $fieldValue, "", false);
+                } else {
+                    //$data = JSON.parse(http.query(tableDef[i]["field_fk"], '[]'));
+                    //$html .= element->createDropdown(fieldName, fieldValue, $data);
+                }
+                $html .= '<br>';                
+            }
+
+            // Finalize form
+            $html .= `</form>`;
 
         } catch (Exception $ex) {
             $html = '{"status":"fail", "error":' . $ex->getMessage() . '}';

@@ -9,6 +9,6 @@
     include "class/util.php";
     include "class/form.php";
     include "class/filter.php";
-
+    include "class/element.php";
 
 ?>    
