@@ -1,5 +1,5 @@
 <?php
-include "src/session.php";
+include "php/session.php";
 ?>
 
 <html>
@@ -15,18 +15,14 @@ include "src/session.php";
 <div class="w3-container">
     <div id="div1">
         <?php
-        include "src/page.php";
+        include "php/page.php";
         ?>
     </div>    
 </div>
 
-<script src="js/src/util.js"></script>
-<script src="js/src/httpservice.js"></script>
-<script src="js/src/element.js"></script>
-<script src="js/src/script.js"></script>
-<script src="js/src/menu.js"></script>
-<script src="js/src/table.js"></script>
-<script src="js/src/form.js"></script>
+<script src="js/httpservice.js"></script>
+<script src="js/script.js"></script>
+
 </body>
 </html>
         

@@ -11,11 +11,11 @@
     // Core code
     try {
 
-        //$form = new Form(1,2,1,1);
-        //echo $form->createForm(1);
+        $form = new Form(1,2,1,1);
+        echo $form->createForm(1);
 
         $table = new Table(1,2,1,1);
-        echo $table->createTable(1);
+        //echo $table->createTable(1);
 
 
     } catch (Exception $ex) {        
