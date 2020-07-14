@@ -47,7 +47,7 @@
         /* 
          * Create dropdown
          */
-        public function createDropdown($name, $value, $data, $fieldKey, $fieldValue, $event="") {
+        public function createDropdown($name, $selectedValue, $data, $fieldKey, $fieldValue, $event="") {
 
             // General declaration
             $html = "";
@@ -59,34 +59,44 @@
             try {
 
                 // Open dropdown
-                $html .= " <select";
+                $html .= "<select";
                 $html .= " id=" . $stringUtil->dqt($name); 
                 $html .= " name=" . $stringUtil->dqt($name);
                 $html .= ">";
+
+                // Empty item
+                $html .= '<option value="0">Selecionar</option>';
 
                 // Add options
                 foreach($data as $item) {
 
                     // Keep values
-                    $key = $data[$fieldKey];
-                    $value = $data[$fieldValue];
+                    $key = $item[$fieldKey];
+                    $value = $item[$fieldValue];
+
+                    // Handle selected
+                    if ($value == $selectedValue) {
+                        $selected = "selected";
+                    } else {
+                        $selected = "";
+                    }
 
                     // Create option
                     $html .= "<option ";
-                    $html .= "value=" . $key . " " . $selected . ">";
+                    $html .= "value=" . $stringUtil->dqt($key) . " " . $selected . ">";
                     $html .= $value;
                     $html .= "</option>";
                 }
 
                 // Close dropdown
-                $html .= " </select>";
+                $html .= "</select>";
 
             } catch (Exception $ex) {
                 throw $ex;
             }
 
             // Return filled dropdown
-            return $html.trim();            
+            return $html;            
         }
 
 
@@ -116,11 +126,11 @@
             $html = "";
             $stringUtil = new StringUtil();
             try {
-                $html .= "<input ";                
+                $html .= "<input";                
                 $html .= " type=" . $stringUtil->dqt("radio"); 
                 $html .= " name=" . $stringUtil->dqt($name); 
                 $html .= " value=" . $stringUtil->dqt($value);                 
-                $html .= " " . $stringUtil->dqt($checked); 
+                $html .= " " . $checked; 
                 $html .= " " . $stringUtil->dqt($event); 
                 $html .= ">";
             } catch (Exception $ex) {
@@ -161,7 +171,7 @@
         public function createTableHeader($value) {
             $html = "";
             try {
-                $html = "<th>" . $value.trim() . "</th>";
+                $html = "<th>" . $value . "</th>";
             } catch (Exception $ex) {
                 throw $ex;
             }

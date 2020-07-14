@@ -7,6 +7,7 @@
     include "class/db.php";
     include "class/sqlbuilder.php";
     include "class/util.php";
+    include "class/table.php";
     include "class/form.php";
     include "class/filter.php";
     include "class/element.php";

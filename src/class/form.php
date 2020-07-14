@@ -1,9 +1,12 @@
 <?php
 class Form extends Base {
 
-    // Generate form
+    /* 
+    * Create new form
+    */
     function createForm($id) {
 
+        // General Declaration
         $db = "";
         $html = "";
         $sqlBuilder = "";
@@ -17,8 +20,8 @@ class Form extends Base {
         $events = "";
         $filter = "";
         $tableName = "";
-        $fieldKey = "";
-        $fieldValue = "";
+        $key = "";
+        $value = "";
 
         try {
 
@@ -27,7 +30,10 @@ class Form extends Base {
             $element = new HTMLElement();
 
             // Keep instance of SqlBuilder for current session
-            $sqlBuilder = new SqlBuilder($this->getSystem(), $this->getTable(), $this->getUser(), $this->getLanguage());
+            $sqlBuilder = new SqlBuilder($this->getSystem(), 
+                                         $this->getTable(), 
+                                        $this->getUser(), 
+                                        $this->getLanguage());
 
             // Get table structure
             $tableDef = json_decode($sqlBuilder->getTableDef("json"), true);
@@ -48,23 +54,31 @@ class Form extends Base {
                     $fieldValue = $col[$fieldName];
                     break;
                 }
-                $html .= $element->createLabel($fieldLabel, $fieldName);
+                $html .= $element->createLabel($fieldLabel, 
+                                               $fieldName);
                 // Create fields
                 if ($fk == 0) {
-                    $html .= $element->createTextbox($fieldName, $fieldValue, "", false);
+                    $html .= $element->createTextbox($fieldName, 
+                                                     $fieldValue, 
+                                                     "", 
+                                                     false);
                 } else {
                     if ($fk == 4) {
-                        $fieldKey = "key";
-                        $fieldValue = "value";
+                        $key = "key";
+                        $value = "value";
                     } else {
-                        $fieldKey = "id";
-                        $fieldValue = $item["field_fk"];
+                        $key = "id";
+                        $value = $item["field_fk"];
                     }
                     $sql = $sqlBuilder->getQuery($fk);
                     $dataFk = json_decode($db->queryJson($sql), true);
-                    $html .= $element->createDropdown($fieldName, $fieldValue, $dataFk, $fieldKey, $fieldValue);
+                    $html .= $element->createDropdown($fieldName, 
+                                                      $fieldValue, 
+                                                      $dataFk, 
+                                                      $key, 
+                                                      $value);
                 }
-                $html .= '<br>';
+                $html .= "<br>";
             }
 
             // Finalize form
@@ -75,7 +89,6 @@ class Form extends Base {
         } finally {
                 
         }
-
         return $html;
     }
 }
