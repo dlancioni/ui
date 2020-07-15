@@ -2,6 +2,8 @@
 <?php
     session_start();
 
+ 
+
     $_SESSION['id_system'] = 1;
     $_SESSION['id_table'] = 2;
     $_SESSION['id_user'] = 1;
@@ -20,7 +22,7 @@
     if (isset($_SESSION['id_user']))
         $userId = $_SESSION['id_user'];
     if (isset($_SESSION['id_language']))
-        $languageId = $_SESSION['id_language'];        
+        $languageId = $_SESSION['id_language'];
 
 
 ?>

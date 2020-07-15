@@ -7,7 +7,7 @@
     include "db.php";
     include "sqlbuilder.php";
     include "util.php";
-    include "list.php";
+    include "report.php";
     include "form.php";
     include "filter.php";
     include "element.php";

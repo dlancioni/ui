@@ -66,7 +66,7 @@ class Table extends Base {
             }
 
             // Finalize table    
-            $html .= $element->createTable($rows);
+            $html .= $element->createTable($rows);            
 
         } catch (Exception $ex) {
             $html = '{"status":"fail", "error":' . $ex->getMessage() . '}';

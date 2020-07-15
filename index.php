@@ -1,4 +1,5 @@
 <?php
+
 include "php/session.php";
 ?>
 
@@ -11,7 +12,7 @@ include "php/session.php";
 <link rel="stylesheet" href="css/w3.css">
 <link rel="stylesheet" href="css/menu.css">
 <body>
-
+<form name="form1" action="index.php" method="post">
 <div class="w3-container">
     <div id="div1">
         <?php
@@ -20,9 +21,11 @@ include "php/session.php";
     </div>    
 </div>
 
-<script src="js/httpservice.js"></script>
-<script src="js/script.js"></script>
+<input type="hidden" id="page" name="page" value="">
 
+<script src="js/httpservice.js"></script>
+<script src="js/function.js"></script>
+</form>
 </body>
 </html>
         
