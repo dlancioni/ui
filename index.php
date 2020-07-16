@@ -22,7 +22,8 @@ include "php/session.php";
 </div>
 
 <input type="hidden" id="_TABLE_" name="_TABLE_" value="">
-<input type="hidden" id="_STYLE_" name="_STYLE_" value="">
+<input type="hidden" id="_FORMAT_" name="_FORMAT_" value="">
+<input type="hidden" id="_EVENT_" name="_EVENT_" value="">
 
 <script src="js/httpservice.js"></script>
 <script src="js/function.js"></script>

@@ -10,16 +10,26 @@
     * Finally, $-REQUEST[] uses field NAME, not ID
     */
 
-    if (isset($_REQUEST["_TABLE_"])) {
-        $tableId = $_REQUEST["_TABLE_"];
-    }
-
-    if (isset($_REQUEST["_STYLE_"])) {
-        $style = $_REQUEST["_STYLE_"];
-    }
-
+    // Current record
     if (isset($_REQUEST["selection"])) {
         $id = intval($_REQUEST['selection']);
-    }        
+        $_SESSION['_ID_'] = $id;
+    }
+
+    // Current module
+    if (isset($_REQUEST["_TABLE_"])) {
+        $tableId = $_REQUEST["_TABLE_"];
+        $_SESSION['_TABLE_'] = $tableId;
+    }
+
+    // Current format (table or form)
+    if (isset($_REQUEST["_FORMAT_"])) {
+        $format = $_REQUEST["_FORMAT_"];
+    }
+
+    // Current event (new, save, delete)
+    if (isset($_REQUEST["_EVENT_"])) {
+        $event = $_REQUEST["_EVENT_"];
+    }
 
 ?>

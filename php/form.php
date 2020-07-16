@@ -44,6 +44,12 @@ class Form extends Base {
             $sql = $sqlBuilder->getQuery($filter->create());
             $data = json_decode($db->queryJson($sql), true);
 
+            if ($data) {
+                $html .= $element->createLabel("id", "id");
+                $html .= $element->createTextbox("id", $data[0]["id"], "", true);
+                $html .= "<br>";                
+            }
+
             $html .= `<form id="form1">`;            
             foreach($tableDef as $item) {
                 // Keep data
@@ -54,14 +60,10 @@ class Form extends Base {
                     $fieldValue = $col[$fieldName];
                     break;
                 }
-                $html .= $element->createLabel($fieldLabel, 
-                                               $fieldName);
+                $html .= $element->createLabel($fieldLabel, $fieldName);
                 // Create fields
                 if ($fk == 0) {
-                    $html .= $element->createTextbox($fieldName, 
-                                                     $fieldValue, 
-                                                     "", 
-                                                     false);
+                    $html .= $element->createTextbox($fieldName, $fieldValue, "");
                 } else {
                     if ($fk == 4) {
                         $key = "key";

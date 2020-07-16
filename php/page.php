@@ -7,8 +7,9 @@
     $report = "";
     $form = "";
     $tableId = 0;  
-    $style = 1;
+    $format = 1;
     $html = "";      
+    $event = "";
     
     $menu = new Menu();
 
@@ -23,7 +24,7 @@
 
         // Render page
         if ($tableId > 0) {
-            if ($style == 1) {
+            if ($format == 1) {
                 $report = new Table(1, $tableId, 1, 1);
                 $html .= $report->createTable($tableId);
             } else {
