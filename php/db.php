@@ -54,6 +54,11 @@
             } finally {
                 pg_close($connection);
             }
+
+            if (!$json) {
+                $json = "[]";
+            }
+
             return $json;
         }        
 

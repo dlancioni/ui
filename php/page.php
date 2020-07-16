@@ -3,37 +3,47 @@
     include "include.php";
 
     // General declaration
-    $menu = "";
+    $html = "";
+    $menu = new Menu();
     $report = "";
     $form = "";
     $button = "";
-    $page = 1;
+    $style = 1;
     $id = 0;
+    $tableId = 0;
 
     // Core code
     try {
 
         // Handle requests
-        if (isset($_REQUEST["page"])) 
-            $page = $_REQUEST["page"];
+        if (isset($_REQUEST["table"])) 
+            $tableId = $_REQUEST["table"];        
+        if (isset($_REQUEST["style"])) 
+            $page = $_REQUEST["style"];
         if (isset($_REQUEST["selection"])) 
             $id = intval($_REQUEST['selection']);        
 
+        // Get menu    
+        $html .= $menu->createMenu();
+
         // Render page
-        if ($page == 1) {
-            $button = '<br><input type="button" value="Form" onClick="go(2);">';
-            $table = new Table(1,2,1,1);
-            echo $table->createTable(1) . $button;
-        } else {
-            $button = '<br><input type="button" value="Table" onClick="go(1);">';
-            $form = new Form(1,2,1,1);
-            echo $form->createForm(1) . $button;
+        if ($tableId > 0) {
+            if ($style == 1) {
+                $table = new Table(1, $tableId, 1, 1);
+                $html .= $table->createTable($tableId);
+            } else {
+                $form = new Form(1, $tableId, 1, 1);
+                $html .= $form->createForm($tableId);
+            }
         }
 
+
     } catch (Exception $ex) {        
-        $data = '{"status":"fail", "error":' . $ex->getMessage() . '}';
+        $html = '{"status":"fail", "error":' . $ex->getMessage() . '}';
     } finally {
 
     }
+
+    echo $html;
 
 ?>

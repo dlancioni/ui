@@ -82,9 +82,9 @@ inner join tb_table on (tb_field.field->>'id_table')::int = tb_table.id
 left join tb_table tb_table_fk on (tb_field.field->>'id_table_fk')::int = tb_table_fk.id
 left join tb_field tb_field_fk on (tb_field.field->>'id_field_fk')::int = tb_field_fk.id
 where (tb_field.field->>'id_system')::int = 1
-and (tb_field.field->>'id_table')::int = 2
+and (tb_field.field->>'id_table')::int = 5
 order by tb_field.id
 
 
-
+select * from tb_event
 

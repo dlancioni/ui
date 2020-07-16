@@ -65,8 +65,23 @@ class Table extends Base {
                 $rows .= $element->createTableRow($cols);
             }
 
-            // Finalize table    
-            $html .= $element->createTable($rows);            
+            // Create final table
+            $html .= $element->createTable($rows);
+
+            // Get events (buttons)
+            $html .= "<br>";
+            $filter = new Filter();
+            $filter->add("tb_event", "id_target", 1);
+            $filter->add("tb_event", "id_table", $id);
+            $sql = $sqlBuilder->getQuery(5, $filter->create());
+            $data = json_decode($db->queryJson($sql), true); 
+            
+            foreach ($data as $item) {
+                $html .= $element->createButton($item["label"], 
+                                                $item["label"], 
+                                                $item["id_event"],
+                                                $item["code"]);
+            }
 
         } catch (Exception $ex) {
             $html = '{"status":"fail", "error":' . $ex->getMessage() . '}';

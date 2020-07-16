@@ -21,7 +21,8 @@ include "php/session.php";
     </div>    
 </div>
 
-<input type="hidden" id="page" name="page" value="">
+<input type="hidden" id="table" name="table" value="">
+<input type="hidden" id="style" name="style" value="">
 
 <script src="js/httpservice.js"></script>
 <script src="js/function.js"></script>

@@ -103,16 +103,17 @@
         /* 
          * Create button
          */
-        public function createButton($name, $value, $event) {
+        public function createButton($name, $value, $event, $code) {
             $html = "";
             $stringUtil = new StringUtil();
             try {
-                $html .= "<input ";
+                $html .= "<input";
                 $html .= " type=" . $stringUtil->dqt("button"); 
                 $html .= " name=" . $stringUtil->dqt($name); 
                 $html .= " value=" . $stringUtil->dqt($value); 
-                $html .= $stringUtil->dqt($value); 
-                $html .= ">"; 
+                $html .= " " . $event . "=" . $stringUtil->dqt($code);
+                $html .= ">";
+                $html .= "&nbsp;";
             } catch (Exception $ex) {
                 throw $ex;
             }
