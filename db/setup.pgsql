@@ -129,21 +129,21 @@ insert into tb_domain (field) values ('{"id_system":1,"key":2,"value":"Formulár
 -- table tb_event
 -- -----------------------------------------------------
 -- tb_system
-insert into tb_event (field) values ('{"id_system":1,"name":"new","id_target":1,"id_table":1,"id_field":0,"label":"Novo","id_event":2,"code":"go(1,2,1)"}');
-insert into tb_event (field) values ('{"id_system":1,"name":"edit","id_target":1,"id_table":1,"id_field":0,"label":"Editar","id_event":2,"code":"go(1,2,2)"}');
-insert into tb_event (field) values ('{"id_system":1,"name":"filter","id_target":1,"id_table":1,"id_field":0,"label":"Filtrar","id_event":2,"code":"go(1,1,3)"}');
-insert into tb_event (field) values ('{"id_system":1,"name":"delete","id_target":1,"id_table":1,"id_field":0,"label":"Apagar","id_event":2,"code":"save(5)"}');
-insert into tb_event (field) values ('{"id_system":1,"name":"save","id_target":2,"id_table":1,"id_field":0,"label":"Salvar","id_event":2,"code":"go(1,1,4)"}');
-insert into tb_event (field) values ('{"id_system":1,"name":"clear","id_target":2,"id_table":1,"id_field":0,"label":"Limpar","id_event":2,"code":"go(1,1,6)"}');
-insert into tb_event (field) values ('{"id_system":1,"name":"back","id_target":2,"id_table":1,"id_field":0,"label":"Voltar","id_event":2,"code":"go(1,1,7)"}');
+insert into tb_event (field) values ('{"id_system":1,"name":"new","id_target":1,"id_table":1,"id_field":0,"label":"New","id_event":2,"code":"go(1,2,1)"}');
+insert into tb_event (field) values ('{"id_system":1,"name":"edit","id_target":1,"id_table":1,"id_field":0,"label":"Edit","id_event":2,"code":"go(1,2,2)"}');
+insert into tb_event (field) values ('{"id_system":1,"name":"filter","id_target":1,"id_table":1,"id_field":0,"label":"Filter","id_event":2,"code":"go(1,1,3)"}');
+insert into tb_event (field) values ('{"id_system":1,"name":"delete","id_target":1,"id_table":1,"id_field":0,"label":"Delete","id_event":2,"code":"save(5)"}');
+insert into tb_event (field) values ('{"id_system":1,"name":"save","id_target":2,"id_table":1,"id_field":0,"label":"Save","id_event":2,"code":"go(1,1,4)"}');
+insert into tb_event (field) values ('{"id_system":1,"name":"clear","id_target":2,"id_table":1,"id_field":0,"label":"Clear","id_event":2,"code":"go(1,1,6)"}');
+insert into tb_event (field) values ('{"id_system":1,"name":"back","id_target":2,"id_table":1,"id_field":0,"label":"Back","id_event":2,"code":"go(1,1,7)"}');
 -- tb_table
-insert into tb_event (field) values ('{"id_system":1,"name":"new","id_target":1,"id_table":2,"id_field":0,"label":"Novo","id_event":2,"code":"go(2,2,1)"}');
-insert into tb_event (field) values ('{"id_system":1,"name":"edit","id_target":1,"id_table":2,"id_field":0,"label":"Editar","id_event":2,"code":"go(2,2,2)"}');
-insert into tb_event (field) values ('{"id_system":1,"name":"filter","id_target":1,"id_table":2,"id_field":0,"label":"Filtrar","id_event":2,"code":"go(2,1,3)"}');
-insert into tb_event (field) values ('{"id_system":1,"name":"delete","id_target":1,"id_table":2,"id_field":0,"label":"Apagar","id_event":2,"code":"save(5)"}');
-insert into tb_event (field) values ('{"id_system":1,"name":"save","id_target":2,"id_table":2,"id_field":0,"label":"Salvar","id_event":2,"code":"go(2,1,4)"}');
-insert into tb_event (field) values ('{"id_system":1,"name":"clear","id_target":2,"id_table":2,"id_field":0,"label":"Limpar","id_event":2,"code":"go(2,1,6)"}');
-insert into tb_event (field) values ('{"id_system":1,"name":"back","id_target":2,"id_table":2,"id_field":0,"label":"Voltar","id_event":2,"code":"go(2,1,7)"}');
+insert into tb_event (field) values ('{"id_system":1,"name":"new","id_target":1,"id_table":2,"id_field":0,"label":"New","id_event":2,"code":"go(2,2,1)"}');
+insert into tb_event (field) values ('{"id_system":1,"name":"edit","id_target":1,"id_table":2,"id_field":0,"label":"Edit","id_event":2,"code":"go(2,2,2)"}');
+insert into tb_event (field) values ('{"id_system":1,"name":"filter","id_target":1,"id_table":2,"id_field":0,"label":"Filter","id_event":2,"code":"go(2,1,3)"}');
+insert into tb_event (field) values ('{"id_system":1,"name":"delete","id_target":1,"id_table":2,"id_field":0,"label":"Delete","id_event":2,"code":"save(5)"}');
+insert into tb_event (field) values ('{"id_system":1,"name":"save","id_target":2,"id_table":2,"id_field":0,"label":"Save","id_event":2,"code":"go(2,1,4)"}');
+insert into tb_event (field) values ('{"id_system":1,"name":"clear","id_target":2,"id_table":2,"id_field":0,"label":"Clear","id_event":2,"code":"go(2,1,6)"}');
+insert into tb_event (field) values ('{"id_system":1,"name":"back","id_target":2,"id_table":2,"id_field":0,"label":"Back","id_event":2,"code":"go(2,1,7)"}');
 -- tb_field
 
 -- tb_field
