@@ -23,8 +23,7 @@ function save() {
  * Read form and return array
  */
 function getFormData() {
-    let json = "";
     let form = document.getElementById('form1');
-    let data = new FormData(form);
-    return new URLSearchParams(data).toString();
+    let formData = new URLSearchParams(new FormData(form)).toString();
+    return formData;
 }

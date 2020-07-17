@@ -29,7 +29,13 @@
          */
         public function setValue($json, $field, $value) {
             $json = json_decode($json, true);
-            $json[$field] = $value;
+
+            if (is_numeric($value)) {
+                $json[$field] = intval($value);
+            } else {
+                $json[$field] = strval($value);
+            }
+
             $json = json_encode($json);
             return $json;
         }

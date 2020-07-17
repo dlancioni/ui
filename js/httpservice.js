@@ -24,16 +24,16 @@ class HTTPService {
         }
     }
 
-    persist(data="") {
+    persist(formData) {
 
         // General declaration
-        let url = "./php/persist.php?data=" + data;
+        let url = "./php/persist.php?" + formData;
 
         // Just call it
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.open("POST", url, false);
         xmlhttp.setRequestHeader("Content-Type", "text/plain, charset=UTF-8");
-        xmlhttp.send(null);
+        xmlhttp.send();
 
         // Handle status
         if (xmlhttp.status == 200) {
