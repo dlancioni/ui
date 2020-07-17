@@ -12,7 +12,7 @@ include "php/session.php";
 <link rel="stylesheet" href="css/w3.css">
 <link rel="stylesheet" href="css/menu.css">
 <body>
-<form name="form1" action="index.php" method="post">
+<form id="form1" name="form1" action="index.php" method="post">
 <div class="w3-container">
     <div id="div1">
         <?php

@@ -15,6 +15,16 @@ function save() {
     let info = "";
     let data = "";
     let httpService = new HTTPService();
-    info = httpService.persist(data);
+    info = httpService.persist(getFormData());
     alert(info);
+}
+
+/*
+ * Read form and return array
+ */
+function getFormData() {
+    let json = "";
+    let form = document.getElementById('form1');
+    let data = new FormData(form);
+    return new URLSearchParams(data).toString();
 }

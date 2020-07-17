@@ -3,7 +3,7 @@
     include "include.php";
 
     // General declaration
-    $output = "Primeiro teste";
+    $output = $_REQUEST["name"];
 
     // Core code
     try {
