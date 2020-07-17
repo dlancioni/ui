@@ -34,12 +34,12 @@ class Table extends Base {
                                         $this->getUser(), 
                                         $this->getLanguage());
             // Get table structure
-            $tableDef = json_decode($sqlBuilder->getTableDef("json"), true);
+            $tableDef = $sqlBuilder->getTableDef("json");
 
             // Get data
             $filter = new Filter();
             $sql = $sqlBuilder->getQuery($filter->create());
-            $data = json_decode($db->queryJson($sql), true);
+            $data = $db->queryJson($sql);
 
             // Render html table
             $cols = $element->createTableHeader("");
@@ -74,7 +74,7 @@ class Table extends Base {
             $filter->add("tb_event", "id_target", 1);
             $filter->add("tb_event", "id_table", $id);
             $sql = $sqlBuilder->getQuery(5, $filter->create());
-            $data = json_decode($db->queryJson($sql), true); 
+            $data = $db->queryJson($sql); 
             
             foreach ($data as $item) {
                 $html .= $element->createButton($item["label"], 

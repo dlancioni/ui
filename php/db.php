@@ -59,7 +59,7 @@
                 $json = "[]";
             }
 
-            return $json;
+            return json_decode($json, true);
         }        
 
         public function persist() {

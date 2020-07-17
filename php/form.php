@@ -36,13 +36,13 @@ class Form extends Base {
                                         $this->getLanguage());
 
             // Get table structure
-            $tableDef = json_decode($sqlBuilder->getTableDef("json"), true);
+            $tableDef = $sqlBuilder->getTableDef("json");
 
             // Get data
             $filter = new Filter();
             $filter->add($tableDef[0]["table_name"], "id", $id);
             $sql = $sqlBuilder->getQuery($filter->create());
-            $data = json_decode($db->queryJson($sql), true);
+            $data = $db->queryJson($sql);
 
             if ($data) {
                 $html .= $element->createLabel("id", "id");
@@ -73,7 +73,7 @@ class Form extends Base {
                         $value = $item["field_fk"];
                     }
                     $sql = $sqlBuilder->getQuery($fk);
-                    $dataFk = json_decode($db->queryJson($sql), true);
+                    $dataFk = $db->queryJson($sql);
                     $html .= $element->createDropdown($fieldName, 
                                                       $fieldValue, 
                                                       $dataFk, 
@@ -92,7 +92,7 @@ class Form extends Base {
             $filter->add("tb_event", "id_target", 2);
             $filter->add("tb_event", "id_table", $id);
             $sql = $sqlBuilder->getQuery(5, $filter->create());
-            $data = json_decode($db->queryJson($sql), true); 
+            $data = $db->queryJson($sql); 
             
             foreach ($data as $item) {
                 $html .= $element->createButton($item["label"], 
