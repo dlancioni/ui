@@ -1,69 +1,96 @@
 <?php
     class Db extends Base {
 
-        public $connection = "";
-
+        /* 
+         * Constructor mandatory as extends base
+         */        
         function __construct() {
-            $connection = $this->getConnection();
         }
 
+        /* 
+         * Get postgres connection
+         */
         public function getConnection() {
+
+            // General Declaration
+            $error = "";
+            $cn = "";
+
             try {
-                $connection = pg_connect("postgres://qqbzxiqr:EmiJvVhFJGxDEKJoV6yK9A6o2G5pkmR9@tuffi.db.elephantsql.com:5432/qqbzxiqr");
-                $error = pg_last_error($connection);
+                // Try to connect
+                $cn = pg_connect("postgres://qqbzxiqr:EmiJvVhFJGxDEKJoV6yK9A6o2G5pkmR9@tuffi.db.elephantsql.com:5432/qqbzxiqr");               
+
+                // Handle errors
+                $error = pg_last_error($cn);
                 if ($error != "") {
                     die("Connection failed: " . $error);
                 }
+
             } catch (Exception $ex) {
                 $this->setError("Db.getConnection()", $this->getConnection()->error);
             }
-            return $connection;
+            // Return connection
+            return $cn;
         }
 
-        public function query($sql) {
-            $connection = "";
+        /* 
+         * Query and return resultset
+         */
+        public function query($cn, $sql) {
+
+            // General Declaration
             $resultset = "";
+
+            // Execute query            
             try {
-                $connection = $this->getConnection();
-                $resultset = pg_query($connection, $sql);
+                $resultset = pg_query($cn, $sql);
                 $this->setError("", "");
             } catch (exception $ex) {                
                 $resultset = "";
-                $this->setError("db.query()", pg_last_error($connection));
-            } finally {
-                pg_close($connection);
+                $this->setError("db.query()", pg_last_error($cn));
             }
+
+            // Return data
             return $resultset;
         }
 
-        public function queryJson($sql) {
-            $connection = "";
-            $resultset = "";
+        /* 
+         * Query and return json
+         */
+        public function queryJson($cn, $sql) {
+
+            // General Declaration
+            $rs = "";
             $json = "";
+
             try {
-                error_log($sql);
+
+                // Transform results to json
                 $sql = "select json_agg(t) from (" . $sql . ") t";
-                $connection = $this->getConnection();
-                $resultset = pg_query($connection, $sql);
-                while ($row = pg_fetch_row($resultset)) {
+
+                // Execute query
+                $rs = pg_query($cn, $sql);
+                $this->setError("", "");                
+                while ($row = pg_fetch_row($rs)) {
                     $json = $row[0];
                     break;
                 }
-                $this->setError("", "");
             } catch (exception $ex) {                
-                $resultset = "";
-                $this->setError("db.queryJson()", pg_last_error($connection));
-            } finally {
-                pg_close($connection);
+                $this->setError("db.queryJson()", pg_last_error($cn));
             }
 
+            // Handle empty json
             if (!$json) {
                 $json = "[]";
             }
 
+            // Return rs as json
             return json_decode($json, true);
         }        
 
+        /* 
+         * Persist data
+         */        
         public function persist($cn, $action, $table, $data) {
             
            // General declaration
@@ -86,7 +113,7 @@
                 // Execute statement            
                 $rs = pg_query($cn, $sql);
                 if (!$rs) {
-                    throw new Exception(pg_last_error($connection));
+                    throw new Exception(pg_last_error($cn));
                 }
 
                 // Get inserted ID

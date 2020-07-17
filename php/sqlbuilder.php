@@ -31,7 +31,7 @@ class SqlBuilder extends Base {
     /*
      * Return query based on mapping
      */
-    public function getQuery($tableId=0, $filter="[]") {
+    public function getQuery($cn, $tableId=0, $filter="[]") {
         // General Declaration
         $sql = "";
         $tableDef = "";
@@ -41,7 +41,7 @@ class SqlBuilder extends Base {
                 $this->setTable($tableId);
             }
             // Get table structure
-            $tableDef = $this->getTableDef("rs");
+            $tableDef = $this->getTableDef($cn, "rs");
             // Get field list
             $sql .= $this->getFieldList($tableDef);
             // Get from
@@ -64,7 +64,7 @@ class SqlBuilder extends Base {
     /*
      * Get table definition
      */
-    public function getTableDef($resultType) {
+    public function getTableDef($cn, $resultType) {
         // General declaration    
         $sql = "";
         $db = "";
@@ -77,9 +77,9 @@ class SqlBuilder extends Base {
         try {           
             $db = new Db();
             if ($resultType == "rs") {
-                $rs = $db->query($sql);
+                $rs = $db->query($cn, $sql);
             } else if ($resultType == "json") {
-                $rs = $db->queryJson($sql);                
+                $rs = $db->queryJson($cn, $sql);                
             }
         } catch (Exception $ex) {
             $this->setError("QueryBuilder.getTableDef()", $ex->getMessage());

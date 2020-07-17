@@ -4,7 +4,7 @@ class Form extends Base {
     /* 
     * Create new form
     */
-    function createForm($id) {
+    function createForm($cn, $tableId, $id=0) {
 
         // General Declaration
         $db = "";
@@ -22,6 +22,7 @@ class Form extends Base {
         $tableName = "";
         $key = "";
         $value = "";
+        $TB_EVENT = 5;
 
         try {
 
@@ -36,13 +37,13 @@ class Form extends Base {
                                         $this->getLanguage());
 
             // Get table structure
-            $tableDef = $sqlBuilder->getTableDef("json");
+            $tableDef = $sqlBuilder->getTableDef($cn, "json");
 
             // Get data
             $filter = new Filter();
             $filter->add($tableDef[0]["table_name"], "id", $id);
-            $sql = $sqlBuilder->getQuery($filter->create());
-            $data = $db->queryJson($sql);
+            $sql = $sqlBuilder->getQuery($cn, $tableId, $filter->create());
+            $data = $db->queryJson($cn, $sql);
 
             if ($data) {
                 $html .= $element->createLabel("id", "id");
@@ -72,8 +73,8 @@ class Form extends Base {
                         $key = "id";
                         $value = $item["field_fk"];
                     }
-                    $sql = $sqlBuilder->getQuery($fk);
-                    $dataFk = $db->queryJson($sql);
+                    $sql = $sqlBuilder->getQuery($cn, $fk);
+                    $dataFk = $db->queryJson($cn, $sql);
                     $html .= $element->createDropdown($fieldName, 
                                                       $fieldValue, 
                                                       $dataFk, 
@@ -90,9 +91,9 @@ class Form extends Base {
             $html .= "<br>";
             $filter = new Filter();
             $filter->add("tb_event", "id_target", 2);
-            $filter->add("tb_event", "id_table", $id);
-            $sql = $sqlBuilder->getQuery(5, $filter->create());
-            $data = $db->queryJson($sql); 
+            $filter->add("tb_event", "id_table", $tableId);
+            $sql = $sqlBuilder->getQuery($cn, $TB_EVENT, $filter->create());
+            $data = $db->queryJson($cn, $sql); 
             
             foreach ($data as $item) {
                 $html .= $element->createButton($item["label"], 

@@ -4,7 +4,7 @@ class Table extends Base {
     /* 
     * Create a table
     */
-    function createTable($id) {
+    function createTable($cn, $tableId) {
 
         // General Declaration        
         $db = "";
@@ -21,6 +21,7 @@ class Table extends Base {
         $rows = "";
         $checked = "";
         $radio = "";
+        $TB_EVENT = 5;
 
         try {
 
@@ -34,12 +35,12 @@ class Table extends Base {
                                         $this->getUser(), 
                                         $this->getLanguage());
             // Get table structure
-            $tableDef = $sqlBuilder->getTableDef("json");
+            $tableDef = $sqlBuilder->getTableDef($cn, "json");
 
             // Get data
             $filter = new Filter();
-            $sql = $sqlBuilder->getQuery($filter->create());
-            $data = $db->queryJson($sql);
+            $sql = $sqlBuilder->getQuery($cn, $tableId, $filter->create());
+            $data = $db->queryJson($cn, $sql);
 
             // Render html table
             $cols = $element->createTableHeader("");
@@ -72,9 +73,9 @@ class Table extends Base {
             $html .= "<br>";
             $filter = new Filter();
             $filter->add("tb_event", "id_target", 1);
-            $filter->add("tb_event", "id_table", $id);
-            $sql = $sqlBuilder->getQuery(5, $filter->create());
-            $data = $db->queryJson($sql); 
+            $filter->add("tb_event", "id_table", $tableId);
+            $sql = $sqlBuilder->getQuery($cn, $TB_EVENT, $filter->create());
+            $data = $db->queryJson($cn, $sql); 
             
             foreach ($data as $item) {
                 $html .= $element->createButton($item["label"], 
