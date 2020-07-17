@@ -7,13 +7,11 @@
 
     // General declaration
     $db = "";
+    $cn = "";
     $tableDef = "";
     $sqlBuilder = "";
     $jsonUtil = "";
-    $json = "{}";
-    $output = "";
-    $tableName = "";
-    $data = "";
+    $tableData = "{}";
 
     // Core code
     try {
@@ -35,16 +33,31 @@
             $tableName = $item["table_name"];
             $fieldName = $item["field_name"];
             $fieldValue = $_REQUEST[$fieldName];
-            $json = $jsonUtil->setValue($json, $fieldName, $fieldValue);
+            $tableData = $jsonUtil->setValue($tableData, $fieldName, $fieldValue);
         }
 
-        $json = $_REQUEST["_FORM_DATA_"];
+        // Open connection
+        $cn = $db->getConnection();
+
+        // Open transaction
+        pg_query($cn, "begin");
+
+        // Open transaction
+        pg_query($cn, "commit");        
 
     } catch (Exception $ex) {        
-        $html = '{"status":"fail", "error":' . $ex->getMessage() . '}';
+
+        // Open transaction
+        pg_query($cn, "rollback");
+
     } finally {
 
+        // Close connection
+        if ($cn) {
+            pg_close($cn); 
+        }
     }
 
-    echo $json;
+    // Return results
+    echo $tableData;
 ?>

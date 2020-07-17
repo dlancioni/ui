@@ -1,11 +1,13 @@
 <?php
     class Db extends Base {
 
+        public $connection = "";
+
         function __construct() {
+            $connection = $this->getConnection();
         }
 
         public function getConnection() {
-            $connection = "";
             try {
                 $connection = pg_connect("postgres://qqbzxiqr:EmiJvVhFJGxDEKJoV6yK9A6o2G5pkmR9@tuffi.db.elephantsql.com:5432/qqbzxiqr");
                 $error = pg_last_error($connection);
@@ -62,24 +64,21 @@
             return json_decode($json, true);
         }        
 
-        public function persist() {
-
-            // General Declaration
-            $db = "";
-            $conn = "";
-
+        public function persist($connection) {
+            
+            // General declaration
+           
             try {
                 // Get connection
-                $conn = $this->getConnection();
                 $this->setError("", "");
-    
+   
                 // Open transaction
-                pg_query($conn, "begin");
+                pg_query($connection, "begin");
         
                 // Execute statement            
                 $result = pg_query($conn, "insert into tb (ds) values ('abcde') returning id;");
                 if (!$result) {
-                    throw new Exception(pg_last_error($conn));
+                    throw new Exception(pg_last_error($connection));
                 }
 
                 // Get inserted ID
@@ -88,12 +87,12 @@
                 }               
         
                 // Commit transaction
-                pg_query($conn, "commit");        
+                pg_query($connection, "commit");        
     
             } catch (Exception $ex) {
     
                 // Undo transaction    
-                pg_query($conn, "rollback");
+                pg_query($connection, "rollback");
 
                 // Keep last error
                 $this->setError("Persist.Insert()", $ex->getMessage());
