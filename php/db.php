@@ -64,42 +64,44 @@
             return json_decode($json, true);
         }        
 
-        public function persist($connection) {
+        public function persist($cn, $action, $table, $data) {
             
-            // General declaration
-           
+           // General declaration
+           $sql = "";
+           $rs = "";
+
             try {
-                // Get connection
+
+                // Reset values
+                $this->setLastId(0);
                 $this->setError("", "");
-   
-                // Open transaction
-                pg_query($connection, "begin");
+
+                // Prepare string
+                switch ($action) {
+                    case "I":
+                        $sql = "insert into $table (field) values ('$data') returning id";
+                        break;
+                }
         
                 // Execute statement            
-                $result = pg_query($conn, "insert into tb (ds) values ('abcde') returning id;");
-                if (!$result) {
+                $rs = pg_query($cn, $sql);
+                if (!$rs) {
                     throw new Exception(pg_last_error($connection));
                 }
 
                 // Get inserted ID
-                while ($row = pg_fetch_array($result)) {
+                while ($row = pg_fetch_array($rs)) {
                     $this->setLastId($row['id']);
-                }               
-        
-                // Commit transaction
-                pg_query($connection, "commit");        
+                }
     
             } catch (Exception $ex) {
-    
-                // Undo transaction    
-                pg_query($connection, "rollback");
 
                 // Keep last error
                 $this->setError("Persist.Insert()", $ex->getMessage());
-    
-            } finally {
-                pg_close($conn); 
             }
+            
+            // Return ID
+            return $this->getLastId();
         }        
 
     } // End of class

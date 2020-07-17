@@ -6,6 +6,7 @@
     include "include.php";
 
     // General declaration
+    $id = 0;
     $db = "";
     $cn = "";
     $tableDef = "";
@@ -41,6 +42,9 @@
 
         // Open transaction
         pg_query($cn, "begin");
+
+        // Persist info
+        $id = $db->persist($cn, "I", $tableName, $tableData);
 
         // Open transaction
         pg_query($cn, "commit");        
