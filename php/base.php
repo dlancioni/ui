@@ -10,6 +10,9 @@
         private $error = "";
         private $lastId = 0;
 
+        // Other
+        private $event = 0;
+
         // Constructor
         function __construct($systemId, $tableId, $userId, $languageId) {
             $this->setSystem($systemId);
@@ -60,6 +63,14 @@
         function getLastId() {
             return $this->lastId;
         }
+
+        // Event
+        public function getEvent() {
+            return $this->event;
+        }
+        public function setEvent($event) {
+            $this->event = $event;
+        }        
 
     }
 ?>

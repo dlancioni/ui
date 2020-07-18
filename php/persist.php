@@ -18,8 +18,11 @@
     try {
 
         // DB interface
-        $db = new Db();
+        $db = new Db();       
         $jsonUtil = new JsonUtil();
+
+        // Open connection
+        $cn = $db->getConnection();        
 
         // Keep instance of SqlBuilder for current session
         $sqlBuilder = new SqlBuilder($_SESSION["_SYSTEM_"], 
@@ -27,7 +30,7 @@
                                      $_SESSION["_USER_"], 
                                      $_SESSION["_LANGUAGE_"]);
         // Get table structure
-        $tableDef = $sqlBuilder->getTableDef("json");
+        $tableDef = $sqlBuilder->getTableDef($cn, "json");
 
         // Generate json to be persisted
         foreach($tableDef as $item) {
@@ -37,14 +40,14 @@
             $tableData = $jsonUtil->setValue($tableData, $fieldName, $fieldValue);
         }
 
-        // Open connection
-        $cn = $db->getConnection();
-
         // Open transaction
         pg_query($cn, "begin");
 
         // Persist info
-        $id = $db->persist($cn, "I", $tableName, $tableData);
+        $db->setSystem($_SESSION["_SYSTEM_"]);
+        $db->setLastId($_SESSION["_ID_"]);
+        $db->setEvent($_SESSION["_EVENT_"]);
+        $id = $db->persist($cn, $tableName, $tableData);
 
         // Open transaction
         pg_query($cn, "commit");        
@@ -63,5 +66,5 @@
     }
 
     // Return results
-    echo $tableData;
+    echo $db->getError();
 ?>

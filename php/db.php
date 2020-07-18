@@ -3,7 +3,7 @@
 
         /* 
          * Constructor mandatory as extends base
-         */        
+         */
         function __construct() {
         }
 
@@ -91,25 +91,40 @@
         /* 
          * Persist data
          */        
-        public function persist($cn, $action, $table, $data) {
+        public function persist($cn, $tableName, $data) {
             
            // General declaration
            $sql = "";
            $rs = "";
+           $event = $this->getEvent();
+           $jsonUtil = new jsonUtil();
+
+            // Reset values
+            $this->setError("", "");
 
             try {
 
-                // Reset values
-                $this->setLastId(0);
-                $this->setError("", "");
-
                 // Prepare string
-                switch ($action) {
-                    case "I":
-                        $sql = "insert into $table (field) values ('$data') returning id";
+                switch (strtoupper($event)) {
+                    case "NEW":
+                        $sql = "insert into $tableName (field) values ('$data') returning id";
                         break;
+                    case "EDIT":
+                        $sql .= " update $tableName set field = '$data'";
+                        $sql .= " where " . $jsonUtil->condition($tableName, "id", "int", "=", $this->getLastId());
+                        if ($tableName != "tb_system") {
+                            $sql .= " and " . $jsonUtil->condition($tableName, "id_system", "int", "=", $this->getSystem());
+                        }
+                        break;
+                    case "DELETE":
+                        $sql .= " delete from $tableName";
+                        $sql .= " where " . $jsonUtil->condition($tableName, "id", "int", "=", $this->getLastId());                        
+                        if ($tableName != "tb_system") {
+                            $sql .= " and " . $jsonUtil->condition($tableName, "id_system", "int", "=", $this->getSystem());
+                        }
+                        break;                        
                 }
-        
+
                 // Execute statement            
                 $rs = pg_query($cn, $sql);
                 if (!$rs) {

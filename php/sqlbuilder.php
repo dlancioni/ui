@@ -198,6 +198,8 @@ class SqlBuilder extends Base {
                                                          "int", 
                                                          "=", 
                                                          $this->getSystem());
+            } else {
+                $sql = " where 1 = 1";
             }
 
         } catch (Exception $ex) {

@@ -25,11 +25,13 @@
     // Current format (table or form)
     if (isset($_REQUEST["_FORMAT_"])) {
         $format = $_REQUEST["_FORMAT_"];
+        $_SESSION['_FORMAT_'] = $format;
     }
 
     // Current event (new, save, delete)
     if (isset($_REQUEST["_EVENT_"])) {
         $event = $_REQUEST["_EVENT_"];
+        $_SESSION['_EVENT_'] = $event;
     }
 
 ?>
