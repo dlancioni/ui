@@ -16,14 +16,26 @@
          * Add a simple integer condition
          */
         function add($tableName, $fieldName, $fieldValue) {
+
+            // General declaration
+            $fieldType = "int";
             $jsonUtil = new JsonUtil();
+
+            // Handle non-numeric values
+            if (is_numeric($fieldValue) == false) {
+                $fieldType = "text";
+            }
+
+            // Create criteria
             $json = "";
             $json = $jsonUtil->setValue($json, "table", $tableName);
             $json = $jsonUtil->setValue($json, "field", $fieldName);
-            $json = $jsonUtil->setValue($json, "type", "int");
+            $json = $jsonUtil->setValue($json, "type", $fieldType);
             $json = $jsonUtil->setValue($json, "operator", "=");
             $json = $jsonUtil->setValue($json, "value", $fieldValue);
             $json = $jsonUtil->setValue($json, "mask", "");
+
+            // Add to be generated
             array_push($this->condition, $json);
         }
 

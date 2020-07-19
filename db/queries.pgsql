@@ -55,33 +55,9 @@ and (tb_field.field->>'id_table')::int = 3
 order by tb_field.id
 */
 
-select
-tb_field.id,
-(tb_field.field->>'id_system')::int as id_system,
-(tb_table.field->>'name')::text as table_name,
-(tb_field.field->>'label')::text as field_label,
-(tb_field.field->>'name')::text as field_name,
-(tb_field.field->>'id_type')::int as field_type,
-(tb_field.field->>'size')::int as field_size,
-(tb_field.field->>'mask')::text as field_mask,
-(tb_field.field->>'id_mandatory')::int as field_mandatory,
-(tb_field.field->>'id_unique')::int as field_unique,
-(tb_field.field->>'id_table_fk')::int as id_fk,
-(tb_table_fk.field->>'name')::text as table_fk,
-(tb_field_fk.field->>'name')::text as field_fk,
-(tb_field.field->>'domain')::text as field_domain,
-case 
-    when (tb_field.field->>'id_type')::int = 1 then 'int'
-    when (tb_field.field->>'id_type')::int = 2 then 'float'
-    when (tb_field.field->>'id_type')::int = 3 then 'text'
-    when (tb_field.field->>'id_type')::int = 4 then 'date'
-    when (tb_field.field->>'id_type')::int = 5 then 'boolean'
-end data_type  
-from tb_field
-inner join tb_table on (tb_field.field->>'id_table')::int = tb_table.id
-left join tb_table tb_table_fk on (tb_field.field->>'id_table_fk')::int = tb_table_fk.id
-left join tb_field tb_field_fk on (tb_field.field->>'id_field_fk')::int = tb_field_fk.id
-where (tb_field.field->>'id_system')::int = 1
-and (tb_field.field->>'id_table')::int = 5
-order by tb_field.id
 
+select tb_domain.id, (tb_domain.field->>'key')::text as key, (tb_domain.field->>'value')::text as value, (tb_domain.field->>'domain')::text as domain 
+from tb_domain 
+where (tb_domain.field->>'id_system')::int = 1 
+and (tb_domain.field->>'domain')::text = 'tb_table_type' 
+order by tb_domain.id

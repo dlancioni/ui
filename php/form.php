@@ -51,8 +51,10 @@ class Form extends Base {
                 $html .= "<br>";                
             }
 
+            // Create base form
             $html .= `<form id="form1">`;            
             foreach($tableDef as $item) {
+
                 // Keep data
                 $fk = $item["id_fk"];
                 $fieldLabel = $item["field_label"];
@@ -61,19 +63,27 @@ class Form extends Base {
                     $fieldValue = $col[$fieldName];
                     break;
                 }
-                $html .= $element->createLabel($fieldLabel, $fieldName);
+                
                 // Create fields
+                $html .= $element->createLabel($fieldLabel, $fieldName);
+
                 if ($fk == 0) {
                     $html .= $element->createTextbox($fieldName, $fieldValue, "");
                 } else {
+
                     if ($fk == 4) {
                         $key = "key";
                         $value = "value";
-                    } else {
+
+                        $filter = new Filter();
+                        $filter->add("tb_domain", "domain", $item["field_domain"]);                        
+                    } else {                        
                         $key = "id";
                         $value = $item["field_fk"];
+                        $filter = new Filter();                        
                     }
-                    $sql = $sqlBuilder->getQuery($cn, $fk);
+
+                    $sql = $sqlBuilder->getQuery($cn, $fk, $filter->create());
                     $dataFk = $db->queryJson($cn, $sql);
                     $html .= $element->createDropdown($fieldName, 
                                                       $fieldValue, 

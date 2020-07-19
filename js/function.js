@@ -11,7 +11,7 @@ function go(table=0, style=1, event=0) {
 /*
  * Save current form
  */
-function save() {
+function confirm() {
     let info = "";
     let data = "";
     let httpService = new HTTPService();
