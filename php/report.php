@@ -45,6 +45,7 @@ class Table extends Base {
 
             // Render html table
             $cols = $element->createTableHeader("");
+            $cols .= $element->createTableHeader("Id");
             foreach ($tableDef as $item) {
                 $fieldLabel = $item["field_label"];
                 $cols .= $element->createTableHeader($fieldLabel);
@@ -59,6 +60,7 @@ class Table extends Base {
                 $cols == "" ? $checked = "checked" : $checked = "";
                 $radio = $element->createRadio("selection", $row["id"], $checked);
                 $cols = $element->createTableCol($radio);
+                $cols .= $element->createTableCol($row["id"]);
 
                 // Create data contents                
                 foreach ($tableDef as $col) {
