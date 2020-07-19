@@ -72,6 +72,7 @@ class SqlBuilder extends Base {
 
         // Get table structure and related information
         $sql = $this->getSqlTableDef();
+        error_log($sql);
 
         // Execute query and return data
         try {           
@@ -110,6 +111,7 @@ class SqlBuilder extends Base {
             pg_result_seek($tableDef, 0);
             $row = pg_fetch_row($tableDef);
             $sql .= "select " . trim($row[$this->TABLE_NAME]) . ".id";
+
             // Generate select list            
             pg_result_seek($tableDef, 0);
             while ($row = pg_fetch_row($tableDef)) {
