@@ -21,7 +21,7 @@ class Table extends Base {
         $rows = "";
         $checked = "";
         $radio = "";
-        $TB_EVENT = 5;
+        $fk = 0;
 
         try {
 
@@ -41,6 +41,7 @@ class Table extends Base {
             $filter = new Filter();
             $sql = $sqlBuilder->getQuery($cn, $tableId, $filter->create());
             $data = $db->queryJson($cn, $sql);
+            error_log($sql);
 
             // Render html table
             $cols = $element->createTableHeader("");
@@ -53,16 +54,29 @@ class Table extends Base {
             // Prepare table contents
             $cols = "";
             foreach ($data as $row) {
-                $cols == "" ? $checked = "checked" : $checked = "";
-                $radio = $element->createRadio("selection", 
-                                               $row["id"], 
-                                               $checked);
 
+                // Create radio for selection
+                $cols == "" ? $checked = "checked" : $checked = "";
+                $radio = $element->createRadio("selection", $row["id"], $checked);
                 $cols = $element->createTableCol($radio);
+
+                // Create data contents                
                 foreach ($tableDef as $col) {
+
+                    // Keep info
+                    $tableFk = $col["table_fk"];
+                    $fieldFk = $col["field_fk"];
                     $fieldName = $col["field_name"];
-                    $cols .= $element->createTableCol($row[$fieldName]);
+                    $fk = $col["id_fk"];
+
+                    // Print right fields
+                    if ($fk == 0) {
+                        $cols .= $element->createTableCol($row[$fieldName]);
+                    } else {
+                        $cols .= $element->createTableCol($row[substr($fieldName, 3)]);
+                    }
                 }
+
                 $rows .= $element->createTableRow($cols);
             }
 
@@ -70,26 +84,13 @@ class Table extends Base {
             $html .= $element->createTable($rows);
 
             // Get events (buttons)
-            $html .= "<br>";
-            $filter = new Filter();
-            $filter->add("tb_event", "id_target", 1);
-            $filter->add("tb_event", "id_table", $tableId);
-            $sql = $sqlBuilder->getQuery($cn, $TB_EVENT, $filter->create());
-            $data = $db->queryJson($cn, $sql); 
-            
-            foreach ($data as $item) {
-                $html .= $element->createButton($item["label"], 
-                                                $item["label"], 
-                                                $item["id_event"],
-                                                $item["code"]);
-            }
+            $html .= $element->createEvent($cn, $sqlBuilder, $tableId, 1);
 
         } catch (Exception $ex) {
             $html = '{"status":"fail", "error":' . $ex->getMessage() . '}';
-        } finally {
-                
         }
 
+        // Return report        
         return $html;
     }
 }

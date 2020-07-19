@@ -65,7 +65,7 @@
                 $html .= ">";
 
                 // Empty item
-                $html .= '<option value="0">Selecionar</option>';
+                $html .= '<option value="0">Select</option>';
 
                 // Add options
                 foreach($data as $item) {
@@ -75,7 +75,7 @@
                     $value = $item[$fieldValue];
 
                     // Handle selected
-                    if ($value == $selectedValue) {
+                    if ($key == $selectedValue) {
                         $selected = "selected";
                     } else {
                         $selected = "";
@@ -192,6 +192,46 @@
             }
             return $html;            
         }
+
+        /* 
+         * Get page events
+         */
+        public function createEvent($cn, $sqlBuilder, $tableId, $format) {
+
+            // General Declaration
+            $sql = "";
+            $data = "";
+            $html = "";
+            $filter = "";
+            $stringUtil = "";
+            $TB_EVENT = 5;
+
+            try {
+
+                // Create instances
+                $db = new Db();
+                $stringUtil = new StringUtil();
+
+                // Get events (buttons)
+                $html .= "<br>";
+                $filter = new Filter();
+                $filter->add("tb_event", "id_target", $format);
+                $filter->add("tb_event", "id_table", $tableId);
+                $sql = $sqlBuilder->getQuery($cn, $TB_EVENT, $filter->create());
+                $data = $db->queryJson($cn, $sql); 
+                
+                foreach ($data as $item) {
+                    $html .= $this->createButton($item["name"], 
+                                                 $item["label"], 
+                                                 $item["event"],
+                                                 $item["code"]);
+                }                
+            } catch (Exception $ex) {
+                throw $ex;
+            }
+            return $html;            
+        }
+
     // End of class
     }
 ?>

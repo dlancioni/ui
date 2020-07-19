@@ -44,20 +44,41 @@ case
     when (tb_field.field->>'id_type')::int = 2 then 'float'
     when (tb_field.field->>'id_type')::int = 3 then 'text'
     when (tb_field.field->>'id_type')::int = 4 then 'date'
-    when (tb_field.field->>'id_type')::int = 5 then 'boolean'
+    when (tb_field.field->>'id_type')::int = 5 then 'int'
 end data_type  
 from tb_field
 inner join tb_table on (tb_field.field->>'id_table')::int = tb_table.id
 left join tb_table tb_table_fk on (tb_field.field->>'id_table_fk')::int = tb_table_fk.id
 left join tb_field tb_field_fk on (tb_field.field->>'id_field_fk')::int = tb_field_fk.id
 where (tb_field.field->>'id_system')::int = 1
-and (tb_field.field->>'id_table')::int = 3
+and (tb_field.field->>'id_table')::int = 5
 order by tb_field.id
 */
 
 
-select tb_domain.id, (tb_domain.field->>'key')::text as key, (tb_domain.field->>'value')::text as value, (tb_domain.field->>'domain')::text as domain 
-from tb_domain 
-where (tb_domain.field->>'id_system')::int = 1 
-and (tb_domain.field->>'domain')::text = 'tb_table_type' 
-order by tb_domain.id
+select tb_field.id , (tb_field.field->>'id_table')::int as id_table, 
+(tb_table_id_table.field->>'name')::text as table, 
+(tb_field.field->>'label')::text as label, 
+(tb_field.field->>'name')::text as name, 
+(tb_field.field->>'id_type')::text as id_type, 
+(tb_field_type_id_type.field->>'value')::text as type, 
+(tb_field.field->>'size')::int as size, 
+(tb_field.field->>'mask')::text as mask, 
+(tb_field.field->>'id_mandatory')::int as id_mandatory, 
+(tb_bool_id_mandatory.field->>'value')::text as mandatory, 
+(tb_field.field->>'id_unique')::int as id_unique, 
+(tb_bool_id_unique.field->>'value')::text as unique, 
+(tb_field.field->>'id_table_fk')::int as id_table_fk, 
+(tb_table_id_table_fk.field->>'name')::text as table_fk, 
+(tb_field.field->>'id_field_fk')::int as id_field_fk, 
+(tb_field_id_field_fk.field->>'name')::text as field_fk, 
+(tb_field.field->>'domain')::text as domain 
+from tb_field left join tb_table tb_table_id_table on (tb_field.field->>'id_table')::int = tb_table_id_table.id 
+inner join tb_domain tb_field_type_id_type on (tb_field.field->>'id_type')::text = (tb_field_type_id_type.field->>'key')::text 
+and (tb_field_type_id_type.field->>'domain')::text = 'tb_field_type' 
+inner join tb_domain tb_bool_id_mandatory on (tb_field.field->>'id_mandatory')::text = (tb_bool_id_mandatory.field->>'key')::text 
+and (tb_bool_id_mandatory.field->>'domain')::text = 'tb_bool' 
+inner join tb_domain tb_bool_id_unique on (tb_field.field->>'id_unique')::text = (tb_bool_id_unique.field->>'key')::text and (tb_bool_id_unique.field->>'domain')::text = 'tb_bool' 
+left join tb_table tb_table_id_table_fk on (tb_field.field->>'id_table_fk')::int = tb_table_id_table_fk.id 
+left join tb_field tb_field_id_field_fk on (tb_field.field->>'id_field_fk')::int = tb_field_id_field_fk.id 
+where (tb_field.field->>'id_system')::int = 1 order by tb_field.id

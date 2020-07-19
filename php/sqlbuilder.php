@@ -113,27 +113,35 @@ class SqlBuilder extends Base {
             // Generate select list            
             pg_result_seek($tableDef, 0);
             while ($row = pg_fetch_row($tableDef)) {
-                $fk = $row[$this->FIELD_ID_FK];
+
+                // Keep info
+                $sql .= ", ";
                 $tableName = $row[$this->TABLE_NAME];
                 $fieldName = $row[$this->FIELD_NAME];
                 $fieldType = $row[$this->DATA_TYPE];
                 $fieldDomain = $row[$this->FIELD_DOMAIN];
                 $tableFk = $row[$this->TABLE_FK];
+                $fieldFk = $row[$this->FIELD_FK];
+                $fk = $row[$this->FIELD_ID_FK];
                 $fieldAlias = "";
-                $sql .= ", ";
 
+                // Create dropdown                
                 if ($fk == 0) {
                     $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias);
                 } else if ($fk == $this->SYSTEM_DOMAIN) {
+                    $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias);
+                    $sql .= ", ";
+                    $fieldAlias = substr($fieldName, 3);
                     $tableName = $fieldDomain . "_" . $fieldName;
-                    $fieldAlias = $fieldName;
                     $fieldName = "value";
                     $fieldType = "text";
                     $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias);
                 } else {
+                    $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias);
+                    $sql .= ", ";
+                    $fieldAlias = substr($fieldName, 3);                    
                     $tableName = $tableFk . "_" . $fieldName;
-                    $fieldAlias = $fieldName;
-                    $fieldName = "name";
+                    $fieldName = $fieldFk;
                     $fieldType = "text";
                     $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias);
                 }                
@@ -269,7 +277,7 @@ class SqlBuilder extends Base {
             when (tb_field.field->>'id_type')::int = 2 then 'float'
             when (tb_field.field->>'id_type')::int = 3 then 'text'
             when (tb_field.field->>'id_type')::int = 4 then 'date'
-            when (tb_field.field->>'id_type')::int = 5 then 'boolean'
+            when (tb_field.field->>'id_type')::int = 5 then 'int'
         end data_type  
         from tb_field
         inner join tb_table on (tb_field.field->>'id_table')::int = tb_table.id

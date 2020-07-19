@@ -77,8 +77,8 @@ insert into tb_field (field) values ('{"id_system":1,"id_table":3,"label":"Name"
 insert into tb_field (field) values ('{"id_system":1,"id_table":3,"label":"Type","name":"id_type","id_type":3,"size":0,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":4,"id_field_fk":20,"domain":"tb_field_type"}');
 insert into tb_field (field) values ('{"id_system":1,"id_table":3,"label":"Size","name":"size","id_type":1,"size":0,"mask":"","id_mandatory":2,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
 insert into tb_field (field) values ('{"id_system":1,"id_table":3,"label":"Mask","name":"mask","id_type":3,"size":50,"mask":"","id_mandatory":2,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
-insert into tb_field (field) values ('{"id_system":1,"id_table":3,"label":"Mandatory","name":"id_mandatory","id_type":5,"size":0,"mask":"","id_mandatory":2,"id_unique":2,"id_table_fk":4,"id_field_fk":20,"domain":"tb_bool"}');
-insert into tb_field (field) values ('{"id_system":1,"id_table":3,"label":"Unique","name":"id_unique","id_type":5,"size":0,"mask":"","id_mandatory":2,"id_unique":2,"id_table_fk":4,"id_field_fk":20,"domain":"tb_bool"}');
+insert into tb_field (field) values ('{"id_system":1,"id_table":3,"label":"Mandatory","name":"id_mandatory","id_type":1,"size":0,"mask":"","id_mandatory":2,"id_unique":2,"id_table_fk":4,"id_field_fk":20,"domain":"tb_bool"}');
+insert into tb_field (field) values ('{"id_system":1,"id_table":3,"label":"Unique","name":"id_unique","id_type":1,"size":0,"mask":"","id_mandatory":2,"id_unique":2,"id_table_fk":4,"id_field_fk":20,"domain":"tb_bool"}');
 insert into tb_field (field) values ('{"id_system":1,"id_table":3,"label":"Table Fk","name":"id_table_fk","id_type":1,"size":0,"mask":"","id_mandatory":2,"id_unique":2,"id_table_fk":2,"id_field_fk":5,"domain":""}');
 insert into tb_field (field) values ('{"id_system":1,"id_table":3,"label":"Field Fk","name":"id_field_fk","id_type":1,"size":0,"mask":"","id_mandatory":2,"id_unique":2,"id_table_fk":3,"id_field_fk":10,"domain":""}');
 insert into tb_field (field) values ('{"id_system":1,"id_table":3,"label":"Domain","name":"domain","id_type":3,"size":50,"mask":"","id_mandatory":2,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
@@ -87,7 +87,7 @@ insert into tb_field (field) values ('{"id_system":1,"id_table":4,"label":"Key",
 insert into tb_field (field) values ('{"id_system":1,"id_table":4,"label":"Value","name":"value","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
 insert into tb_field (field) values ('{"id_system":1,"id_table":4,"label":"Domain","name":"domain","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
 -- tb_event
-insert into tb_field (field) values ('{"id_system":1,"id_table":3,"label":"Name","name":"name","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
+insert into tb_field (field) values ('{"id_system":1,"id_table":5,"label":"Name","name":"name","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
 insert into tb_field (field) values ('{"id_system":1,"id_table":5,"label":"Target","name":"id_target","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":4,"id_field_fk":20,"domain":"tb_target"}');
 insert into tb_field (field) values ('{"id_system":1,"id_table":5,"label":"Table","name":"id_table","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":2,"id_field_fk":5,"domain":""}');
 insert into tb_field (field) values ('{"id_system":1,"id_table":5,"label":"Field","name":"id_field","id_type":1,"size":0,"mask":"","id_mandatory":2,"id_unique":2,"id_table_fk":3,"id_field_fk":3,"domain":""}');
@@ -115,7 +115,6 @@ insert into tb_domain (field) values ('{"id_system":1,"key":1,"value":"Inteiro",
 insert into tb_domain (field) values ('{"id_system":1,"key":2,"value":"Decimal","domain":"tb_field_type"}');
 insert into tb_domain (field) values ('{"id_system":1,"key":3,"value":"Texto","domain":"tb_field_type"}');
 insert into tb_domain (field) values ('{"id_system":1,"key":4,"value":"Data","domain":"tb_field_type"}');
-insert into tb_domain (field) values ('{"id_system":1,"key":5,"value":"Booleano","domain":"tb_field_type"}');
 -- tb_event
 insert into tb_domain (field) values ('{"id_system":1,"key":1,"value":"onload","domain":"tb_event"}');
 insert into tb_domain (field) values ('{"id_system":1,"key":2,"value":"onClick","domain":"tb_event"}');
@@ -133,29 +132,57 @@ insert into tb_event (field) values ('{"id_system":1,"name":"new","id_target":1,
 insert into tb_event (field) values ('{"id_system":1,"name":"edit","id_target":1,"id_table":1,"id_field":0,"label":"Edit","id_event":2,"code":"go(1,2,''edit'')"}');
 insert into tb_event (field) values ('{"id_system":1,"name":"delete","id_target":1,"id_table":1,"id_field":0,"label":"Delete","id_event":2,"code":"go(1,2,''delete'')"}');
 insert into tb_event (field) values ('{"id_system":1,"name":"save","id_target":2,"id_table":1,"id_field":0,"label":"Confirm","id_event":2,"code":"confirm()"}');
-insert into tb_event (field) values ('{"id_system":1,"name":"back","id_target":2,"id_table":1,"id_field":0,"label":"Back","id_event":2,"code":"go(1,1,''back'')"}');
 insert into tb_event (field) values ('{"id_system":1,"name":"filter","id_target":1,"id_table":1,"id_field":0,"label":"Filter","id_event":2,"code":"go(1,2,''filter'')"}');
 insert into tb_event (field) values ('{"id_system":1,"name":"clear","id_target":2,"id_table":1,"id_field":0,"label":"Clear","id_event":2,"code":"clear()"}');
+insert into tb_event (field) values ('{"id_system":1,"name":"back","id_target":2,"id_table":1,"id_field":0,"label":"Back","id_event":2,"code":"go(1,1,''back'')"}');
 
 -- tb_table
 insert into tb_event (field) values ('{"id_system":1,"name":"new","id_target":1,"id_table":2,"id_field":0,"label":"New","id_event":2,"code":"go(2,2,''new'')"}');
 insert into tb_event (field) values ('{"id_system":1,"name":"edit","id_target":1,"id_table":2,"id_field":0,"label":"Edit","id_event":2,"code":"go(2,2,''edit'')"}');
 insert into tb_event (field) values ('{"id_system":1,"name":"delete","id_target":1,"id_table":2,"id_field":0,"label":"Delete","id_event":2,"code":"go(2,2,''delete'')"}');
 insert into tb_event (field) values ('{"id_system":1,"name":"save","id_target":2,"id_table":2,"id_field":0,"label":"Confirm","id_event":2,"code":"confirm()"}');
-insert into tb_event (field) values ('{"id_system":1,"name":"back","id_target":2,"id_table":2,"id_field":0,"label":"Back","id_event":2,"code":"go(2,1,''back'')"}');
 insert into tb_event (field) values ('{"id_system":1,"name":"filter","id_target":1,"id_table":2,"id_field":0,"label":"Filter","id_event":2,"code":"go(2,2,''filter'')"}');
 insert into tb_event (field) values ('{"id_system":1,"name":"clear","id_target":2,"id_table":2,"id_field":0,"label":"Clear","id_event":2,"code":"clear()"}');
+insert into tb_event (field) values ('{"id_system":1,"name":"back","id_target":2,"id_table":2,"id_field":0,"label":"Back","id_event":2,"code":"go(2,1,''back'')"}');
 
 -- tb_field
+insert into tb_event (field) values ('{"id_system":1,"name":"new","id_target":1,"id_table":3,"id_field":0,"label":"New","id_event":2,"code":"go(3,2,''new'')"}');
+insert into tb_event (field) values ('{"id_system":1,"name":"edit","id_target":1,"id_table":3,"id_field":0,"label":"Edit","id_event":2,"code":"go(3,2,''edit'')"}');
+insert into tb_event (field) values ('{"id_system":1,"name":"delete","id_target":1,"id_table":3,"id_field":0,"label":"Delete","id_event":2,"code":"go(3,2,''delete'')"}');
+insert into tb_event (field) values ('{"id_system":1,"name":"save","id_target":2,"id_table":3,"id_field":0,"label":"Confirm","id_event":2,"code":"confirm()"}');
+insert into tb_event (field) values ('{"id_system":1,"name":"filter","id_target":1,"id_table":3,"id_field":0,"label":"Filter","id_event":2,"code":"go(3,2,''filter'')"}');
+insert into tb_event (field) values ('{"id_system":1,"name":"clear","id_target":2,"id_table":3,"id_field":0,"label":"Clear","id_event":2,"code":"clear()"}');
+insert into tb_event (field) values ('{"id_system":1,"name":"back","id_target":2,"id_table":3,"id_field":0,"label":"Back","id_event":2,"code":"go(3,1,''back'')"}');
 
--- tb_field
+-- tb_domain
+insert into tb_event (field) values ('{"id_system":1,"name":"new","id_target":1,"id_table":4,"id_field":0,"label":"New","id_event":2,"code":"go(4,2,''new'')"}');
+insert into tb_event (field) values ('{"id_system":1,"name":"edit","id_target":1,"id_table":4,"id_field":0,"label":"Edit","id_event":2,"code":"go(4,2,''edit'')"}');
+insert into tb_event (field) values ('{"id_system":1,"name":"delete","id_target":1,"id_table":4,"id_field":0,"label":"Delete","id_event":2,"code":"go(4,2,''delete'')"}');
+insert into tb_event (field) values ('{"id_system":1,"name":"save","id_target":2,"id_table":4,"id_field":0,"label":"Confirm","id_event":2,"code":"confirm()"}');
+insert into tb_event (field) values ('{"id_system":1,"name":"filter","id_target":1,"id_table":4,"id_field":0,"label":"Filter","id_event":2,"code":"go(4,2,''filter'')"}');
+insert into tb_event (field) values ('{"id_system":1,"name":"clear","id_target":2,"id_table":4,"id_field":0,"label":"Clear","id_event":2,"code":"clear()"}');
+insert into tb_event (field) values ('{"id_system":1,"name":"back","id_target":2,"id_table":4,"id_field":0,"label":"Back","id_event":2,"code":"go(4,1,''back'')"}');
 
 -- tb_event
+insert into tb_event (field) values ('{"id_system":1,"name":"new","id_target":1,"id_table":5,"id_field":0,"label":"New","id_event":2,"code":"go(5,2,''new'')"}');
+insert into tb_event (field) values ('{"id_system":1,"name":"edit","id_target":1,"id_table":5,"id_field":0,"label":"Edit","id_event":2,"code":"go(5,2,''edit'')"}');
+insert into tb_event (field) values ('{"id_system":1,"name":"delete","id_target":1,"id_table":5,"id_field":0,"label":"Delete","id_event":2,"code":"go(5,2,''delete'')"}');
+insert into tb_event (field) values ('{"id_system":1,"name":"save","id_target":2,"id_table":5,"id_field":0,"label":"Confirm","id_event":2,"code":"confirm()"}');
+insert into tb_event (field) values ('{"id_system":1,"name":"filter","id_target":1,"id_table":5,"id_field":0,"label":"Filter","id_event":2,"code":"go(5,2,''filter'')"}');
+insert into tb_event (field) values ('{"id_system":1,"name":"clear","id_target":2,"id_table":5,"id_field":0,"label":"Clear","id_event":2,"code":"clear()"}');
+insert into tb_event (field) values ('{"id_system":1,"name":"back","id_target":2,"id_table":5,"id_field":0,"label":"Back","id_event":2,"code":"go(5,1,''back'')"}');
 
 -- tb_code
+insert into tb_event (field) values ('{"id_system":1,"name":"new","id_target":1,"id_table":6,"id_field":0,"label":"New","id_event":2,"code":"go(6,2,''new'')"}');
+insert into tb_event (field) values ('{"id_system":1,"name":"edit","id_target":1,"id_table":6,"id_field":0,"label":"Edit","id_event":2,"code":"go(6,2,''edit'')"}');
+insert into tb_event (field) values ('{"id_system":1,"name":"delete","id_target":1,"id_table":6,"id_field":0,"label":"Delete","id_event":2,"code":"go(6,2,''delete'')"}');
+insert into tb_event (field) values ('{"id_system":1,"name":"save","id_target":2,"id_table":6,"id_field":0,"label":"Confirm","id_event":2,"code":"confirm()"}');
+insert into tb_event (field) values ('{"id_system":1,"name":"filter","id_target":1,"id_table":6,"id_field":0,"label":"Filter","id_event":2,"code":"go(6,2,''filter'')"}');
+insert into tb_event (field) values ('{"id_system":1,"name":"clear","id_target":2,"id_table":6,"id_field":0,"label":"Clear","id_event":2,"code":"clear()"}');
+insert into tb_event (field) values ('{"id_system":1,"name":"back","id_target":2,"id_table":6,"id_field":0,"label":"Back","id_event":2,"code":"go(6,1,''back'')"}');
 
 -- tb_login
-insert into tb_event (field) values ('{"id_system":1,"id_target":2,"id_table":7,"id_field":0,"label":"Login","id_event":2,"code":"login()"}');
+insert into tb_event (field) values ('{"id_system":1,"name":"login","id_target":2,"id_table":7,"id_field":0,"label":"Login","id_event":2,"code":"login()"}');
 
 -- -----------------------------------------------------
 -- table tb_code

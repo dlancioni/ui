@@ -22,7 +22,6 @@ class Form extends Base {
         $tableName = "";
         $key = "";
         $value = "";
-        $TB_EVENT = 5;
 
         try {
 
@@ -98,25 +97,13 @@ class Form extends Base {
             $html .= `</form>`;
 
             // Get events (buttons)
-            $html .= "<br>";
-            $filter = new Filter();
-            $filter->add("tb_event", "id_target", 2);
-            $filter->add("tb_event", "id_table", $tableId);
-            $sql = $sqlBuilder->getQuery($cn, $TB_EVENT, $filter->create());
-            $data = $db->queryJson($cn, $sql); 
-            
-            foreach ($data as $item) {
-                $html .= $element->createButton($item["label"], 
-                                                $item["label"], 
-                                                $item["id_event"],
-                                                $item["code"]);
-            }
+            $html .= $element->createEvent($cn, $sqlBuilder, $tableId, 2);
 
         } catch (Exception $ex) {
             $html = '{"status":"fail", "error":' . $ex->getMessage() . '}';
-        } finally {
-                
         }
+
+        // Return form
         return $html;
     }
 }
