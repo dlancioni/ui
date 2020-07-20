@@ -28,8 +28,5 @@ from tb_table
 */
  
 
-select tb_table.id, (tb_table.field->>'id_system')::int as id_system, (tb_system_id_system.field->>'name')::text as system, (tb_table.field->>'name')::text as name, (tb_table.field->>'id_type')::int as id_type, (tb_table_type_id_type.field->>'value')::text as type, (tb_table.field->>'title')::text as title from tb_table left join tb_system tb_system_id_system on (tb_table.field->>'id_system')::int = tb_system_id_system.id inner join tb_domain tb_table_type_id_type on (tb_table.field->>'id_type')::text = (tb_table_type_id_type.field->>'key')::text and (tb_table_type_id_type.field->>'domain')::text = 'tb_table_type' 
-where (tb_table.field->>'id_system')::int = 1 and (tb_table.field->>'id_system')::int = 1 
-and (tb_table.field->>'name')::text = 3 and (tb_table.field->>'id_type')::int = 1 
-and (tb_table.field->>'title')::text = 3 
-order by tb_table.id
+select tb_field.id, (tb_field.field->>'id_table')::int as id_table, (tb_table_id_table.field->>'name')::text as table, (tb_field.field->>'label')::text as label, (tb_field.field->>'name')::text as name, (tb_field.field->>'id_type')::int as id_type, (tb_field_type_id_type.field->>'value')::text as type, (tb_field.field->>'size')::int as size, (tb_field.field->>'mask')::text as mask, (tb_field.field->>'id_mandatory')::int as id_mandatory, (tb_bool_id_mandatory.field->>'value')::text as mandatory, (tb_field.field->>'id_unique')::int as id_unique, (tb_bool_id_unique.field->>'value')::text as unique, (tb_field.field->>'id_table_fk')::int as id_table_fk, (tb_table_id_table_fk.field->>'name')::text as table_fk, (tb_field.field->>'id_field_fk')::int as id_field_fk, (tb_field_id_field_fk.field->>'name')::text as field_fk, (tb_field.field->>'domain')::text as domain from tb_field left join tb_table tb_table_id_table on (tb_field.field->>'id_table')::int = tb_table_id_table.id 
+inner join tb_domain tb_field_type_id_type 

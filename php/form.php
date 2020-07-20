@@ -73,7 +73,6 @@ class Form extends Base {
                     if ($fk == 4) {
                         $key = "key";
                         $value = "value";
-
                         $filter = new Filter();
                         $filter->add("tb_domain", "domain", $item["field_domain"]);                        
                     } else {                        
