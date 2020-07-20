@@ -4,7 +4,7 @@ class Form extends Base {
     /* 
     * Create new form
     */
-    function createForm($cn, $tableId, $id=0) {
+    function createForm($cn, $tableId, $id=0, $request) {
 
         // General Declaration
         $db = "";

@@ -32,11 +32,11 @@
         // Render page
         if ($tableId > 0) {
             if ($format == 1) {
-                $report = new Table($systemId, $tableId, $userId, $languageId);
-                $html .= $report->createTable($cn, $tableId);
+                $report = new Report($systemId, $tableId, $userId, $languageId);
+                $html .= $report->createReport($cn, $tableId, $_REQUEST, $event);
             } else {
                 $form = new Form($systemId, $tableId, $userId, $languageId);
-                $html .= $form->createForm($cn, $tableId, $id);
+                $html .= $form->createForm($cn, $tableId, $id, $_REQUEST);
             }
         }
 

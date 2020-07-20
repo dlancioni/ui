@@ -12,10 +12,16 @@ function go(table=0, format=1, event="") {
  * Save current form
  */
 function confirm() {
+
     let info = "";
-    let httpService = new HTTPService();
-    info = httpService.persist(getFormData());
-    alert(info);
+
+    if (valueOf("_EVENT_") == "filter") {
+        go(valueOf("_TABLE_"), 1, valueOf("_EVENT_"));
+    } else {
+        let httpService = new HTTPService();
+        info = httpService.persist(getFormData());
+        alert(info);
+    }
 }
 
 /*
@@ -25,4 +31,11 @@ function getFormData() {
     let form = document.getElementById('form1');
     let formData = new URLSearchParams(new FormData(form)).toString();
     return formData;
+}
+
+/*
+ * Read html element
+ */
+function valueOf(element) {
+    return document.getElementById(element).value;
 }

@@ -1,10 +1,10 @@
 <?php
-class Table extends Base {
+class Report extends Base {
 
     /* 
     * Create a table
     */
-    function createTable($cn, $tableId) {
+    function createReport($cn, $tableId, $formData, $event) {
 
         // General Declaration        
         $db = "";
@@ -37,8 +37,13 @@ class Table extends Base {
             // Get table structure
             $tableDef = $sqlBuilder->getTableDef($cn, "json");
 
-            // Get data
+            // Apply filter
             $filter = new Filter();
+            if ($event == "filter") {
+                $filter->setFilter($tableDef, $formData);
+            }
+
+            // Get data
             $sql = $sqlBuilder->getQuery($cn, $tableId, $filter->create());
             $data = $db->queryJson($cn, $sql);
             error_log($sql);

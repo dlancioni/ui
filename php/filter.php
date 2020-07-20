@@ -13,6 +13,37 @@
         }
 
         /*
+         * Create condition based on current form 
+         */        
+        function setFilter($tableDef, $formData) {
+
+            // General Declaration
+            $fieldName = "";
+            $fieldValue = "";
+
+            // Create filter
+            foreach ($tableDef as $item) {
+
+                // Get key fields
+                $fieldName = $item["field_name"];
+                if (isset($formData[$fieldName])) {
+                    $fieldValue = $formData[$fieldName];
+                }
+
+                // Add condition
+                if (trim($fieldValue) != "" && trim($fieldValue) != "0") {
+                    $this->addCondition($item["table_name"], 
+                                        $item["field_name"], 
+                                        $item["data_type"], 
+                                        "=",
+                                        $fieldValue,
+                                        $item["field_mask"]);
+                }
+
+            }            
+        }
+
+        /*
          * Add a simple integer condition
          */
         function add($tableName, $fieldName, $fieldValue) {
@@ -42,7 +73,7 @@
         /*
          * Add a complex condition
          */        
-        function add1($tableName = "", $fieldName = "", $fieldValue = "", $fieldType = "", $fieldOperator = "", $fieldMask = "") {
+        function addCondition($tableName="", $fieldName="", $fieldType="", $fieldOperator="", $fieldValue="", $fieldMask="") {
             $jsonUtil = new JsonUtil();
             $json = "";
             $json = $jsonUtil->setValue($json, "table", $tableName);

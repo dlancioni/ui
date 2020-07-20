@@ -21,9 +21,9 @@ include "php/session.php";
     </div>    
 </div>
 
-<input type="hidden" id="_TABLE_" name="_TABLE_" value="">
-<input type="hidden" id="_FORMAT_" name="_FORMAT_" value="">
-<input type="hidden" id="_EVENT_" name="_EVENT_" value="">
+<input type="hidden" id="_TABLE_" name="_TABLE_" value="<?php echo $tableId; ?>">
+<input type="hidden" id="_FORMAT_" name="_FORMAT_" value="<?php echo $format; ?>">
+<input type="hidden" id="_EVENT_" name="_EVENT_" value="<?php echo $event; ?>">
 
 <script src="js/httpservice.js"></script>
 <script src="js/function.js"></script>
