@@ -40,6 +40,9 @@
             $tableData = $jsonUtil->setValue($tableData, $fieldName, $fieldValue);
         }
 
+        // Reset id_system 
+        $tableData = $jsonUtil->setValue($tableData, "id_system", $_SESSION["_SYSTEM_"]);
+
         // Open transaction
         pg_query($cn, "begin");
 

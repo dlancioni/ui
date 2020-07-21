@@ -39,3 +39,10 @@ function getFormData() {
 function valueOf(element) {
     return document.getElementById(element).value;
 }
+
+/*
+ * Concatenate single quote ('')
+ */
+function sqt(value) {
+    return "'" + value.trim() + "'";
+}

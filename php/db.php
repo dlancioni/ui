@@ -102,6 +102,9 @@
             // Reset values
             $this->setError("", "");
 
+            // Handle invalid chars
+            $data = str_replace("'", "''", $data);
+
             try {
 
                 // Prepare string
