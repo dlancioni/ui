@@ -5,10 +5,10 @@ class HTTPService {
     }
 
     // Query Data
-    query(data="") {
+    query(sql) {
 
         // General declaration
-        let url = "./php/query.php?data=" + data;
+        let url = "./php/query.php?sql=" + sql;
 
         // Just call it
         var xmlhttp = new XMLHttpRequest();

@@ -57,3 +57,6 @@ left join tb_table tb_table_id_table_fk on (tb_field.field->>'id_table_fk')::int
 left join tb_field tb_field_id_field_fk on (tb_field.field->>'id_field_fk')::int = tb_field_id_field_fk.id 
 --where (tb_field.field->>'id_system')::int = 1 
 order by tb_field.id
+
+
+

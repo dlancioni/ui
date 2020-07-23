@@ -46,3 +46,41 @@ function valueOf(element) {
 function sqt(value) {
     return "'" + value.trim() + "'";
 }
+
+/*
+ * Concatenate single quote ('')
+ */
+function query(sql) {
+    let httpService = new HTTPService();
+    info = httpService.query(sql);
+    return info;
+}
+
+/*
+ * Concatenate single quote ('')
+ */
+function list(table, key, value, domain='') {
+
+    // General Declaration
+    let sql = "";
+    let rs = "";
+
+    try {
+
+        // Create query to fill dropdown        
+        sql += ' select';
+        sql += ' id as key,'; 
+        sql += " field->>'label' as value"; 
+        sql += ' from tb_field'; 
+        sql += " where field->>'id_table' = '3'"
+        rs = query(sql);
+
+        return rs;
+        
+
+    } catch (ex) {
+
+    }
+}
+
+alert(list('tb_field', 'id', 'label', domain=''));
