@@ -31,14 +31,16 @@ class SqlBuilder extends Base {
     /*
      * Return query based on mapping
      */
-    public function getQuery($cn, $tableId=0, $filter="[]") {
+    public function getQuery($cn, $table="", $filter="[]") {
         // General Declaration
         $sql = "";
         $tableDef = "";
         try {
             // Handle table as parameter
-            if ($tableId > 0) {
-                $this->setTable($tableId);
+            if ($table != "") {
+                if (is_numeric($table)) {
+                    $this->setTable(intval($table));
+                }
             }
             // Get table structure
             $tableDef = $this->getTableDef($cn, "rs");
