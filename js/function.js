@@ -83,4 +83,4 @@ function list(table, key, value, domain='') {
     }
 }
 
-alert(list('tb_field', 'id', 'label', domain=''));
+//alert(list('tb_field', 'id', 'label', domain=''));
