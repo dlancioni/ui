@@ -1,12 +1,18 @@
 <?php
 
-include "../src/class_util.php";
-
-$filter = new Filter();
-
-$filter->add("tb1", "id", "0");
-
-echo $filter->create();
-
-
 ?>
+
+
+<script>
+
+let filter = 
+[
+    {"table":"tb_table", "field":"id", "type":"int", "operator":"=", "value":"123", "mask":""}
+]
+
+filter.push({"table":"tb_table", "field":"id", "type":"int", "operator":"=", "value":"123", "mask":""});
+
+alert(filter.length);
+alert(JSON.stringify(filter))
+
+</script>
