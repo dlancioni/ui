@@ -6,7 +6,7 @@ class Report extends Base {
     */
     function createReport($cn, $tableId, $formData, $event) {
 
-        // General Declaration        
+        // General Declaration
         $db = "";
         $html = "";
         $sqlBuilder = "";

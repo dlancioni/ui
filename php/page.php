@@ -21,13 +21,11 @@
 
         // Create objects
         $db = new Db();
-        $menu = new Menu();
-
-        // Open connection
         $cn = $db->getConnection();        
 
         // Get menu    
-        $html .= $menu->createMenu();
+        $menu = new Menu($systemId, $tableId, $userId, $languageId);        
+        $html .= $menu->createMenu($cn);
 
         // Render page
         if ($tableId > 0) {
