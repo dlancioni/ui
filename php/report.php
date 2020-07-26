@@ -87,6 +87,9 @@ class Report extends Base {
                 $rows .= $element->createTableRow($cols);
             }
 
+            // Create page title
+            $html .= $element->createPageTitle($tableDef[0]["title"]);
+
             // Create final table
             $html .= $element->createTable($rows);
 

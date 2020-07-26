@@ -98,6 +98,9 @@ class Form extends Base {
                 $rows .= $element->createTableRow($cols);
             }
 
+            // Create page title
+            $html .= $element->createPageTitle($tableDef[0]["title"]);
+
             // Finalize form
             $html .= $element->createForm("form1", $element->createTable($rows));
 

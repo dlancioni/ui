@@ -15,18 +15,19 @@ class SqlBuilder extends Base {
     private $ID = 0;
     private $SYSTEM_ID = 1;
     private $TABLE_NAME = 2;
-    private $FIELD_LABEL = 3;
-    private $FIELD_NAME = 4;
-    private $FIELD_TYPE = 5;
-    private $FIELD_SIZE = 6;
-    private $FIELD_MASK = 7;
-    private $FIELD_MANDATORY = 8;
-    private $FIELD_UNIQUE = 9;
-    private $FIELD_ID_FK = 10;
-    private $TABLE_FK = 11;
-    private $FIELD_FK = 12;
-    private $FIELD_DOMAIN = 13;
-    private $DATA_TYPE = 14;
+    private $TABLE_TITLE = 3;
+    private $FIELD_LABEL = 4;
+    private $FIELD_NAME = 5;
+    private $FIELD_TYPE = 6;
+    private $FIELD_SIZE = 7;
+    private $FIELD_MASK = 8;
+    private $FIELD_MANDATORY = 9;
+    private $FIELD_UNIQUE = 10;
+    private $FIELD_ID_FK = 11;
+    private $TABLE_FK = 12;
+    private $FIELD_FK = 13;
+    private $FIELD_DOMAIN = 14;
+    private $DATA_TYPE = 15;
 
     /*
      * Return query based on mapping
@@ -266,6 +267,7 @@ class SqlBuilder extends Base {
         $sql .= " tb_field.id,";
         $sql .= " (tb_field.field->>'id_system')::int as id_system,";
         $sql .= " (tb_table.field->>'name')::text as table_name,";
+        $sql .= " (tb_table.field->>'title')::text as title,";
         $sql .= " (tb_field.field->>'label')::text as field_label,";
         $sql .= " (tb_field.field->>'name')::text as field_name,";
         $sql .= " (tb_field.field->>'id_type')::int as field_type,";
@@ -276,7 +278,7 @@ class SqlBuilder extends Base {
         $sql .= " (tb_field.field->>'id_table_fk')::int as id_fk,";
         $sql .= " (tb_table_fk.field->>'name')::text as table_fk,";
         $sql .= " (tb_field_fk.field->>'name')::text as field_fk,";
-        $sql .= " (tb_field.field->>'domain')::text as field_domain,";
+        $sql .= " (tb_field.field->>'domain')::text as field_domain,";        
         $sql .= " case ";
         $sql .= " when (tb_field.field->>'id_type')::int = 1 then 'int'";
         $sql .= " when (tb_field.field->>'id_type')::int = 2 then 'float'";

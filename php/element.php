@@ -246,6 +246,20 @@
             return $html;            
         }
 
+          /* 
+         * Create page title
+         */
+        public function createPageTitle($value) {
+            $html = "";
+            $stringUtil = new StringUtil();
+            try {
+                $html = "<h4>$value</h4>";
+            } catch (Exception $ex) {
+                throw $ex;
+            }
+            return $html;            
+        }      
+
     // End of class
     }
 ?>
