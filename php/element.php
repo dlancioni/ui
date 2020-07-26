@@ -146,7 +146,7 @@
         public function createTable($value) {
             $html = "";
             try {
-                $html = "<table>" . $value . "</table>";
+                $html = "<table>$value</table>";
             } catch (Exception $ex) {
                 throw $ex;
             }
@@ -159,7 +159,7 @@
         public function createTableRow($value) {
             $html = "";
             try {
-                $html = "<tr>" . $value . "</tr>";
+                $html = "<tr>$value</tr>";
             } catch (Exception $ex) {
                 throw $ex;
             }
@@ -172,7 +172,7 @@
         public function createTableHeader($value) {
             $html = "";
             try {
-                $html = "<th>" . $value . "</th>";
+                $html = "<th>$value</th>";
             } catch (Exception $ex) {
                 throw $ex;
             }
@@ -186,12 +186,26 @@
             $html = "";
             $stringUtil = new StringUtil();
             try {
-                $html = "<td>" . $value . "</td>";
+                $html = "<td>$value</td>";
             } catch (Exception $ex) {
                 throw $ex;
             }
             return $html;            
         }
+
+        /* 
+         * Create column
+         */
+        public function createForm($name, $value) {
+            $html = "";
+            $stringUtil = new StringUtil();
+            try {
+                $html = "<form id=$name>$value</td>";
+            } catch (Exception $ex) {
+                throw $ex;
+            }
+            return $html;            
+        }        
 
         /* 
          * Get page events

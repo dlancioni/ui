@@ -22,6 +22,8 @@ class Form extends Base {
         $tableName = "";
         $key = "";
         $value = "";
+        $cols = "";
+        $rows = "";
 
         try {
 
@@ -45,16 +47,16 @@ class Form extends Base {
             $data = $db->queryJson($cn, $sql);
 
             if ($data) {
-                $html .= $element->createLabel("id", "id");
-                $html .= $element->createTextbox("id", $data[0]["id"], "", true);
-                $html .= "<br>";                
+                $cols .= $element->createTableCol($element->createLabel("id", "id"));
+                $cols .= $element->createTableCol($element->createTextbox("id", $data[0]["id"], "", true));
+                $rows .= $element->createTableRow($cols);                
             }
 
             // Create base form
-            $html .= `<form id="form1">`;            
             foreach($tableDef as $item) {
 
                 // Keep data
+                $cols = "";                
                 $fk = $item["id_fk"];
                 $fieldLabel = $item["field_label"];
                 $fieldName = $item["field_name"];
@@ -63,11 +65,12 @@ class Form extends Base {
                     break;
                 }
                 
-                // Create fields
-                $html .= $element->createLabel($fieldLabel, $fieldName);
+                // Add label
+                $cols .= $element->createTableCol($element->createLabel($fieldLabel, $fieldName));
 
+                // Add field (textbox or dropdown)
                 if ($fk == 0) {
-                    $html .= $element->createTextbox($fieldName, $fieldValue, "");
+                    $cols .= $element->createTableCol($element->createTextbox($fieldName, $fieldValue, ""));
                 } else {
 
                     if ($fk == 4) {
@@ -83,17 +86,20 @@ class Form extends Base {
 
                     $sql = $sqlBuilder->getQuery($cn, $fk, $filter->create());
                     $dataFk = $db->queryJson($cn, $sql);
-                    $html .= $element->createDropdown($fieldName, 
-                                                      $fieldValue, 
-                                                      $dataFk, 
-                                                      $key, 
-                                                      $value);
+
+                    $cols .= $element->createTableCol($element->createDropdown($fieldName, 
+                                                                              $fieldValue, 
+                                                                              $dataFk, 
+                                                                              $key, 
+                                                                              $value));
                 }
-                $html .= "<br>";
+
+                // Add current col to rows
+                $rows .= $element->createTableRow($cols);
             }
 
             // Finalize form
-            $html .= `</form>`;
+            $html .= $element->createForm("form1", $element->createTable($rows));
 
             // Get events (buttons)
             $html .= $element->createEvent($cn, $sqlBuilder, $tableId, 2);
