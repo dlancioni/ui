@@ -69,5 +69,10 @@
     }
 
     // Return results
-    echo $db->getError();
+    if ($db->getError() != "") {
+        echo $db->getError();
+    } else {
+        echo $db->getMessage();        
+    }
+
 ?>

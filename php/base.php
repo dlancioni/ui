@@ -8,6 +8,7 @@
 
         // Error Handling
         private $error = "";
+        private $message = "";
         private $lastId = 0;
 
         // Other
@@ -54,6 +55,15 @@
         }
         function getError() {
             return $this->error;
+        }
+
+        // Message handling for success or warning
+        function setMessage($value) {
+            if ($value != "")
+            $this->message = $value;
+        }
+        function getMessage() {
+            return $this->message;
         }
 
         // Last ID

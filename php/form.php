@@ -72,17 +72,23 @@ class Form extends Base {
                 $fk = $item["id_fk"];
                 $fieldLabel = $item["field_label"];
                 $fieldName = $item["field_name"];
+                $fieldType = $item["field_type"];
                 foreach($data as $col) {
                     $fieldValue = $col[$fieldName];
                     break;
                 }
                 
-                // Add label
+                // Add label                
                 $cols .= $element->createTableCol($element->createLabel($fieldLabel, $fieldName));
 
                 // Add field (textbox or dropdown)
                 if ($fk == 0) {
-                    $cols .= $element->createTableCol($element->createTextbox($fieldName, $fieldValue, ""));
+
+                    if ($fieldType == 6) {
+                        $cols .= $element->createTableCol($element->createTextarea($fieldName, $fieldValue));
+                    } else {
+                        $cols .= $element->createTableCol($element->createTextbox($fieldName, $fieldValue, ""));
+                    }
                 } else {
 
                     if ($fk == 4) {

@@ -27,7 +27,7 @@
                 }
 
             } catch (Exception $ex) {
-                $this->setError("Db.getConnection()", $this->getConnection()->error);
+                $this->setError("db.getConnection()", $this->getConnection()->error);
             }
             // Return connection
             return $cn;
@@ -98,9 +98,11 @@
            $rs = "";
            $event = $this->getEvent();
            $jsonUtil = new jsonUtil();
+           $message = "";
 
             // Reset values
             $this->setError("", "");
+            $this->setMessage("");
 
             // Handle invalid chars
             $data = str_replace("'", "''", $data);
@@ -111,6 +113,7 @@
                 switch (strtoupper($event)) {
                     case "NEW":
                         $sql = "insert into $tableName (field) values ('$data') returning id";
+                        $message = "Record successfuly created";
                         break;
                     case "EDIT":
                         $sql .= " update $tableName set field = '$data'";
@@ -118,6 +121,7 @@
                         if ($tableName != "tb_system") {
                             $sql .= " and " . $jsonUtil->condition($tableName, "id_system", "int", "=", $this->getSystem());
                         }
+                        $message = "Record successfuly updated";
                         break;
                     case "DELETE":
                         $sql .= " delete from $tableName";
@@ -125,6 +129,7 @@
                         if ($tableName != "tb_system") {
                             $sql .= " and " . $jsonUtil->condition($tableName, "id_system", "int", "=", $this->getSystem());
                         }
+                        $message = "Record successfuly deleted";                        
                         break;                        
                 }
 
@@ -138,11 +143,15 @@
                 while ($row = pg_fetch_array($rs)) {
                     $this->setLastId($row['id']);
                 }
+
+                // Stamp the ID
+                $message .= " [" . $this->getLastId() . "]";
+                $this->setMessage($message);
     
             } catch (Exception $ex) {
 
                 // Keep last error
-                $this->setError("Persist.Insert()", $ex->getMessage());
+                $this->setError("db.Insert()", $ex->getMessage());
             }
             
             // Return ID

@@ -43,6 +43,27 @@
             }
             return $html;            
         }
+
+        /* 
+         * Create textarea
+         */
+        public function createTextarea($name, $value) {
+            $html = "";
+            $stringUtil = new StringUtil();
+            try {
+                $html .= "<textarea";
+                $html .= " id=" . $stringUtil->dqt($name); 
+                $html .= " name=" . $stringUtil->dqt($name); 
+                $html .= " rows=" . $stringUtil->dqt("10");
+                $html .= " cols=" . $stringUtil->dqt("50");
+                $html .= ">";
+                $html .= $value;
+                $html .= "</textarea>";
+            } catch (Exception $ex) {
+                throw $ex;
+            }
+            return $html;            
+        }        
         
         /* 
          * Create dropdown
