@@ -1,7 +1,7 @@
 /*
  * Navigate to page in table or form format
  */
-function go(table=0, format=1, event="") {
+function Go(table=0, format=1, event="") {
     document.getElementById("_TABLE_").value = table;
     document.getElementById("_FORMAT_").value = format;
     document.getElementById("_EVENT_").value = event;
@@ -11,15 +11,15 @@ function go(table=0, format=1, event="") {
 /*
  * Save current form
  */
-function confirm() {
+function Confirm() {
 
     let info = "";
 
-    if (valueOf("_EVENT_") == "filter") {
-        go(valueOf("_TABLE_"), 1, valueOf("_EVENT_"));
+    if (ValueOf("_EVENT_") == "filter") {
+        Go(ValueOf("_TABLE_"), 1, ValueOf("_EVENT_"));
     } else {
         let httpService = new HTTPService();
-        info = httpService.persist(getFormData());
+        info = httpService.persist(GetFormData());
         alert(info);
     }
 }
@@ -27,7 +27,7 @@ function confirm() {
 /*
  * Read form and return array
  */
-function getFormData() {
+function GetFormData() {
     let form = document.getElementById('form1');
     let formData = new URLSearchParams(new FormData(form)).toString();
     return formData;
@@ -36,7 +36,7 @@ function getFormData() {
 /*
  * Read html element
  */
-function valueOf(element) {
+function ValueOf(element) {
     return document.getElementById(element).value;
 }
 
@@ -81,4 +81,33 @@ function list(table, key, value, domain='') {
     } catch (ex) {
 
     }
+}
+
+/*
+ * Empty form to input new record
+ */
+function FormNew() {
+    document.getElementById("_FORMAT_").value = 2;
+    document.getElementById("_EVENT_").value = "new";
+    document.form1.submit();
+}
+function FormEdit() {
+    document.getElementById("_FORMAT_").value = 2;
+    document.getElementById("_EVENT_").value = "edit";
+    document.form1.submit();
+}
+function FormDelete() {
+    document.getElementById("_FORMAT_").value = 2;
+    document.getElementById("_EVENT_").value = "delete";
+    document.form1.submit();
+}
+function FormFilter() {
+    document.getElementById("_FORMAT_").value = 2;
+    document.getElementById("_EVENT_").value = "filter";
+    document.form1.submit();
+}
+function ReportBack() {
+    document.getElementById("_FORMAT_").value = 1;
+    document.getElementById("_EVENT_").value = 'back';
+    document.form1.submit();
 }
