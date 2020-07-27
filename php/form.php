@@ -4,7 +4,7 @@ class Form extends Base {
     /* 
     * Create new form
     */
-    function createForm($cn, $tableId, $id=0, $request) {
+    function createForm($cn, $tableId, $id=0, $event) {
 
         // General Declaration
         $db = "";
@@ -25,8 +25,17 @@ class Form extends Base {
         $cols = "";
         $rows = "";
         $pageTitle = "";
+        $disabled = "";
 
         try {
+
+            // Handle events
+            if ($event == "Delete") {
+                $disabled = "disabled";
+            }
+            if ($event == "Filter") {
+                $id=0;
+            }            
 
             // DB interface
             $db = new Db();
@@ -59,9 +68,15 @@ class Form extends Base {
             $data = $db->queryJson($cn, $sql);
 
             if ($data) {
+                if ($event != "New") {
+                    $cols .= $element->createTableCol($element->createLabel("id", "id"));
+                    $cols .= $element->createTableCol($element->createTextbox("id", $data[0]["id"], "", $disabled));
+                    $rows .= $element->createTableRow($cols);
+                }
+            } else {
                 $cols .= $element->createTableCol($element->createLabel("id", "id"));
-                $cols .= $element->createTableCol($element->createTextbox("id", $data[0]["id"], "", true));
-                $rows .= $element->createTableRow($cols);                
+                $cols .= $element->createTableCol($element->createTextbox("id", "", "", $disabled));
+                $rows .= $element->createTableRow($cols);
             }
 
             // Create base form
@@ -87,7 +102,7 @@ class Form extends Base {
                     if ($fieldType == 6) {
                         $cols .= $element->createTableCol($element->createTextarea($fieldName, $fieldValue));
                     } else {
-                        $cols .= $element->createTableCol($element->createTextbox($fieldName, $fieldValue, ""));
+                        $cols .= $element->createTableCol($element->createTextbox($fieldName, $fieldValue, "", $disabled));
                     }
                 } else {
 
@@ -106,10 +121,12 @@ class Form extends Base {
                     $dataFk = $db->queryJson($cn, $sql);
 
                     $cols .= $element->createTableCol($element->createDropdown($fieldName, 
-                                                                              $fieldValue, 
-                                                                              $dataFk, 
-                                                                              $key, 
-                                                                              $value));
+                                                                               $fieldValue, 
+                                                                               $dataFk, 
+                                                                               $key, 
+                                                                               $value, 
+                                                                               "",
+                                                                               $disabled));
                 }
 
                 // Add current col to rows

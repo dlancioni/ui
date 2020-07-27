@@ -15,7 +15,7 @@ function Confirm() {
 
     let info = "";
 
-    if (ValueOf("_EVENT_") == "filter") {
+    if (ValueOf("_EVENT_") == "Filter") {
         Go(ValueOf("_TABLE_"), 1, ValueOf("_EVENT_"));
     } else {
         let httpService = new HTTPService();
@@ -57,57 +57,30 @@ function query(sql) {
 }
 
 /*
- * Concatenate single quote ('')
- */
-function list(table, key, value, domain='') {
-
-    // General Declaration
-    let sql = "";
-    let rs = "";
-
-    try {
-
-        // Create query to fill dropdown        
-        sql += ' select';
-        sql += ' id as key,'; 
-        sql += " field->>'label' as value"; 
-        sql += ' from tb_field'; 
-        sql += " where field->>'id_table' = '3'"
-        rs = query(sql);
-
-        return rs;
-        
-
-    } catch (ex) {
-
-    }
-}
-
-/*
  * Empty form to input new record
  */
 function FormNew() {
     document.getElementById("_FORMAT_").value = 2;
-    document.getElementById("_EVENT_").value = "new";
+    document.getElementById("_EVENT_").value = "New";
     document.form1.submit();
 }
 function FormEdit() {
     document.getElementById("_FORMAT_").value = 2;
-    document.getElementById("_EVENT_").value = "edit";
+    document.getElementById("_EVENT_").value = "Edit";
     document.form1.submit();
 }
 function FormDelete() {
     document.getElementById("_FORMAT_").value = 2;
-    document.getElementById("_EVENT_").value = "delete";
+    document.getElementById("_EVENT_").value = "Delete";
     document.form1.submit();
 }
 function FormFilter() {
     document.getElementById("_FORMAT_").value = 2;
-    document.getElementById("_EVENT_").value = "filter";
+    document.getElementById("_EVENT_").value = "Filter";
     document.form1.submit();
 }
 function ReportBack() {
     document.getElementById("_FORMAT_").value = 1;
-    document.getElementById("_EVENT_").value = 'back';
+    document.getElementById("_EVENT_").value = 'Back';
     document.form1.submit();
 }

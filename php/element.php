@@ -47,7 +47,7 @@
         /* 
          * Create textarea
          */
-        public function createTextarea($name, $value) {
+        public function createTextarea($name, $value, $disabled="") {
             $html = "";
             $stringUtil = new StringUtil();
             try {
@@ -56,6 +56,7 @@
                 $html .= " name=" . $stringUtil->dqt($name); 
                 $html .= " rows=" . $stringUtil->dqt("10");
                 $html .= " cols=" . $stringUtil->dqt("50");
+                $html .= " " . $disabled;
                 $html .= ">";
                 $html .= $value;
                 $html .= "</textarea>";
@@ -68,7 +69,7 @@
         /* 
          * Create dropdown
          */
-        public function createDropdown($name, $selectedValue, $data, $fieldKey, $fieldValue, $event="") {
+        public function createDropdown($name, $selectedValue, $data, $fieldKey, $fieldValue, $event="", $disabled="") {
 
             // General declaration
             $html = "";
@@ -83,6 +84,7 @@
                 $html .= "<select";
                 $html .= " id=" . $stringUtil->dqt($name); 
                 $html .= " name=" . $stringUtil->dqt($name);
+                $html .= " " . $disabled;
                 $html .= ">";
 
                 // Empty item

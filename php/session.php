@@ -44,8 +44,7 @@
     }
 
     // Selected record on current module 
-    if (isset($_SESSION["_ID_"])) {
-        $languageId = $_SESSION["_ID_"];
-    }    
-
+    if (isset($_SESSION["_LANGUAGE_"])) {
+        $languageId = $_SESSION["_LANGUAGE_"];
+    }
 ?>

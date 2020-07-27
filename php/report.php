@@ -51,7 +51,7 @@ class Report extends Base {
 
             // Apply filter
             $filter = new Filter();
-            if ($event == "filter") {
+            if ($event == "Filter") {
                 $filter->setFilter($tableDef, $formData);
             }
 

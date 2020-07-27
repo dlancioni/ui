@@ -34,7 +34,7 @@
                 $html .= $report->createReport($cn, $tableId, $_REQUEST, $event);
             } else {
                 $form = new Form($systemId, $tableId, $userId, $languageId);
-                $html .= $form->createForm($cn, $tableId, $id, $_REQUEST);
+                $html .= $form->createForm($cn, $tableId, $id, $event);
             }
         }
 
