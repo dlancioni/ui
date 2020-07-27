@@ -22,6 +22,7 @@ class Report extends Base {
         $checked = "";
         $radio = "";
         $fk = 0;
+        $pageTitle = "";
 
         try {
 
@@ -36,6 +37,17 @@ class Report extends Base {
                                         $this->getLanguage());
             // Get table structure
             $tableDef = $sqlBuilder->getTableDef($cn, "json");
+
+            // No table struct, just present title
+            if (!$tableDef) {
+                $filter = new Filter();
+                $filter->add("tb_table", "id", $tableId);
+                $sql = $sqlBuilder->getQuery($cn, 2, $filter->create());
+                $data = $db->queryJson($cn, $sql);
+                $pageTitle = $data[0]["title"];
+            } else {
+                $pageTitle = $tableDef[0]["title"];
+            }
 
             // Apply filter
             $filter = new Filter();
@@ -88,7 +100,7 @@ class Report extends Base {
             }
 
             // Create page title
-            $html .= $element->createPageTitle($tableDef[0]["title"]);
+            $html .= $element->createPageTitle($pageTitle);
 
             // Create final table
             $html .= $element->createTable($rows);

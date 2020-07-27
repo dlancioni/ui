@@ -24,6 +24,7 @@ class Form extends Base {
         $value = "";
         $cols = "";
         $rows = "";
+        $pageTitle = "";
 
         try {
 
@@ -39,6 +40,17 @@ class Form extends Base {
 
             // Get table structure
             $tableDef = $sqlBuilder->getTableDef($cn, "json");
+
+            // No table struct, just present title
+            if (!$tableDef) {
+                $filter = new Filter();
+                $filter->add("tb_table", "id", $tableId);
+                $sql = $sqlBuilder->getQuery($cn, 2, $filter->create());
+                $data = $db->queryJson($cn, $sql);
+                $pageTitle = $data[0]["title"];
+            } else {
+                $pageTitle = $tableDef[0]["title"];
+            }            
 
             // Get data
             $filter = new Filter();
@@ -77,7 +89,7 @@ class Form extends Base {
                         $key = "key";
                         $value = "value";
                         $filter = new Filter();
-                        $filter->add("tb_domain", "domain", $item["field_domain"]);                        
+                        $filter->add("tb_domain", "domain", $item["field_domain"]);
                     } else {                        
                         $key = "id";
                         $value = $item["field_fk"];
@@ -99,7 +111,7 @@ class Form extends Base {
             }
 
             // Create page title
-            $html .= $element->createPageTitle($tableDef[0]["title"]);
+            $html .= $element->createPageTitle($pageTitle);
 
             // Finalize form
             $html .= $element->createForm("form1", $element->createTable($rows));
