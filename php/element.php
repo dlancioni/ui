@@ -295,7 +295,7 @@
         /* 
          * Create paging
          */
-        public function createPaging($recordCount, $pageSize, $pageNumber) {
+        public function createPaging($recordCount, $pageSize, $pageOffset) {
 
             $x = 0;
             $limit = 5;
@@ -304,21 +304,31 @@
             $totalPages = 0;
             
             try {
+
+                // If paging is enabled
                 if ($pageSize > 0) {
 
                     // Count pages
                     $totalPages = ceil($recordCount / $pageSize);
 
-                    if ($totalPages > $limit) {
-                        $totalPages = $totalPages - $limit;
+                    // Display after two pages
+                    if ($totalPages > 1) {
+
+                        // Calculate things to display
+                        if ($totalPages > $limit) {
+                            $totalPages = $totalPages - $limit;
+                        }
+    
+                        // Create links
+                        for ($i=1; $i<=$totalPages; $i++) {
+    
+                            // Calculate offset
+                            $pageOffset = (($i-1) * $pageSize);
+    
+                            // Define function call                        
+                            $html .= "<a onClick='paging($pageOffset);'>$i </a>";
+                        }
                     }
-
-                    // Create links
-                    for ($i=1; $i<=$totalPages; $i++) {
-                        $html .= $i . " ";
-                    }
-
-
                 }
 
             } catch (Exception $ex) {

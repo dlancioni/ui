@@ -14,7 +14,8 @@
     $tableId = 0; 
     $userId = 0; 
     $languageId = 0;
-    $filter = "[]";    
+    $filter = "[]"; 
+    $pageOffset = 0;
 
     // Session attributes    
     $_SESSION["_SYSTEM_"] = 1;

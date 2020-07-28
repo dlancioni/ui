@@ -84,3 +84,11 @@ function ReportBack() {
     document.getElementById("_EVENT_").value = 'Back';
     document.form1.submit();
 }
+
+/*
+ * Paging effect
+ */
+function paging(pageOffset) {
+    document.getElementById("_PAGING_").value = pageOffset;
+    document.form1.submit();
+}

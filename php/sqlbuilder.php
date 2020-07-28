@@ -5,7 +5,7 @@ class SqlBuilder extends Base {
      * Paging
      */
     public $PageSize = 0;
-    public $PageNumber = 0;
+    public $PageOffset = 0;
 
     /*
      * System definition
@@ -327,8 +327,8 @@ class SqlBuilder extends Base {
             }
 
             // Page Offset
-            if ($this->PageNumber > 0) {
-                $sql .= " offset $this->PageNumber";
+            if ($this->PageOffset > 0) {
+                $sql .= " offset $this->PageOffset";
             }
 
         } catch (Exception $ex) {

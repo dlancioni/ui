@@ -13,7 +13,7 @@ class Report extends Base {
     /* 
     * Create a table
     */
-    function createReport($tableId, $event, $formData) {
+    function createReport($tableId, $event, $pageOffset, $formData) {
 
         // General Declaration
         $html = "";
@@ -59,7 +59,7 @@ class Report extends Base {
 
             // Paging
             $this->sqlBuilder->PageSize = 5;
-            $this->sqlBuilder->PageNumber = $this->sqlBuilder->PageSize * 0;
+            $this->sqlBuilder->PageOffset = $pageOffset;
             $data = $this->sqlBuilder->Query($this->cn, $tableId, $filter->create());
             if ($data) {
                 $recordCount = $data[0]["record_count"];
@@ -113,7 +113,7 @@ class Report extends Base {
             // Get events (buttons)
             $html .= $element->createPaging($recordCount, 
                                             $this->sqlBuilder->PageSize, 
-                                            $this->sqlBuilder->PageNumber);
+                                            $this->sqlBuilder->PageOffset);
         } catch (Exception $ex) {
             $html = '{"status":"fail", "error":' . $ex->getMessage() . '}';
         }

@@ -37,4 +37,10 @@
         $_SESSION['_ID_'] = $id;
     }
 
+    // Current event (new, save, delete)
+    if (isset($_REQUEST["_PAGING_"])) {
+        $pageOffset = $_REQUEST["_PAGING_"];
+    }
+
+
 ?>
