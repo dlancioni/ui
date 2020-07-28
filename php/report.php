@@ -31,10 +31,11 @@ class Report extends Base {
         $radio = "";
         $fk = 0;
         $pageTitle = "";
+        $recordCount = 0;
 
         try {
 
-            // DB interface
+            // Create object instances
             $element = new HTMLElement($this->cn, $this->sqlBuilder);
 
             // Get table structure
@@ -56,10 +57,13 @@ class Report extends Base {
                 $filter->setFilter($tableDef, $formData);
             }
 
-            // Paging    
-            $this->sqlBuilder->PageSize = 20;
-            $this->sqlBuilder->PageNumber = $this->sqlBuilder->PageSize * 2;
+            // Paging
+            $this->sqlBuilder->PageSize = 5;
+            $this->sqlBuilder->PageNumber = $this->sqlBuilder->PageSize * 0;
             $data = $this->sqlBuilder->Query($this->cn, $tableId, $filter->create());
+            if ($data) {
+                $recordCount = $data[0]["record_count"];
+            }
 
             // Render html table
             $cols = $element->createTableHeader("");
@@ -107,8 +111,9 @@ class Report extends Base {
             $html .= $element->createTable($rows);
 
             // Get events (buttons)
-            $html .= $element->createEvent($tableId, 1);
-
+            $html .= $element->createPaging($recordCount, 
+                                            $this->sqlBuilder->PageSize, 
+                                            $this->sqlBuilder->PageNumber);
         } catch (Exception $ex) {
             $html = '{"status":"fail", "error":' . $ex->getMessage() . '}';
         }

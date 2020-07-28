@@ -67,9 +67,6 @@ class SqlBuilder extends Base {
                 $this->setError("db.queryJson()", pg_last_error($cn));
             } finally {
                 
-                // Reset paging info
-                $this->PageSize = 0;
-                $this->PageNumber = 0;
             }
 
             // Handle empty json

@@ -133,9 +133,6 @@ class Form extends Base {
             // Finalize form
             $html .= $element->createForm("form1", $element->createTable($rows));
 
-            // Get events (buttons)
-            $html .= $element->createEvent($tableId, 2);
-
         } catch (Exception $ex) {
             $html = '{"status":"fail", "error":' . $ex->getMessage() . '}';
         }

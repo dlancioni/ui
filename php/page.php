@@ -30,6 +30,7 @@
 
         // Create page or form
         $sqlBuilder = new SqlBuilder($systemId, $tableId, $userId, $languageId);
+        $element = new HTMLElement($cn, $sqlBuilder);        
 
         if ($tableId > 0) {
             if ($format == 1) {
@@ -40,6 +41,9 @@
                 $html .= $form->createForm($tableId, $id, $event);
             }
         }
+
+        // Get events (buttons)
+        $html .= $element->createEvent($tableId, $format);
 
     } catch (Exception $ex) {        
         

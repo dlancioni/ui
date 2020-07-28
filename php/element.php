@@ -292,6 +292,43 @@
             return $html;            
         }      
 
+        /* 
+         * Create paging
+         */
+        public function createPaging($recordCount, $pageSize, $pageNumber) {
+
+            $x = 0;
+            $limit = 5;
+            $html = "";
+            $stringUtil = new StringUtil();
+            $totalPages = 0;
+            
+            try {
+                if ($pageSize > 0) {
+
+                    // Count pages
+                    $totalPages = ceil($recordCount / $pageSize);
+
+                    if ($totalPages > $limit) {
+                        $totalPages = $totalPages - $limit;
+                    }
+
+                    // Create links
+                    for ($i=1; $i<=$totalPages; $i++) {
+                        $html .= $i . " ";
+                    }
+
+
+                }
+
+            } catch (Exception $ex) {
+                throw $ex;
+            }
+            return $html;            
+        }
+
+
+
     // End of class
     }
 ?>
