@@ -33,6 +33,8 @@ class Report extends Base {
         $pageTitle = "";
         $recordCount = 0;
 
+        $PAGE_SIZE = 20;
+
         try {
 
             // Create object instances
@@ -58,7 +60,7 @@ class Report extends Base {
             }
 
             // Paging
-            $this->sqlBuilder->PageSize = 5;
+            $this->sqlBuilder->PageSize = $PAGE_SIZE;
             $this->sqlBuilder->PageOffset = $pageOffset;
             $data = $this->sqlBuilder->Query($this->cn, $tableId, $filter->create());
             if ($data) {
