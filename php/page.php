@@ -21,11 +21,14 @@
 
         // Create objects
         $db = new Db();
-        $cn = $db->getConnection();        
+        $cn = $db->getConnection();
+
+        // Keep instance of SqlBuilder for current session
+        $sqlBuilder = new SqlBuilder($systemId, $tableId, $userId, $languageId);
 
         // Get menu    
-        $menu = new Menu($systemId, $tableId, $userId, $languageId);        
-        $html .= $menu->createMenu($cn);
+        $menu = new Menu($cn, $sqlBuilder);
+        $html .= $menu->createMenu();
 
         // Render page
         if ($tableId > 0) {

@@ -1,28 +1,29 @@
 <?php
     class Menu extends Base {
+
+
+        private $cn = 0;
+        private $sqlBuilder = 0;
+
+        // Constructor
+        function __construct($cn, $sqlBuilder) {
+            $this->cn = $cn;
+            $this->sqlBuilder = $sqlBuilder;
+        }
+
         /*
          * Create main menu
          */        
-        public function createMenu($cn) {
+        public function createMenu() {
 
             // General Declaration            
             $html = "";
 
             try {
 
-                // DB interface
-                $db = new Db();
-
-                // Keep instance of SqlBuilder for current session
-                $sqlBuilder = new SqlBuilder($this->getSystem(), 
-                                            $this->getTable(), 
-                                            $this->getUser(), 
-                                            $this->getLanguage());
-
                 // Get data
                 $filter = new Filter();
-                $sql = $sqlBuilder->getQuery($cn, 2, $filter->create());
-                $data = $db->queryJson($cn, $sql);
+                $data = $this->sqlBuilder->Query($this->cn, 2, $filter->create());
 
                 // Create main menu
                 foreach ($data as $row) {

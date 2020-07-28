@@ -29,10 +29,51 @@ class SqlBuilder extends Base {
     private $FIELD_DOMAIN = 14;
     private $DATA_TYPE = 15;
 
+        /* 
+         * Query and return json
+         */
+        public function Query($cn, $table="", $filter="[]") {
+
+            // General Declaration
+            $rs = "";
+            $json = "";
+            $query = "";
+            $sql = "";
+
+            try {
+
+                // Get query
+                $query = $this->getQuery($cn, $table, $filter);
+
+                // Transform results to json
+                $sql = "select json_agg(t) from (" . $query . ") t";
+
+                // Execute query
+                $rs = pg_query($cn, $sql);
+                $this->setError("", "");
+
+                // Return data
+                while ($row = pg_fetch_row($rs)) {
+                    $json = $row[0];
+                    break;
+                }
+            } catch (exception $ex) {                
+                $this->setError("db.queryJson()", pg_last_error($cn));
+            }
+
+            // Handle empty json
+            if (!$json) {
+                $json = "[]";
+            }
+
+            // Return rs as json
+            return json_decode($json, true);
+        }     
+
     /*
      * Return query based on mapping
      */
-    public function getQuery($cn, $table="", $filter="[]") {
+    public function getQuery($cn, $table, $filter) {
         // General Declaration
         $sql = "";
         $tableDef = "";
@@ -300,6 +341,9 @@ class SqlBuilder extends Base {
         // Return final query    
         return $sql;
     }
+
+
+
 
 
 } // End of class
