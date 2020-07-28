@@ -2,6 +2,12 @@
 class SqlBuilder extends Base {
 
     /*
+     * Paging
+     */
+    public $PageSize = 0;
+    public $PageNumber = 0;
+
+    /*
      * System definition
      */
     private $SYSTEM_SYSTEM = 1;
@@ -59,6 +65,11 @@ class SqlBuilder extends Base {
                 }
             } catch (exception $ex) {                
                 $this->setError("db.queryJson()", pg_last_error($cn));
+            } finally {
+                
+                // Reset paging info
+                $this->PageSize = 0;
+                $this->PageNumber = 0;
             }
 
             // Handle empty json
@@ -97,7 +108,10 @@ class SqlBuilder extends Base {
             // Get condition
             $sql .= $this->getCondition($filter);
             // Get ordering
-            $sql .= $this->getOrderBy($tableDef);             
+            $sql .= $this->getOrderBy($tableDef);
+            // Paging control
+            $sql .= $this->getPaging($tableDef);
+
         } catch (Exception $ex) {
             $this->setError("QueryBuilder.query()", $ex->getMessage());
         }
@@ -154,7 +168,9 @@ class SqlBuilder extends Base {
             // Get id            
             pg_result_seek($tableDef, 0);
             $row = pg_fetch_row($tableDef);
-            $sql .= "select " . trim($row[$this->TABLE_NAME]) . ".id";
+            $sql .= "select ";
+            $sql .= trim($row[$this->TABLE_NAME]) . ".id,";
+            $sql .= "count(*) over() as record_count";
 
             // Generate select list            
             pg_result_seek($tableDef, 0);
@@ -299,7 +315,30 @@ class SqlBuilder extends Base {
             $this->setError("QueryBuilder.getOrderBy()", $ex->getMessage());
         }
         return $sql;
-    }    
+    }
+
+    /*
+     * Get paging
+     */
+    private function getPaging($tableDef) {
+        $sql = "";
+        try {
+
+            // Page size
+            if ($this->PageSize > 0) {
+                $sql .= " limit $this->PageSize";
+            }
+
+            // Page Offset
+            if ($this->PageNumber > 0) {
+                $sql .= " offset $this->PageNumber";
+            }
+
+        } catch (Exception $ex) {
+            $this->setError("QueryBuilder.getOrderBy()", $ex->getMessage());
+        }
+        return $sql;
+    }        
 
     private function getSqlTableDef() {
         
@@ -335,8 +374,6 @@ class SqlBuilder extends Base {
         $sql .= " where (tb_field.field->>'id_system')::int = " . $this->getSystem();
         $sql .= " and (tb_field.field->>'id_table')::int = " . $this->getTable();
         $sql .= " order by tb_field.id";                
-
-        error_log($sql);
 
         // Return final query    
         return $sql;

@@ -13,7 +13,7 @@ class Report extends Base {
     /* 
     * Create a table
     */
-    function createReport($tableId, $formData, $event) {
+    function createReport($tableId, $event, $formData) {
 
         // General Declaration
         $html = "";
@@ -55,6 +55,10 @@ class Report extends Base {
             if ($event == "Filter") {
                 $filter->setFilter($tableDef, $formData);
             }
+
+            // Paging    
+            $this->sqlBuilder->PageSize = 20;
+            $this->sqlBuilder->PageNumber = $this->sqlBuilder->PageSize * 2;
             $data = $this->sqlBuilder->Query($this->cn, $tableId, $filter->create());
 
             // Render html table

@@ -34,7 +34,7 @@
         if ($tableId > 0) {
             if ($format == 1) {
                 $report = new Report($cn, $sqlBuilder);
-                $html .= $report->createReport($tableId, $_REQUEST, $event);
+                $html .= $report->createReport($tableId, $event, $_REQUEST);
             } else {
                 $form = new Form($cn, $sqlBuilder);
                 $html .= $form->createForm($tableId, $id, $event);
