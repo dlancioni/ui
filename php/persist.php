@@ -29,16 +29,22 @@
                                      $_SESSION["_TABLE_"], 
                                      $_SESSION["_USER_"], 
                                      $_SESSION["_LANGUAGE_"]);
+
         // Get table structure
         $tableDef = $sqlBuilder->getTableDef($cn, "json");
-
-        // Generate json to be persisted
+           
+        // Read form
         foreach($tableDef as $item) {
+
             $tableName = $item["table_name"];
             $fieldName = $item["field_name"];
-            $fieldValue = $_REQUEST[$fieldName];
-            $tableData = $jsonUtil->setValue($tableData, $fieldName, $fieldValue);
+
+            if ($_SESSION["_EVENT_"] != "Delete") {
+                $fieldValue = $_REQUEST[$fieldName];
+                $tableData = $jsonUtil->setValue($tableData, $fieldName, $fieldValue);
+            }
         }
+
 
         // Reset id_system 
         $tableData = $jsonUtil->setValue($tableData, "id_system", $_SESSION["_SYSTEM_"]);
@@ -46,11 +52,11 @@
         // Open transaction
         pg_query($cn, "begin");
 
-        // Persist info
-        $db->setSystem($_SESSION["_SYSTEM_"]);
-        $db->setLastId($_SESSION["_ID_"]);
-        $db->setEvent($_SESSION["_EVENT_"]);
-        $id = $db->persist($cn, $tableName, $tableData);
+            // Persist info
+            $db->setSystem($_SESSION["_SYSTEM_"]);
+            $db->setLastId($_SESSION["_ID_"]);
+            $db->setEvent($_SESSION["_EVENT_"]);
+            $id = $db->persist($cn, $tableName, $tableData);
 
         // Open transaction
         pg_query($cn, "commit");        

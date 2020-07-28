@@ -1,7 +1,7 @@
 <?php
     class Menu extends Base {
 
-
+        // Private members
         private $cn = 0;
         private $sqlBuilder = 0;
 

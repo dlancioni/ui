@@ -1,6 +1,16 @@
 <?php
     class HTMLElement {
-  
+
+        // Private members
+        private $cn = 0;
+        private $sqlBuilder = 0;
+
+        // Constructor
+        function __construct($cn, $sqlBuilder) {
+            $this->cn = $cn;
+            $this->sqlBuilder = $sqlBuilder;
+        }
+
         /* 
          * Create new label
          */
@@ -233,7 +243,7 @@
         /* 
          * Get page events
          */
-        public function createEvent($cn, $sqlBuilder, $tableId, $format) {
+        public function createEvent($tableId, $format) {
 
             // General Declaration
             $sql = "";
@@ -254,8 +264,7 @@
                 $filter = new Filter();
                 $filter->add("tb_event", "id_target", $format);
                 $filter->add("tb_event", "id_table", $tableId);
-                $sql = $sqlBuilder->getQuery($cn, $TB_EVENT, $filter->create());
-                $data = $db->queryJson($cn, $sql); 
+                $data = $this->sqlBuilder->Query($this->cn, $TB_EVENT, $filter->create());
                 
                 foreach ($data as $item) {
                     $html .= $this->createButton($item["name"], 

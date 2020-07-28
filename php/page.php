@@ -23,21 +23,21 @@
         $db = new Db();
         $cn = $db->getConnection();
 
-        // Keep instance of SqlBuilder for current session
-        $sqlBuilder = new SqlBuilder($systemId, $tableId, $userId, $languageId);
-
         // Get menu    
+        $sqlBuilder = new SqlBuilder($systemId, $tableId, $userId, $languageId);        
         $menu = new Menu($cn, $sqlBuilder);
         $html .= $menu->createMenu();
 
-        // Render page
+        // Create page or form
+        $sqlBuilder = new SqlBuilder($systemId, $tableId, $userId, $languageId);
+
         if ($tableId > 0) {
             if ($format == 1) {
-                $report = new Report($systemId, $tableId, $userId, $languageId);
-                $html .= $report->createReport($cn, $tableId, $_REQUEST, $event);
+                $report = new Report($cn, $sqlBuilder);
+                $html .= $report->createReport($tableId, $_REQUEST, $event);
             } else {
-                $form = new Form($systemId, $tableId, $userId, $languageId);
-                $html .= $form->createForm($cn, $tableId, $id, $event);
+                $form = new Form($cn, $sqlBuilder);
+                $html .= $form->createForm($tableId, $id, $event);
             }
         }
 

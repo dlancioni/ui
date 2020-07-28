@@ -1,13 +1,22 @@
 <?php
 class Form extends Base {
 
+    // Private members
+    private $cn = 0;
+    private $sqlBuilder = 0;
+
+    // Constructor
+    function __construct($cn, $sqlBuilder) {
+        $this->cn = $cn;
+        $this->sqlBuilder = $sqlBuilder;
+    }
+
     /* 
     * Create new form
     */
-    function createForm($cn, $tableId, $id=0, $event) {
+    function createForm($tableId, $id=0, $event) {
 
         // General Declaration
-        $db = "";
         $html = "";
         $sqlBuilder = "";
         $fieldLabel = "";
@@ -39,23 +48,16 @@ class Form extends Base {
 
             // DB interface
             $db = new Db();
-            $element = new HTMLElement();
-
-            // Keep instance of SqlBuilder for current session
-            $sqlBuilder = new SqlBuilder($this->getSystem(), 
-                                         $this->getTable(), 
-                                        $this->getUser(), 
-                                        $this->getLanguage());
+            $element = new HTMLElement($this->cn, $this->sqlBuilder);
 
             // Get table structure
-            $tableDef = $sqlBuilder->getTableDef($cn, "json");
+            $tableDef = $this->sqlBuilder->getTableDef($this->cn, "json");
 
             // No table struct, just present title
             if (!$tableDef) {
                 $filter = new Filter();
                 $filter->add("tb_table", "id", $tableId);
-                $sql = $sqlBuilder->getQuery($cn, 2, $filter->create());
-                $data = $db->queryJson($cn, $sql);
+                $data = $this->sqlBuilder->Query($this->cn, 2, $filter->create());
                 $pageTitle = $data[0]["title"];
             } else {
                 $pageTitle = $tableDef[0]["title"];
@@ -64,8 +66,7 @@ class Form extends Base {
             // Get data
             $filter = new Filter();
             $filter->add($tableDef[0]["table_name"], "id", $id);
-            $sql = $sqlBuilder->getQuery($cn, $tableId, $filter->create());
-            $data = $db->queryJson($cn, $sql);
+            $data = $this->sqlBuilder->Query($this->cn, $tableId, $filter->create());
 
             if ($data) {
                 if ($event != "New") {
@@ -117,16 +118,9 @@ class Form extends Base {
                         $filter = new Filter();                        
                     }
 
-                    $sql = $sqlBuilder->getQuery($cn, $fk, $filter->create());
-                    $dataFk = $db->queryJson($cn, $sql);
-
-                    $cols .= $element->createTableCol($element->createDropdown($fieldName, 
-                                                                               $fieldValue, 
-                                                                               $dataFk, 
-                                                                               $key, 
-                                                                               $value, 
-                                                                               "",
-                                                                               $disabled));
+                    $dataFk = $this->sqlBuilder->Query($this->cn, $fk, $filter->create());
+                    $cols .= $element->createTableCol($element->createDropdown(
+                        $fieldName, $fieldValue, $dataFk, $key, $value, "", $disabled));
                 }
 
                 // Add current col to rows
@@ -140,7 +134,7 @@ class Form extends Base {
             $html .= $element->createForm("form1", $element->createTable($rows));
 
             // Get events (buttons)
-            $html .= $element->createEvent($cn, $sqlBuilder, $tableId, 2);
+            $html .= $element->createEvent($tableId, 2);
 
         } catch (Exception $ex) {
             $html = '{"status":"fail", "error":' . $ex->getMessage() . '}';

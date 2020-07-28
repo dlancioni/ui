@@ -1,13 +1,21 @@
 <?php
 class Report extends Base {
 
+    private $cn = 0;
+    private $sqlBuilder = 0;
+
+    // Constructor
+    function __construct($cn, $sqlBuilder) {
+        $this->cn = $cn;
+        $this->sqlBuilder = $sqlBuilder;
+    }
+
     /* 
     * Create a table
     */
-    function createReport($cn, $tableId, $formData, $event) {
+    function createReport($tableId, $formData, $event) {
 
         // General Declaration
-        $db = "";
         $html = "";
         $sqlBuilder = "";
         $fieldLabel = "";
@@ -27,38 +35,27 @@ class Report extends Base {
         try {
 
             // DB interface
-            $db = new Db();
-            $element = new HTMLElement();
+            $element = new HTMLElement($this->cn, $this->sqlBuilder);
 
-            // Keep instance of SqlBuilder for current session
-            $sqlBuilder = new SqlBuilder($this->getSystem(), 
-                                         $this->getTable(), 
-                                        $this->getUser(), 
-                                        $this->getLanguage());
             // Get table structure
-            $tableDef = $sqlBuilder->getTableDef($cn, "json");
+            $tableDef = $this->sqlBuilder->getTableDef($this->cn, "json");
 
             // No table struct, just present title
             if (!$tableDef) {
                 $filter = new Filter();
                 $filter->add("tb_table", "id", $tableId);
-                $sql = $sqlBuilder->getQuery($cn, 2, $filter->create());
-                $data = $db->queryJson($cn, $sql);
+                $data = $this->sqlBuilder->Query($this->cn, 2, $filter->create());
                 $pageTitle = $data[0]["title"];
             } else {
                 $pageTitle = $tableDef[0]["title"];
             }
 
-            // Apply filter
+            // Get data
             $filter = new Filter();
             if ($event == "Filter") {
                 $filter->setFilter($tableDef, $formData);
             }
-
-            // Get data
-            $sql = $sqlBuilder->getQuery($cn, $tableId, $filter->create());
-            $data = $db->queryJson($cn, $sql);
-            error_log($sql);
+            $data = $this->sqlBuilder->Query($this->cn, $tableId, $filter->create());
 
             // Render html table
             $cols = $element->createTableHeader("");
@@ -106,7 +103,7 @@ class Report extends Base {
             $html .= $element->createTable($rows);
 
             // Get events (buttons)
-            $html .= $element->createEvent($cn, $sqlBuilder, $tableId, 1);
+            $html .= $element->createEvent($tableId, 1);
 
         } catch (Exception $ex) {
             $html = '{"status":"fail", "error":' . $ex->getMessage() . '}';
