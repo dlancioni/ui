@@ -94,6 +94,7 @@
                 $html .= "<select";
                 $html .= " id=" . $stringUtil->dqt($name); 
                 $html .= " name=" . $stringUtil->dqt($name);
+                $html .= " " . $event;
                 $html .= " " . $disabled;
                 $html .= ">";
 

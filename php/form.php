@@ -99,14 +99,12 @@ class Form extends Base {
 
                 // Add field (textbox or dropdown)
                 if ($fk == 0) {
-
                     if ($fieldType == 6) {
                         $cols .= $element->createTableCol($element->createTextarea($fieldName, $fieldValue));
                     } else {
                         $cols .= $element->createTableCol($element->createTextbox($fieldName, $fieldValue, "", $disabled));
                     }
                 } else {
-
                     if ($fk == 4) {
                         $key = "key";
                         $value = "value";
@@ -119,8 +117,13 @@ class Form extends Base {
                     }
 
                     $dataFk = $this->sqlBuilder->Query($this->cn, $fk, $filter->create());
-                    $cols .= $element->createTableCol($element->createDropdown(
-                        $fieldName, $fieldValue, $dataFk, $key, $value, "", $disabled));
+                    $cols .= $element->createTableCol($element->createDropdown($fieldName, 
+                                                                               $fieldValue, 
+                                                                               $dataFk, 
+                                                                               $key, 
+                                                                               $value, 
+                                                                               "onChange=setList(this.value, 'id_table', 'id_field')", 
+                                                                               $disabled));
                 }
 
                 // Add current col to rows
