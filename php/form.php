@@ -77,12 +77,12 @@ class Form extends Base {
             if ($data) {
                 if ($this->Event != "New") {
                     $cols .= $element->createTableCol($element->createLabel("id", "id"));
-                    $cols .= $element->createTableCol($element->createTextbox("id", $data[0]["id"], "", $disabled));
+                    $cols .= $element->createTableCol($element->createTextbox(0, "id", $data[0]["id"], $placeHolder, $disabled));
                     $rows .= $element->createTableRow($cols);
                 }
             } else {
                 $cols .= $element->createTableCol($element->createLabel("id", "id"));
-                $cols .= $element->createTableCol($element->createTextbox("id", "", "", $disabled));
+                $cols .= $element->createTableCol($element->createTextbox(0, "id", "", $placeHolder, $disabled));
                 $rows .= $element->createTableRow($cols);
             }
 

@@ -46,7 +46,8 @@
                 if ($disabled) 
                     $html .= " disabled";
 
-                $html .= $this->getEvent($fieldId, $fieldEvent);
+                if ($fieldEvent)    
+                    $html .= $this->getEvent($fieldId, $fieldEvent);
 
                 $html .= ">";
 
@@ -69,7 +70,10 @@
                 $html .= " rows=" . $stringUtil->dqt("10");
                 $html .= " cols=" . $stringUtil->dqt("50");
                 $html .= " " . $disabled;
-                $html .= $this->getEvent($fieldId, $fieldEvent);                
+
+                if ($fieldEvent)
+                    $html .= $this->getEvent($fieldId, $fieldEvent);
+
                 $html .= ">";
                 $html .= $value;
                 $html .= "</textarea>";
@@ -98,7 +102,10 @@
                 $html .= "<select";
                 $html .= " id=" . $stringUtil->dqt($name); 
                 $html .= " name=" . $stringUtil->dqt($name);
-                $html .= $this->getEvent($fieldId, $fieldEvent);
+
+                if ($fieldEvent)
+                    $html .= $this->getEvent($fieldId, $fieldEvent);
+                    
                 $html .= " " . $disabled;
                 $html .= ">";
 

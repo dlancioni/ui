@@ -85,6 +85,7 @@
 
         // General declaration
         $html = "";
+        $name = "";
         global $element;
 
         // Space between form and buttons
@@ -93,10 +94,8 @@
         // Create event list
         foreach ($pageEvent as $item) {
             if ($item["id_field"] == 0) {
-                $html .= $element->createButton($item["name"], 
-                                                $item["label"], 
-                                                $item["event"], 
-                                                $item["code"]);
+                $name = "btn" . $item["id_table"] . $item["id"];
+                $html .= $element->createButton($name, $item["label"], $item["event"], $item["code"]);
             }
         }
         
