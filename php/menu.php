@@ -27,7 +27,7 @@
 
                 // Create main menu
                 foreach ($data as $row) {
-                    $html .= "<a onclick='Go(" . $row["id"] . ", 1)'>" . $row["title"] . "</a>" . "&nbsp;&nbsp;";
+                    $html .= "<a onclick='go(" . $row["id"] . ", 1)'>" . $row["title"] . "</a>" . "&nbsp;&nbsp;";
                 }                
 
                 // Jump line for elegance
