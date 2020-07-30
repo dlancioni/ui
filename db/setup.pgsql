@@ -120,8 +120,9 @@ insert into tb_domain (field) values ('{"id_system":1,"key":6,"value":"TextArea"
 -- tb_event
 insert into tb_domain (field) values ('{"id_system":1,"key":1,"value":"onload","domain":"tb_event"}');
 insert into tb_domain (field) values ('{"id_system":1,"key":2,"value":"onClick","domain":"tb_event"}');
-insert into tb_domain (field) values ('{"id_system":1,"key":3,"value":"onFocus","domain":"tb_event"}');
-insert into tb_domain (field) values ('{"id_system":1,"key":4,"value":"onBlur","domain":"tb_event"}');
+insert into tb_domain (field) values ('{"id_system":1,"key":3,"value":"onChange","domain":"tb_event"}');
+insert into tb_domain (field) values ('{"id_system":1,"key":4,"value":"onFocus","domain":"tb_event"}');
+insert into tb_domain (field) values ('{"id_system":1,"key":5,"value":"onBlur","domain":"tb_event"}');
 -- tb_target
 insert into tb_domain (field) values ('{"id_system":1,"key":1,"value":"Table","domain":"tb_target"}');
 insert into tb_domain (field) values ('{"id_system":1,"key":2,"value":"Form","domain":"tb_target"}');

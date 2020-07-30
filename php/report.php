@@ -13,7 +13,7 @@ class Report extends Base {
     /* 
     * Create a table
     */
-    function createReport($tableId, $event, $pageOffset, $formData) {
+    function createReport($tableId, $event, $pageOffset, $formData, $pageEvent) {
 
         // General Declaration
         $html = "";

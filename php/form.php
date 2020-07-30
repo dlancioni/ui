@@ -14,7 +14,7 @@ class Form extends Base {
     /* 
     * Create new form
     */
-    function createForm($tableId, $id=0, $event) {
+    function createForm($tableId, $id=0, $event, $pageEvent) {
 
         // General Declaration
         $html = "";

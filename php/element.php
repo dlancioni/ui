@@ -242,44 +242,6 @@
         }        
 
         /* 
-         * Get page events
-         */
-        public function createEvent($tableId, $format) {
-
-            // General Declaration
-            $sql = "";
-            $data = "";
-            $html = "";
-            $filter = "";
-            $stringUtil = "";
-            $TB_EVENT = 5;
-
-            try {
-
-                // Create instances
-                $db = new Db();
-                $stringUtil = new StringUtil();
-
-                // Get events (buttons)
-                $html .= "<br>";
-                $filter = new Filter();
-                $filter->add("tb_event", "id_target", $format);
-                $filter->add("tb_event", "id_table", $tableId);
-                $data = $this->sqlBuilder->Query($this->cn, $TB_EVENT, $filter->create());
-                
-                foreach ($data as $item) {
-                    $html .= $this->createButton($item["name"], 
-                                                 $item["label"], 
-                                                 $item["event"],
-                                                 $item["code"]);
-                }                
-            } catch (Exception $ex) {
-                throw $ex;
-            }
-            return $html;            
-        }
-
-          /* 
          * Create page title
          */
         public function createPageTitle($value) {

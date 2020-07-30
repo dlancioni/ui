@@ -13,6 +13,9 @@
     $html = "";      
     $event = "";
     $menu = "";
+    $pageEvent = "";
+    $TB_EVENT = 5;
+    $element = "";
 
     try {
         
@@ -32,18 +35,25 @@
         $sqlBuilder = new SqlBuilder($systemId, $tableId, $userId, $languageId);
         $element = new HTMLElement($cn, $sqlBuilder);        
 
+        // Get events
+        $filter = new Filter();
+        $filter->add("tb_event", "id_target", $format);
+        $filter->add("tb_event", "id_table", $tableId);
+        $pageEvent = $sqlBuilder->Query($cn, $TB_EVENT, $filter->create());
+
+        // Create table or form
         if ($tableId > 0) {
             if ($format == 1) {
                 $report = new Report($cn, $sqlBuilder);
-                $html .= $report->createReport($tableId, $event, $pageOffset, $_REQUEST);
+                $html .= $report->createReport($tableId, $event, $pageOffset, $_REQUEST, $pageEvent);
             } else {
                 $form = new Form($cn, $sqlBuilder);
-                $html .= $form->createForm($tableId, $id, $event);
+                $html .= $form->createForm($tableId, $id, $event, $pageEvent);
             }
-        }
 
-        // Get events (buttons)
-        $html .= $element->createEvent($tableId, $format);
+            // Add buttons to form
+            $html .= CreateButton($pageEvent);
+        }
 
     } catch (Exception $ex) {        
         
@@ -59,5 +69,27 @@
     }
 
     echo $html;
+
+    /* 
+     * Get event list and isolate function calls related to buttons
+     */
+    function CreateButton($pageEvent) {
+
+        // General declaration
+        $html = "";
+        global $element;
+
+        // Space between form and buttons
+        $html = "<br><br>";
+
+        // Create event list
+        foreach ($pageEvent as $item) {
+            $html .= $element->createButton($item["name"], $item["label"], $item["event"], $item["code"]);
+        }
+        
+        // Return to main function
+        return $html;
+    }
+
 
 ?>
