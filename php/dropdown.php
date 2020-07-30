@@ -38,7 +38,11 @@
         }
         if (isset($_REQUEST["value"])) {
             $sourceValue = $_REQUEST["value"];
-        }        
+        }
+
+        // Handle _fk
+        $source = str_replace("_fk", "", $source);
+        $target = str_replace("_fk", "", $target);
 
         // DB interface
         $db = new Db();       
