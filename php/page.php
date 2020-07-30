@@ -31,10 +31,6 @@
         $menu = new Menu($cn, $sqlBuilder);
         $html .= $menu->createMenu();
 
-        // Create page or form
-        $sqlBuilder = new SqlBuilder($systemId, $tableId, $userId, $languageId);
-        $element = new HTMLElement($cn, $sqlBuilder);        
-
         // Get events
         $filter = new Filter();
         $filter->add("tb_event", "id_target", $format);
@@ -43,6 +39,11 @@
 
         // Create table or form
         if ($tableId > 0) {
+
+            // Create page or form
+            $sqlBuilder = new SqlBuilder($systemId, $tableId, $userId, $languageId);
+            $element = new HTMLElement($cn, $sqlBuilder);        
+
             if ($format == 1) {
                 $report = new Report($cn, $sqlBuilder);
                 $html .= $report->createReport($tableId, $event, $pageOffset, $_REQUEST, $pageEvent);
