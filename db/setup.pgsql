@@ -155,6 +155,7 @@ insert into tb_event (field) values ('{"id_system":1,"id_target":2,"id_table":3,
 insert into tb_event (field) values ('{"id_system":1,"id_target":1,"id_table":3,"id_field":0,"label":"Filter","id_event":2,"code":"FormFilter()"}');
 insert into tb_event (field) values ('{"id_system":1,"id_target":2,"id_table":3,"id_field":0,"label":"Clear","id_event":2,"code":"Clear()"}');
 insert into tb_event (field) values ('{"id_system":1,"id_target":2,"id_table":3,"id_field":0,"label":"Back","id_event":2,"code":"ReportBack()"}');
+insert into tb_event (field) values ('{"id_system":1,"id_target":2,"id_table":3,"id_field":16,"label":"","id_event":3,"code":"cascade(this.value, ''id_table_fk'', ''id_field_fk'')"}');
 
 -- tb_domain
 insert into tb_event (field) values ('{"id_system":1,"id_target":1,"id_table":4,"id_field":0,"label":"New","id_event":2,"code":"FormNew();"}');
@@ -173,6 +174,7 @@ insert into tb_event (field) values ('{"id_system":1,"id_target":2,"id_table":5,
 insert into tb_event (field) values ('{"id_system":1,"id_target":1,"id_table":5,"id_field":0,"label":"Filter","id_event":2,"code":"FormFilter()"}');
 insert into tb_event (field) values ('{"id_system":1,"id_target":2,"id_table":5,"id_field":0,"label":"Clear","id_event":2,"code":"Clear()"}');
 insert into tb_event (field) values ('{"id_system":1,"id_target":2,"id_table":5,"id_field":0,"label":"Back","id_event":2,"code":"ReportBack()"}');
+insert into tb_event (field) values ('{"id_system":1,"id_target":2,"id_table":5,"id_field":23,"label":"","id_event":3,"code":"cascade(this.value, ''id_table'', ''id_field'')"}');
 
 -- tb_code
 insert into tb_event (field) values ('{"id_system":1,"id_target":1,"id_table":6,"id_field":0,"label":"New","id_event":2,"code":"FormNew();"}');

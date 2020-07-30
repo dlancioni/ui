@@ -92,3 +92,40 @@ function paging(pageOffset) {
     document.getElementById("_PAGING_").value = pageOffset;
     document.form1.submit();
 }
+
+/*
+ * Cascade drop down
+ */
+function cascade(value, source, target) {
+
+    let url = "";
+    let data = "";
+    let dropdown = document.getElementById(target);
+    let option = document.createElement("option");
+
+    url += "dropdown.php";
+    url += "?value=" + value;    
+    url += "&source=" + source;
+    url += "&target=" + target;
+
+    let httpService = new HTTPService();
+    data = httpService.query(url);
+
+    if (data != "") {
+
+        // Clear target dropdown
+        dropdown.innerText = null;
+
+        // Convert json to array
+        let options = JSON.parse(data);
+
+        // Populate dropdown
+        for (let i=0; i<=options.length-1; i++) {            
+            option = document.createElement("option");
+            option.value = options[i].key;
+            option.text = options[i].value;
+            dropdown.add(option);
+        }
+    }
+
+}    
