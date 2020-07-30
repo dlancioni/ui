@@ -24,6 +24,7 @@ class Form extends Base {
         $html = "";
         $sqlBuilder = "";
         $fieldLabel = "";
+        $fieldId = "";
         $fieldName = "";
         $fieldType = "";
         $fieldValue = "";
@@ -38,6 +39,7 @@ class Form extends Base {
         $rows = "";
         $pageTitle = "";
         $disabled = "";
+        $placeHolder = "";
 
         try {
 
@@ -90,6 +92,7 @@ class Form extends Base {
                 // Keep data
                 $cols = "";                
                 $fk = $item["id_fk"];
+                $fieldId = $item["id"];
                 $fieldLabel = $item["field_label"];
                 $fieldName = $item["field_name"];
                 $fieldType = $item["field_type"];
@@ -104,9 +107,9 @@ class Form extends Base {
                 // Add field (textbox or dropdown)
                 if ($fk == 0) {
                     if ($fieldType == 6) {
-                        $cols .= $element->createTableCol($element->createTextarea($fieldName, $fieldValue));
+                        $cols .= $element->createTableCol($element->createTextarea($fieldId, $fieldName, $fieldValue, $disabled, $this->PageEvent));
                     } else {
-                        $cols .= $element->createTableCol($element->createTextbox($fieldName, $fieldValue, "", $disabled));
+                        $cols .= $element->createTableCol($element->createTextbox($fieldId, $fieldName, $fieldValue, $placeHolder, $disabled, $this->PageEvent));
                     }
                 } else {
                     if ($fk == 4) {
@@ -121,12 +124,13 @@ class Form extends Base {
                     }
 
                     $dataFk = $this->sqlBuilder->Query($this->cn, $fk, $filter->create());
-                    $cols .= $element->createTableCol($element->createDropdown($fieldName, 
+                    $cols .= $element->createTableCol($element->createDropdown($fieldId,
+                                                                               $fieldName, 
                                                                                $fieldValue, 
                                                                                $dataFk, 
                                                                                $key, 
                                                                                $value, 
-                                                                               "onChange=setList(this.value, 'id_table', 'id_field')", 
+                                                                               $this->PageEvent, 
                                                                                $disabled));
                 }
 

@@ -30,7 +30,7 @@
         /* 
          * Create textbox
          */
-        public function createTextbox($name, $value, $placeholder="", $disabled=false) {
+        public function createTextbox($fieldId, $name, $value, $placeholder="", $disabled=false, $fieldEvent="") {
             $html = "";
             $stringUtil = new StringUtil();
             try {
@@ -46,6 +46,8 @@
                 if ($disabled) 
                     $html .= " disabled";
 
+                $html .= $this->getEvent($fieldId, $fieldEvent);
+
                 $html .= ">";
 
             } catch (Exception $ex) {
@@ -57,16 +59,17 @@
         /* 
          * Create textarea
          */
-        public function createTextarea($name, $value, $disabled="") {
+        public function createTextarea($fieldId, $fieldName, $value, $disabled="", $fieldEvent="") {
             $html = "";
             $stringUtil = new StringUtil();
             try {
                 $html .= "<textarea";
-                $html .= " id=" . $stringUtil->dqt($name); 
-                $html .= " name=" . $stringUtil->dqt($name); 
+                $html .= " id=" . $stringUtil->dqt($fieldName); 
+                $html .= " name=" . $stringUtil->dqt($fieldName); 
                 $html .= " rows=" . $stringUtil->dqt("10");
                 $html .= " cols=" . $stringUtil->dqt("50");
                 $html .= " " . $disabled;
+                $html .= $this->getEvent($fieldId, $fieldEvent);                
                 $html .= ">";
                 $html .= $value;
                 $html .= "</textarea>";
@@ -79,13 +82,14 @@
         /* 
          * Create dropdown
          */
-        public function createDropdown($name, $selectedValue, $data, $fieldKey, $fieldValue, $event="", $disabled="") {
+        public function createDropdown($fieldId, $name, $selectedValue, $data, $fieldKey, $fieldValue, $fieldEvent="", $disabled="") {
 
             // General declaration
             $html = "";
             $key = "";
             $value = "";
             $selected = "";
+            $event = "";
             $stringUtil = new StringUtil();
 
             try {
@@ -94,7 +98,7 @@
                 $html .= "<select";
                 $html .= " id=" . $stringUtil->dqt($name); 
                 $html .= " name=" . $stringUtil->dqt($name);
-                $html .= " " . $event;
+                $html .= $this->getEvent($fieldId, $fieldEvent);
                 $html .= " " . $disabled;
                 $html .= ">";
 
@@ -301,6 +305,32 @@
         }
 
 
+        /* 
+         * Get events to bind on fields (textbox, dropdown, etc)
+         */
+        private function getEvent($fieldId, $fieldEvent) {
+
+            // General declaration
+            $html = "";
+            $stringUtil = new StringUtil();
+
+            // Bind events related to current field
+            foreach ($fieldEvent as $item) {
+
+                // Figure out same field
+                if ($fieldId == $item["id_field"]) {
+                    $event = $item["event"] . "=" . $stringUtil->dqt($item["code"]) . " ";
+                } else {
+                    $event = "";
+                }
+
+                // Bind field
+                ($event != "") ? $html .= " " . $event : "";
+            }
+            
+            // Return event list
+            return $html;
+        }
 
     // End of class
     }

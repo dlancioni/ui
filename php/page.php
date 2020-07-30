@@ -31,14 +31,14 @@
         $menu = new Menu($cn, $sqlBuilder);
         $html .= $menu->createMenu();
 
-        // Get events
-        $filter = new Filter();
-        $filter->add("tb_event", "id_target", $format);
-        $filter->add("tb_event", "id_table", $tableId);
-        $pageEvent = $sqlBuilder->Query($cn, $TB_EVENT, $filter->create());
-
         // Create table or form
         if ($tableId > 0) {
+
+            // Get events
+            $filter = new Filter();
+            $filter->add("tb_event", "id_target", $format);
+            $filter->add("tb_event", "id_table", $tableId);
+            $pageEvent = $sqlBuilder->Query($cn, $TB_EVENT, $filter->create());            
 
             // Reset sql builder
             $sqlBuilder = new SqlBuilder($systemId, $tableId, $userId, $languageId);
@@ -92,7 +92,12 @@
 
         // Create event list
         foreach ($pageEvent as $item) {
-            $html .= $element->createButton($item["name"], $item["label"], $item["event"], $item["code"]);
+            if ($item["id_field"] == 0) {
+                $html .= $element->createButton($item["name"], 
+                                                $item["label"], 
+                                                $item["event"], 
+                                                $item["code"]);
+            }
         }
         
         // Return to main function
