@@ -54,6 +54,9 @@ class SqlBuilder extends Base {
                 // Transform results to json
                 $sql = "select json_agg(t) from (" . $query . ") t";
 
+                // Log query
+                error_log($sql);
+
                 // Execute query
                 $rs = pg_query($cn, $sql);
                 $this->setError("", "");

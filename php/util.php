@@ -64,6 +64,12 @@
          */
         public function select($table, $field, $type, $alias="") {
             $output = "";
+            
+            // Avoid conversion on select field
+            if ($type == "date") {
+                $type = "text";
+            }
+
             $output = $this->field($table, $field, $type) . " as " . (trim($alias) == "" ? $field : $alias);
             return $output;
         }

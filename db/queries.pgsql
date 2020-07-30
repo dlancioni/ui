@@ -26,9 +26,8 @@ from tb_table
 -- -----------------------------------------------------
 */
 
-
-
-select tb_field.id, (tb_field.field->>'id_system')::int as id_system, (tb_table.field->>'name')::text as table_name, (tb_field.field->>'label')::text as field_label, (tb_field.field->>'name')::text as field_name, (tb_field.field->>'id_type')::int as field_type, (tb_field.field->>'size')::int as field_size, (tb_field.field->>'mask')::text as field_mask, (tb_field.field->>'id_mandatory')::int as field_mandatory, (tb_field.field->>'id_unique')::int as field_unique, (tb_field.field->>'id_table_fk')::int as id_fk, (tb_table_fk.field->>'name')::text as table_fk, (tb_field_fk.field->>'name')::text as field_fk, (tb_field.field->>'domain')::text as field_domain, case  when (tb_field.field->>'id_type')::int = 1 then 'int' when (tb_field.field->>'id_type')::int = 2 then 'float' when (tb_field.field->>'id_type')::int = 3 then 'text' when (tb_field.field->>'id_type')::int = 4 then 'date' when (tb_field.field->>'id_type')::int = 5 then 'int' end data_type from tb_field inner join tb_table on (tb_field.field->>'id_table')::int = tb_table.id left join tb_table tb_table_fk on (tb_field.field->>'id_table_fk')::int = tb_table_fk.id left join tb_field tb_field_fk on (tb_field.field->>'id_field_fk')::int = tb_field_fk.id 
-where (tb_field.field->>'id_system')::int = 1 
-and (tb_field.field->>'id_table')::int = 2 
-order by tb_field.id
+select json_agg(t) from (select tb_system.id,count(*) over() as record_count, 
+(tb_system.field->>'name')::text as name, 
+tb_system.field->>'expire_date' as expire_date, 
+(tb_system.field->>'price')::float as price 
+from tb_system where 1 = 1 order by tb_system.id limit 20) t
