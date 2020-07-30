@@ -1,6 +1,10 @@
 <?php
 class Form extends Base {
 
+    // Public members
+    public $Event = "";
+    public $PageEvent = "";
+
     // Private members
     private $cn = 0;
     private $sqlBuilder = 0;
@@ -14,7 +18,7 @@ class Form extends Base {
     /* 
     * Create new form
     */
-    function createForm($tableId, $id=0, $event, $pageEvent) {
+    function createForm($tableId, $id=0) {
 
         // General Declaration
         $html = "";
@@ -26,7 +30,6 @@ class Form extends Base {
         $tableDef = "";
         $data = "";
         $dataFk = "";
-        $events = "";
         $filter = "";
         $tableName = "";
         $key = "";
@@ -39,12 +42,13 @@ class Form extends Base {
         try {
 
             // Handle events
-            if ($event == "Delete") {
+            if ($this->Event == "Delete") {
                 $disabled = "disabled";
             }
-            if ($event == "Filter") {
+
+            if ($this->Event == "Filter") {
                 $id=0;
-            }            
+            }
 
             // DB interface
             $db = new Db();
@@ -69,7 +73,7 @@ class Form extends Base {
             $data = $this->sqlBuilder->Query($this->cn, $tableId, $filter->create());
 
             if ($data) {
-                if ($event != "New") {
+                if ($this->Event != "New") {
                     $cols .= $element->createTableCol($element->createLabel("id", "id"));
                     $cols .= $element->createTableCol($element->createTextbox("id", $data[0]["id"], "", $disabled));
                     $rows .= $element->createTableRow($cols);

@@ -40,16 +40,23 @@
         // Create table or form
         if ($tableId > 0) {
 
-            // Create page or form
+            // Reset sql builder
             $sqlBuilder = new SqlBuilder($systemId, $tableId, $userId, $languageId);
             $element = new HTMLElement($cn, $sqlBuilder);        
 
+            // Create page or form
             if ($format == 1) {
-                $report = new Report($cn, $sqlBuilder);
-                $html .= $report->createReport($tableId, $event, $pageOffset, $_REQUEST, $pageEvent);
+                $report = new Report($cn, $sqlBuilder);               
+                $report->PageEvent = $pageEvent;
+                $report->FormData = $_REQUEST;
+                $report->PageOffset = $pageOffset;
+                $report->Event = $event;
+                $html .= $report->createReport($tableId);
             } else {
                 $form = new Form($cn, $sqlBuilder);
-                $html .= $form->createForm($tableId, $id, $event, $pageEvent);
+                $form->Event = $event;
+                $form->PageEvent = $pageEvent;                
+                $html .= $form->createForm($tableId, $id);
             }
 
             // Add buttons to form

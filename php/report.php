@@ -1,6 +1,13 @@
 <?php
 class Report extends Base {
 
+    // Public members
+    public $PageEvent = "";
+    public $FormData = "";
+    public $PageOffset = "";
+    public $Event = "";
+
+    // Private members
     private $cn = 0;
     private $sqlBuilder = 0;
 
@@ -13,7 +20,7 @@ class Report extends Base {
     /* 
     * Create a table
     */
-    function createReport($tableId, $event, $pageOffset, $formData, $pageEvent) {
+    function createReport($tableId) {
 
         // General Declaration
         $html = "";
@@ -55,13 +62,13 @@ class Report extends Base {
 
             // Get data
             $filter = new Filter();
-            if ($event == "Filter") {
-                $filter->setFilter($tableDef, $formData);
+            if ($this->Event == "Filter") {
+                $filter->setFilter($tableDef, $this->FormData);
             }
 
             // Paging
             $this->sqlBuilder->PageSize = $PAGE_SIZE;
-            $this->sqlBuilder->PageOffset = $pageOffset;
+            $this->sqlBuilder->PageOffset = $this->PageOffset;
             $data = $this->sqlBuilder->Query($this->cn, $tableId, $filter->create());
             if ($data) {
                 $recordCount = $data[0]["record_count"];
