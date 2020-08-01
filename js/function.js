@@ -152,7 +152,7 @@ function setFocus(fieldName) {
  */
 function isMandatory(fieldName, message) {  
 
-    if(valueOf(fieldName) == '') {
+    if(valueOf(fieldName) == '' || valueOf(fieldName) == 0) {
         alert(message);
         setFocus(fieldName);
         return false;
@@ -160,18 +160,4 @@ function isMandatory(fieldName, message) {
     return true;
 }
 
-
-/*
-function validateForm() {
-
-    if (!isMandatory('name', 'Name', 'Campo Name eh obrigatorio')) {
-        return false;
-    }
-
-    if (!isMandatory('expire_date', 'Expire Date', 'Campo Expire Date eh obrigatorio')) {
-        return false;
-    }
-
-    return true;
-}
-*/
+alert(valueOf('id_table'));

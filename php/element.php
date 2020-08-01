@@ -351,6 +351,7 @@
                 $html .= "<script language=$language>";
                 $html .= "function validateForm() {";
                 $html .= $js;
+                $html .= "return true";
                 $html .= "}";
                 $html .= "</script>";
 

@@ -96,7 +96,8 @@ class Form extends Base {
                                        $fieldType, 
                                        $fieldValue, 
                                        $fieldMask, 
-                                       $fieldMandatory);
+                                       $fieldMandatory, 
+                                       $fk);
                 
                 // Add label                
                 $cols .= $this->element->
@@ -220,7 +221,7 @@ class Form extends Base {
     /*
      * Javascript generation
      */
-    private function createJs($fieldLabel, $fieldName, $fieldType, $fieldValue, $fieldMask, $fieldMandatory) {
+    private function createJs($fieldLabel, $fieldName, $fieldType, $fieldValue, $fieldMask, $fieldMandatory, $fk) {
 
         // General declaration
         $js = "";
@@ -234,6 +235,7 @@ class Form extends Base {
         $fieldName = $stringUtil->dqt($fieldName);
 
         if ($fieldMandatory) {
+
             $js .= "if (!isMandatory($fieldName, $message)) {";
             $js .= "return false;";
             $js .= "} ";
