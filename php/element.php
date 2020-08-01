@@ -86,7 +86,7 @@
         /* 
          * Create dropdown
          */
-        public function createDropdown($fieldId, $name, $selectedValue, $data, $fieldKey, $fieldValue, $fieldEvent="", $disabled="") {
+        public function createDropdown($fieldId, $fieldName, $selectedValue, $dataFk, $fieldKey, $fieldValue, $fieldEvent="", $disabled="") {
 
             // General declaration
             $html = "";
@@ -100,8 +100,8 @@
 
                 // Open dropdown
                 $html .= "<select";
-                $html .= " id=" . $stringUtil->dqt($name); 
-                $html .= " name=" . $stringUtil->dqt($name);
+                $html .= " id=" . $stringUtil->dqt($fieldName); 
+                $html .= " name=" . $stringUtil->dqt($fieldName);
 
                 if ($fieldEvent)
                     $html .= $this->getEvent($fieldId, $fieldEvent);
@@ -113,7 +113,7 @@
                 $html .= '<option value="0">Select</option>';
 
                 // Add options
-                foreach($data as $item) {
+                foreach($dataFk as $item) {
 
                     // Keep values
                     $key = $item[$fieldKey];
@@ -360,6 +360,34 @@
             }
             return $html;
         }
+
+
+        /*
+        * Javascript generation
+        */
+        public function createJs($fieldLabel, $fieldName, $fieldType, $fieldValue, $fieldMask, $fieldMandatory, $fk) {
+
+            // General declaration
+            $js = "";
+            $stringUtil = new StringUtil();        
+
+            // Temporary message
+            $message = $stringUtil->dqt("Campo obrigatorio $fieldLabel");                
+
+            // Prepare values        
+            $fieldLabel = $stringUtil->dqt($fieldLabel);
+            $fieldName = $stringUtil->dqt($fieldName);
+
+            // Validate mandatory fields (see domain tb_bool)
+            if ($fieldMandatory == 1) {
+                $js .= "if (!isMandatory($fieldName, $message, $fk)) {";
+                $js .= "return false;";
+                $js .= "} ";
+            }
+
+            // Just return
+            return $js;
+        }        
 
     // End of class
     }

@@ -150,12 +150,21 @@ function setFocus(fieldName) {
 /*
  * Validate mandatory fields
  */
-function isMandatory(fieldName, message) {  
+function isMandatory(fieldName, message, fk) {  
 
-    if(valueOf(fieldName) == '' || valueOf(fieldName) == 0) {
-        alert(message);
-        setFocus(fieldName);
-        return false;
+    if (fk == 0) {
+        if(valueOf(fieldName) == '') {
+            alert(message);
+            setFocus(fieldName);
+            return false;
+        }
+    } else {
+        if(valueOf(fieldName) == 0) {
+            alert(message);
+            setFocus(fieldName);
+            return false;
+        }
     }
+
     return true;
 }

@@ -30,14 +30,6 @@ class Form extends Base {
         $cols = "";
         $rows = "";
         
-        $fieldLabel = "";
-        $fieldId = "";
-        $fieldName = "";
-        $fieldType = "";
-        $fieldValue = "";
-        $fieldMask = "";
-        $fieldMandatory = "";
-        
         $html = "";
         $data = "";
         $dataFk = "";
@@ -46,6 +38,15 @@ class Form extends Base {
         $pageTitle = "";
         $disabled = "";
         $placeHolder = "";
+
+        $fieldId = "";
+        $fieldLabel = "";
+        $fieldName = "";
+        $fieldType = "";
+        $fieldMask = "";
+        $fieldMandatory = "";
+        $fieldDomain = "";
+        $fieldValue = "";
 
         try {
 
@@ -84,6 +85,7 @@ class Form extends Base {
                 $fieldType = $item["field_type"];
                 $fieldMask = $item["field_mask"];
                 $fieldMandatory = $item["field_mandatory"];
+                $fieldDomain = $item["field_domain"];
 
                 foreach($data as $col) {
                     $fieldValue = $col[$fieldName];
@@ -91,13 +93,13 @@ class Form extends Base {
                 }
 
                 // Accumulate JS for validation
-                $js .= $this->createJs($fieldLabel, 
-                                       $fieldName,
-                                       $fieldType, 
-                                       $fieldValue, 
-                                       $fieldMask, 
-                                       $fieldMandatory, 
-                                       $fk);
+                $js .= $this->element->createJs($fieldLabel, 
+                                                $fieldName,
+                                                $fieldType, 
+                                                $fieldValue, 
+                                                $fieldMask, 
+                                                $fieldMandatory, 
+                                                $fk);
                 
                 // Add label                
                 $cols .= $this->element->
@@ -133,7 +135,7 @@ class Form extends Base {
                         $key = "key";
                         $value = "value";
                         $filter = new Filter();
-                        $filter->add("tb_domain", "domain", $item["field_domain"]);
+                        $filter->add("tb_domain", "domain", $fieldDomain);
                     } else {                        
                         $key = "id";
                         $value = $item["field_fk"];
@@ -145,13 +147,13 @@ class Form extends Base {
                     $cols .= $this->element->
                         createTableCol($this->element->
                             createDropdown($fieldId,
-                                        $fieldName, 
-                                        $fieldValue, 
-                                        $dataFk, 
-                                        $key, 
-                                        $value, 
-                                        $this->PageEvent, 
-                                        $disabled));
+                                           $fieldName, 
+                                           $fieldValue, 
+                                           $dataFk, 
+                                           $key, 
+                                           $value, 
+                                           $this->PageEvent, 
+                                           $disabled));
                 }
 
                 // Add current col to rows
@@ -205,6 +207,7 @@ class Form extends Base {
 
         if ($data) {
             if ($this->Event != "New") {
+                $disabled = "disabled";
                 $cols .= $this->element->createTableCol($this->element->createLabel("id", "id"));
                 $cols .= $this->element->createTableCol($this->element->createTextbox(0, "id", $data[0]["id"], $placeHolder, $disabled));
                 $rows .= $this->element->createTableRow($cols);
@@ -218,31 +221,5 @@ class Form extends Base {
         return $rows;
     }
 
-    /*
-     * Javascript generation
-     */
-    private function createJs($fieldLabel, $fieldName, $fieldType, $fieldValue, $fieldMask, $fieldMandatory, $fk) {
-
-        // General declaration
-        $js = "";
-        $stringUtil = new StringUtil();        
-
-        // Temporary message
-        $message = $stringUtil->dqt("Campo obrigatorio $fieldLabel");                
-
-        // Prepare values        
-        $fieldLabel = $stringUtil->dqt($fieldLabel);
-        $fieldName = $stringUtil->dqt($fieldName);
-
-        if ($fieldMandatory) {
-
-            $js .= "if (!isMandatory($fieldName, $message)) {";
-            $js .= "return false;";
-            $js .= "} ";
-        }
-
-        // Just return
-        return $js;
-    }    
 }
 ?>
