@@ -19,7 +19,9 @@ function confirm() {
         go(valueOf("_TABLE_"), 1, valueOf("_EVENT_"));
     } else {
         let httpService = new HTTPService();
-        info = httpService.persist(getFormData());
+        if (validateForm()) {
+            info = httpService.persist(getFormData());
+        }
         alert(info);
     }
 }
