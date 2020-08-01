@@ -163,6 +163,10 @@ class Form extends Base {
             // Finalize form
             $html .= $this->element->createForm("form1", $this->element->createTable($rows));
 
+            // Add validateForm function
+            $html .= $this->element->createScript($js);            
+
+
         } catch (Exception $ex) {
             $html = '{"status":"fail", "error":' . $ex->getMessage() . '}';
         }
@@ -222,15 +226,17 @@ class Form extends Base {
         $js = "";
         $stringUtil = new StringUtil();        
 
+        // Temporary message
+        $message = $stringUtil->dqt("Campo obrigatorio $fieldLabel");                
+
         // Prepare values        
-        $fieldLabel = $stringUtil->sqt($fieldLabel);
-        $fieldName = $stringUtil->sqt($fieldName);
-        $message = "Campo obrigatorio " . $fieldLabel;        
+        $fieldLabel = $stringUtil->dqt($fieldLabel);
+        $fieldName = $stringUtil->dqt($fieldName);
 
         if ($fieldMandatory) {
-            $js .= "if (!isMandatory($fieldLabel, $fieldName, $message)) {";
-            $js .= "    return false";
-            $js .= "}";
+            $js .= "if (!isMandatory($fieldName, $message)) {";
+            $js .= "return false;";
+            $js .= "} ";
         }
 
         // Just return

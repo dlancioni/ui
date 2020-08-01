@@ -339,6 +339,27 @@
             return $html;
         }
 
+        /* 
+         * Create script
+         */
+        public function createScript($js) {
+            $html = "";
+            $stringUtil = new StringUtil();
+            $language = $stringUtil->dqt("JavaScript");
+            try {
+
+                $html .= "<script language=$language>";
+                $html .= "function validateForm() {";
+                $html .= $js;
+                $html .= "}";
+                $html .= "</script>";
+
+            } catch (Exception $ex) {
+                throw $ex;
+            }
+            return $html;
+        }
+
     // End of class
     }
 ?>

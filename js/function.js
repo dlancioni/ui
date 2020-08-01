@@ -150,7 +150,7 @@ function setFocus(fieldName) {
 /*
  * Validate mandatory fields
  */
-function isMandatory(fieldName, fieldLabel, message) {  
+function isMandatory(fieldName, message) {  
 
     if(valueOf(fieldName) == '') {
         alert(message);
@@ -161,7 +161,7 @@ function isMandatory(fieldName, fieldLabel, message) {
 }
 
 
-
+/*
 function validateForm() {
 
     if (!isMandatory('name', 'Name', 'Campo Name eh obrigatorio')) {
@@ -174,3 +174,4 @@ function validateForm() {
 
     return true;
 }
+*/
