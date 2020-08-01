@@ -178,7 +178,7 @@ class Form extends Base {
     }
 
     /*
-     * Get page title
+     * Create field ID
      */
     private function createId($data, $placeHolder, $disabled) {
         // General declaration
