@@ -1,8 +1,6 @@
 <?php
 class Form extends Base {
 
-    
-
     // Public members
     public $Event = "";
     public $PageEvent = "";
@@ -26,16 +24,21 @@ class Form extends Base {
     function createForm($tableId, $id=0) {
 
         // General Declaration
+        $js = "";
         $key = "";
         $value = "";
         $cols = "";
         $rows = "";
-        $html = "";
+        
         $fieldLabel = "";
         $fieldId = "";
         $fieldName = "";
         $fieldType = "";
         $fieldValue = "";
+        $fieldMask = "";
+        $fieldMandatory = "";
+        
+        $html = "";
         $data = "";
         $dataFk = "";
         $filter = "";
@@ -79,11 +82,21 @@ class Form extends Base {
                 $fieldLabel = $item["field_label"];
                 $fieldName = $item["field_name"];
                 $fieldType = $item["field_type"];
+                $fieldMask = $item["field_mask"];
+                $fieldMandatory = $item["field_mandatory"];
 
                 foreach($data as $col) {
                     $fieldValue = $col[$fieldName];
                     break;
                 }
+
+                // Accumulate JS for validation
+                $js .= $this->createJs($fieldLabel, 
+                                       $fieldName,
+                                       $fieldType, 
+                                       $fieldValue, 
+                                       $fieldMask, 
+                                       $fieldMandatory);
                 
                 // Add label                
                 $cols .= $this->element->
@@ -195,9 +208,33 @@ class Form extends Base {
             $cols .= $this->element->createTableCol($this->element->createLabel("id", "id"));
             $cols .= $this->element->createTableCol($this->element->createTextbox(0, "id", "", $placeHolder, $disabled));
             $rows .= $this->element->createTableRow($cols);
-        }        
+        }
 
         return $rows;
+    }
+
+    /*
+     * Javascript generation
+     */
+    private function createJs($fieldLabel, $fieldName, $fieldType, $fieldValue, $fieldMask, $fieldMandatory) {
+
+        // General declaration
+        $js = "";
+        $stringUtil = new StringUtil();        
+
+        // Prepare values        
+        $fieldLabel = $stringUtil->sqt($fieldLabel);
+        $fieldName = $stringUtil->sqt($fieldName);
+        $message = "Campo obrigatorio " . $fieldLabel;        
+
+        if ($fieldMandatory) {
+            $js .= "if (!isMandatory($fieldLabel, $fieldName, $message)) {";
+            $js .= "    return false";
+            $js .= "}";
+        }
+
+        // Just return
+        return $js;
     }    
 }
 ?>

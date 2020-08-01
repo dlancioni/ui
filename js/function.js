@@ -20,9 +20,9 @@ function confirm() {
     } else {
         let httpService = new HTTPService();
         if (validateForm()) {
-            info = httpService.persist(getFormData());
+            info = httpService.persist(getFormData());        
+            alert(info);            
         }
-        alert(info);
     }
 }
 
@@ -138,4 +138,39 @@ function cascade(value, source, target) {
 function formClear() {  
     let form = document.getElementById('form1');
     form.reset();
+}
+
+/*
+ * Set focus on current field
+ */
+function setFocus(fieldName) {  
+    document.getElementById(fieldName).focus();
+}
+
+/*
+ * Validate mandatory fields
+ */
+function isMandatory(fieldName, fieldLabel, message) {  
+
+    if(valueOf(fieldName) == '') {
+        alert(message);
+        setFocus(fieldName);
+        return false;
+    }
+    return true;
+}
+
+
+
+function validateForm() {
+
+    if (!isMandatory('name', 'Name', 'Campo Name eh obrigatorio')) {
+        return false;
+    }
+
+    if (!isMandatory('expire_date', 'Expire Date', 'Campo Expire Date eh obrigatorio')) {
+        return false;
+    }
+
+    return true;
 }
