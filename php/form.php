@@ -15,7 +15,7 @@ class Form extends Base {
     function __construct($cn, $sqlBuilder) {
         $this->cn = $cn;
         $this->sqlBuilder = $sqlBuilder;
-        $this->element = new HTMLElement($this->cn, $this->sqlBuilder);        
+        $this->element = new HTMLElement($this->cn, $this->sqlBuilder);
     }
 
     /* 

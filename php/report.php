@@ -5,16 +5,19 @@ class Report extends Base {
     public $PageEvent = "";
     public $FormData = "";
     public $PageOffset = "";
-    public $Event = "";
+    public $Event = "";   
 
     // Private members
     private $cn = 0;
     private $sqlBuilder = 0;
+    private $tableDef = "";
+    private $element = "";    
 
     // Constructor
     function __construct($cn, $sqlBuilder) {
         $this->cn = $cn;
         $this->sqlBuilder = $sqlBuilder;
+        $this->element = new HTMLElement($this->cn, $this->sqlBuilder);        
     }
 
     /* 
@@ -24,46 +27,46 @@ class Report extends Base {
 
         // General Declaration
         $html = "";
-        $sqlBuilder = "";
+        $row = "";
+        $rows = "";
+        $col = "";
+        $cols = "";        
         $fieldLabel = "";
         $fieldName = "";
-        $tableDef = "";
         $data = "";
         $filter = "";
-        $row = "";
-        $col = "";
-        $cols = "";
-        $rows = "";
         $checked = "";
         $radio = "";
         $fk = 0;
         $pageTitle = "";
-        $recordCount = 0;
-
+        $recordCount = 0;       
         $PAGE_SIZE = 20;
 
         try {
 
             // Create object instances
-            $element = new HTMLElement($this->cn, $this->sqlBuilder);
+            $this->element = new HTMLElement($this->cn, $this->sqlBuilder);
 
             // Get table structure
-            $tableDef = $this->sqlBuilder->getTableDef($this->cn, "json");
+            $this->tableDef = $this->sqlBuilder->getTableDef($this->cn, "json");
+
+            // Get page title
+            $pageTitle = $this->getPageTitle();
 
             // No table struct, just present title
-            if (!$tableDef) {
+            if (!$this->tableDef) {
                 $filter = new Filter();
                 $filter->add("tb_table", "id", $tableId);
                 $data = $this->sqlBuilder->Query($this->cn, 2, $filter->create());
                 $pageTitle = $data[0]["title"];
             } else {
-                $pageTitle = $tableDef[0]["title"];
+                $pageTitle = $this->tableDef[0]["title"];
             }
 
             // Get data
             $filter = new Filter();
             if ($this->Event == "Filter") {
-                $filter->setFilter($tableDef, $this->FormData);
+                $filter->setFilter($this->tableDef, $this->FormData);
             }
 
             // Paging
@@ -75,13 +78,13 @@ class Report extends Base {
             }
 
             // Render html table
-            $cols = $element->createTableHeader("");
-            $cols .= $element->createTableHeader("Id");
-            foreach ($tableDef as $item) {
+            $cols = $this->element->createTableHeader("");
+            $cols .= $this->element->createTableHeader("Id");
+            foreach ($this->tableDef as $item) {
                 $fieldLabel = $item["field_label"];
-                $cols .= $element->createTableHeader($fieldLabel);
+                $cols .= $this->element->createTableHeader($fieldLabel);
             }
-            $rows .= $element->createTableRow($cols);
+            $rows .= $this->element->createTableRow($cols);
 
             // Prepare table contents
             $cols = "";
@@ -89,12 +92,12 @@ class Report extends Base {
 
                 // Create radio for selection
                 $cols == "" ? $checked = "checked" : $checked = "";
-                $radio = $element->createRadio("selection", $row["id"], $checked);
-                $cols = $element->createTableCol($radio);
-                $cols .= $element->createTableCol($row["id"]);
+                $radio = $this->element->createRadio("selection", $row["id"], $checked);
+                $cols = $this->element->createTableCol($radio);
+                $cols .= $this->element->createTableCol($row["id"]);
 
                 // Create data contents                
-                foreach ($tableDef as $col) {
+                foreach ($this->tableDef as $col) {
 
                     // Keep info
                     $tableFk = $col["table_fk"];
@@ -104,25 +107,25 @@ class Report extends Base {
 
                     // Print right fields
                     if ($fk == 0) {
-                        $cols .= $element->createTableCol($row[$fieldName]);
+                        $cols .= $this->element->createTableCol($row[$fieldName]);
                     } else {
-                        $cols .= $element->createTableCol($row[substr($fieldName, 3)]);
+                        $cols .= $this->element->createTableCol($row[substr($fieldName, 3)]);
                     }
                 }
 
-                $rows .= $element->createTableRow($cols);
+                $rows .= $this->element->createTableRow($cols);
             }
 
             // Create page title
-            $html .= $element->createPageTitle($pageTitle);
+            $html .= $this->element->createPageTitle($pageTitle);
 
             // Create final table
-            $html .= $element->createTable($rows);
+            $html .= $this->element->createTable($rows);
 
             // Get events (buttons)
-            $html .= $element->createPaging($recordCount, 
-                                            $this->sqlBuilder->PageSize, 
-                                            $this->sqlBuilder->PageOffset);
+            $html .= $this->element->createPaging($recordCount, 
+                                                  $this->sqlBuilder->PageSize, 
+                                                  $this->sqlBuilder->PageOffset);
         } catch (Exception $ex) {
             $html = '{"status":"fail", "error":' . $ex->getMessage() . '}';
         }
@@ -130,5 +133,24 @@ class Report extends Base {
         // Return report        
         return $html;
     }
+
+    /*
+     * Get page title
+     */
+    private function getPageTitle() {
+        // General declartion 
+        $pageTitle = "";
+        // Table has no definition yet
+        if (!$this->tableDef) {
+            $filter = new Filter();
+            $filter->add("tb_table", "id", $tableId);
+            $data = $this->sqlBuilder->Query($this->cn, 2, $filter->create());
+            $pageTitle = $data[0]["title"];
+        } else {
+            $pageTitle = $this->tableDef[0]["title"];
+        }
+
+        return $pageTitle;
+    }    
 }
 ?>

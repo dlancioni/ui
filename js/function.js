@@ -159,5 +159,3 @@ function isMandatory(fieldName, message) {
     }
     return true;
 }
-
-alert(valueOf('id_table'));
