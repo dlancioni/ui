@@ -47,6 +47,11 @@ class Form extends Base {
         $fieldMandatory = "";
         $fieldDomain = "";
         $fieldValue = "";
+        $datatype = "";
+
+        // Constants
+        $TEXT_AREA = 6;
+        $TB_DOMAIN = 4;
 
         try {
 
@@ -86,7 +91,14 @@ class Form extends Base {
                 $fieldMask = $item["field_mask"];
                 $fieldMandatory = $item["field_mandatory"];
                 $fieldDomain = $item["field_domain"];
+                $datatype = $item["data_type"];
 
+                // Placeholder provide information about data type
+                if ($fieldMask != "") {
+                    $placeHolder = $fieldMask;
+                }
+
+                // Get field value
                 foreach($data as $col) {
                     $fieldValue = $col[$fieldName];
                     break;
@@ -110,7 +122,7 @@ class Form extends Base {
                 if ($fk == 0) {
 
                     // Append textbox or text area
-                    if ($fieldType == 6) {
+                    if ($fieldType == $TEXT_AREA) {
                         $cols .= $this->element->
                             createTableCol($this->element->
                             createTextarea($fieldId, 
@@ -131,7 +143,7 @@ class Form extends Base {
                 } else {
 
                     // Append dropdown
-                    if ($fk == 4) {
+                    if ($fk == $TB_DOMAIN) {
                         $key = "key";
                         $value = "value";
                         $filter = new Filter();

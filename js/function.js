@@ -16,6 +16,7 @@ function confirm() {
     let info = "";
 
     if (valueOf("_EVENT_") == "Filter") {
+        field("_PAGING_").value = 0;
         go(valueOf("_TABLE_"), 1, valueOf("_EVENT_"));
     } else {
         let httpService = new HTTPService();
@@ -39,7 +40,14 @@ function getFormData() {
  * Read html element
  */
 function valueOf(element) {
-    return document.getElementById(element).value;
+    return document.getElementById(element).value.trim();
+}
+
+/*
+ * Return field object
+ */
+function field(element) {
+    return document.getElementById(element);
 }
 
 /*
@@ -135,33 +143,51 @@ function cascade(value, source, target) {
 /*
  * Clear form
  */
-function formClear() {  
-    let form = document.getElementById('form1');
-    form.reset();
-}
+function formClear() {
+    
+    let elements = "";
 
-/*
- * Set focus on current field
- */
-function setFocus(fieldName) {  
-    document.getElementById(fieldName).focus();
+    // Clear text
+    elements = document.querySelectorAll("input[type=text]")
+    for (let i=0, element; element=elements[i++];) {
+        if (element.name != "id") {
+            element.value = "";
+        }
+    }
+
+    // Clear dropdown
+    elements = document.querySelectorAll("select")
+    for (let i=0, element; element=elements[i++];) {
+        if (element.name != "id") {        
+            element.value = 0;
+        }
+    }
+
+    // Clear textarea    
+    elements = document.querySelectorAll("textarea")
+    for (let i=0, element; element=elements[i++];) {
+        if (element.name != "id") {
+            element.value = "";
+        }
+    }    
+
 }
 
 /*
  * Validate mandatory fields
  */
-function isMandatory(fieldName, message, fk) {  
+function isMandatory(fieldName, message, fk) {
 
     if (fk == 0) {
         if(valueOf(fieldName) == '') {
             alert(message);
-            setFocus(fieldName);
+            field(fieldName).focus();
             return false;
         }
     } else {
         if(valueOf(fieldName) == 0) {
             alert(message);
-            setFocus(fieldName);
+            field(fieldName).focus();
             return false;
         }
     }
