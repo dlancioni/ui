@@ -38,7 +38,6 @@ class Report extends Base {
         $checked = "";
         $radio = "";
         $fk = 0;
-        $pageTitle = "";
         $recordCount = 0;       
         $PAGE_SIZE = 20;
 
@@ -49,19 +48,6 @@ class Report extends Base {
 
             // Get table structure
             $this->tableDef = $this->sqlBuilder->getTableDef($this->cn, "json");
-
-            // Get page title
-            $pageTitle = $this->getPageTitle($tableId);
-
-            // No table struct, just present title
-            if (!$this->tableDef) {
-                $filter = new Filter();
-                $filter->add("tb_table", "id", $tableId);
-                $data = $this->sqlBuilder->Query($this->cn, 2, $filter->create());
-                $pageTitle = $data[0]["title"];
-            } else {
-                $pageTitle = $this->tableDef[0]["title"];
-            }
 
             // Get data
             $filter = new Filter();
@@ -117,7 +103,7 @@ class Report extends Base {
             }
 
             // Create page title
-            $html .= $this->element->createPageTitle($pageTitle);
+            $html .= $this->element->createPageTitle($this->getPageTitle($tableId));
 
             // Create final table
             $html .= $this->element->createTable($rows);

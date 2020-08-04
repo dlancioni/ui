@@ -5,6 +5,7 @@ function go(table=0, format=1, event="") {
     document.getElementById("_TABLE_").value = table;
     document.getElementById("_FORMAT_").value = format;
     document.getElementById("_EVENT_").value = event;
+    document.getElementById("_PAGING_").value = 0;
     document.form1.submit();
 }
 
