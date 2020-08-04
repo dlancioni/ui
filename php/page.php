@@ -95,7 +95,7 @@
         foreach ($pageEvent as $item) {
             if ($item["id_field"] == 0) {
                 $name = "btn" . $item["id_table"] . $item["id"];
-                $html .= $element->createButton($name, $item["label"], $item["event"], $item["code"]);
+                $html .= $element->createButton($name, $item["action"], $item["event"], $item["code"]);
             }
         }
         
