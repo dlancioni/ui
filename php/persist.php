@@ -13,6 +13,8 @@
     $sqlBuilder = "";
     $jsonUtil = "";
     $tableData = "{}";
+    $obj = "";
+    $table = "";
 
     // Core code
     try {
@@ -57,6 +59,18 @@
             $db->setLastId($_SESSION["_ID_"]);
             $db->setEvent($_SESSION["_EVENT_"]);
             $id = $db->persist($cn, $tableName, $tableData);
+
+            // Create physical table
+            if ($_SESSION["_EVENT_"] == "New") {
+                if ($tableName == "tb_table") {
+
+                    $obj = json_decode($tableData);
+                    $table = $obj->{'name'};
+
+                    pg_query($cn, "drop table if exists " . $table);
+                    pg_query($cn, "create table if not exists " . $table . " (id serial, field jsonb);");
+                }
+            }
 
         // Open transaction
         pg_query($cn, "commit");        
