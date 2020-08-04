@@ -51,7 +51,7 @@ class Report extends Base {
             $this->tableDef = $this->sqlBuilder->getTableDef($this->cn, "json");
 
             // Get page title
-            $pageTitle = $this->getPageTitle();
+            $pageTitle = $this->getPageTitle($tableId);
 
             // No table struct, just present title
             if (!$this->tableDef) {
@@ -137,7 +137,7 @@ class Report extends Base {
     /*
      * Get page title
      */
-    private function getPageTitle() {
+    private function getPageTitle($tableId) {
         // General declartion 
         $pageTitle = "";
         // Table has no definition yet

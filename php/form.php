@@ -35,7 +35,6 @@ class Form extends Base {
         $dataFk = "";
         $filter = "";
         $tableName = "";
-        $pageTitle = "";
         $disabled = "";
         $placeHolder = "";
 
@@ -66,17 +65,18 @@ class Form extends Base {
 
             // Get table structure
             $this->tableDef = $this->sqlBuilder->getTableDef($this->cn, "json");
+            if (count($this->tableDef) > 0) {
+                
+                // Get data
+                $filter = new Filter();
+                $filter->add($this->tableDef[0]["table_name"], "id", $id);
+                $data = $this->sqlBuilder->Query($this->cn, $tableId, $filter->create());
 
-            // Get page title
-            $pageTitle = $this->getPageTitle();
-
-            // Get data
-            $filter = new Filter();
-            $filter->add($this->tableDef[0]["table_name"], "id", $id);
-            $data = $this->sqlBuilder->Query($this->cn, $tableId, $filter->create());
-
-            // Create field Id (rules according to event)
-            $rows .= $this->createId($data, $placeHolder, $disabled);
+                // Create field Id (rules according to event)
+                if ($data) {
+                    $rows .= $this->createId($data, $placeHolder, $disabled);
+                }                
+            }            
 
             // Create base form
             foreach($this->tableDef as $item) {
@@ -173,7 +173,7 @@ class Form extends Base {
             }
 
             // Create page title
-            $html .= $this->element->createPageTitle($pageTitle);
+            $html .= $this->element->createPageTitle($this->getPageTitle($tableId));
 
             // Finalize form
             $html .= $this->element->createForm("form1", $this->element->createTable($rows));
@@ -193,7 +193,7 @@ class Form extends Base {
     /*
      * Get page title
      */
-    private function getPageTitle() {
+    private function getPageTitle($tableId) {
         // General declartion 
         $pageTitle = "";
         // Table has no definition yet

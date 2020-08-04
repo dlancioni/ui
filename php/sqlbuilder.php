@@ -97,20 +97,23 @@ class SqlBuilder extends Base {
             }
             // Get table structure
             $tableDef = $this->getTableDef($cn, "rs");
-            // Get field list
-            $sql .= $this->getFieldList($tableDef);
-            // Get from
-            $sql .= $this->getFrom($tableDef);
-            // Get join
-            $sql .= $this->getJoin($tableDef);
-            // Get where
-            $sql .= $this->getWhere($tableDef);            
-            // Get condition
-            $sql .= $this->getCondition($filter);
-            // Get ordering
-            $sql .= $this->getOrderBy($tableDef);
-            // Paging control
-            $sql .= $this->getPaging($tableDef);
+
+            if (pg_fetch_row($tableDef)) {
+                // Get field list
+                $sql .= $this->getFieldList($tableDef);
+                // Get from
+                $sql .= $this->getFrom($tableDef);
+                // Get join
+                $sql .= $this->getJoin($tableDef);
+                // Get where
+                $sql .= $this->getWhere($tableDef);            
+                // Get condition
+                $sql .= $this->getCondition($filter);
+                // Get ordering
+                $sql .= $this->getOrderBy($tableDef);
+                // Paging control
+                $sql .= $this->getPaging($tableDef);
+            }
 
         } catch (Exception $ex) {
             $this->setError("QueryBuilder.query()", $ex->getMessage());
