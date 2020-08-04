@@ -107,6 +107,9 @@
             // Handle invalid chars
             $data = str_replace("'", "''", $data);
 
+            // Make sure id_system is set
+            $data = $jsonUtil->setValue($data, "id_system", $this->getSystem());
+
             try {
 
                 // Prepare string

@@ -12,4 +12,5 @@
     include "filter.php";
     include "element.php";
     include "menu.php";
+    include "tablelogic.php";
 ?>    

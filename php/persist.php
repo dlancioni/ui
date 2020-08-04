@@ -15,6 +15,7 @@
     $tableData = "{}";
     $obj = "";
     $table = "";
+    $tableLogic = "";
 
     // Core code
     try {
@@ -31,7 +32,6 @@
                                      $_SESSION["_TABLE_"], 
                                      $_SESSION["_USER_"], 
                                      $_SESSION["_LANGUAGE_"]);
-
         // Get table structure
         $tableDef = $sqlBuilder->getTableDef($cn, "json");
            
@@ -47,10 +47,6 @@
             }
         }
 
-
-        // Reset id_system 
-        $tableData = $jsonUtil->setValue($tableData, "id_system", $_SESSION["_SYSTEM_"]);
-
         // Open transaction
         pg_query($cn, "begin");
 
@@ -63,12 +59,8 @@
             // Create physical table
             if ($_SESSION["_EVENT_"] == "New") {
                 if ($tableName == "tb_table") {
-
-                    $obj = json_decode($tableData);
-                    $table = $obj->{'name'};
-
-                    pg_query($cn, "drop table if exists " . $table);
-                    pg_query($cn, "create table if not exists " . $table . " (id serial, field jsonb);");
+                    $tableLogic = new TableLogic($cn, $sqlBuilder, $db);
+                    $tableLogic->afterInsert($id, $tableData);
                 }
             }
 

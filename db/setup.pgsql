@@ -15,6 +15,7 @@ drop table if exists tb_table cascade;
 create table if not exists tb_table (id serial, field jsonb);
 -- -----------------------------------------------------
 -- table tb_field
+
 -- -----------------------------------------------------
 drop table if exists tb_field cascade;
 create table if not exists tb_field (id serial, field jsonb);
