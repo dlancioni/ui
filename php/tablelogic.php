@@ -22,6 +22,8 @@
             try {
 
             } catch (Exception $ex) {
+
+                // Rethrow error only
                 throw $ex;
             }
         }
@@ -39,7 +41,12 @@
                 // Create or delete events
                 $this->handleEvent($id);
 
+                // Delete fields
+                $this->handleField($id);                
+
             } catch (Exception $ex) {
+
+                // Rethrow error only
                 throw $ex;
             }
         }
@@ -91,8 +98,15 @@
                 }
 
             } catch (Exception $ex) {
-                $this->db->setError("TableLogic.createTable()", $ex->getMessage());
+
+                // Keep source and error
+                $this->db->setError("TableLogic.handleTable()", $ex->getMessage());
+
+                // Rethrow it
                 throw $ex;
+
+            } finally {
+                // Do nothing
             }
         }
 
@@ -102,6 +116,7 @@
         private function handleEvent($tableId) {
 
             // General Declaration
+            $rs = "";
             $json = "";            
             $sql = "";
             $html = "";
@@ -109,20 +124,21 @@
             $TABLE = 2;
             $tableDef = "";
             $fieldName = "";
-            $fieldValue = "";
-            $tableName = "tb_event";
+            $fieldValue = "";            
+            $affectedRows = "";
             $db = new Db();
-            $jsonUtil = new JsonUtil();            
+            $jsonUtil = new JsonUtil();
 
             try {
 
                 // Delete related events
                 if ($this->db->getEvent() == "Delete") {
-
-                    $sql .= " delete from $tableName";
-                    $sql .= " where " . $jsonUtil->condition($tableName, "id_system", "int", "=", $this->db->getSystem());
-                    $sql .= " and " . $jsonUtil->condition($tableName, "id_table", "int", "=", $tableId);
-                    pg_query($this->cn, $sql);
+                    
+                    $sql .= " delete from tb_event";
+                    $sql .= " where " . $jsonUtil->condition("tb_event", "id_system", "int", "=", $this->db->getSystem());
+                    $sql .= " and " . $jsonUtil->condition("tb_event", "id_table", "int", "=", $tableId);
+                    $rs = pg_query($this->cn, $sql);
+                    $affectedRows = pg_affected_rows($rs);
 
                 // Copy events from TB_SYSTEM
                 } elseif ($this->db->getEvent() == "New") {
@@ -153,10 +169,53 @@
                 }
 
             } catch (Exception $ex) {
-                $this->db->setError("TableLogic.createEvent()", $ex->getMessage());
+
+                // Keep source and error                
+                $this->db->setError("TableLogic.handleEvent()", $ex->getMessage());
+
+                // Rethrow it
                 throw $ex;
+
+            } finally {
+                // do nothing
             }
         }       
+
+
+        /*
+         * Delete fields
+         */
+        private function handleField($tableId) {
+
+            // General Declaration
+            $sql = "";
+            $rs = "";
+            $jsonUtil = new JsonUtil();
+            $affectedRows = 0;
+
+            try {
+
+                // Delete related events
+                if ($this->db->getEvent() == "Delete") {
+                    $sql .= " delete from tb_field";
+                    $sql .= " where " . $jsonUtil->condition("tb_field", "id_system", "int", "=", $this->db->getSystem());
+                    $sql .= " and " . $jsonUtil->condition("tb_field", "id_table", "int", "=", $tableId);
+                    $rs = pg_query($this->cn, $sql);
+                    $affectedRows = pg_affected_rows($rs);
+                }    
+
+            } catch (Exception $ex) {
+
+                // Keep source and error                
+                $this->db->setError("TableLogic.handleField()", $ex->getMessage());
+
+                // Rethrow it
+                throw $ex;
+
+            } finally {
+                // Do nothing
+            }
+        }        
 
     } // End of class
 ?>
