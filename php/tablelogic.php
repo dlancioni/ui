@@ -14,28 +14,46 @@
             $this->db = $db;
         }
 
-
         /*
-         * Orchestrate new table logic
+         * Logic before persist record
          */
-        public function afterInsert($tableId, $record) {
+        public function before($record) {
 
             // General Declaration
             $obj = "";
             $tableName = "";
 
             try {
+                // Create table and events
+                if ($this->getEvent() == "New") {
 
-                // Create physical table
-                $this->createTable($record);
-
-                // Create events using tb_table as template (new, edit, confirm, etc)
-                $this->createEvent($tableId);
+                }
 
             } catch (Exception $ex) {
                 throw $ex;
             }
-        }        
+        }
+
+        /*
+         * Logic before persist record
+         */
+        public function after($tableId, $record) {
+
+            // General Declaration
+            $obj = "";
+            $tableName = "";
+
+            try {
+                // Create table and events
+                if ($this->getEvent() == "New") {
+                    $this->createTable($record);
+                    $this->createEvent($tableId);
+                }
+
+            } catch (Exception $ex) {
+                throw $ex;
+            }
+        }
 
 
         /*

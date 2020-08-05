@@ -12,26 +12,30 @@
     $tableDef = "";
     $sqlBuilder = "";
     $jsonUtil = "";
-    $tableData = "{}";
-    $obj = "";
-    $table = "";
-    $tableLogic = "";
+    $record = "{}";
+    $logic = "";
 
     // Core code
     try {
+        
+        // Object instances
+        $jsonUtil = new JsonUtil();
 
         // DB interface
         $db = new Db();       
-        $jsonUtil = new JsonUtil();
-
-        // Open connection
-        $cn = $db->getConnection();        
+        $db->setSystem($_SESSION["_SYSTEM_"]);
+        $db->setLastId($_SESSION["_ID_"]);
+        $db->setEvent($_SESSION["_EVENT_"]);
 
         // Keep instance of SqlBuilder for current session
         $sqlBuilder = new SqlBuilder($_SESSION["_SYSTEM_"], 
                                      $_SESSION["_TABLE_"], 
                                      $_SESSION["_USER_"], 
                                      $_SESSION["_LANGUAGE_"]);
+
+        // Open connection
+        $cn = $db->getConnection();
+
         // Get table structure
         $tableDef = $sqlBuilder->getTableDef($cn, "json");
            
@@ -43,26 +47,32 @@
 
             if ($_SESSION["_EVENT_"] != "Delete") {
                 $fieldValue = $_REQUEST[$fieldName];
-                $tableData = $jsonUtil->setValue($tableData, $fieldName, $fieldValue);
+                $record = $jsonUtil->setValue($record, $fieldName, $fieldValue);
             }
+        }
+
+        // Get logic for current transaction
+        switch ($tableName) {
+            case "tb_table":
+                $logic = new TableLogic($cn, $sqlBuilder, $db);
+                break;                
+            default:  
+                $logic  = "";
         }
 
         // Open transaction
         pg_query($cn, "begin");
 
-            // Persist info
-            $db->setSystem($_SESSION["_SYSTEM_"]);
-            $db->setLastId($_SESSION["_ID_"]);
-            $db->setEvent($_SESSION["_EVENT_"]);
-            $id = $db->persist($cn, $tableName, $tableData);
+            // Before insert logic 
+            if ($logic)
+                $logic->before($record);
 
-            // Create physical table
-            if ($_SESSION["_EVENT_"] == "New") {
-                if ($tableName == "tb_table") {
-                    $tableLogic = new TableLogic($cn, $sqlBuilder, $db);
-                    $tableLogic->afterInsert($id, $tableData);
-                }
-            }
+            // Persist info
+            $id = $db->persist($cn, $tableName, $record);
+
+            // After insert logic
+            if ($logic)
+                $logic->after($id, $record);
 
         // Open transaction
         pg_query($cn, "commit");        
