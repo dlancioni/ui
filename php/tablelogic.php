@@ -25,7 +25,7 @@
 
             try {
                 // Create table and events
-                if ($this->getEvent() == "New") {
+                if ($this->db->getEvent() == "New") {
 
                 }
 
@@ -45,7 +45,7 @@
 
             try {
                 // Create table and events
-                if ($this->getEvent() == "New") {
+                if ($this->db->getEvent() == "New") {
                     $this->createTable($record);
                     $this->createEvent($tableId);
                 }

@@ -38,14 +38,14 @@
 
         // Get table structure
         $tableDef = $sqlBuilder->getTableDef($cn, "json");
+        if ($tableDef) {
+            $tableName = $tableDef[0]["table_name"];
+        }
            
         // Read form
-        foreach($tableDef as $item) {
-
-            $tableName = $item["table_name"];
-            $fieldName = $item["field_name"];
-
-            if ($_SESSION["_EVENT_"] != "Delete") {
+        if ($db->getEvent() != "Delete") {
+            foreach($tableDef as $item) {
+                $fieldName = $item["field_name"];
                 $fieldValue = $_REQUEST[$fieldName];
                 $record = $jsonUtil->setValue($record, $fieldName, $fieldValue);
             }
