@@ -26,4 +26,4 @@ from tb_table
 -- -----------------------------------------------------
 */
 
-select * from tb_event
+select * from tb_1

@@ -55,12 +55,8 @@ class Form extends Base {
         try {
 
             // Handle events
-            if ($this->Event == "Delete") {
-                $disabled = "disabled";
-            }
-
             if ($this->Event == "Filter") {
-                $id=0;
+                $id = 0;
             }
 
             // Get table structure

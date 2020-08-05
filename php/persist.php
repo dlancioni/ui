@@ -43,12 +43,10 @@
         }
            
         // Read form
-        if ($db->getEvent() != "Delete") {
-            foreach($tableDef as $item) {
-                $fieldName = $item["field_name"];
-                $fieldValue = $_REQUEST[$fieldName];
-                $record = $jsonUtil->setValue($record, $fieldName, $fieldValue);
-            }
+        foreach($tableDef as $item) {
+            $fieldName = $item["field_name"];
+            $fieldValue = $_REQUEST[$fieldName];
+            $record = $jsonUtil->setValue($record, $fieldName, $fieldValue);
         }
 
         // Get logic for current transaction
