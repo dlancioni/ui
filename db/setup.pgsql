@@ -62,7 +62,6 @@ insert into tb_table (field) values ('{"id_system":1,"name":"tb_domain","id_type
 insert into tb_table (field) values ('{"id_system":1,"name":"tb_event","id_type":1,"title":"Event"}');
 insert into tb_table (field) values ('{"id_system":1,"name":"tb_action","id_type":1,"title":"Action"}');
 insert into tb_table (field) values ('{"id_system":1,"name":"tb_code","id_type":1,"title":"Code"}');
-insert into tb_table (field) values ('{"id_system":1,"name":"tb_login","id_type":1,"title":"Login"}');
 
 -- -----------------------------------------------------
 -- table tb_field
@@ -104,13 +103,9 @@ insert into tb_field (field) values ('{"id_system":1,"id_table":5,"label":"Code"
 insert into tb_field (field) values ('{"id_system":1,"id_table":6,"label":"Name","name":"name","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
 insert into tb_field (field) values ('{"id_system":1,"id_table":6,"label":"Label","name":"label","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
 
-/*
 -- tb_code
 insert into tb_field (field) values ('{"id_system":1,"id_table":7,"label":"Code","name":"code","id_type":6,"size":500,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
--- login
-insert into tb_field (field) values ('{"id_system":1,"id_table":8,"label":"Usuario","name":"username","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
-insert into tb_field (field) values ('{"id_system":1,"id_table":8,"label":"Senha","name":"password","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
-*/
+
 
 -- -----------------------------------------------------
 -- table tb_domain
