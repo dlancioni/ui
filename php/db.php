@@ -148,7 +148,6 @@
                 }
 
                 // Stamp the ID
-                $message .= " [" . $this->getLastId() . "]";
                 $this->setMessage($message);
     
             } catch (Exception $ex) {

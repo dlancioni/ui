@@ -17,7 +17,7 @@
         /*
          * Logic before persist record
          */
-        public function before($record) {
+        public function before($old, $new) {
 
             try {
 
@@ -29,15 +29,15 @@
         /*
          * Logic before persist record
          */
-        public function after($tableId, $record) {
+        public function after($id, $old, $new) {
 
             try {
 
                 // Create, rename or delete table
-                $this->handleTable($record);
+                $this->handleTable($old, $new);
 
                 // Create or delete events
-                $this->handleEvent($tableId);
+                $this->handleEvent($id);
 
             } catch (Exception $ex) {
                 throw $ex;
@@ -47,38 +47,45 @@
         /*
          * Create physical table for current transaction
          */
-        private function handleTable($record) {
+        private function handleTable($old, $new) {
 
             // General Declaration
             $sql = "";
             $json = "";
-            $tableName = "";            
+            $tableOld = "";
+            $tableNew = "";
 
             try {
 
                 // Figure out table name   
-                $json = json_decode($record);
-                $tableName = $json->{'name'};
+                $json = json_decode($old);
+                $tableOld = $json->{'name'};
+
+                $json = json_decode($new);
+                $tableNew = $json->{'name'};                
 
                 // Take action on tables according to current event
                 switch ($this->db->getEvent()) {
 
                     // Create it
                     case "New":                        
-                        $sql = "drop table if exists " . $tableName;
+                        $sql = "drop table if exists " . $tableNew;
                         pg_query($this->cn, $sql);
-                        $sql = "create table if not exists " . $tableName . " (id serial, field jsonb);";
+                        $sql = "create table if not exists " . $tableNew . " (id serial, field jsonb);";
                         pg_query($this->cn, $sql);
                         break;
 
                     // Rename it
                     case "Edit":
+                        if ($tableOld != $tableNew) {
+                            $sql = "alter table " . $tableOld . " rename to " . $tableNew;
+                            pg_query($this->cn, $sql);                        
+                        }
                         break;
 
                     // Delete it                            
                     case "Delete":
-                        // Create statement
-                        $sql = "drop table if exists " . $tableName;
+                        $sql = "drop table if exists " . $tableOld;
                         pg_query($this->cn, $sql);
                         break;                        
                 }
@@ -111,8 +118,6 @@
 
                 // Delete related events
                 if ($this->db->getEvent() == "Delete") {
-
-                    
 
                     $sql .= " delete from $tableName";
                     $sql .= " where " . $jsonUtil->condition($tableName, "id_system", "int", "=", $this->db->getSystem());

@@ -56,7 +56,7 @@ class Form extends Base {
 
             // Handle events
             if ($this->Event == "Delete") {
-                //$disabled = "disabled";
+                $disabled = "disabled";
             }
 
             if ($this->Event == "Filter") {
