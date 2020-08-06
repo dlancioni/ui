@@ -18,28 +18,20 @@ filter.push({"table":"tb_table", "field":"id", "type":"int", "operator":"=", "va
  */
 function validateTableName(value) {
 
-    // Define patter
-    let arr = [];
-    let output = "";
-    let pattern = /[A-Za-z0-9_]/g; 
+// Define patter
+let output = "";
+let pattern = /[A-Za-z0-9_]/g; 
 
-    // If has value
-    if (value.trim() != "") {
-
-        // Test pattern        
-        arr = value.match(pattern);
-
-        if (arr == null) 
-            return "";
-
-        // Array to string
-        for (let i=0; i<=arr.length-1; i++) {
-            output += arr[i];
-        }
-    }
-
-    // Just return
-    return output.trim();
+// If has value
+if (value.trim() != "") {
+    output = value.match(pattern).toString().replace(/,/g, '');
 }
+
+// Just return
+return output.trim();
+}
+
+
+alert(validateTableName("tb_[]1"));
 
 </script>

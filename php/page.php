@@ -27,7 +27,7 @@
         $cn = $db->getConnection();
 
         // Get menu    
-        $sqlBuilder = new SqlBuilder($systemId, $tableId, $userId, $languageId);        
+        $sqlBuilder = new SqlBuilder($systemId, $tableId, $userId, $languageId);
         $menu = new Menu($cn, $sqlBuilder);
         $html .= $menu->createMenu();
 
@@ -60,7 +60,10 @@
             }
 
             // Add buttons to form
-            $html .= CreateButton($pageEvent);
+            $html .= createButton($pageEvent);
+
+            // Add global functions (js code)
+            $html .= createJS($cn, $sqlBuilder);
         }
 
     } catch (Exception $ex) {        
@@ -103,5 +106,29 @@
         return $html;
     }
 
+    /* 
+     * Get global js functions
+     */
+    function createJS($cn, $sqlBuilder) {
+
+        // General declaration
+        $js = "";
+        $rs = "";
+        $TB_CODE = 7;
+
+        // Get data
+        $rs = $sqlBuilder->Query($cn, $TB_CODE);
+
+        // Create event list
+        foreach ($rs as $item) {
+            $js .= $item["code"];
+        }
+
+        // Append script
+        $js = "<script>$js</script>";
+
+        // Return to main function
+        return $js;
+    }
 
 ?>

@@ -202,23 +202,12 @@ function isMandatory(fieldName, message, fk) {
 function validateTableName(value) {
 
     // Define patter
-    let arr = [];
     let output = "";
     let pattern = /[A-Za-z0-9_]/g; 
 
     // If has value
     if (value.trim() != "") {
-
-        // Test pattern        
-        arr = value.match(pattern);
-
-        if (arr == null) 
-            return "";
-
-        // Array to string
-        for (let i=0; i<=arr.length-1; i++) {
-            output += arr[i];
-        }
+        output = value.match(pattern).toString().replace(/,/g, '');
     }
 
     // Just return
