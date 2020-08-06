@@ -171,7 +171,6 @@ function formClear() {
             element.value = "";
         }
     }    
-
 }
 
 /*
@@ -194,22 +193,4 @@ function isMandatory(fieldName, message, fk) {
     }
 
     return true;
-}
-
-/*
- * Validate table name based on pattern
- */
-function validateTableName(value) {
-
-    // Define patter
-    let output = "";
-    let pattern = /[A-Za-z0-9_]/g; 
-
-    // If has value
-    if (value.trim() != "") {
-        output = value.match(pattern).toString().replace(/,/g, '');
-    }
-
-    // Just return
-    return output.trim();
 }

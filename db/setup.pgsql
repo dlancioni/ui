@@ -220,3 +220,4 @@ insert into tb_action (field) values ('{"id_system":1,"name":"Test","label":"Tes
 -- table tb_code
 -- -----------------------------------------------------
 insert into tb_code (field) values ('{"id_system":1,"code":"function test() {alert(''Hello World'');}"}');
+insert into tb_code (field) values ('{"id_system":1,"code": "function validateTableName(value) {\r\n\r\n    // Define patter\r\n    let output = \"\";\r\n    let pattern = /[A-Za-z0-9_]/g; \r\n\r\n    // If has value\r\n    if (value.trim() != \"\") {\r\n        output = value.match(pattern).toString().replace(/,/g, '''');\r\n    }\r\n\r\n    // Just return\r\n    return output.trim();\r\n}"}');
