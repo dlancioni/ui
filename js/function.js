@@ -2,23 +2,29 @@
  * Navigate to page in table or form format
  */
 function go(table=0, format=1, event="") {
-    document.getElementById("_TABLE_").value = table;
-    document.getElementById("_FORMAT_").value = format;
-    document.getElementById("_EVENT_").value = event;
-    document.getElementById("_PAGING_").value = 0;
-    document.form1.submit();
+    field("_TABLE_").value = table;
+    field("_FORMAT_").value = format;
+    field("_EVENT_").value = event;
+    field("_PAGING_").value = 0;
+    submit();
+}
+
+/*
+ * Submit current form
+ */
+function submit(param="form1") {
+    form = document.getElementById(param);
+    form.submit();
 }
 
 /*
  * Save current form
  */
 function confirm() {
-
     let info = "";
-
-    if (valueOf("_EVENT_") == "Filter") {
+    if (field("_EVENT_").value == "Filter") {
         field("_PAGING_").value = 0;
-        go(valueOf("_TABLE_"), 1, valueOf("_EVENT_"));
+        go(field("_TABLE_").value, 1, field("_EVENT_").value);
     } else {
         let httpService = new HTTPService();
         if (validateForm()) {
@@ -38,24 +44,10 @@ function getFormData() {
 }
 
 /*
- * Read html element
- */
-function valueOf(element) {
-    return document.getElementById(element).value.trim();
-}
-
-/*
  * Return field object
  */
 function field(element) {
     return document.getElementById(element);
-}
-
-/*
- * Concatenate single quote ('')
- */
-function sqt(value) {
-    return "'" + value.trim() + "'";
 }
 
 /*
@@ -71,28 +63,28 @@ function query(sql) {
  * Empty form to input new record
  */
 function formNew() {
-    document.getElementById("_FORMAT_").value = 2;
-    document.getElementById("_EVENT_").value = "New";
+    field("_FORMAT_").value = 2;
+    field("_EVENT_").value = "New";
     document.form1.submit();
 }
 function formEdit() {
-    document.getElementById("_FORMAT_").value = 2;
-    document.getElementById("_EVENT_").value = "Edit";
+    field("_FORMAT_").value = 2;
+    field("_EVENT_").value = "Edit";
     document.form1.submit();
 }
 function formDelete() {
-    document.getElementById("_FORMAT_").value = 2;
-    document.getElementById("_EVENT_").value = "Delete";
+    field("_FORMAT_").value = 2;
+    field("_EVENT_").value = "Delete";
     document.form1.submit();
 }
 function formFilter() {
-    document.getElementById("_FORMAT_").value = 2;
-    document.getElementById("_EVENT_").value = "Filter";
+    field("_FORMAT_").value = 2;
+    field("_EVENT_").value = "Filter";
     document.form1.submit();
 }
 function reportBack() {
-    document.getElementById("_FORMAT_").value = 1;
-    document.getElementById("_EVENT_").value = 'Back';
+    field("_FORMAT_").value = 1;
+    field("_EVENT_").value = 'Back';
     document.form1.submit();
 }
 
@@ -100,8 +92,8 @@ function reportBack() {
  * Paging effect
  */
 function paging(pageOffset) {
-    document.getElementById("_PAGING_").value = pageOffset;
-    document.form1.submit();
+    field("_PAGING_").value = pageOffset;
+    submit();
 }
 
 /*
@@ -179,13 +171,13 @@ function formClear() {
 function isMandatory(fieldName, message, fk) {
 
     if (fk == 0) {
-        if(valueOf(fieldName) == '') {
+        if(field(fieldName).value == '') {
             alert(message);
             field(fieldName).focus();
             return false;
         }
     } else {
-        if(valueOf(fieldName) == 0) {
+        if(field(fieldName).value == 0) {
             alert(message);
             field(fieldName).focus();
             return false;
