@@ -16,8 +16,9 @@ include "php/session.php";
 
 
 <div class="w3-row">
-  <div class="w3-col w3-container" style="width:15%">&nbsp;</div>
-  <div class="w3-col w3-container" style="width:85%"><?php include "php/page.php";?></div>
+  <div class="w3-col w3-container" style="width:20%">&nbsp;</div>
+  <div class="w3-col w3-container" style="width:60%"><?php include "php/page.php";?></div>
+  <div class="w3-col w3-container" style="width:20%">&nbsp;</div>
 </div>
 
 

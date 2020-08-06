@@ -29,7 +29,10 @@ function confirm() {
         let httpService = new HTTPService();
         if (validateForm()) {
             info = httpService.persist(getFormData());        
-            alert(info);            
+            alert(info);      
+            if (field("_EVENT_").value != "New") {
+                reportBack();
+            }
         }
     }
 }
