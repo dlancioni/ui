@@ -46,11 +46,10 @@
 
             // Create page or form
             if ($format == 1) {
-                $report = new Report($cn, $sqlBuilder);               
-                $report->PageEvent = $pageEvent;
-                $report->FormData = $_REQUEST;
-                $report->PageOffset = $pageOffset;
+                $report = new Report($cn, $sqlBuilder, $_REQUEST);
                 $report->Event = $event;
+                $report->PageEvent = $pageEvent;
+                $report->PageOffset = $pageOffset;
                 $html .= $report->createReport($tableId);
             } else {
                 $form = new Form($cn, $sqlBuilder);

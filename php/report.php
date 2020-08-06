@@ -3,7 +3,6 @@ class Report extends Base {
 
     // Public members
     public $PageEvent = "";
-    public $FormData = "";
     public $PageOffset = "";
     public $Event = "";   
 
@@ -12,11 +11,13 @@ class Report extends Base {
     private $sqlBuilder = 0;
     private $tableDef = "";
     private $element = "";    
+    public $formData = "";
 
     // Constructor
-    function __construct($cn, $sqlBuilder) {
+    function __construct($cn, $sqlBuilder, $formData) {
         $this->cn = $cn;
         $this->sqlBuilder = $sqlBuilder;
+        $this->formData = $formData;
         $this->element = new HTMLElement($this->cn, $this->sqlBuilder);        
     }
 
@@ -52,7 +53,7 @@ class Report extends Base {
             // Get data
             $filter = new Filter();
             if ($this->Event == "Filter") {
-                $filter->setFilter($this->tableDef, $this->FormData);
+                $filter->setFilter($this->tableDef, $this->formData);
             }
 
             // Paging
