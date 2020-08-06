@@ -22,13 +22,14 @@
         // Handle request outside to organize code
         include "request.php";
 
-        // Create objects
+        // General Declaration
         $db = new Db();
         $cn = $db->getConnection();
-
-        // Get menu    
         $sqlBuilder = new SqlBuilder($systemId, $tableId, $userId, $languageId);
+        $element = new HTMLElement($cn, $sqlBuilder);
         $menu = new Menu($cn, $sqlBuilder);
+
+        // Get main menu
         $html .= $menu->createMenu();
 
         // Create table or form
@@ -38,11 +39,10 @@
             $filter = new Filter();
             $filter->add("tb_event", "id_target", $format);
             $filter->add("tb_event", "id_table", $tableId);
-            $pageEvent = $sqlBuilder->Query($cn, $TB_EVENT, $filter->create());            
+            $pageEvent = $sqlBuilder->Query($cn, $TB_EVENT, $filter->create());
 
-            // Reset sql builder
-            $sqlBuilder = new SqlBuilder($systemId, $tableId, $userId, $languageId);
-            $element = new HTMLElement($cn, $sqlBuilder);        
+            // Go to current table
+            $sqlBuilder->setTable($tableId);            
 
             // Create page or form
             if ($format == 1) {
