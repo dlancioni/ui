@@ -31,7 +31,7 @@ class Form extends Base {
         $rows = "";
         
         $html = "";
-        $data = "";
+        $data = [];
         $dataFk = "";
         $filter = "";
         $tableName = "";
@@ -67,10 +67,17 @@ class Form extends Base {
             $this->tableDef = $this->sqlBuilder->getTableDef($this->cn, "json");
             if (count($this->tableDef) > 0) {
                 
-                // Get data
-                $filter = new Filter();
-                $filter->add($this->tableDef[0]["table_name"], "id", $id);
-                $data = $this->sqlBuilder->Query($this->cn, $tableId, $filter->create());
+                // Do not query database
+                if ($this->Event == "Filter") {
+                    if (isset($_SESSION["_FILTER_"][$tableId])) {
+                        $data = $_SESSION["_FILTER_"][$tableId];
+                    }                    
+                } else {
+                    // Get data
+                    $filter = new Filter();
+                    $filter->add($this->tableDef[0]["table_name"], "id", $id);
+                    $data = $this->sqlBuilder->Query($this->cn, $tableId, $filter->create());
+                }
 
                 // Create field Id (rules according to event)
                 $rows .= $this->createId($data, $placeHolder, $disabled);
@@ -96,14 +103,10 @@ class Form extends Base {
                     $placeHolder = $fieldMask;
                 }
 
-                if ($this->Event == "Filter") {
-                    if (isset($_SESSION["_FILTER_"][$tableId])) {
-                        $fieldValue = $_SESSION["_FILTER_"][$tableId][$fieldName];
-                    }
-                } else {
-                    foreach($data as $col) {
+                foreach($data as $col) {
+                    if (isset($col[$fieldName])) {
                         $fieldValue = $col[$fieldName];
-                        break;
+                        break;                        
                     }
                 }
 
@@ -219,21 +222,36 @@ class Form extends Base {
      */
     private function createId($data, $placeHolder, $disabled) {
         // General declaration
+        $id = "";
         $cols = "";
         $rows = "";
+        $fieldId = "_id_";        
 
-        if ($data) {
-            if ($this->Event != "New") {
-                $disabled = "disabled";
-                $cols .= $this->element->createTableCol($this->element->createLabel("id", "id"));
-                $cols .= $this->element->createTableCol($this->element->createTextbox(0, "id", $data[0]["id"], $placeHolder, $disabled));
-                $rows .= $this->element->createTableRow($cols);
-            }
-        } else {
-            $cols .= $this->element->createTableCol($this->element->createLabel("id", "id"));
-            $cols .= $this->element->createTableCol($this->element->createTextbox(0, "id", "", $placeHolder, $disabled));
-            $rows .= $this->element->createTableRow($cols);
+        // Keep value
+        if (isset($data[0][$fieldId])) {
+            $id = $data[0][$fieldId];
         }
+
+        // Control access
+        switch ($this->Event) {
+            case "New":
+                $id = "";
+                $disabled = "disabled";
+                break;                
+            case "Edit":
+                $disabled = "disabled";
+                break;                
+            case "Delete":
+                $disabled = "disabled";
+                break;
+            default:
+                $disabled = "";
+        }
+
+        // Create field
+        $cols .= $this->element->createTableCol($this->element->createLabel("id", "id"));
+        $cols .= $this->element->createTableCol($this->element->createTextbox(0, $fieldId, $id, $placeHolder, $disabled));
+        $rows .= $this->element->createTableRow($cols);
 
         return $rows;
     }

@@ -90,7 +90,16 @@
             }
             $condition .= " " . $operator . " ";
             // Handle quotes
-            $value = (is_numeric($value) ? $value : $this->sqt($value));
+            switch ($type) {
+                case "int":
+                case "float":
+                    // Numeric, do nothing
+                    break;
+                default:
+                    // Set dbqt
+                    $value = $this->sqt($value);                                    
+            }
+
             // Set value
             if ($type == "date") {
                 $condition .= "to_date(" . $value . ", " . $this->sqt($mask) . ")";

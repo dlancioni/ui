@@ -21,6 +21,7 @@
             $tableName = "";
             $fieldName = "";
             $fieldValue = "";
+            $fieldId = "_id_"; // See createId() on form
 
             // Create filter
             foreach ($tableDef as $item) {
@@ -29,13 +30,13 @@
                 $tableName = $tableDef[0]["table_name"];
 
                 // ID is not in table def, handle here
-                if (isset($formData["id"])) {
-                    if ($formData["id"] != "") {
+                if (isset($formData[$fieldId])) {
+                    if ($formData[$fieldId] != "") {
                         $this->addCondition($tableName, 
                                             "id", 
                                             "int", 
                                             "=",
-                                            $formData["id"],
+                                            $formData[$fieldId],
                                             "");
                     }
                 }
