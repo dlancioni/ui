@@ -54,6 +54,7 @@ class Report extends Base {
             $filter = new Filter();
             if ($this->Event == "Filter") {
                 $filter->setFilter($this->tableDef, $this->formData);
+                $_SESSION["_FILTER_"][$tableId] = $this->formData;
             }
 
             // Paging

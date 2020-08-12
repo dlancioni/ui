@@ -18,17 +18,33 @@
         function setFilter($tableDef, $formData) {
 
             // General Declaration
+            $tableName = "";
             $fieldName = "";
             $fieldValue = "";
 
             // Create filter
             foreach ($tableDef as $item) {
 
+                // Keep table name
+                $tableName = $tableDef[0]["table_name"];
+
+                // ID is not in table def, handle here
+                if (isset($formData["id"])) {
+                    if ($formData["id"] != "") {
+                        $this->addCondition($tableName, 
+                                            "id", 
+                                            "int", 
+                                            "=",
+                                            $formData["id"],
+                                            "");
+                    }
+                }
+
                 // Get key fields
                 $fieldName = $item["field_name"];
                 if (isset($formData[$fieldName])) {
                     $fieldValue = $formData[$fieldName];
-                }
+                }                
 
                 // Add condition
                 if (trim($fieldValue) != "" && trim($fieldValue) != "0") {

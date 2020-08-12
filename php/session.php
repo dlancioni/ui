@@ -17,7 +17,10 @@
     $filter = "[]"; 
     $pageOffset = 0;
 
-    // Session attributes    
+    // Filter for current table
+    //$_SESSION["_FILTER_"] = [];
+
+    // Key attributes    
     $_SESSION["_SYSTEM_"] = 1;
     $_SESSION['_TABLE_'] = 2;
     $_SESSION['_USER_'] = 1;

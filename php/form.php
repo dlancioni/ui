@@ -60,7 +60,7 @@ class Form extends Base {
             }
 
             if ($this->Event == "Filter") {
-                $id=0;
+                $id = 0;
             }
 
             // Get table structure
@@ -73,9 +73,7 @@ class Form extends Base {
                 $data = $this->sqlBuilder->Query($this->cn, $tableId, $filter->create());
 
                 // Create field Id (rules according to event)
-                if ($data) {
-                    $rows .= $this->createId($data, $placeHolder, $disabled);
-                }                
+                $rows .= $this->createId($data, $placeHolder, $disabled);
             }            
 
             // Create base form
@@ -98,10 +96,15 @@ class Form extends Base {
                     $placeHolder = $fieldMask;
                 }
 
-                // Get field value
-                foreach($data as $col) {
-                    $fieldValue = $col[$fieldName];
-                    break;
+                if ($this->Event == "Filter") {
+                    if (isset($_SESSION["_FILTER_"][$tableId])) {
+                        $fieldValue = $_SESSION["_FILTER_"][$tableId][$fieldName];
+                    }
+                } else {
+                    foreach($data as $col) {
+                        $fieldValue = $col[$fieldName];
+                        break;
+                    }
                 }
 
                 // Accumulate JS for validation
@@ -131,6 +134,7 @@ class Form extends Base {
                                            $disabled, 
                                            $this->PageEvent));
                     } else {
+
                         $cols .= $this->element->
                             createTableCol($this->element->
                                 createTextbox($fieldId, 
@@ -140,6 +144,7 @@ class Form extends Base {
                                             $disabled, 
                                             $this->PageEvent));
                     }
+
                 } else {
 
                     // Append dropdown
