@@ -26,4 +26,6 @@ from tb_table
 -- -----------------------------------------------------
 */
 
-select * from tb_code
+select * from tb_event where field->>'id_table' = '9'
+union
+select * from tb_event where field->>'id_table' = '1'

@@ -228,8 +228,8 @@ class Form extends Base {
         $fieldId = "_id_";        
 
         // Keep value
-        if (isset($data[0][$fieldId])) {
-            $id = $data[0][$fieldId];
+        if (isset($data[0]["id"])) {
+            $id = $data[0]["id"];
         }
 
         // Control access

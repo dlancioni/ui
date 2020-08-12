@@ -121,7 +121,7 @@
             $sql = "";
             $html = "";
             $EVENT = 5;
-            $TABLE = 2;
+            $TB_SYSTEM = 1;
             $tableDef = "";
             $fieldName = "";
             $fieldValue = "";            
@@ -144,7 +144,7 @@
                 } elseif ($this->db->getEvent() == "New") {
 
                     $filter = new Filter();
-                    $filter->add("tb_event", "id_table", $TABLE);
+                    $filter->add("tb_event", "id_table", $TB_SYSTEM);
                     $tableData = $this->sqlBuilder->Query($this->cn, $EVENT, $filter->create());
                     $tableDef = $this->sqlBuilder->getTableDef($this->cn, "json");
 
