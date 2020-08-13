@@ -24,7 +24,7 @@
     $_SESSION["_SYSTEM_"] = 1;
     $_SESSION['_TABLE_'] = 2;
     $_SESSION['_USER_'] = 1;
-    $_SESSION['_LANGUAGE_'] = 2; // 1-enUS / 2-ptBR
+    $_SESSION['_LANGUAGE_'] = 1; // 1-enUS / 2-ptBR
     $_SESSION['_ID_'] = 0;
 
     // Solution allow multiple systems

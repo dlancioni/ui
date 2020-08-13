@@ -18,7 +18,7 @@ class Report extends Base {
         $this->cn = $cn;
         $this->sqlBuilder = $sqlBuilder;
         $this->formData = $formData;
-        $this->element = new HTMLElement($this->cn, $this->sqlBuilder);        
+        $this->element = new HTMLElement($this->cn, $this->sqlBuilder);
     }
 
     /* 
@@ -34,17 +34,21 @@ class Report extends Base {
         $cols = "";        
         $fieldLabel = "";
         $fieldName = "";
+        $fieldType = "";
+        $fieldValue = "";
         $data = "";
         $filter = "";
         $checked = "";
         $radio = "";
         $fk = 0;
         $recordCount = 0;       
+        $numberUtil = "";
         $PAGE_SIZE = 20;
 
         try {
 
             // Create object instances
+            $numberUtil = new NumberUtil();
             $this->element = new HTMLElement($this->cn, $this->sqlBuilder);
 
             // Get table structure
@@ -95,14 +99,27 @@ class Report extends Base {
                     $tableFk = $col["table_fk"];
                     $fieldFk = $col["field_fk"];
                     $fieldName = $col["field_name"];
+                    $fieldType = $col["data_type"];
                     $fk = $col["id_fk"];
 
-                    // Print right fields
+                    // Get field values
                     if ($fk == 0) {
-                        $cols .= $this->element->createTableCol($row[$fieldName]);
+                        $fieldValue = $row[$fieldName];
                     } else {
-                        $cols .= $this->element->createTableCol($row[substr($fieldName, 3)]);
+                        $fieldValue = $row[substr($fieldName, 3)];
                     }
+
+                    // Format values
+                    if ($fieldType == "int" || $fieldType == "float") {
+                        if ($this->sqlBuilder->getLanguage() == 1) {
+                            $fieldValue = number_format($fieldValue, 2, '.', ',');;
+                        } else {
+                            $fieldValue = number_format($fieldValue, 2, ',', '.');;
+                        }
+                    }                    
+
+                    // Print it
+                    $cols .= $this->element->createTableCol($fieldValue);
                 }
 
                 $rows .= $this->element->createTableRow($cols);
