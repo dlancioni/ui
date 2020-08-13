@@ -17,12 +17,15 @@
     $old = "{}";
     $new = "{}";
     $logic = "";
+    $fieldName = "";
+    $fieldType = "";
 
     // Core code
     try {
         
         // Object instances
         $jsonUtil = new JsonUtil();
+        $numberUtil = new NumberUtil();
 
         // DB interface
         $db = new Db();       
@@ -61,8 +64,14 @@
         // Read form
         foreach($tableDef as $item) {
             $fieldName = $item["field_name"];
+            $fieldType = $item["data_type"];
             if (isset($_REQUEST[$fieldName])) {
                 $fieldValue = $_REQUEST[$fieldName];
+
+                if ($fieldType == "int" || $fieldType == "float") {
+                    $fieldValue = $numberUtil->valueOf($_SESSION["_LANGUAGE_"], $fieldValue);
+                }
+
                 $new = $jsonUtil->setValue($new, $fieldName, $fieldValue);
             }
         }

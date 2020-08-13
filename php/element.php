@@ -389,7 +389,16 @@
                 $js .= "if (!validateDate($fieldName, $fieldMask, $message)) {";
                 $js .= "return false;";
                 $js .= "} ";
-            }            
+            }
+
+            // Validate mandatory fields (see domain tb_bool)
+            $message = $stringUtil->dqt("Valor numerico invalido $fieldLabel");
+            if ($fieldType == "int" || $fieldType == "float") {
+                $js .= "if (!validateNumeric($fieldName, $message)) {";
+                $js .= "return false;";
+                $js .= "} ";
+            }
+
 
             // Just return
             return $js;

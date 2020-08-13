@@ -28,4 +28,8 @@ from tb_table
 
 select * from tb_event where field->>'id_table' = '9'
 union
-select * from tb_event where field->>'id_table' = '1'
+select * from tb_system
+
+
+select * from tb_system 
+delete from tb_system where id > 1

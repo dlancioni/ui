@@ -1,5 +1,23 @@
 <?php
 
+    class NumberUtil {
+       /*
+        * Make number in english (remove , or .) according to language
+        */        
+        function valueOf($languageId, $value) {
+
+            if ($languageId == 1) {
+                $value = str_replace(",", "", $value);
+            } else if ($languageId == 2) {
+                $value = str_replace(".", "", $value);
+                $value = str_replace(",", ".", $value);
+            }
+
+            return $value;
+        }
+
+    }
+
     class StringUtil {
         /*
          * Put value between single quote
@@ -20,7 +38,7 @@
          */
         function lb() {
             return "\n";
-        }        
+        }
     }
     
     class JsonUtil extends StringUtil {

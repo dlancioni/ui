@@ -145,7 +145,7 @@ insert into tb_event (field) values ('{"id_system":1,"id_target":2,"id_table":1,
 insert into tb_event (field) values ('{"id_system":1,"id_target":1,"id_table":1,"id_field":0,"id_action":5,"id_event":2,"code":"formFilter()"}');
 insert into tb_event (field) values ('{"id_system":1,"id_target":2,"id_table":1,"id_field":0,"id_action":6,"id_event":2,"code":"formClear()"}');
 insert into tb_event (field) values ('{"id_system":1,"id_target":2,"id_table":1,"id_field":0,"id_action":7,"id_event":2,"code":"reportBack()"}');
-insert into tb_event (field) values ('{"id_system":1,"id_target":2,"id_table":1,"id_field":3,"label":"","id_event":3,"code":"this.value = format(this.value)"}');
+insert into tb_event (field) values ('{"id_system":1,"id_target":2,"id_table":1,"id_field":3,"label":"","id_event":3,"code":"this.value = formatValue(this.value)"}');
 
 -- tb_table
 insert into tb_event (field) values ('{"id_system":1,"id_target":1,"id_table":2,"id_field":0,"id_action":1,"id_event":2,"code":"formNew();"}');
@@ -222,4 +222,3 @@ insert into tb_action (field) values ('{"id_system":1,"name":"Test","label":"Tes
 -- -----------------------------------------------------
 insert into tb_code (field) values ('{"id_system":1,"code":"function test() {alert(''Hello World'');}"}');
 insert into tb_code (field) values ('{"id_system":1,"code": "function validateTableName(value) {\r\n\r\n    // Define patter\r\n    let output = \"\";\r\n    let pattern = /[A-Za-z0-9_]/g; \r\n\r\n    // If has value\r\n    if (value.trim() != \"\") {\r\n        output = value.match(pattern).toString().replace(/,/g, '''');\r\n    }\r\n\r\n    // Just return\r\n    return output.trim();\r\n}"}');
-insert into tb_code (field) values ('{"id_system": 1, "code": "function format(value) {\r\n\r\n    let format = \"\";\r\n\r\n    if (field(\"_LANGUAGE_\").value == 1) {\r\n        format = \"pt-BR\";\r\n    } else {\r\n        format = \"en-US\";\r\n    }\r\n\r\n    let x = new Intl.NumberFormat(format).format(value);\r\n\r\n    return x;\r\n}"}');

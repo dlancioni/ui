@@ -207,3 +207,54 @@ function validateDate(fieldName, mask, message="") {
         return false;
     }
 }
+
+/*
+ * Validate numerics
+ */
+function validateNumeric(fieldName, message="") {
+
+    if (isNumeric(field(fieldName).value)) {
+        return true;
+    } else {
+        if (message != "") {
+            alert(message);
+            field(fieldName).focus();
+        }
+        return false;
+    }
+}
+
+
+/*
+ * Remove , or . accordint to current language
+ */
+function valueOf(value) {
+    if (field("_LANGUAGE_").value == 1) {
+        value = value.split(',').join('');
+    } else {
+        value = value.split('.').join('');
+        value = value.split(',').join('.');        
+    }
+    return value;
+}
+
+/*
+ * Check if native value is numeric
+ */
+function isNumeric(value) {
+    value = valueOf(value);    
+    return !isNaN(parseFloat(value)) && isFinite(value);
+}
+
+
+function formatValue(value) {
+    let format = "";
+    value = valueOf(value);
+    if (field("_LANGUAGE_").value == 1) {
+        format = "en-US";
+    } else {
+        format = "pt-BR";
+    }
+    let x = new Intl.NumberFormat(format, {minimumFractionDigits: 2}).format(value);
+    return x;
+}
