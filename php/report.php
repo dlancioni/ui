@@ -116,7 +116,7 @@ class Report extends Base {
                         } else {
                             $fieldValue = number_format($fieldValue, 2, ',', '.');;
                         }
-                    }                    
+                    }
 
                     // Print it
                     $cols .= $this->element->createTableCol($fieldValue);
