@@ -110,7 +110,7 @@ class Report extends Base {
                     }
 
                     // Format values
-                    if ($fieldType == "int" || $fieldType == "float") {
+                    if ($fieldType == "float") {
                         if ($this->sqlBuilder->getLanguage() == 1) {
                             $fieldValue = number_format($fieldValue, 2, '.', ',');;
                         } else {

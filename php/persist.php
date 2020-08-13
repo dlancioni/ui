@@ -68,7 +68,7 @@
             if (isset($_REQUEST[$fieldName])) {
                 $fieldValue = $_REQUEST[$fieldName];
 
-                if ($fieldType == "int" || $fieldType == "float") {
+                if ($fieldType == "float") {
                     $fieldValue = $numberUtil->valueOf($_SESSION["_LANGUAGE_"], $fieldValue);
                 }
 
