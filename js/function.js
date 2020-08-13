@@ -171,7 +171,7 @@ function formClear() {
 /*
  * Validate mandatory fields
  */
-function isMandatory(fieldName, message, fk) {
+function validateMandatory(fieldName, fk, message) {
 
     if (fk == 0) {
         if(field(fieldName).value == '') {
@@ -188,4 +188,22 @@ function isMandatory(fieldName, message, fk) {
     }
 
     return true;
+}
+
+/*
+ * Validate dates
+ */
+function validateDate(fieldName, mask, message="") {
+
+    let dt = moment(field(fieldName).value, mask.toUpperCase(), true);
+
+    if (dt.isValid()) {
+        return true;
+    } else {
+        if (message != "") {
+            alert(message);
+            field(fieldName).focus();
+        }
+        return false;
+    }
 }

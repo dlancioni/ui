@@ -113,7 +113,7 @@ class Form extends Base {
                 // Accumulate JS for validation
                 $js .= $this->element->createJs($fieldLabel, 
                                                 $fieldName,
-                                                $fieldType, 
+                                                $datatype, 
                                                 $fieldValue, 
                                                 $fieldMask, 
                                                 $fieldMandatory, 

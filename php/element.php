@@ -371,19 +371,25 @@
             $js = "";
             $stringUtil = new StringUtil();        
 
-            // Temporary message
-            $message = $stringUtil->dqt("Campo obrigatorio $fieldLabel");                
-
             // Prepare values        
-            $fieldLabel = $stringUtil->dqt($fieldLabel);
             $fieldName = $stringUtil->dqt($fieldName);
+            $fieldMask = $stringUtil->dqt($fieldMask);
 
             // Validate mandatory fields (see domain tb_bool)
-            if ($fieldMandatory == 1) {
-                $js .= "if (!isMandatory($fieldName, $message, $fk)) {";
+            $message = $stringUtil->dqt("Campo obrigatório $fieldLabel");            
+            if ($fieldMandatory == 1) {                
+                $js .= "if (!validateMandatory($fieldName, $fk, $message)) {";
                 $js .= "return false;";
                 $js .= "} ";
             }
+
+            // Validate mandatory fields (see domain tb_bool)
+            $message = $stringUtil->dqt("Data Inválida $fieldLabel");
+            if ($fieldType == "date") {                
+                $js .= "if (!validateDate($fieldName, $fieldMask, $message)) {";
+                $js .= "return false;";
+                $js .= "} ";
+            }            
 
             // Just return
             return $js;

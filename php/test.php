@@ -1,27 +1,36 @@
-<?php
+<html>
+<head>    
+<title>UI</title>
+</head>    
+<body>
 
-$tb1 = 1;
-$tb2 = 2;
+    <script src="../js/moment.js"></script>
+    
+    <script>
 
-$age[$tb1] = "David";
-$age[$tb2] = "Renata";
+    function formatNumber(value) {
 
-echo var_dump($age);
+        let format = "";
 
-$age[$tb2] = "Taza";
-echo var_dump($age);
+        if (field("_LANGUAGE_").value == 1) {
+            format = "pt-BR";
+        } else {
+            format = "en-US";
+        }
 
-?>
+        let x = new Intl.NumberFormat(format).format(number);
 
+        return x;
+    }
 
-<script>
+    alert(formatNumber("1000000.23"));
 
-let filter = 
-[
-    {"table":"tb_table", "field":"id", "type":"int", "operator":"=", "value":"123", "mask":""}
-]
-filter.push({"table":"tb_table", "field":"id", "type":"int", "operator":"=", "value":"123", "mask":""});
-//alert(filter.length);
-//alert(JSON.stringify(filter))
+    </script>        
+    
+    
+    
 
-</script>
+</body>
+</html>
+        
+        
