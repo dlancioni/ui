@@ -104,6 +104,7 @@ insert into tb_field (field) values ('{"id_system":1,"id_table":6,"label":"Name"
 insert into tb_field (field) values ('{"id_system":1,"id_table":6,"label":"Label","name":"label","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
 
 -- tb_code
+insert into tb_field (field) values ('{"id_system":1,"id_table":7,"label":"Comment","name":"comment","id_type":3,"size":500,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
 insert into tb_field (field) values ('{"id_system":1,"id_table":7,"label":"Code","name":"code","id_type":6,"size":500,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
 
 
@@ -220,5 +221,4 @@ insert into tb_action (field) values ('{"id_system":1,"name":"Test","label":"Tes
 -- -----------------------------------------------------
 -- table tb_code
 -- -----------------------------------------------------
-insert into tb_code (field) values ('{"id_system":1,"code":"function test() {alert(''Hello World'');}"}');
-insert into tb_code (field) values ('{"id_system":1,"code": "function validateTableName(value) {\r\n\r\n    // Define patter\r\n    let output = \"\";\r\n    let pattern = /[A-Za-z0-9_]/g; \r\n\r\n    // If has value\r\n    if (value.trim() != \"\") {\r\n        output = value.match(pattern).toString().replace(/,/g, '''');\r\n    }\r\n\r\n    // Just return\r\n    return output.trim();\r\n}"}');
+insert into tb_code (field) values ('{"id_system":1,"comment":"Evita nomes inválidos para tabela de banco de dados", "code": "function validateTableName(value) {\r\n\r\n    // Define patter\r\n    let output = \"\";\r\n    let pattern = /[A-Za-z0-9_]/g; \r\n\r\n    // If has value\r\n    if (value.trim() != \"\") {\r\n        output = value.match(pattern).toString().replace(/,/g, '''');\r\n    }\r\n\r\n    // Just return\r\n    return output.trim();\r\n}"}');
