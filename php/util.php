@@ -59,6 +59,25 @@
         }
 
         /*
+         * Get value of specific tag
+         */
+        public function getValue($json, $field, $toUpperCase=false) {
+
+            $value = "";
+            $json = json_decode($json, true);
+
+            if (isset($json[$field])) {
+                $value = trim($json[$field]);
+            }
+
+            if ($toUpperCase) {
+                $value = strtoupper($value);
+            }
+
+            return $value;
+        }
+
+        /*
          * Plain field
          */
         public function field($table, $field, $type, $mask="") {

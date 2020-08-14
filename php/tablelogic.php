@@ -65,11 +65,15 @@
             try {
 
                 // Figure out table name   
-                $json = json_decode($old);
-                $tableOld = $json->{'name'};
+                if ($old != "{}") {
+                    $json = json_decode($old);
+                    $tableOld = $json->{'name'};
+                }
 
-                $json = json_decode($new);
-                $tableNew = $json->{'name'};                
+                if ($new != "{}") {
+                    $json = json_decode($new);
+                    $tableNew = $json->{'name'};                    
+                }
 
                 // Take action on tables according to current event
                 switch ($this->db->getEvent()) {

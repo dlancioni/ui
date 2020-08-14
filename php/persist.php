@@ -19,6 +19,8 @@
     $logic = "";
     $fieldName = "";
     $fieldType = "";
+    $fieldUnique = "";
+    $changed = false;
 
     // Core code
     try {
@@ -50,29 +52,69 @@
         }
 
         // Get exiting record
-        $sql .= " select field from " . $tableName;
-        $sql .= " where " . $jsonUtil->condition($tableName, "id", "int", "=", $db->getLastId());
-        if ($tableName != "tb_system") {
-            $sql .= " and " . $jsonUtil->condition($tableName, "id_system", "int", "=", $db->getSystem());
+        if ($db->getEvent() == "Edit" || $db->getEvent() == "Delete") {
+            $sql = "";
+            $sql .= " select field from " . $tableName;
+            $sql .= " where " . $jsonUtil->condition($tableName, "id", "int", "=", $db->getLastId());
+            if ($tableName != "tb_system") {
+                $sql .= " and " . $jsonUtil->condition($tableName, "id_system", "int", "=", $db->getSystem());
+            }
+            $rs = $db->query($cn, $sql);
+            while ($row = pg_fetch_row($rs)) {
+                $old = $row[0];
+                $new = $row[0];
+            };
         }
-        $rs = $db->query($cn, $sql);
-        while ($row = pg_fetch_row($rs)) {
-            $old = $row[0];
-            $new = $row[0];
-        };        
            
         // Read form
         foreach($tableDef as $item) {
+
             $fieldName = $item["field_name"];
             $fieldType = $item["data_type"];
-            if (isset($_REQUEST[$fieldName])) {
-                $fieldValue = $_REQUEST[$fieldName];
 
+            if (isset($_REQUEST[$fieldName])) {
+            
+                $fieldValue = $_REQUEST[$fieldName];
                 if ($fieldType == "float") {
                     $fieldValue = $numberUtil->valueOf($_SESSION["_LANGUAGE_"], $fieldValue);
                 }
-
                 $new = $jsonUtil->setValue($new, $fieldName, $fieldValue);
+            }
+        }
+
+        // Validate unique fields (when changed)
+        if ($db->getEvent() == "New" || $db->getEvent() == "Edit") {
+            foreach($tableDef as $item) {
+
+                $fieldName = $item["field_name"];
+                $fieldType = $item["data_type"];
+                $fieldUnique = $item["field_unique"];
+                $fieldValue = $jsonUtil->getValue($new, $fieldName);
+    
+                if ($jsonUtil->getValue($old, $fieldName, true) != 
+                    $jsonUtil->getValue($new, $fieldName, true)) {
+
+                    // Control if record changed    
+                    $changed = true;
+    
+                    // Avoid changing unique value
+                    if ($fieldUnique == 1) {
+                        $sql = "";
+                        $sql .= " select field from " . $tableName;
+                        $sql .= " where " . $jsonUtil->condition($tableName, $fieldName, "text", "=", $fieldValue);
+                        if ($tableName != "tb_system") {
+                            $sql .= " and " . $jsonUtil->condition($tableName, "id_system", "int", "=", $db->getSystem());
+                        }
+                        $rs = $db->query($cn, $sql);
+                        while ($row = pg_fetch_row($rs)) {
+                            throw new Exception("$fieldValue already exists");
+                        };                        
+                    }
+                }
+            }
+
+            if ($changed == false)  {
+                throw new Exception("No changes in current records");
             }
         }
 
@@ -105,7 +147,10 @@
         // Set final id
         $db->setLastId($id);
 
-    } catch (Exception $ex) {        
+    } catch (Exception $ex) {
+
+        // Keep the error
+        $db->setError("Persist()", $ex->getMessage());
 
         // Open transaction
         pg_query($cn, "rollback");
