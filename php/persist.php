@@ -18,9 +18,12 @@
     $new = "{}";
     $logic = "";
     $fieldName = "";
+    $fieldLabel = "";    
     $fieldType = "";
     $fieldUnique = "";
     $changed = false;
+    $unique = "";
+    $key = "";
 
     // Core code
     try {
@@ -86,6 +89,7 @@
         if ($db->getEvent() == "New" || $db->getEvent() == "Edit") {
             foreach($tableDef as $item) {
 
+                $fieldLabel = $item["field_label"];
                 $fieldName = $item["field_name"];
                 $fieldType = $item["data_type"];
                 $fieldUnique = $item["field_unique"];
@@ -97,22 +101,29 @@
                     // Control if record changed    
                     $changed = true;
     
-                    // Avoid changing unique value
+                    // Keep condition to check if unique
                     if ($fieldUnique == 1) {
-                        $sql = "";
-                        $sql .= " select field from " . $tableName;
-                        $sql .= " where " . $jsonUtil->condition($tableName, $fieldName, "text", "=", $fieldValue);
-                        if ($tableName != "tb_system") {
-                            $sql .= " and " . $jsonUtil->condition($tableName, "id_system", "int", "=", $db->getSystem());
-                        }
-                        $rs = $db->query($cn, $sql);
-                        while ($row = pg_fetch_row($rs)) {
-                            throw new Exception("$fieldValue already exists");
-                        };                        
-                    }
+                        $unique .= " and " . $jsonUtil->condition($tableName, $fieldName, $fieldType, "=", $fieldValue);
+                        $key .= $fieldLabel . ", ";
+                    }                    
                 }
             }
 
+            $sql = "";
+            $sql .= " select field from " . $tableName;
+            $sql .= " where 1 = 1";
+            if ($tableName != "tb_system") {
+                $sql .= " and " . $jsonUtil->condition($tableName, "id_system", "int", "=", $db->getSystem());
+            }
+            $sql .= $unique;
+
+            $rs = $db->query($cn, $sql);
+            while ($row = pg_fetch_row($rs)) {
+                $key =  rtrim($key, ", ");
+                throw new Exception("Campo $key já existe na tabela");
+            };            
+
+            // Do nothing if no change
             if ($changed == false)  {
                 throw new Exception("No changes in current records");
             }

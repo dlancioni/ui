@@ -26,9 +26,9 @@ from tb_table
 -- -----------------------------------------------------
 */
 
-select * from tb_event where field->>'id_table' = '9'
+select * from tb_event where field->>'id_table' = '8'
 union
-select * from tb_system
+delete from tb_event where field->>'id_table' > '8'
 
 
 select * from tb_system 

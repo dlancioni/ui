@@ -148,7 +148,8 @@
                 } elseif ($this->db->getEvent() == "New") {
 
                     $filter = new Filter();
-                    $filter->add("tb_event", "id_table", $TB_SYSTEM);
+                    $filter->addCondition("tb_event", "id_table", "int", "=", $TB_SYSTEM);
+                    $filter->addCondition("tb_event", "id_action", "int", "<>", "0");
                     $tableData = $this->sqlBuilder->Query($this->cn, $EVENT, $filter->create());
                     $tableDef = $this->sqlBuilder->getTableDef($this->cn, "json");
 
