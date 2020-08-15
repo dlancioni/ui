@@ -376,7 +376,7 @@
             $fieldMask = $stringUtil->dqt($fieldMask);
 
             // Validate mandatory fields (see domain tb_bool)
-            $message = $stringUtil->dqt("Campo obrigatório $fieldLabel");            
+            $message = $stringUtil->dqt("Campo obrigatório $fieldLabel");
             if ($fieldMandatory == 1) {                
                 $js .= "if (!validateMandatory($fieldName, $fk, $message)) {";
                 $js .= "return false;";

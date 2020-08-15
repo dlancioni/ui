@@ -46,6 +46,12 @@ drop table if exists tb_login cascade;
 create table if not exists tb_login (id serial, field jsonb);
 
 -- -----------------------------------------------------
+-- table tb_message
+-- -----------------------------------------------------
+drop table if exists tb_message cascade;
+create table if not exists tb_message (id serial, field jsonb);
+
+-- -----------------------------------------------------
 -- table tb_system
 -- -----------------------------------------------------
 delete from tb_system;
@@ -62,6 +68,7 @@ insert into tb_table (field) values ('{"id_system":1,"name":"tb_domain","id_type
 insert into tb_table (field) values ('{"id_system":1,"name":"tb_event","id_type":1,"title":"Eventos"}');
 insert into tb_table (field) values ('{"id_system":1,"name":"tb_action","id_type":1,"title":"Ações"}');
 insert into tb_table (field) values ('{"id_system":1,"name":"tb_code","id_type":1,"title":"Código"}');
+insert into tb_table (field) values ('{"id_system":1,"name":"tb_message","id_type":1,"title":"Mensagens"}');
 
 -- -----------------------------------------------------
 -- table tb_field
@@ -102,11 +109,13 @@ insert into tb_field (field) values ('{"id_system":1,"id_table":5,"label":"Códi
 -- tb_action
 insert into tb_field (field) values ('{"id_system":1,"id_table":6,"label":"Nome","name":"name","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
 insert into tb_field (field) values ('{"id_system":1,"id_table":6,"label":"Rótulo","name":"label","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
-
 -- tb_code
 insert into tb_field (field) values ('{"id_system":1,"id_table":7,"label":"Comentário","name":"comment","id_type":3,"size":500,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
 insert into tb_field (field) values ('{"id_system":1,"id_table":7,"label":"Código","name":"code","id_type":6,"size":500,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
-
+-- tb_mensagens
+insert into tb_field (field) values ('{"id_system":1,"id_table":8,"label":"Tipo","name":"id_type","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":4,"id_field_fk":20,"domain":"tb_message_type"}');
+insert into tb_field (field) values ('{"id_system":1,"id_table":8,"label":"Código","name":"code","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
+insert into tb_field (field) values ('{"id_system":1,"id_table":8,"label":"Descrição","name":"description","id_type":3,"size":500,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
 
 -- -----------------------------------------------------
 -- table tb_domain
@@ -134,6 +143,11 @@ insert into tb_domain (field) values ('{"id_system":1,"key":5,"value":"onBlur","
 -- tb_target
 insert into tb_domain (field) values ('{"id_system":1,"key":1,"value":"Tabela","domain":"tb_target"}');
 insert into tb_domain (field) values ('{"id_system":1,"key":2,"value":"Formulário","domain":"tb_target"}');
+-- tb_message_type
+insert into tb_domain (field) values ('{"id_system":1,"key":1,"value":"Alerta","domain":"tb_message_type"}');
+insert into tb_domain (field) values ('{"id_system":1,"key":2,"value":"Rótulo","domain":"tb_message_type"}');
+insert into tb_domain (field) values ('{"id_system":1,"key":3,"value":"Erro","domain":"tb_message_type"}');
+
 
 -- -----------------------------------------------------
 -- table tb_event
@@ -206,6 +220,15 @@ insert into tb_event (field) values ('{"id_system":1,"id_target":2,"id_table":7,
 insert into tb_event (field) values ('{"id_system":1,"id_target":2,"id_table":7,"id_field":0,"id_action":7,"id_event":2,"code":"reportBack()"}');
 insert into tb_event (field) values ('{"id_system":1,"id_target":2,"id_table":7,"id_field":0,"id_action":8,"id_event":2,"code":"eval(field(''code'').value);"}');
 
+-- tb_message
+insert into tb_event (field) values ('{"id_system":1,"id_target":1,"id_table":8,"id_field":0,"id_action":1,"id_event":2,"code":"formNew();"}');
+insert into tb_event (field) values ('{"id_system":1,"id_target":1,"id_table":8,"id_field":0,"id_action":2,"id_event":2,"code":"formEdit()"}');
+insert into tb_event (field) values ('{"id_system":1,"id_target":1,"id_table":8,"id_field":0,"id_action":3,"id_event":2,"code":"formDelete()"}');
+insert into tb_event (field) values ('{"id_system":1,"id_target":2,"id_table":8,"id_field":0,"id_action":4,"id_event":2,"code":"confirm()"}');
+insert into tb_event (field) values ('{"id_system":1,"id_target":1,"id_table":8,"id_field":0,"id_action":5,"id_event":2,"code":"formFilter()"}');
+insert into tb_event (field) values ('{"id_system":1,"id_target":2,"id_table":8,"id_field":0,"id_action":6,"id_event":2,"code":"formClear()"}');
+insert into tb_event (field) values ('{"id_system":1,"id_target":2,"id_table":8,"id_field":0,"id_action":7,"id_event":2,"code":"reportBack()"}');
+
 -- -----------------------------------------------------
 -- table tb_action
 -- -----------------------------------------------------
@@ -222,3 +245,11 @@ insert into tb_action (field) values ('{"id_system":1,"name":"Testar","label":"T
 -- table tb_code
 -- -----------------------------------------------------
 insert into tb_code (field) values ('{"id_system":1,"comment":"Evita nomes inválidos para tabela de banco de dados", "code": "function validateTableName(value) {\r\n\r\n    // Define patter\r\n    let output = \"\";\r\n    let pattern = /[A-Za-z0-9_]/g; \r\n\r\n    // If has value\r\n    if (value.trim() != \"\") {\r\n        output = value.match(pattern).toString().replace(/,/g, '''');\r\n    }\r\n\r\n    // Just return\r\n    return output.trim();\r\n}"}');
+
+
+-- -----------------------------------------------------
+-- table tb_message
+-- -----------------------------------------------------
+insert into tb_message (field) values ('{"id_system":1,"id_type":1, "code":"A1", "description":"Campo % é obrigatório"}');
+insert into tb_message (field) values ('{"id_system":1,"id_type":1, "code":"A1", "description":"Os valores para os campos % ja existem na tabela"}');
+insert into tb_message (field) values ('{"id_system":1,"id_type":1, "code":"A1", "description":"Nenhuma mudança identifica no registro"}');
