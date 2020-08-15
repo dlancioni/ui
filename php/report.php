@@ -111,11 +111,7 @@ class Report extends Base {
 
                     // Format values
                     if ($fieldType == "float") {
-                        if ($this->sqlBuilder->getLanguage() == 1) {
-                            $fieldValue = number_format($fieldValue, 2, '.', ',');;
-                        } else {
-                            $fieldValue = number_format($fieldValue, 2, ',', '.');;
-                        }
+                        $fieldValue = number_format($fieldValue, 2, ',', '.');;
                     }
 
                     // Print it

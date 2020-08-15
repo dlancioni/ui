@@ -55,57 +55,57 @@ insert into tb_system (field) values ('{"name":"Forms","expire_date":"31/12/2020
 -- table tb_table
 -- -----------------------------------------------------
 delete from tb_table;
-insert into tb_table (field) values ('{"id_system":1,"name":"tb_system","id_type":1,"title":"System"}');
-insert into tb_table (field) values ('{"id_system":1,"name":"tb_table","id_type":1,"title":"Table"}');
-insert into tb_table (field) values ('{"id_system":1,"name":"tb_field","id_type":1,"title":"Field"}');
-insert into tb_table (field) values ('{"id_system":1,"name":"tb_domain","id_type":1,"title":"Domain"}');
-insert into tb_table (field) values ('{"id_system":1,"name":"tb_event","id_type":1,"title":"Event"}');
-insert into tb_table (field) values ('{"id_system":1,"name":"tb_action","id_type":1,"title":"Action"}');
-insert into tb_table (field) values ('{"id_system":1,"name":"tb_code","id_type":1,"title":"Code"}');
+insert into tb_table (field) values ('{"id_system":1,"name":"tb_system","id_type":1,"title":"Sistema"}');
+insert into tb_table (field) values ('{"id_system":1,"name":"tb_table","id_type":1,"title":"Tabelas"}');
+insert into tb_table (field) values ('{"id_system":1,"name":"tb_field","id_type":1,"title":"Campos"}');
+insert into tb_table (field) values ('{"id_system":1,"name":"tb_domain","id_type":1,"title":"Domínio"}');
+insert into tb_table (field) values ('{"id_system":1,"name":"tb_event","id_type":1,"title":"Eventos"}');
+insert into tb_table (field) values ('{"id_system":1,"name":"tb_action","id_type":1,"title":"Ações"}');
+insert into tb_table (field) values ('{"id_system":1,"name":"tb_code","id_type":1,"title":"Código"}');
 
 -- -----------------------------------------------------
 -- table tb_field
 -- -----------------------------------------------------
 delete from tb_field;
 -- tb_system
-insert into tb_field (field) values ('{"id_system":1,"id_table":1,"label":"Name","name":"name","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
-insert into tb_field (field) values ('{"id_system":1,"id_table":1,"label":"Expire Date","name":"expire_date","id_type":4,"size":0,"mask":"dd/mm/yyyy","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
-insert into tb_field (field) values ('{"id_system":1,"id_table":1,"label":"Price","name":"price","id_type":2,"size":0,"mask":"1.000,00","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
+insert into tb_field (field) values ('{"id_system":1,"id_table":1,"label":"Nome","name":"name","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
+insert into tb_field (field) values ('{"id_system":1,"id_table":1,"label":"Expira em","name":"expire_date","id_type":4,"size":0,"mask":"dd/mm/yyyy","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
+insert into tb_field (field) values ('{"id_system":1,"id_table":1,"label":"Preço","name":"price","id_type":2,"size":0,"mask":"1.000,00","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
 -- tb_table
-insert into tb_field (field) values ('{"id_system":1,"id_table":2,"label":"System","name":"id_system","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":1,"id_field_fk":1,"domain":""}');
-insert into tb_field (field) values ('{"id_system":1,"id_table":2,"label":"Name","name":"name","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
-insert into tb_field (field) values ('{"id_system":1,"id_table":2,"label":"Type","name":"id_type","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":4,"id_field_fk":20,"domain":"tb_table_type"}');
-insert into tb_field (field) values ('{"id_system":1,"id_table":2,"label":"Title","name":"title","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
+insert into tb_field (field) values ('{"id_system":1,"id_table":2,"label":"Sistema","name":"id_system","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":1,"id_field_fk":1,"domain":""}');
+insert into tb_field (field) values ('{"id_system":1,"id_table":2,"label":"Nome","name":"name","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
+insert into tb_field (field) values ('{"id_system":1,"id_table":2,"label":"Tipo","name":"id_type","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":4,"id_field_fk":20,"domain":"tb_table_type"}');
+insert into tb_field (field) values ('{"id_system":1,"id_table":2,"label":"Titulo","name":"title","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
 -- tb_field
-insert into tb_field (field) values ('{"id_system":1,"id_table":3,"label":"Table","name":"id_table","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":2,"id_field_fk":7,"domain":""}');
-insert into tb_field (field) values ('{"id_system":1,"id_table":3,"label":"Label","name":"label","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
-insert into tb_field (field) values ('{"id_system":1,"id_table":3,"label":"Name","name":"name","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
-insert into tb_field (field) values ('{"id_system":1,"id_table":3,"label":"Type","name":"id_type","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":4,"id_field_fk":20,"domain":"tb_field_type"}');
-insert into tb_field (field) values ('{"id_system":1,"id_table":3,"label":"Size","name":"size","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
-insert into tb_field (field) values ('{"id_system":1,"id_table":3,"label":"Mask","name":"mask","id_type":3,"size":50,"mask":"","id_mandatory":2,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
-insert into tb_field (field) values ('{"id_system":1,"id_table":3,"label":"Mandatory","name":"id_mandatory","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":4,"id_field_fk":20,"domain":"tb_bool"}');
-insert into tb_field (field) values ('{"id_system":1,"id_table":3,"label":"Unique","name":"id_unique","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":4,"id_field_fk":20,"domain":"tb_bool"}');
-insert into tb_field (field) values ('{"id_system":1,"id_table":3,"label":"Table Fk","name":"id_table_fk","id_type":1,"size":0,"mask":"","id_mandatory":2,"id_unique":2,"id_table_fk":2,"id_field_fk":5,"domain":""}');
-insert into tb_field (field) values ('{"id_system":1,"id_table":3,"label":"Field Fk","name":"id_field_fk","id_type":1,"size":0,"mask":"","id_mandatory":2,"id_unique":2,"id_table_fk":3,"id_field_fk":10,"domain":""}');
-insert into tb_field (field) values ('{"id_system":1,"id_table":3,"label":"Domain","name":"domain","id_type":3,"size":50,"mask":"","id_mandatory":2,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
+insert into tb_field (field) values ('{"id_system":1,"id_table":3,"label":"Tabela","name":"id_table","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":2,"id_field_fk":7,"domain":""}');
+insert into tb_field (field) values ('{"id_system":1,"id_table":3,"label":"Rótulo","name":"label","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
+insert into tb_field (field) values ('{"id_system":1,"id_table":3,"label":"Nome","name":"name","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
+insert into tb_field (field) values ('{"id_system":1,"id_table":3,"label":"Tipo","name":"id_type","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":4,"id_field_fk":20,"domain":"tb_field_type"}');
+insert into tb_field (field) values ('{"id_system":1,"id_table":3,"label":"Tamanho","name":"size","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
+insert into tb_field (field) values ('{"id_system":1,"id_table":3,"label":"Máscara","name":"mask","id_type":3,"size":50,"mask":"","id_mandatory":2,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
+insert into tb_field (field) values ('{"id_system":1,"id_table":3,"label":"Obrigatório","name":"id_mandatory","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":4,"id_field_fk":20,"domain":"tb_bool"}');
+insert into tb_field (field) values ('{"id_system":1,"id_table":3,"label":"Único","name":"id_unique","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":4,"id_field_fk":20,"domain":"tb_bool"}');
+insert into tb_field (field) values ('{"id_system":1,"id_table":3,"label":"Tabela Fk","name":"id_table_fk","id_type":1,"size":0,"mask":"","id_mandatory":2,"id_unique":2,"id_table_fk":2,"id_field_fk":5,"domain":""}');
+insert into tb_field (field) values ('{"id_system":1,"id_table":3,"label":"Campo Fk","name":"id_field_fk","id_type":1,"size":0,"mask":"","id_mandatory":2,"id_unique":2,"id_table_fk":3,"id_field_fk":10,"domain":""}');
+insert into tb_field (field) values ('{"id_system":1,"id_table":3,"label":"Domínio","name":"domain","id_type":3,"size":50,"mask":"","id_mandatory":2,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
 -- tb_domain
-insert into tb_field (field) values ('{"id_system":1,"id_table":4,"label":"Key","name":"key","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
-insert into tb_field (field) values ('{"id_system":1,"id_table":4,"label":"Value","name":"value","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
-insert into tb_field (field) values ('{"id_system":1,"id_table":4,"label":"Domain","name":"domain","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
+insert into tb_field (field) values ('{"id_system":1,"id_table":4,"label":"Chave","name":"key","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
+insert into tb_field (field) values ('{"id_system":1,"id_table":4,"label":"Valor","name":"value","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
+insert into tb_field (field) values ('{"id_system":1,"id_table":4,"label":"Domínio","name":"domain","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
 -- tb_event
-insert into tb_field (field) values ('{"id_system":1,"id_table":5,"label":"Target","name":"id_target","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":4,"id_field_fk":20,"domain":"tb_target"}');
-insert into tb_field (field) values ('{"id_system":1,"id_table":5,"label":"Table","name":"id_table","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":2,"id_field_fk":7,"domain":""}');
-insert into tb_field (field) values ('{"id_system":1,"id_table":5,"label":"Field","name":"id_field","id_type":1,"size":0,"mask":"","id_mandatory":2,"id_unique":1,"id_table_fk":3,"id_field_fk":9,"domain":""}');
-insert into tb_field (field) values ('{"id_system":1,"id_table":5,"label":"Action","name":"id_action","id_type":1,"size":0,"mask":"","id_mandatory":2,"id_unique":1,"id_table_fk":6,"id_field_fk":29,"domain":""}');
-insert into tb_field (field) values ('{"id_system":1,"id_table":5,"label":"Event","name":"id_event","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":4,"id_field_fk":20,"domain":"tb_event"}');
-insert into tb_field (field) values ('{"id_system":1,"id_table":5,"label":"Code","name":"code","id_type":6,"size":10000,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
+insert into tb_field (field) values ('{"id_system":1,"id_table":5,"label":"Tela","name":"id_target","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":4,"id_field_fk":20,"domain":"tb_target"}');
+insert into tb_field (field) values ('{"id_system":1,"id_table":5,"label":"Tabela","name":"id_table","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":2,"id_field_fk":7,"domain":""}');
+insert into tb_field (field) values ('{"id_system":1,"id_table":5,"label":"Campo","name":"id_field","id_type":1,"size":0,"mask":"","id_mandatory":2,"id_unique":1,"id_table_fk":3,"id_field_fk":9,"domain":""}');
+insert into tb_field (field) values ('{"id_system":1,"id_table":5,"label":"Ação","name":"id_action","id_type":1,"size":0,"mask":"","id_mandatory":2,"id_unique":1,"id_table_fk":6,"id_field_fk":29,"domain":""}');
+insert into tb_field (field) values ('{"id_system":1,"id_table":5,"label":"Evento","name":"id_event","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":4,"id_field_fk":20,"domain":"tb_event"}');
+insert into tb_field (field) values ('{"id_system":1,"id_table":5,"label":"Código","name":"code","id_type":6,"size":10000,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
 -- tb_action
-insert into tb_field (field) values ('{"id_system":1,"id_table":6,"label":"Name","name":"name","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
-insert into tb_field (field) values ('{"id_system":1,"id_table":6,"label":"Label","name":"label","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
+insert into tb_field (field) values ('{"id_system":1,"id_table":6,"label":"Nome","name":"name","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
+insert into tb_field (field) values ('{"id_system":1,"id_table":6,"label":"Rótulo","name":"label","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
 
 -- tb_code
-insert into tb_field (field) values ('{"id_system":1,"id_table":7,"label":"Comment","name":"comment","id_type":3,"size":500,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
-insert into tb_field (field) values ('{"id_system":1,"id_table":7,"label":"Code","name":"code","id_type":6,"size":500,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
+insert into tb_field (field) values ('{"id_system":1,"id_table":7,"label":"Comentário","name":"comment","id_type":3,"size":500,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
+insert into tb_field (field) values ('{"id_system":1,"id_table":7,"label":"Código","name":"code","id_type":6,"size":500,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
 
 
 -- -----------------------------------------------------
@@ -113,27 +113,27 @@ insert into tb_field (field) values ('{"id_system":1,"id_table":7,"label":"Code"
 -- -----------------------------------------------------
 delete from tb_domain;
 -- tb_table_type
-insert into tb_domain (field) values ('{"id_system":1,"key":"1","value":"System","domain":"tb_table_type"}');
-insert into tb_domain (field) values ('{"id_system":1,"key":"2","value":"User","domain":"tb_table_type"}');
+insert into tb_domain (field) values ('{"id_system":1,"key":"1","value":"Sistema","domain":"tb_table_type"}');
+insert into tb_domain (field) values ('{"id_system":1,"key":"2","value":"Usuário","domain":"tb_table_type"}');
 -- tb_bool
-insert into tb_domain (field) values ('{"id_system":1,"key":"1","value":"Yes","domain":"tb_bool"}');
-insert into tb_domain (field) values ('{"id_system":1,"key":"2","value":"No","domain":"tb_bool"}');
+insert into tb_domain (field) values ('{"id_system":1,"key":"1","value":"Sim","domain":"tb_bool"}');
+insert into tb_domain (field) values ('{"id_system":1,"key":"2","value":"Não","domain":"tb_bool"}');
 -- tb_field_type
-insert into tb_domain (field) values ('{"id_system":1,"key":1,"value":"Integer","domain":"tb_field_type"}');
+insert into tb_domain (field) values ('{"id_system":1,"key":1,"value":"Inteiro","domain":"tb_field_type"}');
 insert into tb_domain (field) values ('{"id_system":1,"key":2,"value":"Decimal","domain":"tb_field_type"}');
-insert into tb_domain (field) values ('{"id_system":1,"key":3,"value":"Text","domain":"tb_field_type"}');
-insert into tb_domain (field) values ('{"id_system":1,"key":4,"value":"Date","domain":"tb_field_type"}');
-insert into tb_domain (field) values ('{"id_system":1,"key":5,"value":"Time","domain":"tb_field_type"}');
-insert into tb_domain (field) values ('{"id_system":1,"key":6,"value":"TextArea","domain":"tb_field_type"}');
+insert into tb_domain (field) values ('{"id_system":1,"key":3,"value":"Texto","domain":"tb_field_type"}');
+insert into tb_domain (field) values ('{"id_system":1,"key":4,"value":"Data","domain":"tb_field_type"}');
+insert into tb_domain (field) values ('{"id_system":1,"key":5,"value":"Hora","domain":"tb_field_type"}');
+insert into tb_domain (field) values ('{"id_system":1,"key":6,"value":"Area","domain":"tb_field_type"}');
 -- tb_event
-insert into tb_domain (field) values ('{"id_system":1,"key":1,"value":"onload","domain":"tb_event"}');
+insert into tb_domain (field) values ('{"id_system":1,"key":1,"value":"onLoad","domain":"tb_event"}');
 insert into tb_domain (field) values ('{"id_system":1,"key":2,"value":"onClick","domain":"tb_event"}');
 insert into tb_domain (field) values ('{"id_system":1,"key":3,"value":"onChange","domain":"tb_event"}');
 insert into tb_domain (field) values ('{"id_system":1,"key":4,"value":"onFocus","domain":"tb_event"}');
 insert into tb_domain (field) values ('{"id_system":1,"key":5,"value":"onBlur","domain":"tb_event"}');
 -- tb_target
-insert into tb_domain (field) values ('{"id_system":1,"key":1,"value":"Table","domain":"tb_target"}');
-insert into tb_domain (field) values ('{"id_system":1,"key":2,"value":"Form","domain":"tb_target"}');
+insert into tb_domain (field) values ('{"id_system":1,"key":1,"value":"Tabela","domain":"tb_target"}');
+insert into tb_domain (field) values ('{"id_system":1,"key":2,"value":"Formulário","domain":"tb_target"}');
 
 -- -----------------------------------------------------
 -- table tb_event
@@ -209,14 +209,14 @@ insert into tb_event (field) values ('{"id_system":1,"id_target":2,"id_table":7,
 -- -----------------------------------------------------
 -- table tb_action
 -- -----------------------------------------------------
-insert into tb_action (field) values ('{"id_system":1,"name":"New","label":"New"}');
-insert into tb_action (field) values ('{"id_system":1,"name":"Edit","label":"Edit"}');
-insert into tb_action (field) values ('{"id_system":1,"name":"Delete","label":"Delete"}');
-insert into tb_action (field) values ('{"id_system":1,"name":"Confirm","label":"Confirm"}');
-insert into tb_action (field) values ('{"id_system":1,"name":"Filter","label":"Filter"}');
-insert into tb_action (field) values ('{"id_system":1,"name":"Clear","label":"Clear"}');
-insert into tb_action (field) values ('{"id_system":1,"name":"Back","label":"Back"}');
-insert into tb_action (field) values ('{"id_system":1,"name":"Test","label":"Test"}');
+insert into tb_action (field) values ('{"id_system":1,"name":"Novo","label":"Novo"}');
+insert into tb_action (field) values ('{"id_system":1,"name":"Editar","label":"Editar"}');
+insert into tb_action (field) values ('{"id_system":1,"name":"Apagar","label":"Apagar"}');
+insert into tb_action (field) values ('{"id_system":1,"name":"Confirmar","label":"Confirmar"}');
+insert into tb_action (field) values ('{"id_system":1,"name":"Filtrar","label":"Filtrar"}');
+insert into tb_action (field) values ('{"id_system":1,"name":"Limpar","label":"Limpar"}');
+insert into tb_action (field) values ('{"id_system":1,"name":"Voltar","label":"Voltar"}');
+insert into tb_action (field) values ('{"id_system":1,"name":"Testar","label":"Testar"}');
 
 -- -----------------------------------------------------
 -- table tb_code

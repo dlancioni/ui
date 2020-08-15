@@ -54,8 +54,7 @@
         // Keep instance of SqlBuilder for current session
         $sqlBuilder = new SqlBuilder($_SESSION["_SYSTEM_"], 
                                      $_SESSION["_TABLE_"], 
-                                     $_SESSION["_USER_"], 
-                                     $_SESSION["_LANGUAGE_"]);
+                                     $_SESSION["_USER_"]);
 
         // Query table and fields used to populate dropdown                                     
         $filter = new Filter();

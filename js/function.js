@@ -226,15 +226,11 @@ function validateNumeric(fieldName, message="") {
 
 
 /*
- * Remove , or . accordint to current language
+ * Remove , or . 
  */
 function valueOf(value) {
-    if (field("_LANGUAGE_").value == 1) {
-        value = value.split(',').join('');
-    } else {
-        value = value.split('.').join('');
-        value = value.split(',').join('.');        
-    }
+    value = value.split('.').join('');
+    value = value.split(',').join('.');        
     return value;
 }
 
@@ -246,15 +242,11 @@ function isNumeric(value) {
     return !isNaN(parseFloat(value)) && isFinite(value);
 }
 
-
+/*
+ * Format value
+ */
 function formatValue(value) {
-    let format = "";
     value = valueOf(value);
-    if (field("_LANGUAGE_").value == 1) {
-        format = "en-US";
-    } else {
-        format = "pt-BR";
-    }
-    let x = new Intl.NumberFormat(format, {minimumFractionDigits: 2}).format(value);
+    let x = new Intl.NumberFormat("pt-BR", {minimumFractionDigits: 2}).format(value);
     return x;
 }

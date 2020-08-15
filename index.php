@@ -25,7 +25,6 @@ include "php/session.php";
     <input type="hidden" id="_FORMAT_" name="_FORMAT_" value="<?php echo $format; ?>">
     <input type="hidden" id="_EVENT_" name="_EVENT_" value="<?php echo $event; ?>">
     <input type="hidden" id="_PAGING_" name="_PAGING_" value="<?php echo $pageOffset; ?>">
-    <input type="hidden" id="_LANGUAGE_" name="_LANGUAGE_" value="<?php echo $languageId; ?>">
 
     <script src="js/moment.js"></script>
     <script src="js/httpservice.js"></script>

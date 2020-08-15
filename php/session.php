@@ -13,7 +13,6 @@
     $systemId = 0; 
     $tableId = 0; 
     $userId = 0; 
-    $languageId = 0;
     $filter = "[]"; 
     $pageOffset = 0;
 
@@ -24,7 +23,6 @@
     $_SESSION["_SYSTEM_"] = 1;
     $_SESSION['_TABLE_'] = 2;
     $_SESSION['_USER_'] = 1;
-    $_SESSION['_LANGUAGE_'] = 1; // 1-enUS / 2-ptBR
     $_SESSION['_ID_'] = 0;
 
     // Solution allow multiple systems
@@ -40,15 +38,5 @@
     // Current user
     if (isset($_SESSION["_USER_"])) {
         $userId = $_SESSION["_USER_"];
-    }
-
-    // Current language
-    if (isset($_SESSION["_LANGUAGE_"])) {
-        $languageId = $_SESSION["_LANGUAGE_"];
-    }
-
-    // Selected record on current module 
-    if (isset($_SESSION["_LANGUAGE_"])) {
-        $languageId = $_SESSION["_LANGUAGE_"];
     }
 ?>

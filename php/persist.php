@@ -42,9 +42,7 @@
         // Keep instance of SqlBuilder for current session
         $sqlBuilder = new SqlBuilder($_SESSION["_SYSTEM_"], 
                                      $_SESSION["_TABLE_"], 
-                                     $_SESSION["_USER_"], 
-                                     $_SESSION["_LANGUAGE_"]);
-
+                                     $_SESSION["_USER_"]);
         // Open connection
         $cn = $db->getConnection();
 
@@ -79,7 +77,7 @@
             
                 $fieldValue = $_REQUEST[$fieldName];
                 if ($fieldType == "float") {
-                    $fieldValue = $numberUtil->valueOf($_SESSION["_LANGUAGE_"], $fieldValue);
+                    $fieldValue = $numberUtil->valueOf($fieldValue);
                 }
                 $new = $jsonUtil->setValue($new, $fieldName, $fieldValue);
             }

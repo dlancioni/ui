@@ -4,7 +4,6 @@
         private $systemId = 0;
         private $tableId = 0;
         private $userId = 0;
-        private $languageId = 0;
 
         // Error Handling
         private $error = "";
@@ -15,11 +14,10 @@
         private $event = 0;
 
         // Constructor
-        function __construct($systemId, $tableId, $userId, $languageId) {
+        function __construct($systemId, $tableId, $userId) {
             $this->setSystem($systemId);
             $this->setTable($tableId);
             $this->setUser($userId);
-            $this->setLanguage($languageId);
         }
 
         // Current session
@@ -40,12 +38,6 @@
         }
         public function setUser($userId) {
             $this->userId = $userId;
-        }
-        public function getLanguage() {
-            return $this->languageId;
-        }
-        public function setLanguage($languageId) {
-            $this->languageId = $languageId;
         }
 
         // Error handling    

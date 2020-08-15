@@ -112,11 +112,7 @@ class Form extends Base {
 
                 // Format values
                 if ($datatype == "float") {
-                    if ($this->sqlBuilder->getLanguage() == 1) {
-                        $fieldValue = number_format($fieldValue, 2, '.', ',');;
-                    } else {
-                        $fieldValue = number_format($fieldValue, 2, ',', '.');;
-                    }
+                    $fieldValue = number_format($fieldValue, 2, ',', '.');
                 }                
 
                 // Accumulate JS for validation

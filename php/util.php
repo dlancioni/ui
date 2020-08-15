@@ -2,17 +2,11 @@
 
     class NumberUtil {
        /*
-        * Make number in english (remove , or .) according to language
+        * Make number in english (remove , or .)
         */        
-        function valueOf($languageId, $value) {
-
-            if ($languageId == 1) {
-                $value = str_replace(",", "", $value);
-            } else if ($languageId == 2) {
-                $value = str_replace(".", "", $value);
-                $value = str_replace(",", ".", $value);
-            }
-
+        function valueOf($value) {
+            $value = str_replace(".", "", $value);
+            $value = str_replace(",", ".", $value);
             return $value;
         }
 
