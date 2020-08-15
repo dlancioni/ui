@@ -13,4 +13,5 @@
     include "element.php";
     include "menu.php";
     include "tablelogic.php";
+    include "message.php";
 ?>    

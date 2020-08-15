@@ -369,36 +369,37 @@
 
             // General declaration
             $js = "";
-            $stringUtil = new StringUtil();        
+            $msg = "";
+            $stringUtil = new StringUtil();
+            $message = new Message($this->cn, $this->sqlBuilder);
 
             // Prepare values        
             $fieldName = $stringUtil->dqt($fieldName);
             $fieldMask = $stringUtil->dqt($fieldMask);
 
             // Validate mandatory fields (see domain tb_bool)
-            $message = $stringUtil->dqt("Campo obrigatório $fieldLabel");
+            $msg = $message->getValue("A1", $fieldLabel);
             if ($fieldMandatory == 1) {                
-                $js .= "if (!validateMandatory($fieldName, $fk, $message)) {";
+                $js .= "if (!validateMandatory($fieldName, $fk, $msg)) {";
                 $js .= "return false;";
                 $js .= "} ";
             }
 
             // Validate mandatory fields (see domain tb_bool)
-            $message = $stringUtil->dqt("Data Inválida $fieldLabel");
+            $msg = $message->getValue("A2", $fieldLabel);
             if ($fieldType == "date") {                
-                $js .= "if (!validateDate($fieldName, $fieldMask, $message)) {";
+                $js .= "if (!validateDate($fieldName, $fieldMask, $msg)) {";
                 $js .= "return false;";
                 $js .= "} ";
             }
 
             // Validate mandatory fields (see domain tb_bool)
-            $message = $stringUtil->dqt("Valor numerico invalido $fieldLabel");
+            $msg = $message->getValue("A3", $fieldLabel);
             if ($fieldType == "int" || $fieldType == "float") {
-                $js .= "if (!validateNumeric($fieldName, $message)) {";
+                $js .= "if (!validateNumeric($fieldName, $msg)) {";
                 $js .= "return false;";
                 $js .= "} ";
             }
-
 
             // Just return
             return $js;

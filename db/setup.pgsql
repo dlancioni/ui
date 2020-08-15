@@ -251,5 +251,7 @@ insert into tb_code (field) values ('{"id_system":1,"comment":"Evita nomes invá
 -- table tb_message
 -- -----------------------------------------------------
 insert into tb_message (field) values ('{"id_system":1,"id_type":1, "code":"A1", "description":"Campo % é obrigatório"}');
-insert into tb_message (field) values ('{"id_system":1,"id_type":1, "code":"A2", "description":"Os valores para os campos % ja existem na tabela"}');
-insert into tb_message (field) values ('{"id_system":1,"id_type":1, "code":"A3", "description":"Nenhuma mudança identifica no registro"}');
+insert into tb_message (field) values ('{"id_system":1,"id_type":1, "code":"A2", "description":"Data inválida informada no campo %"}');
+insert into tb_message (field) values ('{"id_system":1,"id_type":1, "code":"A3", "description":"Numero inválido informada no campo %"}');
+insert into tb_message (field) values ('{"id_system":1,"id_type":1, "code":"A4", "description":"Os valores para os campos % ja existem na tabela"}');
+insert into tb_message (field) values ('{"id_system":1,"id_type":1, "code":"A5", "description":"Nenhuma mudança identifica no registro"}');
