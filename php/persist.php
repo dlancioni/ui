@@ -11,26 +11,27 @@
     $cn = "";
     $rs = "";
     $sql = "";
-    $tableDef = "";
-    $sqlBuilder = "";
-    $jsonUtil = "";
     $old = "{}";
-    $new = "{}";
+    $new = "{}";    
+    $key = "";       
     $logic = "";
-    $fieldName = "";
-    $fieldLabel = "";    
+    $message = "";
+    $tableDef = "";
+    $jsonUtil = "";
+    $unique = "";    
+    $fieldName = "";       
     $fieldType = "";
+    $sqlBuilder = "";    
     $fieldUnique = "";
+    $fieldLabel = "";    
     $changed = false;
-    $unique = "";
-    $key = "";
 
     // Core code
     try {
         
         // Object instances
         $jsonUtil = new JsonUtil();
-        $numberUtil = new NumberUtil();
+        $numberUtil = new NumberUtil();        
 
         // DB interface
         $db = new Db();       
@@ -45,6 +46,9 @@
                                      $_SESSION["_USER_"]);
         // Open connection
         $cn = $db->getConnection();
+
+        // Handle messages
+        $message = new Message($cn, $sqlBuilder);        
 
         // Get table structure
         $tableDef = $sqlBuilder->getTableDef($cn, "json");
@@ -66,7 +70,7 @@
                 $new = $row[0];
             };
         }
-           
+
         // Read form
         foreach($tableDef as $item) {
 
@@ -107,6 +111,13 @@
                 }
             }
 
+            // Do nothing if no changes in the records
+            if ($changed == false)  {
+                $msg = $message->getValue("A5");
+                throw new Exception($msg);
+            }
+
+            // Check if values already exists
             $sql = "";
             $sql .= " select field from " . $tableName;
             $sql .= " where 1 = 1";
@@ -114,17 +125,12 @@
                 $sql .= " and " . $jsonUtil->condition($tableName, "id_system", "int", "=", $db->getSystem());
             }
             $sql .= $unique;
-
             $rs = $db->query($cn, $sql);
             while ($row = pg_fetch_row($rs)) {
                 $key =  rtrim($key, ", ");
-                throw new Exception("Campo $key já existe na tabela");
+                $msg = $message->getValue("A4", $key);
+                throw new Exception($msg);
             };            
-
-            // Do nothing if no change
-            if ($changed == false)  {
-                throw new Exception("No changes in current records");
-            }
         }
 
         // Get logic for current transaction
@@ -178,5 +184,4 @@
     } else {
         echo $db->getMessage();        
     }
-
 ?>

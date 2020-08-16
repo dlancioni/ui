@@ -377,7 +377,7 @@
             $fieldName = $stringUtil->dqt($fieldName);
             $fieldMask = $stringUtil->dqt($fieldMask);
 
-            // Validate mandatory fields (see domain tb_bool)
+            // Validate mandatory fields
             $msg = $message->getValue("A1", $fieldLabel);
             if ($fieldMandatory == 1) {                
                 $js .= "if (!validateMandatory($fieldName, $fk, $msg)) {";
@@ -385,7 +385,7 @@
                 $js .= "} ";
             }
 
-            // Validate mandatory fields (see domain tb_bool)
+            // Validate data type date
             $msg = $message->getValue("A2", $fieldLabel);
             if ($fieldType == "date") {                
                 $js .= "if (!validateDate($fieldName, $fieldMask, $msg)) {";
@@ -393,7 +393,7 @@
                 $js .= "} ";
             }
 
-            // Validate mandatory fields (see domain tb_bool)
+            // Validate datat numeric
             $msg = $message->getValue("A3", $fieldLabel);
             if ($fieldType == "int" || $fieldType == "float") {
                 $js .= "if (!validateNumeric($fieldName, $msg)) {";

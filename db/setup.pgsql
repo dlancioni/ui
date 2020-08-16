@@ -67,7 +67,7 @@ insert into tb_table (field) values ('{"id_system":1,"name":"tb_field","id_type"
 insert into tb_table (field) values ('{"id_system":1,"name":"tb_domain","id_type":1,"title":"Domínio"}');
 insert into tb_table (field) values ('{"id_system":1,"name":"tb_event","id_type":1,"title":"Eventos"}');
 insert into tb_table (field) values ('{"id_system":1,"name":"tb_action","id_type":1,"title":"Ações"}');
-insert into tb_table (field) values ('{"id_system":1,"name":"tb_code","id_type":1,"title":"Código"}');
+insert into tb_table (field) values ('{"id_system":1,"name":"tb_code","id_type":1,"title":"Programação"}');
 insert into tb_table (field) values ('{"id_system":1,"name":"tb_message","id_type":1,"title":"Mensagens"}');
 
 -- -----------------------------------------------------
@@ -96,9 +96,9 @@ insert into tb_field (field) values ('{"id_system":1,"id_table":3,"label":"Tabel
 insert into tb_field (field) values ('{"id_system":1,"id_table":3,"label":"Campo Fk","name":"id_field_fk","id_type":1,"size":0,"mask":"","id_mandatory":2,"id_unique":2,"id_table_fk":3,"id_field_fk":10,"domain":""}');
 insert into tb_field (field) values ('{"id_system":1,"id_table":3,"label":"Domínio","name":"domain","id_type":3,"size":50,"mask":"","id_mandatory":2,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
 -- tb_domain
-insert into tb_field (field) values ('{"id_system":1,"id_table":4,"label":"Chave","name":"key","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
-insert into tb_field (field) values ('{"id_system":1,"id_table":4,"label":"Valor","name":"value","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
-insert into tb_field (field) values ('{"id_system":1,"id_table":4,"label":"Domínio","name":"domain","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
+insert into tb_field (field) values ('{"id_system":1,"id_table":4,"label":"Chave","name":"key","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
+insert into tb_field (field) values ('{"id_system":1,"id_table":4,"label":"Valor","name":"value","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
+insert into tb_field (field) values ('{"id_system":1,"id_table":4,"label":"Domínio","name":"domain","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
 -- tb_event
 insert into tb_field (field) values ('{"id_system":1,"id_table":5,"label":"Tela","name":"id_target","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":4,"id_field_fk":20,"domain":"tb_target"}');
 insert into tb_field (field) values ('{"id_system":1,"id_table":5,"label":"Tabela","name":"id_table","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":2,"id_field_fk":7,"domain":""}');
@@ -253,5 +253,5 @@ insert into tb_code (field) values ('{"id_system":1,"comment":"Evita nomes invá
 insert into tb_message (field) values ('{"id_system":1,"id_type":1, "code":"A1", "description":"Campo % é obrigatório"}');
 insert into tb_message (field) values ('{"id_system":1,"id_type":1, "code":"A2", "description":"Data inválida informada no campo %"}');
 insert into tb_message (field) values ('{"id_system":1,"id_type":1, "code":"A3", "description":"Numero inválido informada no campo %"}');
-insert into tb_message (field) values ('{"id_system":1,"id_type":1, "code":"A4", "description":"Os valores para os campos % ja existem na tabela"}');
-insert into tb_message (field) values ('{"id_system":1,"id_type":1, "code":"A5", "description":"Nenhuma mudança identifica no registro"}');
+insert into tb_message (field) values ('{"id_system":1,"id_type":1, "code":"A4", "description":"Os valores para os campos % ja existem na tabela e não podem se repetir"}');
+insert into tb_message (field) values ('{"id_system":1,"id_type":1, "code":"A5", "description":"Nenhuma mudança identifica no registro, alteração não realizada"}');

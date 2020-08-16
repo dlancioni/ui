@@ -14,7 +14,7 @@
         /*
          * Create main menu
          */        
-        public function getValue($code, $value) {
+        public function getValue($code, $value="") {
 
             // General Declaration            
             $html = "";
