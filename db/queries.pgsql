@@ -26,10 +26,4 @@ from tb_table
 -- -----------------------------------------------------
 */
 
-select * from tb_event where field->>'id_table' = '8'
-union
-delete from tb_event where field->>'id_table' > '8'
-
-
 select * from tb_menu
-select * from tb_table
