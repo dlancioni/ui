@@ -31,5 +31,5 @@ union
 delete from tb_event where field->>'id_table' > '8'
 
 
-select * from tb_system 
-delete from tb_system where id > 1
+select * from tb_menu
+select * from tb_table

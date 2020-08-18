@@ -32,6 +32,9 @@
         // Get main menu
         $html .= $menu->createMenu();
 
+        $html .= $menu->menu();
+        
+
         // Create table or form
         if ($tableId > 0) {
 

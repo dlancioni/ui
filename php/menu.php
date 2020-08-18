@@ -40,5 +40,70 @@
             // Return main menu
             return $html;
         }
+
+
+        /*
+         * Create main menu
+         */        
+        public function menu() {
+
+            // General Declaration            
+            $html = "";
+            $stringUtil = new StringUtil();
+
+            // Begin
+            $html .= "<br>";
+            $html .= "<div class=" . $stringUtil->dqt("menu-container") . ">";
+            $html .= "<ul class=" . $stringUtil->dqt("menu clearfix") . ">";
+
+            // Add contents
+            try {
+
+                $html .= $this->AddSubMenu();                
+
+            } catch (Exception $ex) {
+                throw $ex;
+            }
+
+            // End
+            $html .= "</ul>";
+            $html .= "</div>";
+
+            // Return main menu
+            return $html;
+        }
+
+        public function addSubMenu() {
+
+            $html = "";
+            $label = "Cadastros";
+            $stringUtil = new StringUtil();
+
+            $html .= "<li>";
+            $html .= "<a href=" . $stringUtil->dqt("/php/index.php") . "><b>" . $label . "</b></a>";
+            $html .= "<ul class=" . $stringUtil->dqt("sub-menu clearfix") .">";
+
+            $html .= "</ul>";
+            $html .= "</li>";
+
+            return $html;
+        }
+
+        public function addMenuItem() {
+
+            $html = "";
+            $label = "Clientes";
+            $stringUtil = new StringUtil();
+
+            $html .= "<li>";
+            $html .= "<a onClick=". $stringUtil->dqt("go()") . ">" . $label . "</a>";
+            $html .= "</li>";
+
+            return $html;
+        }        
+
+        /*
+         * End of class   
+         */    
     }
 ?>
