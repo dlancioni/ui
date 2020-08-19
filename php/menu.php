@@ -49,7 +49,25 @@
 
             // General Declaration            
             $html = "";
+            $menu = "";
+            $table = "";
+
+            $TB_TABLE = 2;
+            $TB_MENU = 9;
             $stringUtil = new StringUtil();
+
+
+            try {
+
+                // Get menu and table
+                $filter = new Filter();
+                $menu = $this->sqlBuilder->Query($this->cn, $TB_MENU, $filter->create());
+                $table = $this->sqlBuilder->Query($this->cn, $TB_TABLE, $filter->create());
+
+
+            } catch (Exception $ex) {
+                throw $ex;
+            }
 
             // Begin
             $html .= "<br>";

@@ -1,29 +1,15 @@
+
+select 
+tb_menu.id,
+tb_menu.field->>'name' as name,
+tb_menu.field->>'id_parent' as id_parent
+from tb_menu
+
 /*
--- -----------------------------------------------------
--- TB_SYSTEM
--- -----------------------------------------------------
 select 
 id,
-field->>'name' as name,
-field->>'price' as price,
-field->>'expire_date' as expire_date
-from tb_system
-
--- -----------------------------------------------------
--- TB_TABLE
--- -----------------------------------------------------
-select 
-id,
-field->>'id_system' as id_system,
-field->>'name' as name,
-field->>'id_type' as id_type,
-field->>'title' as title,
-field->>'table_name' as table_name
-from tb_table
-
--- -----------------------------------------------------
--- TB_FIELD
--- -----------------------------------------------------
+field->>'id_menu' as id_menu,
+field->>'title' as title 
+from tb_table 
+where (field->>'id_menu')::int = 2
 */
-
-select * from tb_menu

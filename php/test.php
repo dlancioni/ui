@@ -4,18 +4,19 @@
 </head>    
 <body>
 
-    <?php
-    include "include.php";
-    $menu = new Menu(1,2);
-    echo $menu->menu();
+<?php
+// sem prefixo
+
+echo uniqid("david") . "<p>";
+echo uniqid("") . "<p>";
+echo uniqid("") . "<p>";
+echo uniqid("") . "<p>";
+echo uniqid("") . "<p>";
+
+?>
 
 
 
-
-
-
-
-    ?>
     <script>
     </script>        
 
