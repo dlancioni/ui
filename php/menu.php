@@ -65,7 +65,9 @@
                 $table = $this->sqlBuilder->Query($this->cn, $TB_TABLE, $filter->create());
 
                 $x = $this->buildTree($menu);
-                print_r ($x);
+
+                $this->print($x);
+
 
             } catch (Exception $ex) {
                 throw $ex;
@@ -100,35 +102,24 @@
             return $branch;
         }
 
-        public function hasParent($menu, $id) {
+        public function print($array)
+        {
+            echo "<ul>";
+        
+            foreach($array as $k => $v) {
 
-            $arr = [];
+                if (is_array($v)) {
 
-            foreach ($menu as $item) {
-
-                if ($item["id_parent"] == $id) {
-                    return true;
+                    $this->print($v);
+                    continue;
                 }
+               
+                if ($k == "name") 
+                    echo "<li>" . $v . "</li>";
             }
-
-            return false;
+        
+            echo "</ul>";
         }
-
-
-        public function getParent($menu, $id) {
-
-            $arr = [];
-
-            foreach ($menu as $item) {
-
-                if ($item["id_parent"] == $id) {
-                    array_push($arr, $item);
-                }
-            }
-
-            return $arr;
-        }
-
 
         public function addSubMenu() {
 
