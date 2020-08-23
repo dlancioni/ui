@@ -51,7 +51,7 @@
             $html = "";
             $menu = "";
             $table = "";
-
+            $output = "";
             $TB_TABLE = 2;
             $TB_MENU = 9;
             $stringUtil = new StringUtil();
@@ -64,6 +64,8 @@
                 $menu = $this->sqlBuilder->Query($this->cn, $TB_MENU, $filter->create());
                 $table = $this->sqlBuilder->Query($this->cn, $TB_TABLE, $filter->create());
 
+                $x = $this->buildTree($menu);
+                print_r ($x);
 
             } catch (Exception $ex) {
                 throw $ex;
@@ -73,23 +75,60 @@
             $html .= "<br>";
             $html .= "<div class=" . $stringUtil->dqt("menu-container") . ">";
             $html .= "<ul class=" . $stringUtil->dqt("menu clearfix") . ">";
-
-            // Add contents
-            try {
-
-                $html .= $this->AddSubMenu();                
-
-            } catch (Exception $ex) {
-                throw $ex;
-            }
-
-            // End
+            $html .= $output;
             $html .= "</ul>";
             $html .= "</div>";
 
             // Return main menu
             return $html;
         }
+
+
+        public function buildTree(array $elements, $parentId = 0) {
+
+            $branch = array();
+        
+            foreach ($elements as $element) {
+                if ($element['id_parent'] == $parentId) {
+                    $children = $this->buildTree($elements, $element['id']);
+                    if ($children) {
+                        $element['children'] = $children;
+                    }
+                    $branch[] = $element;
+                }
+            }
+            return $branch;
+        }
+
+        public function hasParent($menu, $id) {
+
+            $arr = [];
+
+            foreach ($menu as $item) {
+
+                if ($item["id_parent"] == $id) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+
+        public function getParent($menu, $id) {
+
+            $arr = [];
+
+            foreach ($menu as $item) {
+
+                if ($item["id_parent"] == $id) {
+                    array_push($arr, $item);
+                }
+            }
+
+            return $arr;
+        }
+
 
         public function addSubMenu() {
 
