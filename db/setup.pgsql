@@ -40,10 +40,10 @@ insert into tb_system (field) values ('{"name":"Forms","expire_date":"31/12/2020
 -- table tb_table
 -- -----------------------------------------------------
 delete from tb_table;
-insert into tb_table (field) values ('{"id_system":1,"name":"tb_system","id_type":1,"title":"Sistema","id_menu":2}');
+insert into tb_table (field) values ('{"id_system":1,"name":"tb_system","id_type":1,"title":"Sistemas","id_menu":2}');
 insert into tb_table (field) values ('{"id_system":1,"name":"tb_table","id_type":1,"title":"Tabelas","id_menu":2}');
 insert into tb_table (field) values ('{"id_system":1,"name":"tb_field","id_type":1,"title":"Campos","id_menu":2}');
-insert into tb_table (field) values ('{"id_system":1,"name":"tb_domain","id_type":1,"title":"Domínio","id_menu":2}');
+insert into tb_table (field) values ('{"id_system":1,"name":"tb_domain","id_type":1,"title":"Domínios","id_menu":2}');
 insert into tb_table (field) values ('{"id_system":1,"name":"tb_event","id_type":1,"title":"Eventos","id_menu":2}');
 insert into tb_table (field) values ('{"id_system":1,"name":"tb_action","id_type":1,"title":"Ações","id_menu":2}');
 insert into tb_table (field) values ('{"id_system":1,"name":"tb_code","id_type":1,"title":"Programação","id_menu":2}');
@@ -161,9 +161,17 @@ insert into tb_message (field) values ('{"id_system":1,"id_type":1, "code":"A5",
 -- -----------------------------------------------------
 -- table tb_menu
 -- -----------------------------------------------------
+
 insert into tb_menu (field) values ('{"id_system":1,"name":"Administração", "id_parent":0}');
-insert into tb_menu (field) values ('{"id_system":1,"name":"Transações", "id_parent":1}');
-insert into tb_menu (field) values ('{"id_system":1,"name":"Controle de Acesso", "id_parent":1}');
+insert into tb_menu (field) values ('{"id_system":1,"name":"Sistema", "id_parent":1}');
+insert into tb_menu (field) values ('{"id_system":1,"name":"Tabelas", "id_parent":1}');
+insert into tb_menu (field) values ('{"id_system":1,"name":"Campos", "id_parent":1}');
+insert into tb_menu (field) values ('{"id_system":1,"name":"Domínios", "id_parent":1}');
+insert into tb_menu (field) values ('{"id_system":1,"name":"Eventos", "id_parent":1}');
+insert into tb_menu (field) values ('{"id_system":1,"name":"Ações", "id_parent":1}');
+insert into tb_menu (field) values ('{"id_system":1,"name":"Programação", "id_parent":1}');
+insert into tb_menu (field) values ('{"id_system":1,"name":"Mensagens", "id_parent":1}');
+insert into tb_menu (field) values ('{"id_system":1,"name":"Menus", "id_parent":1}');
 
 -- -----------------------------------------------------
 -- table tb_event

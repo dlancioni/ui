@@ -30,10 +30,8 @@
         $menu = new Menu($cn, $sqlBuilder);
 
         // Get main menu
-        $html .= $menu->createMenu();
-
-        $html .= $menu->menu();
-        
+        $menu->createMenu();
+        $html .= $menu->html;
 
         // Create table or form
         if ($tableId > 0) {

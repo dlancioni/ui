@@ -4,6 +4,7 @@
         // Private members
         private $cn = 0;
         private $sqlBuilder = 0;
+        public $html;
 
         // Constructor
         function __construct($cn, $sqlBuilder) {
@@ -13,39 +14,8 @@
 
         /*
          * Create main menu
-         */        
+         */
         public function createMenu() {
-
-            // General Declaration            
-            $html = "";
-
-            try {
-
-                // Get data
-                $filter = new Filter();
-                $data = $this->sqlBuilder->Query($this->cn, 2, $filter->create());
-
-                // Create main menu
-                foreach ($data as $row) {
-                    $html .= "<a onclick='go(" . $row["id"] . ", 1)'>" . $row["title"] . "</a>" . "&nbsp;&nbsp;";
-                }                
-
-                // Jump line for elegance
-                $html .= "<br>";
-
-            } catch (Exception $ex) {
-                throw $ex;
-            }
-
-            // Return main menu
-            return $html;
-        }
-
-
-        /*
-         * Create main menu
-         */        
-        public function menu() {
 
             // General Declaration            
             $html = "";
@@ -56,7 +26,6 @@
             $TB_MENU = 9;
             $stringUtil = new StringUtil();
 
-
             try {
 
                 // Get menu and table
@@ -64,35 +33,27 @@
                 $menu = $this->sqlBuilder->Query($this->cn, $TB_MENU, $filter->create());
                 $table = $this->sqlBuilder->Query($this->cn, $TB_TABLE, $filter->create());
 
-                $x = $this->buildTree($menu);
-
-                $this->print($x);
-
+                $x = $this->prepareTree($menu);
+                $this->writeTree($x);
 
             } catch (Exception $ex) {
                 throw $ex;
             }
 
-            // Begin
-            $html .= "<br>";
-            $html .= "<div class=" . $stringUtil->dqt("menu-container") . ">";
-            $html .= "<ul class=" . $stringUtil->dqt("menu clearfix") . ">";
-            $html .= $output;
-            $html .= "</ul>";
-            $html .= "</div>";
-
             // Return main menu
             return $html;
         }
 
-
-        public function buildTree(array $elements, $parentId = 0) {
+        /*
+         * Prepare tree format data to generate menu
+         */
+        private function prepareTree(array $elements, $parentId = 0) {
 
             $branch = array();
         
             foreach ($elements as $element) {
                 if ($element['id_parent'] == $parentId) {
-                    $children = $this->buildTree($elements, $element['id']);
+                    $children = $this->prepareTree($elements, $element['id']);
                     if ($children) {
                         $element['children'] = $children;
                     }
@@ -102,53 +63,48 @@
             return $branch;
         }
 
-        public function print($array)
+        /*
+         * Create html menu
+         */        
+        public function writeTree($array)
         {
-            echo "<ul>";
-        
+            // General Declaration
+            $id = 0;
+
+            // Create main menu
+            $this->append("<ul>");
+
             foreach($array as $k => $v) {
-
                 if (is_array($v)) {
-
-                    $this->print($v);
+                    $this->writeTree($v);
                     continue;
                 }
-               
+
+                if ($k == "id") 
+                    $id = $v - 1; // temporario
+
                 if ($k == "name") 
-                    echo "<li>" . $v . "</li>";
+                    $this->append($this->createLink($id, $v));
             }
         
-            echo "</ul>";
+            $this->append("</ul>");
         }
 
-        public function addSubMenu() {
-
-            $html = "";
-            $label = "Cadastros";
-            $stringUtil = new StringUtil();
-
-            $html .= "<li>";
-            $html .= "<a href=" . $stringUtil->dqt("/php/index.php") . "><b>" . $label . "</b></a>";
-            $html .= "<ul class=" . $stringUtil->dqt("sub-menu clearfix") .">";
-
-            $html .= "</ul>";
-            $html .= "</li>";
-
+        /*
+         * Add link to current menu
+         */
+        private function createLink($id, $label) {
+            $html = "<a onclick='go(" . $id . ", 1)'>" . $label . "</a>" . "&nbsp;&nbsp;";
             return $html;
         }
 
-        public function addMenuItem() {
-
-            $html = "";
-            $label = "Clientes";
-            $stringUtil = new StringUtil();
-
-            $html .= "<li>";
-            $html .= "<a onClick=". $stringUtil->dqt("go()") . ">" . $label . "</a>";
-            $html .= "</li>";
-
-            return $html;
-        }        
+        /*
+         * Just append data
+         */        
+        private function append($html) {
+            $this->html .= $html;
+            
+        }
 
         /*
          * End of class   
