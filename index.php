@@ -25,6 +25,7 @@ include "php/session.php";
     <input type="hidden" id="_EVENT_" name="_EVENT_" value="<?php echo $event; ?>">
     <input type="hidden" id="_PAGING_" name="_PAGING_" value="<?php echo $pageOffset; ?>">
 
+    <script src="js/filesaver.js"></script>
     <script src="js/moment.js"></script>
     <script src="js/httpservice.js"></script>
     <script src="js/function.js"></script>
