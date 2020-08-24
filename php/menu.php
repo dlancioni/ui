@@ -94,7 +94,10 @@
          * Add link to current menu
          */
         private function createLink($id, $label) {
-            $html = "<a onclick='go(" . $id . ", 1)'>" . $label . "</a>" . "&nbsp;&nbsp;";
+            $html = "";
+            $html .= "<li>";
+            $html .= "<a onclick='go(" . $id . ", 1)'>" . $label . "</a>" . "&nbsp;&nbsp;";
+            $html .= "</li>";
             return $html;
         }
 
