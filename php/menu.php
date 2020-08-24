@@ -23,17 +23,15 @@
             $table = "";
             $output = "";
             $TB_TABLE = 2;
-            $TB_MENU = 9;
             $stringUtil = new StringUtil();
 
             try {
 
                 // Get menu and table
                 $filter = new Filter();
-                $menu = $this->sqlBuilder->Query($this->cn, $TB_MENU, $filter->create());
                 $table = $this->sqlBuilder->Query($this->cn, $TB_TABLE, $filter->create());
 
-                $x = $this->prepareTree($menu);
+                $x = $this->prepareTree($table);
                 $this->writeTree($x);
 
             } catch (Exception $ex) {
@@ -81,9 +79,9 @@
                 }
 
                 if ($k == "id") 
-                    $id = $v - 1; // temporario
+                    $id = $v; // temporario
 
-                if ($k == "name") 
+                if ($k == "title") 
                     $this->append($this->createLink($id, $v));
             }
         

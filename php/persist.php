@@ -118,19 +118,21 @@
             }
 
             // Check if values already exists
-            $sql = "";
-            $sql .= " select field from " . $tableName;
-            $sql .= " where 1 = 1";
-            if ($tableName != "tb_system") {
-                $sql .= " and " . $jsonUtil->condition($tableName, "id_system", "int", "=", $db->getSystem());
+            if ($unique != "") {
+                $sql = "";
+                $sql .= " select field from " . $tableName;
+                $sql .= " where 1 = 1";
+                if ($tableName != "tb_system") {
+                    $sql .= " and " . $jsonUtil->condition($tableName, "id_system", "int", "=", $db->getSystem());
+                }
+                $sql .= $unique;
+                $rs = $db->query($cn, $sql);
+                while ($row = pg_fetch_row($rs)) {
+                    $key =  rtrim($key, ", ");
+                    $msg = $message->getValue("A4", $key);
+                    throw new Exception($msg);
+                };
             }
-            $sql .= $unique;
-            $rs = $db->query($cn, $sql);
-            while ($row = pg_fetch_row($rs)) {
-                $key =  rtrim($key, ", ");
-                $msg = $message->getValue("A4", $key);
-                throw new Exception($msg);
-            };            
         }
 
         // Get logic for current transaction
