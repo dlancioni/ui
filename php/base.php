@@ -4,6 +4,7 @@
         private $systemId = 0;
         private $tableId = 0;
         private $userId = 0;
+        private $groupId = 0;
 
         // Error Handling
         private $error = "";
@@ -14,10 +15,11 @@
         private $event = 0;
 
         // Constructor
-        function __construct($systemId, $tableId, $userId) {
+        function __construct($systemId, $tableId, $userId, $groupId) {
             $this->setSystem($systemId);
             $this->setTable($tableId);
             $this->setUser($userId);
+            $this->setGroup($groupId);
         }
 
         // Current session
@@ -38,6 +40,12 @@
         }
         public function setUser($userId) {
             $this->userId = $userId;
+        }
+        public function getGroup() {
+            return $this->groupId;
+        }
+        public function setGroup($groupId) {
+            $this->groupId = $groupId;
         }
 
         // Error handling    

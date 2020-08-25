@@ -39,11 +39,13 @@
         $db->setLastId($_SESSION["_ID_"]);
         $db->setEvent($_SESSION["_EVENT_"]);
         $db->setTable($_SESSION["_TABLE_"]);
+        $db->setGroup($_SESSION["_GROUP_"]);
 
         // Keep instance of SqlBuilder for current session
         $sqlBuilder = new SqlBuilder($_SESSION["_SYSTEM_"], 
                                      $_SESSION["_TABLE_"], 
-                                     $_SESSION["_USER_"]);
+                                     $_SESSION["_USER_"],
+                                     $_SESSION["_GROUP_"]);
         // Open connection
         $cn = $db->getConnection();
 

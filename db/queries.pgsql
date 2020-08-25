@@ -1,1 +1,1 @@
-select * from tb_table
+select * from tb_message

@@ -25,7 +25,7 @@
         // General Declaration
         $db = new Db();
         $cn = $db->getConnection();
-        $sqlBuilder = new SqlBuilder($systemId, $tableId, $userId);
+        $sqlBuilder = new SqlBuilder($systemId, $tableId, $userId, $groupId);
         $element = new HTMLElement($cn, $sqlBuilder);
         $menu = new Menu($cn, $sqlBuilder);
 

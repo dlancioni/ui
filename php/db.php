@@ -107,6 +107,7 @@
 
             // Make sure id_system is set
             $record = $jsonUtil->setValue($record, "id_system", $this->getSystem());
+            $record = $jsonUtil->setValue($record, "id_group", $this->getGroup());
 
             // Prepare condition for update and delete
             $key .= " where " . $jsonUtil->condition($tableName, "id", "int", "=", $this->getLastId());                        

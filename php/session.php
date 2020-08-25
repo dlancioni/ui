@@ -12,7 +12,8 @@
     // General Declaration
     $systemId = 0; 
     $tableId = 0; 
-    $userId = 0; 
+    $userId = 0;
+    $groupId = 0; 
     $filter = "[]"; 
     $pageOffset = 0;
 
@@ -24,7 +25,9 @@
     $_SESSION["_SYSTEM_"] = 1;
     $_SESSION['_TABLE_'] = 2;
     $_SESSION['_USER_'] = 1;
+    $_SESSION['_GROUP_'] = 99;
     $_SESSION['_ID_'] = 0;
+
 
     // Solution allow multiple systems
     if (isset($_SESSION["_SYSTEM_"])) {
@@ -40,4 +43,9 @@
     if (isset($_SESSION["_USER_"])) {
         $userId = $_SESSION["_USER_"];
     }
+
+    // Current group
+    if (isset($_SESSION["_GROUP_"])) {
+        $groupId = $_SESSION["_GROUP_"];
+    }    
 ?>
