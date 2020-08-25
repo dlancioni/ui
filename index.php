@@ -15,9 +15,8 @@ include "php/session.php";
 <form id="form1" name="form1" action="index.php" method="post">
 
     <div class="w3-row">
-      <div class="w3-col w3-container" style="width:20%">&nbsp;</div>
-      <div class="w3-col w3-container" style="width:60%"><?php include "php/page.php";?></div>
-      <div class="w3-col w3-container" style="width:20%">&nbsp;</div>
+      <div class="w3-col w3-container" style="width:20%"><?php echo $_SESSION["_MENU_"]; ?></div>  
+      <div class="w3-col w3-container" style="width:80%"><?php include "php/page.php";?></div>
     </div>
 
     <input type="hidden" id="_TABLE_" name="_TABLE_" value="<?php echo $tableId; ?>">

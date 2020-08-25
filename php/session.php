@@ -18,6 +18,7 @@
 
     // Filter for current table
     //$_SESSION["_FILTER_"] = [];
+    //$_SESSION["_MENU_"] = "";
 
     // Key attributes    
     $_SESSION["_SYSTEM_"] = 1;

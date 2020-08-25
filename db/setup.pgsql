@@ -46,7 +46,7 @@ insert into tb_table (field) values ('{"id_system":1,"name":"tb_action","id_type
 insert into tb_table (field) values ('{"id_system":1,"name":"tb_code","id_type":1,"title":"Programação","id_parent":9}');
 insert into tb_table (field) values ('{"id_system":1,"name":"tb_message","id_type":1,"title":"Mensagens","id_parent":9}');
 
-insert into tb_table (field) values ('{"id_system":1,"name":"_","id_type":3,"title":"Administração","id_parent":0}');
+insert into tb_table (field) values ('{"id_system":1,"name":"-","id_type":3,"title":"Administração","id_parent":0}');
 
 
 -- -----------------------------------------------------
@@ -62,7 +62,7 @@ insert into tb_field (field) values ('{"id_system":1,"id_table":2,"label":"Siste
 insert into tb_field (field) values ('{"id_system":1,"id_table":2,"label":"Nome","name":"name","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
 insert into tb_field (field) values ('{"id_system":1,"id_table":2,"label":"Tipo","name":"id_type","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":4,"id_field_fk":20,"domain":"tb_table_type"}');
 insert into tb_field (field) values ('{"id_system":1,"id_table":2,"label":"Titulo","name":"title","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
-insert into tb_field (field) values ('{"id_system":1,"id_table":2,"label":"Parente","name":"id_parent","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":2,"id_field_fk":7,"domain":""}');
+insert into tb_field (field) values ('{"id_system":1,"id_table":2,"label":"Parente","name":"id_parent","id_type":1,"size":0,"mask":"","id_mandatory":2,"id_unique":2,"id_table_fk":2,"id_field_fk":7,"domain":""}');
 -- tb_field
 insert into tb_field (field) values ('{"id_system":1,"id_table":3,"label":"Tabela","name":"id_table","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":2,"id_field_fk":7,"domain":""}');
 insert into tb_field (field) values ('{"id_system":1,"id_table":3,"label":"Rótulo","name":"label","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');

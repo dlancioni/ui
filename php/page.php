@@ -31,7 +31,7 @@
 
         // Get main menu
         $menu->createMenu();
-        $html .= $menu->html;
+        $_SESSION["_MENU_"] = $menu->html;
 
         // Create table or form
         if ($tableId > 0) {
