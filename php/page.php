@@ -33,14 +33,14 @@
         $menu->createMenu();
         $_SESSION["_MENU_"] = $menu->html;
 
+        // Get controls for current table ID
+        $filter = new Filter();
+        $filter->add("tb_event", "id_target", $format);
+        $filter->add("tb_event", "id_table", $tableId);
+        $pageEvent = $sqlBuilder->Query($cn, $TB_EVENT, $filter->create());        
+
         // Create table or form
         if ($tableId > 0) {
-
-            // Get events
-            $filter = new Filter();
-            $filter->add("tb_event", "id_target", $format);
-            $filter->add("tb_event", "id_table", $tableId);
-            $pageEvent = $sqlBuilder->Query($cn, $TB_EVENT, $filter->create());
 
             // Go to current table
             $sqlBuilder->setTable($tableId);            
@@ -60,7 +60,7 @@
             }
 
             // Add buttons to form
-            $html .= createButton($pageEvent);
+            $html .= createButton($format, $tableId);
 
             // Add global functions (js code)
             $html .= createJS($cn, $sqlBuilder);
@@ -84,12 +84,32 @@
     /* 
      * Get event list and isolate function calls related to buttons
      */
-    function CreateButton($pageEvent) {
+    function CreateButton($format, $tableId) {
 
         // General declaration
         $html = "";
         $name = "";
         global $element;
+        global $sqlBuilder;
+        global $cn;
+        $TB_SYSTEM = 1;
+        $TB_EVENT = 5;
+
+        // Get controls for current table ID
+        $filter = new Filter();
+        $filter->addCondition("tb_event", "id_target", "int", "=", $format);
+        $filter->addCondition("tb_event", "id_table", "int", "=", $tableId);
+        $filter->addCondition("tb_event", "id_action", "int", "<>", "0");
+        $pageEvent = $sqlBuilder->Query($cn, $TB_EVENT, $filter->create());
+
+        // Not found, inherit from tb_system
+        if (!$pageEvent) {
+            $filter = new Filter();
+            $filter->addCondition("tb_event", "id_target", "int", "=", $format);
+            $filter->addCondition("tb_event", "id_table", "int", "=", $TB_SYSTEM);
+            $filter->addCondition("tb_event", "id_action", "int", "<>", "0");
+            $pageEvent = $sqlBuilder->Query($cn, $TB_EVENT, $filter->create());
+        }
 
         // Space between form and buttons
         $html = "<br><br>";

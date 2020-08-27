@@ -167,12 +167,12 @@ insert into tb_message (field) values ('{"id_system":1,"id_group":1,"id_type":1,
 -- table tb_message
 -- -----------------------------------------------------
 insert into tb_group (field) values ('{"id_system":1,"id_group":1,"name":"Sistema"}');
-insert into tb_group (field) values ('{"id_system":1,"id_group":2,"name":"Publico"}');
+insert into tb_group (field) values ('{"id_system":1,"id_group":2,"name":"Público"}');
 
 
--- -----------------------------------------------------
--- table tb_event
--- -----------------------------------------------------
+-- ---------------------------------------------------------------------------------
+-- table tb_event (buttons are inherited from tb_system to all other system tables)
+-- ---------------------------------------------------------------------------------
 -- tb_system
 insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":1,"id_table":1,"id_field":0,"id_action":1,"id_event":2,"code":"formNew();"}');
 insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":1,"id_table":1,"id_field":0,"id_action":2,"id_event":2,"code":"formEdit()"}');
@@ -181,72 +181,10 @@ insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":2,
 insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":1,"id_table":1,"id_field":0,"id_action":5,"id_event":2,"code":"formFilter()"}');
 insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":2,"id_table":1,"id_field":0,"id_action":6,"id_event":2,"code":"formClear()"}');
 insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":2,"id_table":1,"id_field":0,"id_action":7,"id_event":2,"code":"reportBack()"}');
+
+-- Custon events
 insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":2,"id_table":1,"id_field":3,"id_action":0,"id_event":3,"code":"this.value = formatValue(this.value)"}');
--- tb_table
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":1,"id_table":2,"id_field":0,"id_action":1,"id_event":2,"code":"formNew();"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":1,"id_table":2,"id_field":0,"id_action":2,"id_event":2,"code":"formEdit()"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":1,"id_table":2,"id_field":0,"id_action":3,"id_event":2,"code":"formDelete()"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":2,"id_table":2,"id_field":0,"id_action":4,"id_event":2,"code":"confirm()"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":1,"id_table":2,"id_field":0,"id_action":5,"id_event":2,"code":"formFilter()"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":2,"id_table":2,"id_field":0,"id_action":6,"id_event":2,"code":"formClear()"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":2,"id_table":2,"id_field":0,"id_action":7,"id_event":2,"code":"reportBack()"}');
 insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":2,"id_table":2,"id_field":5,"label":"","id_event":3,"code":"this.value = validateTableName(this.value)"}');
--- tb_field
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":1,"id_table":3,"id_field":0,"id_action":1,"id_event":2,"code":"formNew();"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":1,"id_table":3,"id_field":0,"id_action":2,"id_event":2,"code":"formEdit()"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":1,"id_table":3,"id_field":0,"id_action":3,"id_event":2,"code":"formDelete()"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":2,"id_table":3,"id_field":0,"id_action":4,"id_event":2,"code":"confirm()"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":1,"id_table":3,"id_field":0,"id_action":5,"id_event":2,"code":"formFilter()"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":2,"id_table":3,"id_field":0,"id_action":6,"id_event":2,"code":"formClear()"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":2,"id_table":3,"id_field":0,"id_action":7,"id_event":2,"code":"reportBack()"}');
 insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":2,"id_table":3,"id_field":17,"id_action":0,"id_event":3,"code":"cascade(this.value, ''id_table_fk'', ''id_field_fk'')"}');
--- tb_domain
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":1,"id_table":4,"id_field":0,"id_action":1,"id_event":2,"code":"formNew();"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":1,"id_table":4,"id_field":0,"id_action":2,"id_event":2,"code":"formEdit()"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":1,"id_table":4,"id_field":0,"id_action":3,"id_event":2,"code":"formDelete()"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":2,"id_table":4,"id_field":0,"id_action":4,"id_event":2,"code":"confirm()"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":1,"id_table":4,"id_field":0,"id_action":5,"id_event":2,"code":"formFilter()"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":2,"id_table":4,"id_field":0,"id_action":6,"id_event":2,"code":"formClear()"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":2,"id_table":4,"id_field":0,"id_action":7,"id_event":2,"code":"reportBack()"}');
--- tb_event
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":1,"id_table":5,"id_field":0,"id_action":1,"id_event":2,"code":"formNew();"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":1,"id_table":5,"id_field":0,"id_action":2,"id_event":2,"code":"formEdit()"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":1,"id_table":5,"id_field":0,"id_action":3,"id_event":2,"code":"formDelete()"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":2,"id_table":5,"id_field":0,"id_action":4,"id_event":2,"code":"confirm()"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":1,"id_table":5,"id_field":0,"id_action":5,"id_event":2,"code":"formFilter()"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":2,"id_table":5,"id_field":0,"id_action":6,"id_event":2,"code":"formClear()"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":2,"id_table":5,"id_field":0,"id_action":7,"id_event":2,"code":"reportBack()"}');
 insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":2,"id_table":5,"id_field":24,"id_action":0,"id_event":3,"code":"cascade(this.value, ''id_table'', ''id_field'')"}');
--- tb_action
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":1,"id_table":6,"id_field":0,"id_action":1,"id_event":2,"code":"formNew();"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":1,"id_table":6,"id_field":0,"id_action":2,"id_event":2,"code":"formEdit()"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":1,"id_table":6,"id_field":0,"id_action":3,"id_event":2,"code":"formDelete()"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":2,"id_table":6,"id_field":0,"id_action":4,"id_event":2,"code":"confirm()"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":1,"id_table":6,"id_field":0,"id_action":5,"id_event":2,"code":"formFilter()"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":2,"id_table":6,"id_field":0,"id_action":6,"id_event":2,"code":"formClear()"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":2,"id_table":6,"id_field":0,"id_action":7,"id_event":2,"code":"reportBack()"}');
--- tb_code
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":1,"id_table":7,"id_field":0,"id_action":1,"id_event":2,"code":"formNew();"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":1,"id_table":7,"id_field":0,"id_action":2,"id_event":2,"code":"formEdit()"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":1,"id_table":7,"id_field":0,"id_action":3,"id_event":2,"code":"formDelete()"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":2,"id_table":7,"id_field":0,"id_action":4,"id_event":2,"code":"confirm()"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":1,"id_table":7,"id_field":0,"id_action":5,"id_event":2,"code":"formFilter()"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":2,"id_table":7,"id_field":0,"id_action":6,"id_event":2,"code":"formClear()"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":2,"id_table":7,"id_field":0,"id_action":7,"id_event":2,"code":"reportBack()"}');
 insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":2,"id_table":7,"id_field":0,"id_action":8,"id_event":2,"code":"eval(field(''code'').value);"}');
--- tb_message
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":1,"id_table":8,"id_field":0,"id_action":1,"id_event":2,"code":"formNew();"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":1,"id_table":8,"id_field":0,"id_action":2,"id_event":2,"code":"formEdit()"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":1,"id_table":8,"id_field":0,"id_action":3,"id_event":2,"code":"formDelete()"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":2,"id_table":8,"id_field":0,"id_action":4,"id_event":2,"code":"confirm()"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":1,"id_table":8,"id_field":0,"id_action":5,"id_event":2,"code":"formFilter()"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":2,"id_table":8,"id_field":0,"id_action":6,"id_event":2,"code":"formClear()"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":2,"id_table":8,"id_field":0,"id_action":7,"id_event":2,"code":"reportBack()"}');
--- tb_group
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":1,"id_table":9,"id_field":0,"id_action":1,"id_event":2,"code":"formNew();"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":1,"id_table":9,"id_field":0,"id_action":2,"id_event":2,"code":"formEdit()"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":1,"id_table":9,"id_field":0,"id_action":3,"id_event":2,"code":"formDelete()"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":2,"id_table":9,"id_field":0,"id_action":4,"id_event":2,"code":"confirm()"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":1,"id_table":9,"id_field":0,"id_action":5,"id_event":2,"code":"formFilter()"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":2,"id_table":9,"id_field":0,"id_action":6,"id_event":2,"code":"formClear()"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":2,"id_table":9,"id_field":0,"id_action":7,"id_event":2,"code":"reportBack()"}');
