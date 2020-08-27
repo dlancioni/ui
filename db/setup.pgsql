@@ -3,43 +3,27 @@
 -- -----------------------------------------------------
 ALTER ROLE qqbzxiqr IN DATABASE qqbzxiqr SET search_path TO system;
 
-drop table if exists tb_system cascade; 
-create table if not exists tb_system (id serial, field jsonb);
-
-drop table if exists tb_table cascade;
-create table if not exists tb_table (id serial, field jsonb);
-
-drop table if exists tb_field cascade;
-create table if not exists tb_field (id serial, field jsonb);
-
-drop table if exists tb_domain cascade;
-create table if not exists tb_domain (id serial, field jsonb);
-
-drop table if exists tb_event cascade;
-create table if not exists tb_event (id serial, field jsonb);
-
-drop table if exists tb_action cascade;
-create table if not exists tb_action (id serial, field jsonb);
-
-drop table if exists tb_code cascade;
-create table if not exists tb_code (id serial, field jsonb);
-
-drop table if exists tb_message cascade;
-create table if not exists tb_message (id serial, field jsonb);
-
-drop table if exists tb_group cascade;
-create table if not exists tb_group (id serial, field jsonb);
+-- -----------------------------------------------------
+-- CREATE TABLES
+-- -----------------------------------------------------
+drop table if exists tb_system cascade;     create table if not exists tb_system (id serial, field jsonb);
+drop table if exists tb_table cascade;      create table if not exists tb_table (id serial, field jsonb);
+drop table if exists tb_field cascade;      create table if not exists tb_field (id serial, field jsonb);
+drop table if exists tb_domain cascade;     create table if not exists tb_domain (id serial, field jsonb);
+drop table if exists tb_event cascade;      create table if not exists tb_event (id serial, field jsonb);
+drop table if exists tb_action cascade;     create table if not exists tb_action (id serial, field jsonb);
+drop table if exists tb_code cascade;       create table if not exists tb_code (id serial, field jsonb);
+drop table if exists tb_message cascade;    create table if not exists tb_message (id serial, field jsonb);
+drop table if exists tb_group cascade;      create table if not exists tb_group (id serial, field jsonb);
 
 -- -----------------------------------------------------
--- table tb_system
+-- 1 TB_SYSTEM
 -- -----------------------------------------------------
-delete from tb_system;
 insert into tb_system (field) values ('{"name":"Forms","expire_date":"31/12/2020","price":"100.00"}');
 
 -- -----------------------------------------------------
--- table tb_table
+-- 2 TB_TABLE
 -- -----------------------------------------------------
-delete from tb_table;
 insert into tb_table (field) values ('{"id_system":1,"id_group":1,"name":"tb_system","id_type":1,"title":"Sistemas","id_parent":10}');
 insert into tb_table (field) values ('{"id_system":1,"id_group":1,"name":"tb_table","id_type":1,"title":"Tabelas","id_parent":10}');
 insert into tb_table (field) values ('{"id_system":1,"id_group":1,"name":"tb_field","id_type":1,"title":"Campos","id_parent":10}');
@@ -49,14 +33,11 @@ insert into tb_table (field) values ('{"id_system":1,"id_group":1,"name":"tb_act
 insert into tb_table (field) values ('{"id_system":1,"id_group":1,"name":"tb_code","id_type":1,"title":"Programação","id_parent":10}');
 insert into tb_table (field) values ('{"id_system":1,"id_group":1,"name":"tb_message","id_type":1,"title":"Mensagens","id_parent":10}');
 insert into tb_table (field) values ('{"id_system":1,"id_group":1,"name":"tb_group","id_type":1,"title":"Grupos","id_parent":10}');
-
-insert into tb_table (field) values ('{"id_system":1,"id_group":1,"name":"-","id_type":3,"title":"Administração","id_parent":0}');
-
+insert into tb_table (field) values ('{"id_system":1,"id_group":1,"name":"-","id_type":3,"title":"Administração","id_parent":0}');      -- MENU
 
 -- -----------------------------------------------------
--- table tb_field
+-- 3 TB_FIELD
 -- -----------------------------------------------------
-delete from tb_field;
 -- tb_system
 insert into tb_field (field) values ('{"id_system":1,"id_group":1,"id_table":1,"label":"Nome","name":"name","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
 insert into tb_field (field) values ('{"id_system":1,"id_group":1,"id_table":1,"label":"Expira em","name":"expire_date","id_type":4,"size":0,"mask":"dd/mm/yyyy","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
@@ -103,11 +84,9 @@ insert into tb_field (field) values ('{"id_system":1,"id_group":1,"id_table":8,"
 -- tb_group
 insert into tb_field (field) values ('{"id_system":1,"id_group":1,"id_table":9,"label":"Nome","name":"name","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
 
-
 -- -----------------------------------------------------
--- table tb_domain
+-- 4 TB_DOMAIN
 -- -----------------------------------------------------
-delete from tb_domain;
 -- tb_table_type
 insert into tb_domain (field) values ('{"id_system":1,"id_group":1,"key":"1","value":"Sistema","domain":"tb_table_type"}');
 insert into tb_domain (field) values ('{"id_system":1,"id_group":1,"key":"2","value":"Usuário","domain":"tb_table_type"}');
@@ -136,8 +115,26 @@ insert into tb_domain (field) values ('{"id_system":1,"id_group":1,"key":1,"valu
 insert into tb_domain (field) values ('{"id_system":1,"id_group":1,"key":2,"value":"Rótulo","domain":"tb_message_type"}');
 insert into tb_domain (field) values ('{"id_system":1,"id_group":1,"key":3,"value":"Erro","domain":"tb_message_type"}');
 
+-- ---------------------------------------------------------------------------------
+-- 5 TB_EVENT
+-- ---------------------------------------------------------------------------------
+-- tb_system
+insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":1,"id_table":1,"id_field":0,"id_action":1,"id_event":2,"code":"formNew();"}');
+insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":1,"id_table":1,"id_field":0,"id_action":2,"id_event":2,"code":"formEdit()"}');
+insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":1,"id_table":1,"id_field":0,"id_action":3,"id_event":2,"code":"formDelete()"}');
+insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":2,"id_table":1,"id_field":0,"id_action":4,"id_event":2,"code":"confirm()"}');
+insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":1,"id_table":1,"id_field":0,"id_action":5,"id_event":2,"code":"formFilter()"}');
+insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":2,"id_table":1,"id_field":0,"id_action":6,"id_event":2,"code":"formClear()"}');
+insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":2,"id_table":1,"id_field":0,"id_action":7,"id_event":2,"code":"reportBack()"}');
+-- Custon events
+insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":2,"id_table":1,"id_field":3,"id_action":0,"id_event":3,"code":"this.value = formatValue(this.value)"}');
+insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":2,"id_table":2,"id_field":5,"label":"","id_event":3,"code":"this.value = validateTableName(this.value)"}');
+insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":2,"id_table":3,"id_field":17,"id_action":0,"id_event":3,"code":"cascade(this.value, ''id_table_fk'', ''id_field_fk'')"}');
+insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":2,"id_table":5,"id_field":24,"id_action":0,"id_event":3,"code":"cascade(this.value, ''id_table'', ''id_field'')"}');
+insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":2,"id_table":7,"id_field":0,"id_action":8,"id_event":2,"code":"eval(field(''code'').value);"}');
+
 -- -----------------------------------------------------
--- table tb_action
+-- 6 TB_ACTION
 -- -----------------------------------------------------
 insert into tb_action (field) values ('{"id_system":1,"id_group":1,"name":"Novo","label":"Novo"}');
 insert into tb_action (field) values ('{"id_system":1,"id_group":1,"name":"Editar","label":"Editar"}');
@@ -149,12 +146,12 @@ insert into tb_action (field) values ('{"id_system":1,"id_group":1,"name":"Volta
 insert into tb_action (field) values ('{"id_system":1,"id_group":1,"name":"Testar","label":"Testar"}');
 
 -- -----------------------------------------------------
--- table tb_code
+-- 7 TB_CODE
 -- -----------------------------------------------------
 insert into tb_code (field) values ('{"id_system":1,"id_group":1,"comment":"Evita nomes inválidos para tabela de banco de dados", "code": "function validateTableName(value) {\r\n\r\n    // Define patter\r\n    let output = \"\";\r\n    let pattern = /[A-Za-z0-9_]/g; \r\n\r\n    // If has value\r\n    if (value.trim() != \"\") {\r\n        output = value.match(pattern).toString().replace(/,/g, '''');\r\n    }\r\n\r\n    // Just return\r\n    return output.trim();\r\n}"}');
 
 -- -----------------------------------------------------
--- table tb_message
+-- 8 TB_MESSAGE
 -- -----------------------------------------------------
 insert into tb_message (field) values ('{"id_system":1,"id_group":1,"id_type":1, "code":"A1", "description":"Campo % é obrigatório"}');
 insert into tb_message (field) values ('{"id_system":1,"id_group":1,"id_type":1, "code":"A2", "description":"Data inválida informada no campo %"}');
@@ -162,29 +159,11 @@ insert into tb_message (field) values ('{"id_system":1,"id_group":1,"id_type":1,
 insert into tb_message (field) values ('{"id_system":1,"id_group":1,"id_type":1, "code":"A4", "description":"Os valores para os campos % ja existem na tabela e não podem se repetir"}');
 insert into tb_message (field) values ('{"id_system":1,"id_group":1,"id_type":1, "code":"A5", "description":"Nenhuma mudança identifica no registro, alteração não realizada"}');
 
-
 -- -----------------------------------------------------
--- table tb_message
+-- 9 TB_GROUP
 -- -----------------------------------------------------
 insert into tb_group (field) values ('{"id_system":1,"id_group":1,"name":"Sistema"}');
 insert into tb_group (field) values ('{"id_system":1,"id_group":2,"name":"Público"}');
 
 
--- ---------------------------------------------------------------------------------
--- table tb_event (buttons are inherited from tb_system to all other system tables)
--- ---------------------------------------------------------------------------------
--- tb_system
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":1,"id_table":1,"id_field":0,"id_action":1,"id_event":2,"code":"formNew();"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":1,"id_table":1,"id_field":0,"id_action":2,"id_event":2,"code":"formEdit()"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":1,"id_table":1,"id_field":0,"id_action":3,"id_event":2,"code":"formDelete()"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":2,"id_table":1,"id_field":0,"id_action":4,"id_event":2,"code":"confirm()"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":1,"id_table":1,"id_field":0,"id_action":5,"id_event":2,"code":"formFilter()"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":2,"id_table":1,"id_field":0,"id_action":6,"id_event":2,"code":"formClear()"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":2,"id_table":1,"id_field":0,"id_action":7,"id_event":2,"code":"reportBack()"}');
 
--- Custon events
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":2,"id_table":1,"id_field":3,"id_action":0,"id_event":3,"code":"this.value = formatValue(this.value)"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":2,"id_table":2,"id_field":5,"label":"","id_event":3,"code":"this.value = validateTableName(this.value)"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":2,"id_table":3,"id_field":17,"id_action":0,"id_event":3,"code":"cascade(this.value, ''id_table_fk'', ''id_field_fk'')"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":2,"id_table":5,"id_field":24,"id_action":0,"id_event":3,"code":"cascade(this.value, ''id_table'', ''id_field'')"}');
-insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":2,"id_table":7,"id_field":0,"id_action":8,"id_event":2,"code":"eval(field(''code'').value);"}');
