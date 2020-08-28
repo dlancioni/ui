@@ -150,9 +150,9 @@ class Report extends Base {
             $filter = new Filter();
             $filter->add("tb_table", "id", $tableId);
             $data = $this->sqlBuilder->Query($this->cn, 2, $filter->create());
-            $pageTitle = $data[0]["title"];
+            $pageTitle = $data[0]["name"];
         } else {
-            $pageTitle = $this->tableDef[0]["title"];
+            $pageTitle = $this->tableDef[0]["name"];
         }
 
         return $pageTitle;

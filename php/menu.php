@@ -81,7 +81,7 @@
                 if ($k == "id") 
                     $id = $v; // temporario
 
-                if ($k == "title") 
+                if ($k == "name") 
                     $this->append($this->createLink($id, $v));
             }
         
