@@ -97,6 +97,7 @@ class Form extends Base {
                 $fieldMandatory = $item["field_mandatory"];
                 $fieldDomain = $item["field_domain"];
                 $datatype = $item["data_type"];
+                $fieldValue = "";
 
                 // Placeholder provide information about data type
                 if ($fieldMask != "") {
@@ -112,7 +113,9 @@ class Form extends Base {
 
                 // Format values
                 if ($datatype == "float") {
-                    $fieldValue = number_format($fieldValue, 2, ',', '.');
+                    if ($fieldValue != "") {
+                        $fieldValue = number_format($fieldValue, 2, ',', '.');
+                    }
                 }                
 
                 // Accumulate JS for validation
