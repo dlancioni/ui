@@ -151,7 +151,9 @@
             if (trim($domain) == "") {
                 $alias = $table2 . "_" . $field1;
                 $join .= " left join " . $table2 . " " . $alias . " on ";
-                $join .= $this->field($table1, $field1, "int") . " = " . $alias . ".id";
+                //$join .= $this->field($table1, $field1, "int") . " = " . $alias . ".id";
+                $join .= $this->field($table1, $field1, "text") . " = " . "(" . $alias . ".id" . ")::text";
+                
             } else {
                 $alias = $domain . "_" . $field1;
                 $join .= " inner join " . $table2 . " " . $alias . " on ";
