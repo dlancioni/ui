@@ -52,7 +52,7 @@ class Report extends Base {
             $this->element = new HTMLElement($this->cn, $this->sqlBuilder);
 
             // Get table structure
-            $this->tableDef = $this->sqlBuilder->getTableDef($this->cn, "json");
+            $this->tableDef = $this->sqlBuilder->getTableDef($this->cn);
 
             // Get data
             $filter = new Filter();

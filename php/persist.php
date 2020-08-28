@@ -53,7 +53,7 @@
         $message = new Message($cn, $sqlBuilder);        
 
         // Get table structure
-        $tableDef = $sqlBuilder->getTableDef($cn, "json");
+        $tableDef = $sqlBuilder->getTableDef($cn);
         if ($tableDef) {
             $tableName = $tableDef[0]["table_name"];
         }

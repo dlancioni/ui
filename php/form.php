@@ -64,7 +64,7 @@ class Form extends Base {
             }
 
             // Get table structure
-            $this->tableDef = $this->sqlBuilder->getTableDef($this->cn, "json");
+            $this->tableDef = $this->sqlBuilder->getTableDef($this->cn);
             if (count($this->tableDef) > 0) {
                 
                 // Do not query database

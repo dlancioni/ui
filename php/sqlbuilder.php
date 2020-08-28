@@ -7,84 +7,54 @@ class SqlBuilder extends Base {
     public $PageSize = 0;
     public $PageOffset = 0;
 
-    /*
-     * System definition
+    /* 
+     * Query and return json
      */
-    private $SYSTEM_SYSTEM = 1;
-    private $SYSTEM_TABLE = 2;
-    private $SYSTEM_FIELD = 3;
-    private $SYSTEM_DOMAIN = 4;
+    public function Query($cn, $table="", $filter="[]", $joinTable=true) {
 
-    /*
-     * Column definition
-     */
-    private $ID = 0;
-    private $SYSTEM_ID = 1;
-    private $TABLE_NAME = 2;
-    private $TABLE_TITLE = 3;
-    private $FIELD_LABEL = 4;
-    private $FIELD_NAME = 5;
-    private $FIELD_TYPE = 6;
-    private $FIELD_SIZE = 7;
-    private $FIELD_MASK = 8;
-    private $FIELD_MANDATORY = 9;
-    private $FIELD_UNIQUE = 10;
-    private $FIELD_ID_FK = 11;
-    private $TABLE_FK = 12;
-    private $FIELD_FK = 13;
-    private $FIELD_DOMAIN = 14;
-    private $DATA_TYPE = 15;
+        // General Declaration
+        $rs = "";
+        $json = "";
+        $query = "";
+        $sql = "";
 
-        /* 
-         * Query and return json
-         */
-        public function Query($cn, $table="", $filter="[]") {
+        try {
 
-            // General Declaration
-            $rs = "";
-            $json = "";
-            $query = "";
-            $sql = "";
+            // Get query
+            $query = $this->getQuery($cn, $table, $filter, $joinTable);
 
-            try {
+            // Transform results to json
+            $sql = "select json_agg(t) from (" . $query . ") t";
 
-                // Get query
-                $query = $this->getQuery($cn, $table, $filter);
+            // Log query
+            error_log($sql);
 
-                // Transform results to json
-                $sql = "select json_agg(t) from (" . $query . ") t";
+            // Execute query
+            $rs = pg_query($cn, $sql);
+            $this->setError("", "");
 
-                // Log query
-                error_log($sql);
-
-                // Execute query
-                $rs = pg_query($cn, $sql);
-                $this->setError("", "");
-
-                // Return data
-                while ($row = pg_fetch_row($rs)) {
-                    $json = $row[0];
-                    break;
-                }
-            } catch (exception $ex) {                
-                $this->setError("db.queryJson()", pg_last_error($cn));
-            } finally {
-                
+            // Return data
+            while ($row = pg_fetch_row($rs)) {
+                $json = $row[0];
+                break;
             }
+        } catch (exception $ex) {                
+            $this->setError("db.queryJson()", pg_last_error($cn));
+        }
 
-            // Handle empty json
-            if (!$json) {
-                $json = "[]";
-            }
+        // Handle empty json
+        if (!$json) {
+            $json = "[]";
+        }
 
-            // Return rs as json
-            return json_decode($json, true);
-        }     
+        // Return rs as json
+        return json_decode($json, true);
+    }     
 
     /*
      * Return query based on mapping
      */
-    public function getQuery($cn, $table, $filter) {
+    public function getQuery($cn, $table, $filter, $joinTable) {
         // General Declaration
         $sql = "";
         $tableDef = "";
@@ -96,15 +66,16 @@ class SqlBuilder extends Base {
                 }
             }
             // Get table structure
-            $tableDef = $this->getTableDef($cn, "rs");
+            $tableDef = $this->getTableDef($cn);
 
-            if (pg_fetch_row($tableDef)) {
+            if (count($tableDef) > 0) {  
                 // Get field list
-                $sql .= $this->getFieldList($tableDef);
+                $sql .= $this->getFieldList($tableDef, $joinTable);
                 // Get from
                 $sql .= $this->getFrom($tableDef);
                 // Get join
-                $sql .= $this->getJoin($tableDef);
+                if ($joinTable)
+                    $sql .= $this->getJoin($tableDef);
                 // Get where
                 $sql .= $this->getWhere($tableDef);            
                 // Get condition
@@ -125,25 +96,22 @@ class SqlBuilder extends Base {
     /*
      * Get table definition
      */
-    public function getTableDef($cn, $resultType) {
+    public function getTableDef($cn) {
         // General declaration    
         $sql = "";
-        $db = "";
         $rs = "";
+        $db = new Db();
 
-        // Get table structure and related information
-        $sql = $this->getSqlTableDef();
-        error_log($sql);
+        try {
+            // Get table structure and related information
+            $sql = $this->getSqlTableDef();
 
-        // Execute query and return data
-        try {           
-            $db = new Db();
-            if ($resultType == "rs") {
-                $rs = $db->query($cn, $sql);
-            } else if ($resultType == "json") {
-                $rs = $db->queryJson($cn, $sql);                
-            }
+            // Execute query
+            $rs = $db->queryJson($cn, $sql);
+
         } catch (Exception $ex) {
+
+            // Set error
             $this->setError("QueryBuilder.getTableDef()", $ex->getMessage());
         }
 
@@ -154,7 +122,7 @@ class SqlBuilder extends Base {
     /*
      * Get field list
      */
-    private function getFieldList($tableDef) {
+    private function getFieldList($tableDef, $joinTable) {
         // General Declaration
         $sql = "";
         $count = 0;
@@ -169,47 +137,49 @@ class SqlBuilder extends Base {
 
         try {
             // Get id            
-            pg_result_seek($tableDef, 0);
-            $row = pg_fetch_row($tableDef);
             $sql .= "select ";
-            $sql .= trim($row[$this->TABLE_NAME]) . ".id,";
+            $sql .= trim($tableDef[0]["table_name"]) . ".id,";
             $sql .= "count(*) over() as record_count";
 
             // Generate select list            
-            pg_result_seek($tableDef, 0);
-            while ($row = pg_fetch_row($tableDef)) {
+            foreach ($tableDef as $row) {
 
                 // Keep info
                 $sql .= ", ";
-                $tableName = $row[$this->TABLE_NAME];
-                $fieldName = $row[$this->FIELD_NAME];
-                $fieldType = $row[$this->DATA_TYPE];
-                $fieldDomain = $row[$this->FIELD_DOMAIN];
-                $tableFk = $row[$this->TABLE_FK];
-                $fieldFk = $row[$this->FIELD_FK];
-                $fk = $row[$this->FIELD_ID_FK];
+                $tableName = $row["table_name"];
+                $fieldName = $row["field_name"];
+                $fieldType = $row["data_type"];
+                $fieldDomain = $row["field_domain"];
+                $tableFk = $row["table_fk"];
+                $fieldFk = $row["field_fk"];
+                $fk = $row["id_fk"];
                 $fieldAlias = "";
 
-                // Create dropdown                
-                if ($fk == 0) {
-                    $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias);
-                } else if ($fk == $this->SYSTEM_DOMAIN) {
-                    $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias);
-                    $sql .= ", ";
-                    $fieldAlias = substr($fieldName, 3);
-                    $tableName = $fieldDomain . "_" . $fieldName;
-                    $fieldName = "value";
-                    $fieldType = "text";
-                    $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias);
+                // Create dropdown
+                if ($joinTable) {
+                    if ($fk == 0) {
+                        $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias);
+                    } else if ($fk == 4) {
+                        $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias);
+                        $sql .= ", ";
+                        $fieldAlias = substr($fieldName, 3);
+                        $tableName = $fieldDomain . "_" . $fieldName;
+                        $fieldName = "value";
+                        $fieldType = "text";
+                        $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias);
+                    } else {
+                        $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias);
+                        $sql .= ", ";
+                        $fieldAlias = substr($fieldName, 3);                    
+                        $tableName = $tableFk . "_" . $fieldName;
+                        $fieldName = $fieldFk;
+                        $fieldType = "text";
+                        $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias);
+                    }
                 } else {
                     $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias);
-                    $sql .= ", ";
-                    $fieldAlias = substr($fieldName, 3);                    
-                    $tableName = $tableFk . "_" . $fieldName;
-                    $fieldName = $fieldFk;
-                    $fieldType = "text";
-                    $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias);
-                }                
+                }
+
             }
         } catch (Exception $ex) {
             $this->setError("QueryBuilder.getFieldList()", $ex->getMessage());
@@ -224,9 +194,7 @@ class SqlBuilder extends Base {
         $sql = "";
         $jsonUtil = new JsonUtil();
         try {
-            pg_result_seek($tableDef, 0);
-            $row = pg_fetch_row($tableDef);
-            $sql .= " from " . $row[$this->TABLE_NAME];
+            $sql .= " from " . $tableDef[0]["table_name"];
         } catch (Exception $ex) {
             $this->setError("QueryBuilder.getFrom()", $ex->getMessage());
         }
@@ -241,13 +209,12 @@ class SqlBuilder extends Base {
         $sql = "";
         $jsonUtil = new JsonUtil();        
         try {
-            pg_result_seek($tableDef, 0);
-            while ($row = pg_fetch_row($tableDef)) {
-                if ($row[$this->FIELD_ID_FK] > 0) {
-                    $sql .= $jsonUtil->join($row[$this->TABLE_NAME], 
-                                            $row[$this->FIELD_NAME], 
-                                            $row[$this->TABLE_FK], 
-                                            $row[$this->FIELD_DOMAIN]);
+            foreach ($tableDef as $row) {
+                if ($row["id_fk"] > 0) {
+                    $sql .= $jsonUtil->join($row["table_name"], 
+                                            $row["field_name"], 
+                                            $row["table_fk"], 
+                                            $row["field_domain"]);
                 }
             }
         } catch (Exception $ex) {
@@ -263,10 +230,8 @@ class SqlBuilder extends Base {
         $sql = "";
         $jsonUtil = new JsonUtil();
         try {
-            pg_result_seek($tableDef, 0);
-            $row = pg_fetch_row($tableDef);
-            if ($row[$this->TABLE_NAME] != "tb_system") {
-                $sql .= " where " . $jsonUtil->condition($row[$this->TABLE_NAME], 
+            if ($tableDef[0]["table_name"] != "tb_system") {
+                $sql .= " where " . $jsonUtil->condition($tableDef[0]["table_name"], 
                                                          "id_system",
                                                          "int", 
                                                          "=", 
@@ -290,7 +255,7 @@ class SqlBuilder extends Base {
         try {
             if (trim($filter) != "") {
                 $filter = json_decode($filter, true);
-                foreach($filter as $item) {
+                foreach ($filter as $item) {
                     $sql .= " and " . $jsonUtil->condition($item['table'], 
                                                            $item['field'], 
                                                            $item['type'],   

@@ -21,6 +21,7 @@
     $target = "";
     $sourceValue = "";
     $json = [];
+    $tableDef = "";
     $stringUtil = new StringUtil();
 
     // Core code
@@ -60,13 +61,19 @@
         // Query table and fields used to populate dropdown                                     
         $filter = new Filter();
         $filter->add("tb_field", "name", $target);
-        $data = $sqlBuilder->Query($cn, 3, $filter->create());
+        $data = $sqlBuilder->Query($cn, 3, $filter->create(), false);
         if ($data) {
             $idTableFk = $data[0]["id_table_fk"];
-            $tableFk = $data[0]["table_fk"];
+            //$tableFk = $data[0]["table_fk"];
             $key = "id";
-            $value = $data[0]["field_fk"];
+            //$value = $data[0]["field_fk"];
         }
+
+        $tableDef = $sqlBuilder->getTableDef($cn);
+        $key = "id";
+
+        $tableFk = $tableDef[8]["table_fk"];
+        $value = $tableDef[9]["id_fk"]; 
 
         // Query data using table figured out in previous step                                  
         $filter = new Filter();
