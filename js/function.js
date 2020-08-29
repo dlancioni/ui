@@ -22,12 +22,13 @@ function submit(param="form1") {
  */
 function confirm() {
     let info = "";
+    let httpService = "";
     if (field("_EVENT_").value == "Filter") {
         field("_PAGING_").value = 0;
         go(field("_TABLE_").value, 1, field("_EVENT_").value);
     } else {
-        let httpService = new HTTPService();
         if (validateForm()) {
+            httpService = new HTTPService();            
             info = httpService.persist(getFormData());        
             alert(info);      
             if (field("_EVENT_").value != "New") {
@@ -35,6 +36,24 @@ function confirm() {
             }
         }
     }
+}
+
+/*
+ * Validate table name
+ */
+function validateTableName(value) {
+
+    // Define patter
+    let output = "";
+    let pattern = /[A-Za-z0-9_]/g; 
+
+    // If has value
+    if (value.trim() != "") {
+        output = value.match(pattern).toString().replace(/,/g, '');
+    }
+
+    // Just return
+    return output.trim();
 }
 
 /*
@@ -172,7 +191,6 @@ function formClear() {
  * Validate mandatory fields
  */
 function validateMandatory(fieldName, fk, message) {
-
     if (fk == 0) {
         if(field(fieldName).value == '') {
             alert(message);
@@ -186,7 +204,6 @@ function validateMandatory(fieldName, fk, message) {
             return false;
         }
     }
-
     return true;
 }
 
@@ -194,9 +211,7 @@ function validateMandatory(fieldName, fk, message) {
  * Validate dates
  */
 function validateDate(fieldName, mask, message="") {
-
     let dt = moment(field(fieldName).value, mask.toUpperCase(), true);
-
     if (dt.isValid()) {
         return true;
     } else {
@@ -212,7 +227,6 @@ function validateDate(fieldName, mask, message="") {
  * Validate numerics
  */
 function validateNumeric(fieldName, message="") {
-
     if (isNumeric(field(fieldName).value)) {
         return true;
     } else {
@@ -224,13 +238,15 @@ function validateNumeric(fieldName, message="") {
     }
 }
 
-
 /*
  * Remove , or . 
  */
 function valueOf(value) {
+
     value = value.split('.').join('');
     value = value.split(',').join('.');        
+    value = parseFloat(value);
+
     return value;
 }
 
