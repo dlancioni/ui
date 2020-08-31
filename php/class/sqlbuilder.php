@@ -1,6 +1,14 @@
 <?php
 class SqlBuilder extends Base {
 
+
+    /*
+     * Paging
+     */
+    public $QUERY = 1;
+    public $QUERY_JSON = 2;
+    public $QUERY_NO_JOIN = 3;
+
     /*
      * Paging
      */
@@ -10,7 +18,7 @@ class SqlBuilder extends Base {
     /* 
      * Query and return json
      */
-    public function Query($cn, $table="", $filter="[]", $joinTable=true) {
+    public function Query($cn, $table="", $filter="[]", $queryType=1) {
 
         // General Declaration
         $rs = "";
@@ -21,13 +29,10 @@ class SqlBuilder extends Base {
         try {
 
             // Get query
-            $query = $this->getQuery($cn, $table, $filter, $joinTable);
+            $query = $this->prepareQuery($cn, $table, $filter, $queryType);
 
             // Transform results to json
             $sql = "select json_agg(t) from (" . $query . ") t";
-
-            // Log query
-            error_log($sql);
 
             // Execute query
             $rs = pg_query($cn, $sql);
@@ -48,50 +53,12 @@ class SqlBuilder extends Base {
         }
 
         // Return rs as json
-        return json_decode($json, true);
-    }     
-
-    /*
-     * Return query based on mapping
-     */
-    public function getQuery($cn, $table, $filter, $joinTable) {
-        // General Declaration
-        $sql = "";
-        $tableDef = "";
-        try {
-            // Handle table as parameter
-            if ($table != "") {
-                if (is_numeric($table)) {
-                    $this->setTable(intval($table));
-                }
-            }
-            // Get table structure
-            $tableDef = $this->getTableDef($cn);
-
-            if (count($tableDef) > 0) {  
-                // Get field list
-                $sql .= $this->getFieldList($tableDef, $joinTable);
-                // Get from
-                $sql .= $this->getFrom($tableDef);
-                // Get join
-                if ($joinTable)
-                    $sql .= $this->getJoin($tableDef);
-                // Get where
-                $sql .= $this->getWhere($tableDef);            
-                // Get condition
-                $sql .= $this->getCondition($filter);
-                // Get ordering
-                $sql .= $this->getOrderBy($tableDef);
-                // Paging control
-                $sql .= $this->getPaging($tableDef);
-            }
-
-        } catch (Exception $ex) {
-            $this->setError("QueryBuilder.query()", $ex->getMessage());
+        if ($queryType == $this->QUERY_JSON) {
+            return $json;
+        } else {
+            return json_decode($json, true);
         }
-        // Return sql
-        return $sql;
-    }
+    }     
 
     /*
      * Get table definition
@@ -120,9 +87,51 @@ class SqlBuilder extends Base {
     }
 
     /*
+     * Return query based on mapping
+     */
+    private function prepareQuery($cn, $table, $filter, $queryType) {
+        // General Declaration
+        $sql = "";
+        $tableDef = "";
+        try {
+            // Handle table as parameter
+            if ($table != "") {
+                if (is_numeric($table)) {
+                    $this->setTable(intval($table));
+                }
+            }
+            // Get table structure
+            $tableDef = $this->getTableDef($cn);
+
+            if (count($tableDef) > 0) {  
+                // Get field list
+                $sql .= $this->getFieldList($tableDef, $queryType);
+                // Get from
+                $sql .= $this->getFrom($tableDef);
+                // Get join
+                if ($queryType == $this->QUERY)
+                    $sql .= $this->getJoin($tableDef);
+                // Get where
+                $sql .= $this->getWhere($tableDef, $table);
+                // Get condition
+                $sql .= $this->getCondition($filter);
+                // Get ordering
+                $sql .= $this->getOrderBy($tableDef);
+                // Paging control
+                $sql .= $this->getPaging($tableDef);
+            }
+
+        } catch (Exception $ex) {
+            $this->setError("QueryBuilder.query()", $ex->getMessage());
+        }
+        // Return sql
+         return $sql;
+    }
+
+    /*
      * Get field list
      */
-    private function getFieldList($tableDef, $joinTable) {
+    private function getFieldList($tableDef, $queryType) {
         // General Declaration
         $sql = "";
         $count = 0;
@@ -156,30 +165,34 @@ class SqlBuilder extends Base {
                 $fieldAlias = "";
 
                 // Create dropdown
-                if ($joinTable) {
-                    if ($fk == 0) {
-                        $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias);
-                    } else if ($fk == 4) {
-                        $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias);
-                        $sql .= ", ";
-                        $fieldAlias = substr($fieldName, 3);
-                        $tableName = $fieldDomain . "_" . $fieldName;
-                        $fieldName = "value";
-                        $fieldType = "text";
+                if ($queryType == $this->QUERY_JSON) {
+                    $sql .= $tableName . "." . "field";
+                    break;
+                } else {
+                    if ($queryType == $this->QUERY_NO_JOIN) {
                         $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias);
                     } else {
-                        $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias);
-                        $sql .= ", ";
-                        $fieldAlias = substr($fieldName, 3);                    
-                        $tableName = $tableFk . "_" . $fieldName;
-                        $fieldName = $fieldFk;
-                        $fieldType = "text";
-                        $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias);
+                        if ($fk == 0) {
+                            $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias);
+                        } else if ($fk == 4) {
+                            $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias);
+                            $sql .= ", ";
+                            $fieldAlias = substr($fieldName, 3);
+                            $tableName = $fieldDomain . "_" . $fieldName;
+                            $fieldName = "value";
+                            $fieldType = "text";
+                            $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias);
+                        } else {
+                            $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias);
+                            $sql .= ", ";
+                            $fieldAlias = substr($fieldName, 3);
+                            $tableName = $tableFk . "_" . $fieldName;
+                            $fieldName = $fieldFk;
+                            $fieldType = "text";
+                            $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias);
+                        }
                     }
-                } else {
-                    $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias);
                 }
-
             }
         } catch (Exception $ex) {
             $this->setError("QueryBuilder.getFieldList()", $ex->getMessage());
@@ -226,11 +239,13 @@ class SqlBuilder extends Base {
     /*
      * Get where
      */
-    private function getWhere($tableDef) {
+    private function getWhere($tableDef, $table) {
         $sql = "";
         $jsonUtil = new JsonUtil();
         try {
-            if ($tableDef[0]["table_name"] != "tb_system") {
+
+            // TB_SYSTEM does not have id_system (!!)
+            if ($tableDef[0]["table_name"] != "tb_system" && $table <> 1) {
                 $sql .= " where " . $jsonUtil->condition($tableDef[0]["table_name"], 
                                                          "id_system",
                                                          "int", 
@@ -346,9 +361,6 @@ class SqlBuilder extends Base {
         // Return final query    
         return $sql;
     }
-
-
-
 
 
 } // End of class

@@ -19,6 +19,7 @@
     $tableDef = "";
     $jsonUtil = "";
     $unique = "";    
+    $tableId = 0;
     $fieldName = "";       
     $fieldType = "";
     $sqlBuilder = "";    
@@ -46,6 +47,7 @@
                                      $_SESSION["_TABLE_"], 
                                      $_SESSION["_USER_"],
                                      $_SESSION["_GROUP_"]);
+
         // Open connection
         $cn = $db->getConnection();
 
@@ -55,11 +57,13 @@
         // Get table structure
         $tableDef = $sqlBuilder->getTableDef($cn);
         if ($tableDef) {
+            $tableId = $_SESSION["_TABLE_"];            
             $tableName = $tableDef[0]["table_name"];
         }
 
         // Get exiting record
         if ($db->getEvent() == "Edit" || $db->getEvent() == "Delete") {
+
             $sql = "";
             $sql .= " select field from " . $tableName;
             $sql .= " where " . $jsonUtil->condition($tableName, "id", "int", "=", $db->getLastId());
@@ -71,6 +75,15 @@
                 $old = $row[0];
                 $new = $row[0];
             };
+
+            // Get data
+            $filter = new Filter();
+            $filter->add($tableName, "id", $db->getLastId());
+            $data = $sqlBuilder->Query($cn, $tableId, $filter->create(), $sqlBuilder->QUERY_JSON);
+            if (trim($data) != "[]") {
+                $old = $data[0];
+                $new = $data[0];
+            }
         }
 
         // Read form
