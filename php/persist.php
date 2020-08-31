@@ -63,20 +63,6 @@
 
         // Get exiting record
         if ($db->getEvent() == "Edit" || $db->getEvent() == "Delete") {
-
-            $sql = "";
-            $sql .= " select field from " . $tableName;
-            $sql .= " where " . $jsonUtil->condition($tableName, "id", "int", "=", $db->getLastId());
-            if ($tableName != "tb_system") {
-                $sql .= " and " . $jsonUtil->condition($tableName, "id_system", "int", "=", $db->getSystem());
-            }
-            $rs = $db->query($cn, $sql);
-            while ($row = pg_fetch_row($rs)) {
-                $old = $row[0];
-                $new = $row[0];
-            };
-
-            // Get data
             $filter = new Filter();
             $filter->add($tableName, "id", $db->getLastId());
             $data = $sqlBuilder->Query($cn, $tableId, $filter->create(), $sqlBuilder->QUERY_NO_JOIN);
@@ -88,13 +74,10 @@
 
         // Read form
         foreach($tableDef as $item) {
-
             $fieldName = $item["field_name"];
             $fieldType = $item["data_type"];
-
             if (isset($_REQUEST[$fieldName])) {
-
-                $fieldValue = $_REQUEST[$fieldName];
+                $fieldValue = $_REQUEST[$fieldName];                
                 if ($fieldType == "float") {
                     $fieldValue = $numberUtil->valueOf($fieldValue);
                 }
@@ -104,7 +87,9 @@
 
         // Validate unique fields (when changed)
         if ($db->getEvent() == "New" || $db->getEvent() == "Edit") {
-            foreach($tableDef as $item) {
+
+            $filter = new Filter();
+            foreach ($tableDef as $item) {
 
                 $fieldLabel = $item["field_label"];
                 $fieldName = $item["field_name"];
@@ -114,13 +99,9 @@
     
                 if ($jsonUtil->getValue($old, $fieldName, true) != 
                     $jsonUtil->getValue($new, $fieldName, true)) {
-
-                    // Control if record changed    
                     $changed = true;
-    
-                    // Keep condition to check if unique
                     if ($fieldUnique == 1) {
-                        $unique .= " and " . $jsonUtil->condition($tableName, $fieldName, $fieldType, "=", $fieldValue);
+                        $filter->addCondition($tableName, $fieldName, $fieldType, "=", $fieldValue);
                         $key .= $fieldLabel . ", ";
                     }                    
                 }
@@ -133,20 +114,13 @@
             }
 
             // Check if values already exists
-            if ($unique != "") {
-                $sql = "";
-                $sql .= " select field from " . $tableName;
-                $sql .= " where 1 = 1";
-                if ($tableName != "tb_system") {
-                    $sql .= " and " . $jsonUtil->condition($tableName, "id_system", "int", "=", $db->getSystem());
-                }
-                $sql .= $unique;
-                $rs = $db->query($cn, $sql);
-                while ($row = pg_fetch_row($rs)) {
+            if ($filter->create() != "[]") {
+                $data = $sqlBuilder->Query($cn, $tableId, $filter->create(), $sqlBuilder->QUERY_NO_JOIN);
+                if (count($data) > 0) {
                     $key =  rtrim($key, ", ");
                     $msg = $message->getValue("A4", $key);
-                    throw new Exception($msg);
-                };
+                    throw new Exception($msg);                    
+                }
             }
         }
 
