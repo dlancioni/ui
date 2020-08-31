@@ -79,10 +79,10 @@
             // Get data
             $filter = new Filter();
             $filter->add($tableName, "id", $db->getLastId());
-            $data = $sqlBuilder->Query($cn, $tableId, $filter->create(), $sqlBuilder->QUERY_JSON);
-            if (trim($data) != "[]") {
-                $old = $data[0];
-                $new = $data[0];
+            $data = $sqlBuilder->Query($cn, $tableId, $filter->create(), $sqlBuilder->QUERY_NO_JOIN);
+            if (count($data) > 0) {
+                $old = json_encode($data[0]);
+                $new = $old;
             }
         }
 
@@ -93,7 +93,7 @@
             $fieldType = $item["data_type"];
 
             if (isset($_REQUEST[$fieldName])) {
-            
+
                 $fieldValue = $_REQUEST[$fieldName];
                 if ($fieldType == "float") {
                     $fieldValue = $numberUtil->valueOf($fieldValue);

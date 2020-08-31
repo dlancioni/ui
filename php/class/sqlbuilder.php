@@ -6,8 +6,7 @@ class SqlBuilder extends Base {
      * Paging
      */
     public $QUERY = 1;
-    public $QUERY_JSON = 2;
-    public $QUERY_NO_JOIN = 3;
+    public $QUERY_NO_JOIN = 2;
 
     /*
      * Paging
@@ -53,11 +52,8 @@ class SqlBuilder extends Base {
         }
 
         // Return rs as json
-        if ($queryType == $this->QUERY_JSON) {
-            return $json;
-        } else {
-            return json_decode($json, true);
-        }
+        return json_decode($json, true);
+
     }     
 
     /*
@@ -109,7 +105,7 @@ class SqlBuilder extends Base {
                 // Get from
                 $sql .= $this->getFrom($tableDef);
                 // Get join
-                if ($queryType == $this->QUERY)
+                if ($queryType != $this->QUERY_NO_JOIN)
                     $sql .= $this->getJoin($tableDef);
                 // Get where
                 $sql .= $this->getWhere($tableDef, $table);
@@ -145,6 +141,7 @@ class SqlBuilder extends Base {
         $tableFk = "";
 
         try {
+
             // Get id            
             $sql .= "select ";
             $sql .= trim($tableDef[0]["table_name"]) . ".id,";
@@ -165,32 +162,27 @@ class SqlBuilder extends Base {
                 $fieldAlias = "";
 
                 // Create dropdown
-                if ($queryType == $this->QUERY_JSON) {
-                    $sql .= $tableName . "." . "field";
-                    break;
+                if ($queryType == $this->QUERY_NO_JOIN) {
+                    $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias);
                 } else {
-                    if ($queryType == $this->QUERY_NO_JOIN) {
+                    if ($fk == 0) {
+                        $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias);
+                    } else if ($fk == 4) {
+                        $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias);
+                        $sql .= ", ";
+                        $fieldAlias = substr($fieldName, 3);
+                        $tableName = $fieldDomain . "_" . $fieldName;
+                        $fieldName = "value";
+                        $fieldType = "text";
                         $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias);
                     } else {
-                        if ($fk == 0) {
-                            $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias);
-                        } else if ($fk == 4) {
-                            $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias);
-                            $sql .= ", ";
-                            $fieldAlias = substr($fieldName, 3);
-                            $tableName = $fieldDomain . "_" . $fieldName;
-                            $fieldName = "value";
-                            $fieldType = "text";
-                            $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias);
-                        } else {
-                            $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias);
-                            $sql .= ", ";
-                            $fieldAlias = substr($fieldName, 3);
-                            $tableName = $tableFk . "_" . $fieldName;
-                            $fieldName = $fieldFk;
-                            $fieldType = "text";
-                            $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias);
-                        }
+                        $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias);
+                        $sql .= ", ";
+                        $fieldAlias = substr($fieldName, 3);
+                        $tableName = $tableFk . "_" . $fieldName;
+                        $fieldName = $fieldFk;
+                        $fieldType = "text";
+                        $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias);
                     }
                 }
             }
