@@ -1,1 +1,1 @@
-getWhere
+select * from tb_2

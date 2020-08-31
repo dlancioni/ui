@@ -8,10 +8,9 @@
         private $tableData = "";
 
         // Constructor
-        function __construct($cn, $sqlBuilder, $db) {
+        function __construct($cn, $sqlBuilder) {
             $this->cn = $cn;
             $this->sqlBuilder = $sqlBuilder;
-            $this->db = $db;
         }
 
         /*
@@ -78,7 +77,7 @@
                 // Take action on tables according to current event
                 if (trim($json->{'id_type'}) != "3") {
 
-                    switch ($this->db->getEvent()) {
+                    switch ($this->sqlBuilder->getEvent()) {
                         
                         // Create it
                         case "New":                        
@@ -107,7 +106,7 @@
             } catch (Exception $ex) {
 
                 // Keep source and error
-                $this->db->setError("TableLogic.handleTable()", $ex->getMessage());
+                $this->sqlBuilder->setError("TableLogic.handleTable()", $ex->getMessage());
 
                 // Rethrow it
                 throw $ex;
@@ -133,22 +132,21 @@
             $fieldName = "";
             $fieldValue = "";            
             $affectedRows = "";
-            $db = new Db();
             $jsonUtil = new JsonUtil();
 
             try {
 
                 // Delete related events
-                if ($this->db->getEvent() == "Delete") {
+                if ($this->sqlBuilder->getEvent() == "Delete") {
                     
                     $sql .= " delete from tb_event";
-                    $sql .= " where " . $jsonUtil->condition("tb_event", "id_system", "int", "=", $this->db->getSystem());
+                    $sql .= " where " . $jsonUtil->condition("tb_event", "id_system", "int", "=", $this->sqlBuilder->getSystem());
                     $sql .= " and " . $jsonUtil->condition("tb_event", "id_table", "int", "=", $tableId);
                     $rs = pg_query($this->cn, $sql);
                     $affectedRows = pg_affected_rows($rs);
 
                 // Copy events from TB_SYSTEM
-                } elseif ($this->db->getEvent() == "New") {
+                } elseif ($this->sqlBuilder->getEvent() == "New") {
 
                     $filter = new Filter();
                     $filter->addCondition("tb_event", "id_table", "int", "=", $TB_SYSTEM);
@@ -171,7 +169,7 @@
                             $json = $jsonUtil->setValue($json, $fieldName, $fieldValue);
                         }
 
-                        $id = $this->db->persist($this->cn, "tb_event", $json);
+                        $id = $this->sqlBuilder->persist($this->cn, "tb_event", $json);
                         $json = "";
                     }                    
                 }
@@ -179,7 +177,7 @@
             } catch (Exception $ex) {
 
                 // Keep source and error                
-                $this->db->setError("TableLogic.handleEvent()", $ex->getMessage());
+                $this->sqlBuilder->setError("TableLogic.handleEvent()", $ex->getMessage());
 
                 // Rethrow it
                 throw $ex;
@@ -204,9 +202,9 @@
             try {
 
                 // Delete related events
-                if ($this->db->getEvent() == "Delete") {
+                if ($this->sqlBuilder->getEvent() == "Delete") {
                     $sql .= " delete from tb_field";
-                    $sql .= " where " . $jsonUtil->condition("tb_field", "id_system", "int", "=", $this->db->getSystem());
+                    $sql .= " where " . $jsonUtil->condition("tb_field", "id_system", "int", "=", $this->sqlBuilder->getSystem());
                     $sql .= " and " . $jsonUtil->condition("tb_field", "id_table", "int", "=", $tableId);
                     $rs = pg_query($this->cn, $sql);
                     $affectedRows = pg_affected_rows($rs);
@@ -215,7 +213,7 @@
             } catch (Exception $ex) {
 
                 // Keep source and error                
-                $this->db->setError("TableLogic.handleField()", $ex->getMessage());
+                $this->sqlBuilder->setError("TableLogic.handleField()", $ex->getMessage());
 
                 // Rethrow it
                 throw $ex;

@@ -36,7 +36,7 @@
         /* 
          * Query and return resultset
          */
-        public function query($cn, $sql) {
+        public function executeQuery($cn, $sql) {
 
             // General Declaration
             $resultset = "";
@@ -86,87 +86,7 @@
 
             // Return rs as json
             return json_decode($json, true);
-        }        
-
-        /* 
-         * Persist data
-         */        
-        public function persist($cn, $tableName, $record) {
-            
-           // General declaration
-           $key = "";
-           $sql = "";
-           $rs = "";
-           $message = "";
-           $affectedRows = "";
-           $event = $this->getEvent();
-           $jsonUtil = new jsonUtil();
-
-            // Handle invalid chars
-            $record = str_replace("'", "''", $record);
-
-            // Make sure id_system is set
-            $record = $jsonUtil->setValue($record, "id_system", $this->getSystem());
-            $record = $jsonUtil->setValue($record, "id_group", $this->getGroup());
-
-            // Prepare condition for update and delete
-            $key .= " where " . $jsonUtil->condition($tableName, "id", "int", "=", $this->getLastId());                        
-            if ($tableName != "tb_system") {
-                $key .= " and " . $jsonUtil->condition($tableName, "id_system", "int", "=", $this->getSystem());
-            }
-
-            try {
-
-                // Prepare string
-                switch ($event) {
-
-                    case "New":
-                        $sql = "insert into $tableName (field) values ('$record') returning id";
-                        $message = "Record successfuly created";
-                        break;
-
-                    case "Edit":
-                        $sql .= " update $tableName set field = '$record' " . $key;
-                        $message = "Record successfuly updated";
-                        break;
-
-                    case "Delete":
-                        $sql .= " delete from $tableName " . $key;
-                        $message = "Record successfuly deleted";                        
-                        break;                        
-                }
-
-                // Execute statement            
-                $rs = pg_query($cn, $sql);
-                if (!$rs) {
-                    throw new Exception(pg_last_error($cn));
-                }
-
-                // Keep rows affected
-                $affectedRows = pg_affected_rows($rs);                
-
-                // Get inserted ID
-                while ($row = pg_fetch_array($rs)) {
-                    $this->setLastId($row['id']);
-                }
-
-                // Success
-                $this->setError("", "");
-                $this->setMessage($message);
-    
-            } catch (Exception $ex) {
-
-                // Keep last error
-                $this->setMessage("");
-                $this->setError("Db.Persist()", $ex->getMessage());
-
-            } finally {
-                // Do nothing
-            }
-            
-            // Return ID
-            return $this->getLastId();
-        }        
+        }
 
     } // End of class
 ?>

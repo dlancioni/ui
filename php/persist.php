@@ -20,6 +20,7 @@
     $jsonUtil = "";
     $unique = "";    
     $tableId = 0;
+    $event = "";
     $fieldName = "";       
     $fieldType = "";
     $sqlBuilder = "";    
@@ -29,18 +30,10 @@
 
     // Core code
     try {
-        
-        // Object instances
-        $jsonUtil = new JsonUtil();
-        $numberUtil = new NumberUtil();        
 
-        // DB interface
+        // Open connection
         $db = new Db();       
-        $db->setSystem($_SESSION["_SYSTEM_"]);
-        $db->setLastId($_SESSION["_ID_"]);
-        $db->setEvent($_SESSION["_EVENT_"]);
-        $db->setTable($_SESSION["_TABLE_"]);
-        $db->setGroup($_SESSION["_GROUP_"]);
+        $cn = $db->getConnection();                
 
         // Keep instance of SqlBuilder for current session
         $sqlBuilder = new SqlBuilder($_SESSION["_SYSTEM_"], 
@@ -48,10 +41,12 @@
                                      $_SESSION["_USER_"],
                                      $_SESSION["_GROUP_"]);
 
-        // Open connection
-        $cn = $db->getConnection();
+        $sqlBuilder->setLastId($_SESSION["_ID_"]);
+        $sqlBuilder->setEvent($_SESSION["_EVENT_"]);
 
-        // Handle messages
+        // Object instances
+        $jsonUtil = new JsonUtil();
+        $numberUtil = new NumberUtil();        
         $message = new Message($cn, $sqlBuilder);        
 
         // Get table structure
@@ -59,12 +54,13 @@
         if ($tableDef) {
             $tableId = $_SESSION["_TABLE_"];            
             $tableName = $tableDef[0]["table_name"];
+            $event = $_SESSION["_EVENT_"];            
         }
 
         // Get exiting record
-        if ($db->getEvent() == "Edit" || $db->getEvent() == "Delete") {
+        if ($event == "Edit" || $event == "Delete") {
             $filter = new Filter();
-            $filter->add($tableName, "id", $db->getLastId());
+            $filter->add($tableName, "id", $sqlBuilder->getLastId());
             $data = $sqlBuilder->Query($cn, $tableId, $filter->create(), $sqlBuilder->QUERY_NO_JOIN);
             if (count($data) > 0) {
                 $old = json_encode($data[0]);
@@ -86,17 +82,14 @@
         }
 
         // Validate unique fields (when changed)
-        if ($db->getEvent() == "New" || $db->getEvent() == "Edit") {
-
+        if ($event == "New" || $event == "Edit") {
             $filter = new Filter();
             foreach ($tableDef as $item) {
-
                 $fieldLabel = $item["field_label"];
                 $fieldName = $item["field_name"];
                 $fieldType = $item["data_type"];
                 $fieldUnique = $item["field_unique"];
-                $fieldValue = $jsonUtil->getValue($new, $fieldName);
-    
+                $fieldValue = $jsonUtil->getValue($new, $fieldName);   
                 if ($jsonUtil->getValue($old, $fieldName, true) != 
                     $jsonUtil->getValue($new, $fieldName, true)) {
                     $changed = true;
@@ -127,7 +120,7 @@
         // Get logic for current transaction
         switch ($tableName) {
             case "tb_table":
-                $logic = new TableLogic($cn, $sqlBuilder, $db);
+                $logic = new TableLogic($cn, $sqlBuilder);
                 break;                
             default:  
                 $logic  = "";
@@ -141,7 +134,7 @@
                 $logic->before($old, $new);
 
             // Persist info
-            $id = $db->persist($cn, $tableName, $new);
+            $id = $sqlBuilder->persist($cn, $tableName, $new);
 
             // After insert logic
             if ($logic)
@@ -151,12 +144,12 @@
         pg_query($cn, "commit");
 
         // Set final id
-        $db->setLastId($id);
+        $sqlBuilder->setLastId($id);
 
     } catch (Exception $ex) {
 
         // Keep the error
-        $db->setError("Persist()", $ex->getMessage());
+        $sqlBuilder->setError("Persist()", $ex->getMessage());
 
         // Open transaction
         pg_query($cn, "rollback");
@@ -170,9 +163,9 @@
     }
 
     // Return results
-    if ($db->getError() != "") {
-        echo $db->getError();
+    if ($sqlBuilder->getError() != "") {
+        echo $sqlBuilder->getError();
     } else {
-        echo $db->getMessage();        
+        echo $sqlBuilder->getMessage();        
     }
 ?>
