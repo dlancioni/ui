@@ -167,7 +167,9 @@ insert into tb_message (field) values ('{"id_system":1,"id_group":1,"id_type":1,
 insert into tb_message (field) values ('{"id_system":1,"id_group":1,"id_type":1, "code":"A3", "description":"Numero inválido informada no campo %"}');
 insert into tb_message (field) values ('{"id_system":1,"id_group":1,"id_type":1, "code":"A4", "description":"Os valores para os campos % ja existem na tabela e não podem se repetir"}');
 insert into tb_message (field) values ('{"id_system":1,"id_group":1,"id_type":1, "code":"A5", "description":"Nenhuma mudança identifica no registro, alteração não realizada"}');
-
+insert into tb_message (field) values ('{"id_system":1,"id_group":1,"id_type":1, "code":"A6", "description":"Registro incluído com sucesso"}');
+insert into tb_message (field) values ('{"id_system":1,"id_group":1,"id_type":1, "code":"A7", "description":"Registro alterado com sucesso"}');
+insert into tb_message (field) values ('{"id_system":1,"id_group":1,"id_type":1, "code":"A8", "description":"Registro excluído com sucesso"}');
 -- -----------------------------------------------------
 -- 9 TB_GROUP
 -- -----------------------------------------------------

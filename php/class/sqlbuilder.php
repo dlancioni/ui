@@ -361,6 +361,7 @@ class SqlBuilder extends Base {
         $key = "";
         $sql = "";
         $rs = "";
+        $msg = "";
         $message = "";
         $affectedRows = "";
         $event = $this->getEvent();
@@ -386,17 +387,17 @@ class SqlBuilder extends Base {
 
                     case "New":
                         $sql = "insert into $tableName (field) values ('$record') returning id";
-                        $message = "Record successfuly created";
+                        $msg = "A6";
                         break;
 
                     case "Edit":
                         $sql .= " update $tableName set field = '$record' " . $key;
-                        $message = "Record successfuly updated";
+                        $msg = "A7";
                         break;
 
                     case "Delete":
                         $sql .= " delete from $tableName " . $key;
-                        $message = "Record successfuly deleted";                        
+                        $msg = "A8";
                         break;                        
                 }
 
@@ -414,9 +415,13 @@ class SqlBuilder extends Base {
                     $this->setLastId($row['id']);
                 }
 
+                // Get final message
+                $message = new Message($cn, $this);
+                $msg = $message->getValue($msg);
+
                 // Success
                 $this->setError("", "");
-                $this->setMessage($message);
+                $this->setMessage($msg);
 
             } catch (Exception $ex) {
 

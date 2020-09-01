@@ -47,7 +47,7 @@
         // Object instances
         $jsonUtil = new JsonUtil();
         $numberUtil = new NumberUtil();        
-        $message = new Message($cn, $sqlBuilder);        
+        $message = new Message($cn, $sqlBuilder);
 
         // Get table structure
         $tableDef = $sqlBuilder->getTableDef($cn);
