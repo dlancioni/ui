@@ -1,4 +1,5 @@
 <?php
+include "php/include.php";
 include "php/session.php";
 ?>
 
@@ -9,7 +10,6 @@ include "php/session.php";
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="css/w3.css">
-<link rel="stylesheet" href="css/menu.css">
 
 <body>
 <form id="form1" name="form1" action="index.php" method="post">

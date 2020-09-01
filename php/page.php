@@ -1,37 +1,24 @@
 <?php
-    // Include classes
-    include "include.php";
 
     // General declaration      
     $id = 0;
-    $db = "";
-    $cn = "";
     $report = "";
     $form = "";
     $tableId = 0;  
     $format = 1;
-    $html = "";      
+    $html = "";
     $event = "";
-    $menu = "";
     $pageEvent = "";
-    $TB_EVENT = 5;
     $element = "";
-
+    $TB_EVENT = 5;
+    
     try {
         
         // Handle request outside to organize code
         include "request.php";
 
         // General Declaration
-        $db = new Db();
-        $cn = $db->getConnection();
-        $sqlBuilder = new SqlBuilder($systemId, $tableId, $userId, $groupId);
         $element = new HTMLElement($cn, $sqlBuilder);
-        $menu = new Menu($cn, $sqlBuilder);
-
-        // Get main menu
-        $menu->createMenu();
-        $_SESSION["_MENU_"] = $menu->html;
 
         // Get controls for current table ID
         $filter = new Filter();

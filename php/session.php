@@ -17,9 +17,12 @@
     $filter = "[]"; 
     $pageOffset = 0;
 
+    // Get connection
+    $db = new Db();
+    $cn = $db->getConnection();    
+
     // Filter for current table
     //$_SESSION["_FILTER_"] = [];
-    //$_SESSION["_MENU_"] = "";
 
     // Key attributes    
     $_SESSION["_SYSTEM_"] = 1;
@@ -27,7 +30,6 @@
     $_SESSION['_USER_'] = 1;
     $_SESSION['_GROUP_'] = 99;
     $_SESSION['_ID_'] = 0;
-
 
     // Solution allow multiple systems
     if (isset($_SESSION["_SYSTEM_"])) {
@@ -47,5 +49,11 @@
     // Current group
     if (isset($_SESSION["_GROUP_"])) {
         $groupId = $_SESSION["_GROUP_"];
-    }    
+    }
+
+    // Get main menu    
+    $sqlBuilder = new SqlBuilder($systemId, $tableId, $userId, $groupId);    
+    $menu = new Menu($cn, $sqlBuilder);
+    $menu->createMenu();
+    $_SESSION["_MENU_"] = $menu->html;    
 ?>
