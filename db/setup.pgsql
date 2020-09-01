@@ -73,7 +73,6 @@ insert into tb_field (field) values ('{"id_system":1,"id_group":1,"id_table":5,"
 insert into tb_field (field) values ('{"id_system":1,"id_group":1,"id_table":5,"label":"Código","name":"code","id_type":6,"size":10000,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
 -- tb_action
 insert into tb_field (field) values ('{"id_system":1,"id_group":1,"id_table":6,"label":"Nome","name":"name","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
-insert into tb_field (field) values ('{"id_system":1,"id_group":1,"id_table":6,"label":"Rótulo","name":"label","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
 -- tb_code
 insert into tb_field (field) values ('{"id_system":1,"id_group":1,"id_table":7,"label":"Comentário","name":"comment","id_type":3,"size":500,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
 insert into tb_field (field) values ('{"id_system":1,"id_group":1,"id_table":7,"label":"Código","name":"code","id_type":6,"size":500,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
@@ -145,14 +144,14 @@ insert into tb_event (field) values ('{"id_system":1,"id_group":1,"id_target":2,
 -- -----------------------------------------------------
 -- 6 TB_ACTION
 -- -----------------------------------------------------
-insert into tb_action (field) values ('{"id_system":1,"id_group":1,"name":"Novo","label":"Novo"}');
-insert into tb_action (field) values ('{"id_system":1,"id_group":1,"name":"Editar","label":"Editar"}');
-insert into tb_action (field) values ('{"id_system":1,"id_group":1,"name":"Apagar","label":"Apagar"}');
-insert into tb_action (field) values ('{"id_system":1,"id_group":1,"name":"Confirmar","label":"Confirmar"}');
-insert into tb_action (field) values ('{"id_system":1,"id_group":1,"name":"Filtrar","label":"Filtrar"}');
-insert into tb_action (field) values ('{"id_system":1,"id_group":1,"name":"Limpar","label":"Limpar"}');
-insert into tb_action (field) values ('{"id_system":1,"id_group":1,"name":"Voltar","label":"Voltar"}');
-insert into tb_action (field) values ('{"id_system":1,"id_group":1,"name":"Testar","label":"Testar"}');
+insert into tb_action (field) values ('{"id_system":1,"id_group":1,"name":"Novo"}');
+insert into tb_action (field) values ('{"id_system":1,"id_group":1,"name":"Editar"}');
+insert into tb_action (field) values ('{"id_system":1,"id_group":1,"name":"Apagar"}');
+insert into tb_action (field) values ('{"id_system":1,"id_group":1,"name":"Confirmar"}');
+insert into tb_action (field) values ('{"id_system":1,"id_group":1,"name":"Filtrar"}');
+insert into tb_action (field) values ('{"id_system":1,"id_group":1,"name":"Limpar"}');
+insert into tb_action (field) values ('{"id_system":1,"id_group":1,"name":"Voltar"}');
+insert into tb_action (field) values ('{"id_system":1,"id_group":1,"name":"Testar"}');
 
 -- -----------------------------------------------------
 -- 7 TB_CODE
