@@ -121,17 +121,19 @@ function paging(pageOffset) {
 /*
  * Cascade drop down
  */
-function cascade(value, source, target) {
+function cascade(fieldTarget, fieldName, fieldValue, tableName, id, ds) {
 
     let url = "";
     let data = "";
-    let dropdown = document.getElementById(target);
+    let dropdown = document.getElementById(fieldTarget);
     let option = document.createElement("option");
 
     url += "dropdown.php";
-    url += "?value=" + value;    
-    url += "&source=" + source;
-    url += "&target=" + target;
+    url += "?fieldName=" + fieldName;
+    url += "&fieldValue=" + fieldValue;
+    url += "&tableName=" + tableName;
+    url += "&id=" + id;
+    url += "&ds=" + ds;
 
     let httpService = new HTTPService();
     data = httpService.query(url);
