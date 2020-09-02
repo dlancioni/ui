@@ -263,13 +263,11 @@
             $stringUtil = new StringUtil();
             $TB_TABLE = 2;
 
-            // Table has no definition yet
-            $filter = new Filter();
-            $filter->add("tb_table", "id", $tableId);
-            $data = $this->sqlBuilder->Query($this->cn, $TB_TABLE, $filter->create());
-            $pageTitle = $data[0]["name"];
-
             try {
+                $filter = new Filter();
+                $filter->add("tb_table", "id", $tableId);
+                $data = $this->sqlBuilder->Query($this->cn, $TB_TABLE, $filter->create(), $this->sqlBuilder->QUERY_NO_PAGING);
+                $pageTitle = $data[0]["name"];                
                 $html = "<h4>$pageTitle</h4>";
             } catch (Exception $ex) {
                 throw $ex;

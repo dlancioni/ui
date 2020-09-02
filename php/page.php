@@ -82,35 +82,42 @@
         $TB_SYSTEM = 1;
         $TB_EVENT = 5;
 
-        // Disable paging
-        $sqlBuilder->PageOffset = 0;
-        $sqlBuilder->PageSize = 0;
-        
-        // Get controls for current table ID
-        $filter = new Filter();
-        $filter->addCondition("tb_event", "id_target", "int", "=", $format);
-        $filter->addCondition("tb_event", "id_table", "int", "=", $tableId);
-        $filter->addCondition("tb_event", "id_action", "int", "<>", "0");
-        $pageEvent = $sqlBuilder->Query($cn, $TB_EVENT, $filter->create());
+        try {
 
-        // Not found, inherit from tb_system
-        if (!$pageEvent) {
+            // Get controls for current table ID
             $filter = new Filter();
             $filter->addCondition("tb_event", "id_target", "int", "=", $format);
-            $filter->addCondition("tb_event", "id_table", "int", "=", $TB_SYSTEM);
+            $filter->addCondition("tb_event", "id_table", "int", "=", $tableId);
             $filter->addCondition("tb_event", "id_action", "int", "<>", "0");
-            $pageEvent = $sqlBuilder->Query($cn, $TB_EVENT, $filter->create());
-        }
+            $pageEvent = $sqlBuilder->Query($cn, $TB_EVENT, $filter->create(), $sqlBuilder->QUERY_NO_PAGING);
 
-        // Space between form and buttons
-        $html = "<br><br>";
-
-        // Create event list
-        foreach ($pageEvent as $item) {
-            if ($item["id_field"] == 0) {
-                $name = "btn" . $item["id_table"] . $item["id"];
-                $html .= $element->createButton($name, $item["action"], $item["event"], $item["code"]);
+            // Not found, inherit from tb_system
+            if (!$pageEvent) {
+                $filter = new Filter();
+                $filter->addCondition("tb_event", "id_target", "int", "=", $format);
+                $filter->addCondition("tb_event", "id_table", "int", "=", $TB_SYSTEM);
+                $filter->addCondition("tb_event", "id_action", "int", "<>", "0");
+                $pageEvent = $sqlBuilder->Query($cn, $TB_EVENT, $filter->create(), $sqlBuilder->QUERY_NO_PAGING);
             }
+
+            // Space between form and buttons
+            $html = "<br><br>";
+
+            // Create event list
+            foreach ($pageEvent as $item) {
+                if ($item["id_field"] == 0) {
+                    $name = "btn" . $item["id_table"] . $item["id"];
+                    $html .= $element->createButton($name, $item["action"], $item["event"], $item["code"]);
+                }
+            }
+
+        } catch (Exception $ex) {        
+            
+            // Error handler
+            $html = '{"status":"fail", "error":' . $ex->getMessage() . '}';
+
+        } finally {
+
         }
         
         // Return to main function
@@ -127,12 +134,9 @@
         $rs = "";
         $TB_CODE = 7;
 
-        // Disable paging
-        $sqlBuilder->PageOffset = 0;
-        $sqlBuilder->PageSize = 0;
-
         // Get data
-        $rs = $sqlBuilder->Query($cn, $TB_CODE);
+        $filter = new Filter();
+        $rs = $sqlBuilder->Query($cn, $TB_CODE, $filter, $sqlBuilder->QUERY_NO_PAGING);
 
         // Create event list
         foreach ($rs as $item) {

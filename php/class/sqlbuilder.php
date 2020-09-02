@@ -7,6 +7,7 @@ class SqlBuilder extends Base {
      */
     public $QUERY = 1;
     public $QUERY_NO_JOIN = 2;
+    public $QUERY_NO_PAGING = 3;
 
     /*
      * Paging
@@ -99,22 +100,32 @@ class SqlBuilder extends Base {
             // Get table structure
             $tableDef = $this->getTableDef($cn);
 
-            if (count($tableDef) > 0) {  
+            if (count($tableDef) > 0) {
+
                 // Get field list
                 $sql .= $this->getFieldList($tableDef, $queryType);
+
                 // Get from
                 $sql .= $this->getFrom($tableDef);
+
                 // Get join
-                if ($queryType != $this->QUERY_NO_JOIN)
+                if ($queryType != $this->QUERY_NO_JOIN) {
                     $sql .= $this->getJoin($tableDef);
+                }
+
                 // Get where
                 $sql .= $this->getWhere($tableDef, $table);
+
                 // Get condition
                 $sql .= $this->getCondition($filter);
+
                 // Get ordering
                 $sql .= $this->getOrderBy($tableDef);
+
                 // Paging control
-                $sql .= $this->getPaging($tableDef);
+                if ($queryType != $this->QUERY_NO_PAGING) {
+                    $sql .= $this->getPaging($tableDef);
+                }
             }
 
         } catch (Exception $ex) {
