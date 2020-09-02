@@ -122,7 +122,7 @@ class Report extends Base {
             }
 
             // Create page title
-            $html .= $this->element->createPageTitle($this->getPageTitle($tableId));
+            $html .= $this->element->createPageTitle($tableId);
 
             // Create final table
             $html .= $this->element->createTable($rows);
@@ -138,24 +138,5 @@ class Report extends Base {
         // Return report        
         return $html;
     }
-
-    /*
-     * Get page title
-     */
-    private function getPageTitle($tableId) {
-        // General declartion 
-        $pageTitle = "";
-        // Table has no definition yet
-        if (!$this->tableDef) {
-            $filter = new Filter();
-            $filter->add("tb_table", "id", $tableId);
-            $data = $this->sqlBuilder->Query($this->cn, 2, $filter->create());
-            $pageTitle = $data[0]["name"];
-        } else {
-            $pageTitle = $this->tableDef[0]["name"];
-        }
-
-        return $pageTitle;
-    }    
 }
 ?>

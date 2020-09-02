@@ -21,21 +21,32 @@ function submit(param="form1") {
  * Save current form
  */
 function confirm() {
-    let info = "";
-    let httpService = "";
     if (field("_EVENT_").value == "Filter") {
         field("_PAGING_").value = 0;
         go(field("_TABLE_").value, 1, field("_EVENT_").value);
     } else {
         if (validateForm()) {
-            httpService = new HTTPService();            
-            info = httpService.persist(getFormData());        
-            alert(info);      
+            alert(persist(getFormData()));
             if (field("_EVENT_").value != "New") {
                 reportBack();
             }
         }
     }
+}
+
+/*
+ * Concatenate single quote ('')
+ */
+function persist($formData) {
+    let httpService = new HTTPService();
+    info = httpService.persist($formData);
+    return info;
+}
+
+function query(sql) {
+    let httpService = new HTTPService();
+    info = httpService.query(sql);
+    return info;
 }
 
 /*
@@ -73,38 +84,29 @@ function field(element) {
 }
 
 /*
- * Concatenate single quote ('')
- */
-function query(sql) {
-    let httpService = new HTTPService();
-    info = httpService.query(sql);
-    return info;
-}
-
-/*
  * Empty form to input new record
  */
-function formNew() {
+function formNew($tableId) {
     field("_FORMAT_").value = 2;
     field("_EVENT_").value = "New";
     document.form1.submit();
 }
-function formEdit() {
+function formEdit($tableId) {
     field("_FORMAT_").value = 2;
     field("_EVENT_").value = "Edit";
     document.form1.submit();
 }
-function formDelete() {
+function formDelete($tableId) {
     field("_FORMAT_").value = 2;
     field("_EVENT_").value = "Delete";
     document.form1.submit();
 }
-function formFilter() {
+function formFilter($tableId) {
     field("_FORMAT_").value = 2;
     field("_EVENT_").value = "Filter";
     document.form1.submit();
 }
-function reportBack() {
+function reportBack($tableId) {
     field("_FORMAT_").value = 1;
     field("_EVENT_").value = 'Back';
     document.form1.submit();

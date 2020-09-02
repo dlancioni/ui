@@ -24,7 +24,7 @@
         $filter = new Filter();
         $filter->add("tb_event", "id_target", $format);
         $filter->add("tb_event", "id_table", $tableId);
-        $pageEvent = $sqlBuilder->Query($cn, $TB_EVENT, $filter->create());        
+        $pageEvent = $sqlBuilder->Query($cn, $TB_EVENT, $filter->create());
 
         // Create table or form
         if ($tableId > 0) {
@@ -82,6 +82,10 @@
         $TB_SYSTEM = 1;
         $TB_EVENT = 5;
 
+        // Disable paging
+        $sqlBuilder->PageOffset = 0;
+        $sqlBuilder->PageSize = 0;
+        
         // Get controls for current table ID
         $filter = new Filter();
         $filter->addCondition("tb_event", "id_target", "int", "=", $format);
@@ -122,6 +126,10 @@
         $js = "";
         $rs = "";
         $TB_CODE = 7;
+
+        // Disable paging
+        $sqlBuilder->PageOffset = 0;
+        $sqlBuilder->PageSize = 0;
 
         // Get data
         $rs = $sqlBuilder->Query($cn, $TB_CODE);

@@ -42,6 +42,4 @@ class HTTPService {
             return xmlhttp.status;
         }
     }
-
-
 }

@@ -255,15 +255,27 @@
         /* 
          * Create page title
          */
-        public function createPageTitle($value) {
+        public function createPageTitle($tableId) {
+
+            // General declartion 
             $html = "";
+            $pageTitle = "";
             $stringUtil = new StringUtil();
+            $TB_TABLE = 2;
+
+            // Table has no definition yet
+            $filter = new Filter();
+            $filter->add("tb_table", "id", $tableId);
+            $data = $this->sqlBuilder->Query($this->cn, $TB_TABLE, $filter->create());
+            $pageTitle = $data[0]["name"];
+
             try {
-                $html = "<h4>$value</h4>";
+                $html = "<h4>$pageTitle</h4>";
             } catch (Exception $ex) {
                 throw $ex;
             }
-            return $html;            
+            
+            return $html;
         }      
 
         /* 
