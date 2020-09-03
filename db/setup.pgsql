@@ -13,7 +13,6 @@ drop table if exists tb_domain cascade;     create table if not exists tb_domain
 drop table if exists tb_event cascade;      create table if not exists tb_event (id serial, field jsonb);
 drop table if exists tb_action cascade;     create table if not exists tb_action (id serial, field jsonb);
 drop table if exists tb_code cascade;       create table if not exists tb_code (id serial, field jsonb);
-drop table if exists tb_message cascade;    create table if not exists tb_message (id serial, field jsonb);
 drop table if exists tb_group cascade;      create table if not exists tb_group (id serial, field jsonb);
 
 -- -----------------------------------------------------
@@ -24,15 +23,14 @@ insert into tb_system (field) values ('{"name":"Forms","expire_date":"31/12/2020
 -- -----------------------------------------------------
 -- 2 TB_TABLE
 -- -----------------------------------------------------
-insert into tb_table (field) values ('{"id_system":1,"id_group":1,"name":"Sistemas","id_type":1,"table_name":"tb_system","id_parent":10}');
-insert into tb_table (field) values ('{"id_system":1,"id_group":1,"name":"Transações","id_type":1,"table_name":"tb_table","id_parent":10}');
-insert into tb_table (field) values ('{"id_system":1,"id_group":1,"name":"Campos","id_type":1,"table_name":"tb_field","id_parent":10}');
-insert into tb_table (field) values ('{"id_system":1,"id_group":1,"name":"Domínios","id_type":1,"table_name":"tb_domain","id_parent":10}');
-insert into tb_table (field) values ('{"id_system":1,"id_group":1,"name":"Eventos","id_type":1,"table_name":"tb_event","id_parent":10}');
-insert into tb_table (field) values ('{"id_system":1,"id_group":1,"name":"Ações","id_type":1,"table_name":"tb_action","id_parent":10}');
-insert into tb_table (field) values ('{"id_system":1,"id_group":1,"name":"Programação","id_type":1,"table_name":"tb_code","id_parent":10}');
-insert into tb_table (field) values ('{"id_system":1,"id_group":1,"name":"Mensagens","id_type":1,"table_name":"tb_message","id_parent":10}');
-insert into tb_table (field) values ('{"id_system":1,"id_group":1,"name":"Grupos","id_type":1,"table_name":"tb_group","id_parent":10}');
+insert into tb_table (field) values ('{"id_system":1,"id_group":1,"name":"Sistemas","id_type":1,"table_name":"tb_system","id_parent":9}');
+insert into tb_table (field) values ('{"id_system":1,"id_group":1,"name":"Transações","id_type":1,"table_name":"tb_table","id_parent":9}');
+insert into tb_table (field) values ('{"id_system":1,"id_group":1,"name":"Campos","id_type":1,"table_name":"tb_field","id_parent":9}');
+insert into tb_table (field) values ('{"id_system":1,"id_group":1,"name":"Domínios","id_type":1,"table_name":"tb_domain","id_parent":9}');
+insert into tb_table (field) values ('{"id_system":1,"id_group":1,"name":"Eventos","id_type":1,"table_name":"tb_event","id_parent":9}');
+insert into tb_table (field) values ('{"id_system":1,"id_group":1,"name":"Ações","id_type":1,"table_name":"tb_action","id_parent":9}');
+insert into tb_table (field) values ('{"id_system":1,"id_group":1,"name":"Programação","id_type":1,"table_name":"tb_code","id_parent":9}');
+insert into tb_table (field) values ('{"id_system":1,"id_group":1,"name":"Grupos","id_type":1,"table_name":"tb_group","id_parent":9}');
 insert into tb_table (field) values ('{"id_system":1,"id_group":1,"name":"Administração","id_type":3,"table_name":"","id_parent":0}');      -- MENU
 
 -- -----------------------------------------------------
@@ -76,12 +74,8 @@ insert into tb_field (field) values ('{"id_system":1,"id_group":1,"id_table":6,"
 -- tb_code
 insert into tb_field (field) values ('{"id_system":1,"id_group":1,"id_table":7,"label":"Comentário","name":"comment","id_type":3,"size":500,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
 insert into tb_field (field) values ('{"id_system":1,"id_group":1,"id_table":7,"label":"Código","name":"code","id_type":6,"size":500,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
--- tb_mensagens
-insert into tb_field (field) values ('{"id_system":1,"id_group":1,"id_table":8,"label":"Tipo","name":"id_type","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":4,"id_field_fk":20,"domain":"tb_message_type"}');
-insert into tb_field (field) values ('{"id_system":1,"id_group":1,"id_table":8,"label":"Código","name":"code","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
-insert into tb_field (field) values ('{"id_system":1,"id_group":1,"id_table":8,"label":"Descrição","name":"description","id_type":3,"size":500,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
 -- tb_group
-insert into tb_field (field) values ('{"id_system":1,"id_group":1,"id_table":9,"label":"Nome","name":"name","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
+insert into tb_field (field) values ('{"id_system":1,"id_group":1,"id_table":8,"label":"Nome","name":"name","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
 
 -- -----------------------------------------------------
 -- 4 TB_DOMAIN
@@ -109,10 +103,15 @@ insert into tb_domain (field) values ('{"id_system":1,"id_group":1,"key":5,"valu
 -- tb_target
 insert into tb_domain (field) values ('{"id_system":1,"id_group":1,"key":1,"value":"Tabela","domain":"tb_target"}');
 insert into tb_domain (field) values ('{"id_system":1,"id_group":1,"key":2,"value":"Formulário","domain":"tb_target"}');
--- tb_message_type
-insert into tb_domain (field) values ('{"id_system":1,"id_group":1,"key":1,"value":"Alerta","domain":"tb_message_type"}');
-insert into tb_domain (field) values ('{"id_system":1,"id_group":1,"key":2,"value":"Rótulo","domain":"tb_message_type"}');
-insert into tb_domain (field) values ('{"id_system":1,"id_group":1,"key":3,"value":"Erro","domain":"tb_message_type"}');
+-- tb_message
+insert into tb_domain (field) values ('{"id_system":1,"id_group":1,"key":"A1","value":"Campo % é obrigatório","domain":"tb_message"}');
+insert into tb_domain (field) values ('{"id_system":1,"id_group":1,"key":"A2","value":"Data inválida informada no campo %","domain":"tb_message"}');
+insert into tb_domain (field) values ('{"id_system":1,"id_group":1,"key":"A3","value":"Numero inválido informada no campo %","domain":"tb_message"}');
+insert into tb_domain (field) values ('{"id_system":1,"id_group":1,"key":"A4","value":"Os valores para os campos % ja existem na tabela e não podem se repetir","domain":"tb_message"}');
+insert into tb_domain (field) values ('{"id_system":1,"id_group":1,"key":"A5","value":"Nenhuma mudança identifica no registro, alteração não realizada","domain":"tb_message"}');
+insert into tb_domain (field) values ('{"id_system":1,"id_group":1,"key":"A6","value":"Registro incluído com sucesso","domain":"tb_message"}');
+insert into tb_domain (field) values ('{"id_system":1,"id_group":1,"key":"A7","value":"Registro alterado com sucesso","domain":"tb_message"}');
+insert into tb_domain (field) values ('{"id_system":1,"id_group":1,"key":"A8","value":"Registro excluído com sucesso","domain":"tb_message"}');
 
 -- -----------------------------------------------------
 -- 6 TB_ACTION
@@ -132,18 +131,7 @@ insert into tb_action (field) values ('{"id_system":1,"id_group":1,"name":"Testa
 insert into tb_code (field) values ('{"id_system": 1, "id_group": 1, "comment": "Obtem o valor numérico de um campo", "id": 1, "code": "function valor(campo) {\r\n\r\n    value = field(campo).value;\r\n\r\n    if (value.trim() == \"\") {\r\n        value = \"0\";\r\n    }\r\n\r\n    if (!isNumeric(value)) {\r\n        value = \"0\";\r\n    }\r\n\r\n    value = value.split(\".\").join(\"\");\r\n    value = value.split(\",\").join(\".\");\r\n    value = parseFloat(value);\r\n\r\n    return value;\r\n}"}');
 
 -- -----------------------------------------------------
--- 8 TB_MESSAGE
--- -----------------------------------------------------
-insert into tb_message (field) values ('{"id_system":1,"id_group":1,"id_type":1, "code":"A1", "description":"Campo % é obrigatório"}');
-insert into tb_message (field) values ('{"id_system":1,"id_group":1,"id_type":1, "code":"A2", "description":"Data inválida informada no campo %"}');
-insert into tb_message (field) values ('{"id_system":1,"id_group":1,"id_type":1, "code":"A3", "description":"Numero inválido informada no campo %"}');
-insert into tb_message (field) values ('{"id_system":1,"id_group":1,"id_type":1, "code":"A4", "description":"Os valores para os campos % ja existem na tabela e não podem se repetir"}');
-insert into tb_message (field) values ('{"id_system":1,"id_group":1,"id_type":1, "code":"A5", "description":"Nenhuma mudança identifica no registro, alteração não realizada"}');
-insert into tb_message (field) values ('{"id_system":1,"id_group":1,"id_type":1, "code":"A6", "description":"Registro incluído com sucesso"}');
-insert into tb_message (field) values ('{"id_system":1,"id_group":1,"id_type":1, "code":"A7", "description":"Registro alterado com sucesso"}');
-insert into tb_message (field) values ('{"id_system":1,"id_group":1,"id_type":1, "code":"A8", "description":"Registro excluído com sucesso"}');
--- -----------------------------------------------------
--- 9 TB_GROUP
+-- 8 TB_GROUP
 -- -----------------------------------------------------
 insert into tb_group (field) values ('{"id_system":1,"id_group":1,"name":"Sistema"}');
 insert into tb_group (field) values ('{"id_system":1,"id_group":2,"name":"Público"}');

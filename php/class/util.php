@@ -184,25 +184,24 @@
             // General Declaration            
             $html = "";
             $message = "";
-            $TB_MESSAGE = 8;
+            $TB_DOMAIN = 4;
             $stringUtil = new StringUtil();
 
             try {
 
                 // Get data
                 $filter = new Filter();
-                $filter->addCondition("tb_message", "code", "text", "=", $code);
-                $data = $this->sqlBuilder->Query($this->cn, $TB_MESSAGE, $filter->create());
+                $filter->addCondition("tb_domain", "key", "text", "=", $code);
+                $filter->addCondition("tb_domain", "domain", "text", "=", "tb_message");
+                $data = $this->sqlBuilder->Query($this->cn, $TB_DOMAIN, $filter->create());
 
                 // Create main menu
                 foreach ($data as $row) {
-                    
-                    $message = $row["description"];
-
+                    $message = $row["value"];
                     if (trim($value) != "" ) {
                         $message = $stringUtil->dqt(str_replace("%", $value, $message));
                     }
-                }                
+                }
 
             } catch (Exception $ex) {
                 throw $ex;
