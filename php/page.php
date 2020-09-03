@@ -98,15 +98,6 @@
             $filter->addCondition("tb_event", "id_action", "int", "<>", "0");
             $pageEvent = $sqlBuilder->Query($cn, $TB_EVENT, $filter->create(), $sqlBuilder->QUERY_NO_PAGING);
 
-            // Not found, inherit from tb_system
-            if (!$pageEvent) {
-                $filter = new Filter();
-                $filter->addCondition("tb_event", "id_target", "int", "=", $format);
-                $filter->addCondition("tb_event", "id_table", "int", "=", $TB_SYSTEM);
-                $filter->addCondition("tb_event", "id_action", "int", "<>", "0");
-                $pageEvent = $sqlBuilder->Query($cn, $TB_EVENT, $filter->create(), $sqlBuilder->QUERY_NO_PAGING);
-            }
-
             // Space between form and buttons
             $html = "<br><br>";
 
