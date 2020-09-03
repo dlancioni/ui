@@ -10,12 +10,21 @@
     $event = "";
     $pageEvent = "";
     $element = "";
+    $mainMenu = "";
+    $onLoadFunctions = "";
     $TB_EVENT = 5;
     
     try {
         
         // Handle request outside to organize code
         include "request.php";
+
+        // Get main menu    
+        $sqlBuilder = new SqlBuilder($systemId, $tableId, $userId, $groupId);    
+        $menu = new Menu($cn, $sqlBuilder);
+        $menu->createMenu();
+        $mainMenu = $menu->html;
+        $onLoadFunctions = "optionClear('id_field');";        
 
         // General Declaration
         $element = new HTMLElement($cn, $sqlBuilder);
@@ -65,8 +74,6 @@
             pg_close($cn); 
         }
     }
-
-    echo $html;
 
     /* 
      * Get event list and isolate function calls related to buttons

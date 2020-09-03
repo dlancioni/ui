@@ -1,6 +1,7 @@
 <?php
 include "php/include.php";
 include "php/session.php";
+include "php/page.php";
 ?>
 
 <html>
@@ -11,12 +12,12 @@ include "php/session.php";
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="css/w3.css">
 
-<body>
+<body onload="<?php echo $onLoadFunctions; ?>">
 <form id="form1" name="form1" action="index.php" method="post">
 
     <div class="w3-row">
-      <div class="w3-col w3-container" style="width:20%"><?php echo $_SESSION["_MENU_"]; ?></div>  
-      <div class="w3-col w3-container" style="width:80%"><?php include "php/page.php";?></div>
+      <div class="w3-col w3-container" style="width:20%"><?php echo $mainMenu; ?></div>  
+      <div class="w3-col w3-container" style="width:80%"><?php echo $html;?></div>
     </div>
 
     <input type="hidden" id="_TABLE_" name="_TABLE_" value="<?php echo $tableId; ?>">
@@ -28,7 +29,7 @@ include "php/session.php";
     <script src="js/moment.js"></script>
     <script src="js/httpservice.js"></script>
     <script src="js/function.js"></script>
-    
+   
 </form>
 </body>
 </html>

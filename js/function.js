@@ -27,7 +27,7 @@ function confirm() {
     } else {
         if (validateForm()) {
             alert(persist(getFormData()));
-            if (field("_EVENT_").value != "New") {
+            if (field("_EVENT_").value == "Delete") {
                 reportBack();
             }
         }
@@ -247,6 +247,16 @@ function validateNumeric(fieldName, message="") {
  */
 function valueOf(value) {
 
+    value = value.toString();
+
+    if (value.trim() == "") {
+        value = "0";
+    }
+
+    if (!parseFloat(value)) {
+        value = "0";
+    }
+
     value = value.split('.').join('');
     value = value.split(',').join('.');        
     value = parseFloat(value);
@@ -269,4 +279,16 @@ function formatValue(value) {
     value = valueOf(value);
     let x = new Intl.NumberFormat("pt-BR", {minimumFractionDigits: 2}).format(value);
     return x;
+}
+
+/*
+ * Clear options
+ */
+function optionClear(field) {
+    dropdown = document.getElementById(field);
+    dropdown.innerText = null;
+    option = document.createElement("option");
+    option.value = "0";
+    option.text = "Selecionar";
+    dropdown.add(option);
 }

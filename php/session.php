@@ -50,10 +50,5 @@
     if (isset($_SESSION["_GROUP_"])) {
         $groupId = $_SESSION["_GROUP_"];
     }
-
-    // Get main menu    
-    $sqlBuilder = new SqlBuilder($systemId, $tableId, $userId, $groupId);    
-    $menu = new Menu($cn, $sqlBuilder);
-    $menu->createMenu();
-    $_SESSION["_MENU_"] = $menu->html;    
+    
 ?>
