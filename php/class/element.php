@@ -372,7 +372,7 @@
         }
 
 
-        /*
+       /*
         * Javascript generation
         */
         public function createJs($fieldLabel, $fieldName, $fieldType, $fieldValue, $fieldMask, $fieldMandatory, $fk) {

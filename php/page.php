@@ -8,6 +8,7 @@
     $format = 1;
     $html = "";
     $event = "";
+    $eventAction = "";
     $pageEvent = "";
     $element = "";
     $mainMenu = "";
@@ -21,19 +22,19 @@
 
         // Get main menu    
         $sqlBuilder = new SqlBuilder($systemId, $tableId, $userId, $groupId);    
+        $eventAction = new EventAction($cn, $sqlBuilder);
         $menu = new Menu($cn, $sqlBuilder);
-        $menu->createMenu();
-        $mainMenu = $menu->html;
-        $onLoadFunctions = "optionClear('id_field');";        
-
-        // General Declaration
         $element = new HTMLElement($cn, $sqlBuilder);
 
-        // Get controls for current table ID
+        // Get events
         $filter = new Filter();
         $filter->add("tb_event", "id_target", $format);
         $filter->add("tb_event", "id_table", $tableId);
-        $pageEvent = $sqlBuilder->Query($cn, $TB_EVENT, $filter->create());
+        $pageEvent = $sqlBuilder->Query($cn, $TB_EVENT, $filter->create(), $sqlBuilder->QUERY_NO_PAGING);
+
+        // Create main menu
+        $menu->createMenu();
+        $mainMenu = $menu->html;        
 
         // Create table or form
         if ($tableId > 0) {
@@ -56,10 +57,13 @@
             }
 
             // Add buttons to form
-            $html .= createButton($format, $tableId);
+            $html .= $eventAction->createButton($pageEvent);
 
             // Add global functions (js code)
-            $html .= createJS($cn, $sqlBuilder);
+            $html .= $eventAction->createJSCode();
+
+            // Create form/load events
+            $onLoadFunctions = $eventAction->createFormLoad($pageEvent);           
         }
 
     } catch (Exception $ex) {        
@@ -73,79 +77,6 @@
         if ($cn) {
             pg_close($cn); 
         }
-    }
-
-    /* 
-     * Get event list and isolate function calls related to buttons
-     */
-    function CreateButton($format, $tableId) {
-
-        // General declaration
-        $html = "";
-        $name = "";
-        global $element;
-        global $sqlBuilder;
-        global $cn;
-        $TB_SYSTEM = 1;
-        $TB_EVENT = 5;
-
-        try {
-
-            // Get controls for current table ID
-            $filter = new Filter();
-            $filter->addCondition("tb_event", "id_target", "int", "=", $format);
-            $filter->addCondition("tb_event", "id_table", "int", "=", $tableId);
-            $filter->addCondition("tb_event", "id_action", "int", "<>", "0");
-            $pageEvent = $sqlBuilder->Query($cn, $TB_EVENT, $filter->create(), $sqlBuilder->QUERY_NO_PAGING);
-
-            // Space between form and buttons
-            $html = "<br><br>";
-
-            // Create event list
-            foreach ($pageEvent as $item) {
-                if ($item["id_field"] == 0) {
-                    $name = "btn" . $item["id_table"] . $item["id"];
-                    $html .= $element->createButton($name, $item["action"], $item["event"], $item["code"]);
-                }
-            }
-
-        } catch (Exception $ex) {        
-            
-            // Error handler
-            $html = '{"status":"fail", "error":' . $ex->getMessage() . '}';
-
-        } finally {
-
-        }
-        
-        // Return to main function
-        return $html;
-    }
-
-    /* 
-     * Get global js functions
-     */
-    function createJS($cn, $sqlBuilder) {
-
-        // General declaration
-        $js = "";
-        $rs = "";
-        $TB_CODE = 7;
-
-        // Get data
-        $filter = new Filter();
-        $rs = $sqlBuilder->Query($cn, $TB_CODE, $filter, $sqlBuilder->QUERY_NO_PAGING);
-
-        // Create event list
-        foreach ($rs as $item) {
-            $js .= $item["code"];
-        }
-
-        // Append script
-        $js = "<script>$js</script>";
-
-        // Return to main function
-        return $js;
     }
 
 ?>
