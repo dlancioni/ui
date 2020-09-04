@@ -378,75 +378,72 @@ class SqlBuilder extends Base {
         $event = $this->getEvent();
         $jsonUtil = new jsonUtil();
 
-            // Handle invalid chars
-            $record = str_replace("'", "''", $record);
+        // Make sure id_system is set
+        $record = $jsonUtil->setValue($record, "id_system", $this->getSystem());
+        $record = $jsonUtil->setValue($record, "id_group", $this->getGroup());
 
-            // Make sure id_system is set
-            $record = $jsonUtil->setValue($record, "id_system", $this->getSystem());
-            $record = $jsonUtil->setValue($record, "id_group", $this->getGroup());
-
-            // Prepare condition for update and delete
-            $key .= " where " . $jsonUtil->condition($tableName, "id", "int", "=", $this->getLastId());                        
-            if ($tableName != "tb_system") {
-                $key .= " and " . $jsonUtil->condition($tableName, "id_system", "int", "=", $this->getSystem());
-            }
-
-            try {
-
-                // Prepare string
-                switch ($event) {
-
-                    case "New":
-                        $sql = "insert into $tableName (field) values ('$record') returning id";
-                        $msg = "A6";
-                        break;
-
-                    case "Edit":
-                        $sql .= " update $tableName set field = '$record' " . $key;
-                        $msg = "A7";
-                        break;
-
-                    case "Delete":
-                        $sql .= " delete from $tableName " . $key;
-                        $msg = "A8";
-                        break;                        
-                }
-
-                // Execute statement            
-                $rs = pg_query($cn, $sql);
-                if (!$rs) {
-                    throw new Exception(pg_last_error($cn));
-                }
-
-                // Keep rows affected
-                $affectedRows = pg_affected_rows($rs);                
-
-                // Get inserted ID
-                while ($row = pg_fetch_array($rs)) {
-                    $this->setLastId($row['id']);
-                }
-
-                // Get final message
-                $message = new Message($cn, $this);
-                $msg = $message->getValue($msg);
-
-                // Success
-                $this->setError("", "");
-                $this->setMessage($msg);
-
-            } catch (Exception $ex) {
-
-                // Keep last error
-                $this->setMessage("");
-                $this->setError("Db.Persist()", $ex->getMessage());
-
-            } finally {
-                // Do nothing
-            }
-            
-            // Return ID
-            return $this->getLastId();
+        // Prepare condition for update and delete
+        $key .= " where " . $jsonUtil->condition($tableName, "id", "int", "=", $this->getLastId());                        
+        if ($tableName != "tb_system") {
+            $key .= " and " . $jsonUtil->condition($tableName, "id_system", "int", "=", $this->getSystem());
         }
+
+        try {
+
+            // Prepare string
+            switch ($event) {
+
+                case "New":
+                    $sql = "insert into $tableName (field) values ('$record') returning id";
+                    $msg = "A6";
+                    break;
+
+                case "Edit":
+                    $sql .= " update $tableName set field = '$record' " . $key;
+                    $msg = "A7";
+                    break;
+
+                case "Delete":
+                    $sql .= " delete from $tableName " . $key;
+                    $msg = "A8";
+                    break;                        
+            }
+
+            // Execute statement            
+            $rs = pg_query($cn, $sql);
+            if (!$rs) {
+                throw new Exception(pg_last_error($cn));
+            }
+
+            // Keep rows affected
+            $affectedRows = pg_affected_rows($rs);                
+
+            // Get inserted ID
+            while ($row = pg_fetch_array($rs)) {
+                $this->setLastId($row['id']);
+            }
+
+            // Get final message
+            $message = new Message($cn, $this);
+            $msg = $message->getValue($msg);
+
+            // Success
+            $this->setError("", "");
+            $this->setMessage($msg);
+
+        } catch (Exception $ex) {
+
+            // Keep last error
+            $this->setMessage("");
+            $this->setError("Db.Persist()", $ex->getMessage());
+
+        } finally {
+            // Do nothing
+        }
+        
+        // Return ID
+        return $this->getLastId();
+    }
 
 
 

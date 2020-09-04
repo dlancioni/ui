@@ -62,7 +62,7 @@
                 // Create event list
                 foreach ($pageEvent as $item) {
 
-                    if ($item["id_event"] != 0) {
+                    if ($item["id_event"] == 1) {
                         $html .= $item["code"];
                     }
                 }

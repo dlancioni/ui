@@ -33,6 +33,14 @@
         function lb() {
             return "\n";
         }
+
+        /*
+         * Replace ' by '' as per database requirement
+         */
+        function RemoveSpecialChar($record) {
+            return str_replace("'", "''", $record);
+        }        
+
     }
     
     class JsonUtil extends StringUtil {

@@ -46,6 +46,7 @@
 
         // Object instances
         $jsonUtil = new JsonUtil();
+        $stringUtil = new StringUtil();
         $numberUtil = new NumberUtil();        
         $message = new Message($cn, $sqlBuilder);
 
@@ -64,6 +65,7 @@
             $data = $sqlBuilder->Query($cn, $tableId, $filter->create(), $sqlBuilder->QUERY_NO_JOIN);
             if (count($data) > 0) {
                 $old = json_encode($data[0]);
+                $old = $stringUtil->RemoveSpecialChar($old);
                 $new = $old;
             }
         }
@@ -77,6 +79,7 @@
                 if ($fieldType == "float") {
                     $fieldValue = $numberUtil->valueOf($fieldValue);
                 }
+                $fieldValue = $stringUtil->RemoveSpecialChar($fieldValue);
                 $new = $jsonUtil->setValue($new, $fieldName, $fieldValue);
             }
         }

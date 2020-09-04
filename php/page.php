@@ -60,7 +60,7 @@
             $html .= $eventAction->createButton($pageEvent);
 
             // Add global functions (js code)
-            $html .= $eventAction->createJSCode();
+            $html .= $eventAction->createJS();
 
             // Create form/load events
             $onLoadFunctions = $eventAction->createFormLoad($pageEvent);           
