@@ -8,11 +8,11 @@
     // General declaration
     $db = "";
     $cn = "";
-    $jsonUtil = "";
     $rs = "[]";
     $sql = "";
     $json = "";
-
+    $jsonUtil = "";
+    
     // Core code
     try {
 

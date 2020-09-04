@@ -244,6 +244,5 @@ class Form extends Base {
 
         return $rows;
     }
-
 }
 ?>

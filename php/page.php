@@ -13,7 +13,6 @@
     $element = "";
     $mainMenu = "";
     $onLoadFunctions = "";
-    $TB_EVENT = 5;
     
     try {
         
@@ -30,7 +29,7 @@
         $filter = new Filter();
         $filter->add("tb_event", "id_target", $format);
         $filter->add("tb_event", "id_table", $tableId);
-        $pageEvent = $sqlBuilder->Query($cn, $TB_EVENT, $filter->create(), $sqlBuilder->QUERY_NO_PAGING);
+        $pageEvent = $sqlBuilder->Query($cn, $this->TB_EVENT, $filter->create(), $sqlBuilder->QUERY_NO_PAGING);
 
         // Create main menu
         $menu->createMenu();

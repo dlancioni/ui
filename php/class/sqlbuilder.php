@@ -87,9 +87,11 @@ class SqlBuilder extends Base {
      * Return query based on mapping
      */
     private function prepareQuery($cn, $table, $filter, $queryType) {
+
         // General Declaration
         $sql = "";
         $tableDef = "";
+
         try {
             // Handle table as parameter
             if ($table != "") {
@@ -139,17 +141,18 @@ class SqlBuilder extends Base {
      * Get field list
      */
     private function getFieldList($tableDef, $queryType) {
+
         // General Declaration
         $sql = "";
-        $count = 0;
-        $jsonUtil = new JsonUtil();
         $fk = "";
+        $count = 0;        
         $tableName = "";
         $fieldName = "";
         $fieldType = "";
         $fieldDomain = "";
         $fieldAlias = "";
         $tableFk = "";
+        $jsonUtil = new JsonUtil();        
 
         try {
 
@@ -207,8 +210,10 @@ class SqlBuilder extends Base {
      * Get from
      */
     private function getFrom($tableDef) {
+
         $sql = "";
         $jsonUtil = new JsonUtil();
+
         try {
             $sql .= " from " . $tableDef[0]["table_name"];
         } catch (Exception $ex) {
@@ -221,10 +226,13 @@ class SqlBuilder extends Base {
      * Get the joins
      */
     private function getJoin($tableDef) {
+
         // General declaration
         $sql = "";
-        $jsonUtil = new JsonUtil();        
+        $jsonUtil = new JsonUtil();
+
         try {
+
             foreach ($tableDef as $row) {
                 if ($row["id_fk"] > 0) {
                     $sql .= $jsonUtil->join($row["table_name"], 
@@ -243,8 +251,10 @@ class SqlBuilder extends Base {
      * Get where
      */
     private function getWhere($tableDef, $table) {
+
         $sql = "";
         $jsonUtil = new JsonUtil();
+
         try {
 
             // TB_SYSTEM does not have id_system (!!)
@@ -268,8 +278,10 @@ class SqlBuilder extends Base {
      * Get conditions
      */
     private function getCondition($filter) {
+
         $sql = "";
         $jsonUtil = new JsonUtil();
+
         try {
             if (trim($filter) != "") {
                 $filter = json_decode($filter, true);
@@ -285,6 +297,7 @@ class SqlBuilder extends Base {
         } catch (Exception $ex) {
             $this->setError("QueryBuilder.getCondition()", $ex->getMessage());
         }
+
         return $sql;
     }
 
@@ -292,7 +305,9 @@ class SqlBuilder extends Base {
      * Get ordering
      */
     private function getOrderBy($tableDef) {
+
         $sql = "";
+
         try {
             $sql = " order by " . trim($tableDef[0]["table_name"]) . ".id";
         } catch (Exception $ex) {
@@ -305,7 +320,9 @@ class SqlBuilder extends Base {
      * Get paging
      */
     private function getPaging($tableDef) {
+
         $sql = "";
+
         try {
 
             // Page size
@@ -321,6 +338,7 @@ class SqlBuilder extends Base {
         } catch (Exception $ex) {
             $this->setError("QueryBuilder.getOrderBy()", $ex->getMessage());
         }
+        
         return $sql;
     }        
 
@@ -444,8 +462,5 @@ class SqlBuilder extends Base {
         // Return ID
         return $this->getLastId();
     }
-
-
-
 } // End of class
 ?>

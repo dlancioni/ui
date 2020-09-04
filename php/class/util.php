@@ -102,6 +102,7 @@
          * Select field
          */
         public function select($table, $field, $type, $alias="") {
+
             $output = "";
             
             // Avoid conversion on select field
@@ -117,6 +118,7 @@
          * Condition (and clause)
          */
         public function condition($table, $field, $type, $operator, $value, $mask="") {
+            
             // General Declaration
             $condition = "";
             // Base field            

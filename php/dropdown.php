@@ -10,6 +10,8 @@
     // General declaration
     $db = "";
     $cn = "";   
+    $id = "";
+    $ds = "";    
     $key = "";
     $value = "";
     $json = [];
@@ -17,13 +19,10 @@
     $tableDef = "";
     $jsonUtil = "";
     $sqlBuilder = "";    
-    $stringUtil = new StringUtil();
-
     $fieldName = "";
     $fieldValue = "";
     $tableName = "";
-    $id = "";
-    $ds = "";
+    $stringUtil = new StringUtil();    
 
     // Core code
     try {
@@ -92,5 +91,4 @@
 
     // Return results
     echo json_encode($json);
-
 ?>

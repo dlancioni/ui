@@ -196,8 +196,8 @@
             // General Declaration
             $sql = "";
             $rs = "";
-            $jsonUtil = new JsonUtil();
             $affectedRows = 0;
+            $jsonUtil = new JsonUtil();            
 
             try {
 

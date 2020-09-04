@@ -86,11 +86,10 @@
             // General declaration
             $js = "";
             $rs = "";
-            $TB_CODE = 7;
 
             // Get data
             $filter = new Filter();
-            $rs = $this->sqlBuilder->Query($this->cn, $TB_CODE, $filter, $this->sqlBuilder->QUERY_NO_PAGING);
+            $rs = $this->sqlBuilder->Query($this->cn, $this->TB_CODE, $filter, $this->sqlBuilder->QUERY_NO_PAGING);
 
             // Create event list
             foreach ($rs as $item) {

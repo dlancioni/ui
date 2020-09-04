@@ -1,5 +1,6 @@
 <?php
     class Base {
+
         // Current session
         private $systemId = 0;
         private $tableId = 0;
@@ -12,7 +13,17 @@
         private $lastId = 0;
 
         // Other
-        private $event = 0;
+        private $event = 0;        
+
+        // Transactions
+        public $TB_SYSTEM = 1;
+        public $TB_TABLE = 2;
+        public $TB_FIELD = 3;
+        public $TB_DOMAIN = 4;
+        public $TB_EVENT = 5;
+        public $TB_ACTION = 6;
+        public $TB_CODE = 7;
+        public $TB_GROUP = 8;
 
         // Constructor
         function __construct($systemId, $tableId, $userId, $groupId) {

@@ -261,12 +261,11 @@
             $html = "";
             $pageTitle = "";
             $stringUtil = new StringUtil();
-            $TB_TABLE = 2;
 
             try {
                 $filter = new Filter();
                 $filter->add("tb_table", "id", $tableId);
-                $data = $this->sqlBuilder->Query($this->cn, $TB_TABLE, $filter->create(), $this->sqlBuilder->QUERY_NO_PAGING);
+                $data = $this->sqlBuilder->Query($this->cn, $this->TB_TABLE, $filter->create(), $this->sqlBuilder->QUERY_NO_PAGING);
                 $pageTitle = $data[0]["name"];                
                 $html = "<h4>$pageTitle</h4>";
             } catch (Exception $ex) {
@@ -284,8 +283,8 @@
             $x = 0;
             $limit = 5;
             $html = "";
-            $stringUtil = new StringUtil();
             $totalPages = 0;
+            $stringUtil = new StringUtil();            
             
             try {
 
@@ -353,9 +352,11 @@
          * Create script
          */
         public function createScript($js) {
+
             $html = "";
             $stringUtil = new StringUtil();
             $language = $stringUtil->dqt("JavaScript");
+            
             try {
 
                 $html .= "<script language=$language>";
