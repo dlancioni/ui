@@ -265,7 +265,7 @@
             try {
                 $filter = new Filter();
                 $filter->add("tb_table", "id", $tableId);
-                $data = $this->sqlBuilder->Query($this->cn, $this->TB_TABLE, $filter->create(), $this->sqlBuilder->QUERY_NO_PAGING);
+                $data = $this->sqlBuilder->Query($this->cn, $this->sqlBuilder->TB_TABLE, $filter->create(), $this->sqlBuilder->QUERY_NO_PAGING);
                 $pageTitle = $data[0]["name"];                
                 $html = "<h4>$pageTitle</h4>";
             } catch (Exception $ex) {

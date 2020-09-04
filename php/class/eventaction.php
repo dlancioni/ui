@@ -1,5 +1,5 @@
 <?php
-    class EventAction {
+    class EventAction extends Base {
 
         // Private members
         private $cn = 0;
