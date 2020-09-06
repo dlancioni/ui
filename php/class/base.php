@@ -62,7 +62,7 @@
         // Error handling    
         function setError($source, $error) {
             if ($error != "")
-            $this->error = $source . ": " . $error;
+                $this->error = $error;
         }
         function getError() {
             return $this->error;

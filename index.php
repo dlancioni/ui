@@ -15,9 +15,15 @@ include "php/page.php";
 <body onload="<?php echo $onLoadFunctions; ?>">
 <form id="form1" name="form1" action="index.php" method="post">
 
-    <div class="w3-row">
-      <div class="w3-col w3-container" style="width:20%"><?php echo $mainMenu; ?></div>  
-      <div class="w3-col w3-container" style="width:80%"><?php echo $html;?></div>
+    <div class="w3-row w3-container">       
+        <!-- Side menu-->
+        <div class="w3-col s3 w3-left">
+        <?php echo $mainMenu; ?>
+        </div>
+        <!-- Main contents-->
+        <div class="w3-col s9 w3-left">
+        <?php echo $html;?>
+        </div>
     </div>
 
     <input type="hidden" id="_TABLE_" name="_TABLE_" value="<?php echo $tableId; ?>">
