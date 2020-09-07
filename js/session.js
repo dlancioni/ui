@@ -26,7 +26,7 @@ function getPaging() {
     return field("_PAGING_").value;
 }
 function setPaging(value) {
-    return field("_PAGING_").value;
+    return field("_PAGING_").value = value;
 }
 
 /*
