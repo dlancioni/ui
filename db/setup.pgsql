@@ -113,7 +113,7 @@ insert into tb_domain (field) values ('{"id_system":1,"id_group":1,"key":"A6","v
 insert into tb_domain (field) values ('{"id_system":1,"id_group":1,"key":"A7","value":"Registro alterado com sucesso","domain":"tb_message"}');
 insert into tb_domain (field) values ('{"id_system":1,"id_group":1,"key":"A8","value":"Registro excluído com sucesso","domain":"tb_message"}');
 -- tb_cascade
-insert into tb_domain (field) values ('{"id_system":1,"id_group":1,"key":"tb_field.id_table","value":"id_field_fk; tb_field; id; label","domain":"tb_cascade"}');
+insert into tb_domain (field) values ('{"id_system":1,"id_group":1,"key":"tb_field.id_table_fk","value":"id_field_fk; tb_field; id; label","domain":"tb_cascade"}');
 insert into tb_domain (field) values ('{"id_system":1,"id_group":1,"key":"tb_event.id_table","value":"id_field; tb_field; id; label","domain":"tb_cascade"}');
 
 -- -----------------------------------------------------

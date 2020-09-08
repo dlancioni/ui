@@ -26,7 +26,6 @@ class Form extends Base {
         // General Declaration
         $k = "";
         $v = "";
-        $noload = 0;
 
         $js = "";
         $key = "";
@@ -180,15 +179,16 @@ class Form extends Base {
                     }
 
                     // Cascade logic
-                    $noload = 0;        
-                    $kid = 0;            
+                    $kid = 0;
                     foreach ($cascade as $field) {
                         $k = explode(".", $field["key"]);
                         $v = explode(";", $field["value"]);
                         if (trim($item["field_name"]) == trim($v[0])) {
-                            $noload = 1;
                             $kid = $data[0][$k[1]];
-                            $filter->add($v[1], $k[1], $kid);
+                            if ($kid == 0) {
+                                $kid = -1;
+                            }
+                            $filter->add($v[1], str_replace("_fk", "", $k[1]), $kid);
                         }
                     }
 
