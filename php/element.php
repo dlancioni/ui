@@ -86,7 +86,7 @@
         /* 
          * Create dropdown
          */
-        public function createDropdown($fieldId, $fieldName, $selectedValue, $dataFk, $fieldKey, $fieldValue, $fieldEvent="", $disabled="") {
+        public function createDropdown($fieldId, $fieldName, $selectedValue, $dataFk, $fieldKey, $fieldValue, $function, $fieldEvent="", $disabled="") {
 
             // General declaration
             $html = "";
@@ -103,6 +103,9 @@
                 $html .= " id=" . $stringUtil->dqt($fieldName); 
                 $html .= " name=" . $stringUtil->dqt($fieldName);
 
+                if (trim($function) != "") 
+                    $html .= $function;
+
                 if ($fieldEvent)
                     $html .= $this->getEvent($fieldId, $fieldEvent);
                     
@@ -113,7 +116,7 @@
                 $html .= '<option value="0">Select</option>';
 
                 // Add options
-                foreach($dataFk as $item) {
+                foreach ($dataFk as $item) {
 
                     // Keep values
                     $key = $item[$fieldKey];
@@ -414,6 +417,40 @@
 
             // Just return
             return $js;
+        }        
+
+        /* 
+         * Create cascade function call
+         */
+        public function createCascade($k, $v) {
+
+            $js = "";
+            $html = "";
+            $stringUtil = new StringUtil();
+            
+            try {
+
+                $js .= "cascade";
+                $js .= "(";
+                $js .= $stringUtil->sqt($v[0]);        // Target field
+                $js .=  ", ";
+                $js .= $stringUtil->sqt($k[1]);        // Base field
+                $js .=  ", ";
+                $js .= "this.value";                   // Base value
+                $js .=  ", ";
+                $js .= $stringUtil->sqt($v[1]);        // Source table
+                $js .=  ", ";
+                $js .= $stringUtil->sqt($v[2]);        // Source ID
+                $js .=  ", ";
+                $js .= $stringUtil->sqt($v[3]);        // Source DS
+                $js .= ")";
+                
+                $html .= " onChange=" . $stringUtil->dqt($js) . ";";
+
+            } catch (Exception $ex) {
+                throw $ex;
+            }
+            return $html;
         }        
 
     // End of class

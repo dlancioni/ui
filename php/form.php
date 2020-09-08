@@ -26,6 +26,8 @@ class Form extends Base {
         // General Declaration
         $k = "";
         $v = "";
+        $kid = 0;                        
+        $function = "";
 
         $js = "";
         $key = "";
@@ -179,16 +181,27 @@ class Form extends Base {
                     }
 
                     // Cascade logic
-                    $kid = 0;
+
                     foreach ($cascade as $field) {
+
+                        // Keep cascade configuration
+                        $kid = 0;                        
+                        $function = "";
                         $k = explode(".", $field["key"]);
                         $v = explode(";", $field["value"]);
+
+                        // Control dropdown on load
                         if (trim($item["field_name"]) == trim($v[0])) {
                             $kid = $data[0][$k[1]];
-                            if ($kid == 0) {
-                                $kid = -1;
-                            }
+                            if ($kid == 0) {$kid = -1;}
                             $filter->add($v[1], str_replace("_fk", "", $k[1]), $kid);
+                        }
+
+                        // Call cascade function
+                        if (trim($item["table_name"]) == trim($k[0])) {
+                            if (trim($item["field_name"]) == trim($k[1])) {
+                                $function = $this->element->createCascade($k, $v);
+                            }
                         }
                     }
 
@@ -203,6 +216,7 @@ class Form extends Base {
                                            $dataFk, 
                                            $key, 
                                            $value, 
+                                           $function,
                                            $this->PageEvent,
                                            $disabled));
                 }
