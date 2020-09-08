@@ -24,6 +24,10 @@ class Form extends Base {
     function createForm($tableId, $id=0) {
 
         // General Declaration
+        $k = "";
+        $v = "";
+        $noload = 0;
+
         $js = "";
         $key = "";
         $value = "";
@@ -175,8 +179,22 @@ class Form extends Base {
                         $filter = new Filter();                        
                     }
 
+                    // Cascade logic
+                    $noload = 0;        
+                    $kid = 0;            
+                    foreach ($cascade as $field) {
+                        $k = explode(".", $field["key"]);
+                        $v = explode(";", $field["value"]);
+                        if (trim($item["field_name"]) == trim($v[0])) {
+                            $noload = 1;
+                            $kid = $data[0][$k[1]];
+                            $filter->add($v[1], $k[1], $kid);
+                        }
+                    }
+
                     // Get related data and create element
-                    $dataFk = $this->sqlBuilder->Query($this->cn, $fk, $filter->create());
+                    $dataFk = $this->sqlBuilder->Query($this->cn, $fk, $filter->create());                        
+
                     $cols .= $this->element->
                         createTableCol($this->element->
                             createDropdown($fieldId,
@@ -185,7 +203,7 @@ class Form extends Base {
                                            $dataFk, 
                                            $key, 
                                            $value, 
-                                           $this->PageEvent, 
+                                           $this->PageEvent,
                                            $disabled));
                 }
 
