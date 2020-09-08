@@ -430,6 +430,12 @@
             
             try {
 
+                // Very special exception for field table
+                if (trim($k[1]) == "id_table_fk") {
+                    $k[1] = "id_table";
+                }
+
+                // Prepare function call
                 $js .= "cascade";
                 $js .= "(";
                 $js .= $stringUtil->sqt($v[0]);        // Target field
@@ -445,11 +451,14 @@
                 $js .= $stringUtil->sqt($v[3]);        // Source DS
                 $js .= ")";
                 
+                // Set up event
                 $html .= " onChange=" . $stringUtil->dqt($js) . ";";
 
             } catch (Exception $ex) {
                 throw $ex;
             }
+
+            // Return final function call
             return $html;
         }        
 

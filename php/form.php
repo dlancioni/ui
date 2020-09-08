@@ -186,7 +186,6 @@ class Form extends Base {
 
                         // Keep cascade configuration
                         $kid = 0;                        
-                        $function = "";
                         $k = explode(".", $field["key"]);
                         $v = explode(";", $field["value"]);
 
