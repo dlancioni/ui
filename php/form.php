@@ -81,7 +81,12 @@ class Form extends Base {
 
                 // Create field Id (rules according to event)
                 $rows .= $this->createId($data, $placeHolder, $disabled);
-            }            
+            }
+
+            // Keep cascade info for current transaction
+            $filter = new Filter();
+            $filter->add("tb_domain", "domain", "tb_cascade");
+            $cascade = $this->sqlBuilder->Query($this->cn, $this->TB_DOMAIN, $filter->create());            
 
             // Create base form
             foreach($this->tableDef as $item) {
