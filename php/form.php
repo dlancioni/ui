@@ -159,11 +159,11 @@ class Form extends Base {
                         $cols .= $this->element->
                             createTableCol($this->element->
                                 createTextbox($fieldId, 
-                                            $fieldName, 
-                                            $fieldValue, 
-                                            $placeHolder, 
-                                            $disabled, 
-                                            $this->PageEvent));
+                                              $fieldName,
+                                              $fieldValue,
+                                              $placeHolder,
+                                              $disabled,
+                                              $this->PageEvent));
                     }
 
                 } else {
@@ -181,7 +181,7 @@ class Form extends Base {
                     }
 
                     // Cascade logic
-
+                    $function = "";
                     foreach ($cascade as $field) {
 
                         // Keep cascade configuration
