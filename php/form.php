@@ -189,7 +189,7 @@ class Form extends Base {
                         $k = explode(".", $field["key"]);
                         $v = explode(";", $field["value"]);
 
-                        // Control dropdown on load (no filter)
+                        // Control dropdown on load
                         if (trim($item["field_name"]) == trim($v[0])) {
                             if (isset($data[0][$k[1]])) {
                                 $kid = $data[0][$k[1]];
