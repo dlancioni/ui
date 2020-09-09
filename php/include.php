@@ -12,6 +12,7 @@
     include "filter.php";
     include "element.php";
     include "menu.php";
-    include "tablelogic.php";
+    include "logictable.php";
+    include "logicfield.php";
     include "eventaction.php";
 ?>    

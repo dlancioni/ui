@@ -189,12 +189,17 @@ class Form extends Base {
                         $k = explode(".", $field["key"]);
                         $v = explode(";", $field["value"]);
 
-                        // Control dropdown on load
+                        // Control dropdown on load (no filter)
                         if (trim($item["field_name"]) == trim($v[0])) {
-                            $kid = $data[0][$k[1]];
-                            if ($kid == 0) {$kid = -1;}
+                            if ($this->Event != "Filter") {
+                                $kid = $data[0][$k[1]];
+                                if ($kid == 0) {$kid = -1;}
+                            } else {
+                                $kid = -1;
+                            }
                             $filter->add($v[1], str_replace("_fk", "", $k[1]), $kid);
                         }
+
 
                         // Call cascade function
                         if (trim($item["table_name"]) == trim($k[0])) {

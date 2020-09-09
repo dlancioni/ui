@@ -123,8 +123,11 @@
         // Get logic for current transaction
         switch ($tableName) {
             case "tb_table":
-                $logic = new TableLogic($cn, $sqlBuilder);
+                $logic = new LogicTable($cn, $sqlBuilder);
                 break;                
+            case "tb_field":
+                $logic = new LogicField($cn, $sqlBuilder);
+                break;
             default:  
                 $logic  = "";
         }

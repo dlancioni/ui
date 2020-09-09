@@ -1,5 +1,5 @@
 <?php
-    class TableLogic extends Base {
+    class LogicTable extends Base {
 
         // Private members
         private $cn = 0;
