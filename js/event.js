@@ -71,3 +71,67 @@ function formClear() {
         }
     }    
 }
+
+/*
+ * Shortcut to manipulate native functionalities
+ */
+function __shortcut__(e) {
+
+    // Navigate on menu
+    if (e.which == 49) {
+        if (e.altKey) {go(1, 1);}
+    }    
+    if (e.which == 50) {
+        if (e.altKey) {go(2, 1);}
+    }
+    if (e.which == 51) {
+        if (e.altKey) {go(3, 1);}
+    }
+    if (e.which == 52) {
+        if (e.altKey) {go(4, 1);}
+    }
+    if (e.which == 53) {
+        if (e.altKey) {go(5, 1);}
+    }
+    if (e.which == 54) {
+        if (e.altKey) {go(6, 1);}
+    }
+    if (e.which == 55) {
+        if (e.altKey) {go(7, 1);}
+    }
+    if (e.which == 56) {
+        if (e.altKey) {go(8, 1);}
+    }
+
+    // Buttons
+    if (e.which == 49) {
+        if (e.ctrlKey) {formNew(getTable());}
+    }
+    if (e.which == 50) {
+        if (e.ctrlKey) {formEdit(getTable());}
+    }
+    if (e.which == 51) {
+        if (e.ctrlKey) {formEdit(getTable());}
+    }
+    if (e.which == 52) {
+        if (e.ctrlKey) {formFilter(getTable());}
+    }
+
+    // Confirm, Clear, Back
+    if (e.which == 53) {
+        confirm();
+    }
+    if (e.which == 54) {
+        if (e.ctrlKey) {formClear();}
+    }
+    if (e.which == 55) {
+        if (e.ctrlKey) {reportBack();}
+    }
+    if (e.which == 56) {
+        if (e.ctrlKey) {
+            setPaging(0);
+            go(getTable(), 1, getEvent());    
+        }
+    }
+
+}

@@ -12,7 +12,7 @@ include "php/page.php";
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="css/w3.css">
 
-<body onload="<?php echo $onLoadFunctions; ?>">
+<body onKeyDown="__shortcut__(event)" onload="<?php echo $onLoadFunctions; ?>">
 <form id="form1" name="form1" action="index.php" method="post">
 
     <div class="w3-row w3-container">       
