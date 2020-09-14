@@ -16,6 +16,9 @@ function confirm() {
     }
 }
 
+/*
+ * Basic operations
+ */
 function formNew($tableId) {
     setFormat(2);
     setEvent("New");
@@ -41,12 +44,8 @@ function reportBack($tableId) {
     setEvent("Back");
     submit();
 }
-
-
-function formClear() {
-    
+function formClear() {   
     let elements = "";
-
     // Clear text
     elements = document.querySelectorAll("input[type=text]")
     for (let i=0, element; element=elements[i++];) {
@@ -54,7 +53,6 @@ function formClear() {
             element.value = "";
         }
     }
-
     // Clear dropdown
     elements = document.querySelectorAll("select")
     for (let i=0, element; element=elements[i++];) {
@@ -62,7 +60,6 @@ function formClear() {
             element.value = 0;
         }
     }
-
     // Clear textarea    
     elements = document.querySelectorAll("textarea")
     for (let i=0, element; element=elements[i++];) {
