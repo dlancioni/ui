@@ -8,7 +8,7 @@ class HTTPService {
     query(param) {
 
         // General declaration
-        let url = "./php/" + param;
+        let url = "./php/query.php?param=" + param;
 
         // Just call it
         var xmlhttp = new XMLHttpRequest();

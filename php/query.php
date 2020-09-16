@@ -17,7 +17,7 @@
     try {
 
         // Request query
-        $sql = $_REQUEST["sql"];
+        $sql = $_REQUEST["param"];
 
         // DB interface
         $db = new Db();       
@@ -30,7 +30,7 @@
         $rs = $db->queryJson($cn, $sql);
 
         // Par string
-        $json = json_encode($rs);
+        $json = json_encode($rs, JSON_UNESCAPED_UNICODE);
 
     } catch (Exception $ex) {        
 
