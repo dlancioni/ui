@@ -15,6 +15,12 @@ include "php/page.php";
 <body onKeyDown="__shortcut__(event)" onload="<?php echo $onLoadFunctions; ?>">
 <form id="form1" name="form1" action="index.php" method="post">
 
+    <div class="w3-container" >
+        <div class="w3-panel w3-black">
+            <p>Forms 1.0</p>
+        </div> 
+    </div>     
+
     <div class="w3-row">
         <div class="w3-quarter w3-container" >
             <?php echo $mainMenu; ?>
