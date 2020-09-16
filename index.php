@@ -15,10 +15,22 @@ include "php/page.php";
 <body onKeyDown="__shortcut__(event)" onload="<?php echo $onLoadFunctions; ?>">
 <form id="form1" name="form1" action="index.php" method="post">
 
+    <br>
     <div class="w3-container" >
-        <div class="w3-panel w3-black">
-            <p>Forms 1.0</p>
-        </div> 
+        <div class="w3-row">
+            <div class="w3-container w3-quarter w3-black">
+                <p>Home</p>
+            </div>
+            <div class="w3-container w3-quarter w3-black">
+                <p>&nbsp;</p>
+            </div>
+            <div class="w3-container w3-quarter w3-black">
+                <p>&nbsp;</p>
+            </div>
+            <div class="w3-container w3-quarter w3-black">
+                <p>&nbsp;</p>
+            </div>
+        </div>
     </div>     
 
     <div class="w3-row">
