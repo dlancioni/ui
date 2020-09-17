@@ -226,7 +226,7 @@ class Form extends Base {
             }
 
             // Create page title
-            $html .= $this->element->createPageTitle($tableId);
+            $html .= $this->element->createPageTitle($tableId, $this->Event);
 
             // Finalize form
             $html .= $this->element->createForm("form1", $this->element->createTable($rows));

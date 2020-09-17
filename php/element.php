@@ -194,7 +194,9 @@
         public function createTable($value) {
             $html = "";
             try {
-                $html = "<table>$value</table>";
+                $html .="<div style='overflow-x:auto;'>";
+                $html .= "<table class='w3-table w3-striped'>$value</table>";
+                $html .="</div>";
             } catch (Exception $ex) {
                 throw $ex;
             }
@@ -258,7 +260,7 @@
         /* 
          * Create page title
          */
-        public function createPageTitle($tableId) {
+        public function createPageTitle($tableId, $event="") {
 
             // General declartion 
             $html = "";
@@ -269,8 +271,26 @@
                 $filter = new Filter();
                 $filter->add("tb_table", "id", $tableId);
                 $data = $this->sqlBuilder->Query($this->cn, $this->sqlBuilder->TB_TABLE, $filter->create(), $this->sqlBuilder->QUERY_NO_PAGING);
-                $pageTitle = $data[0]["name"];                
-                $html = "<h4>$pageTitle</h4>";
+                $pageTitle = $data[0]["name"];  
+                
+                switch ($event) {
+                    case "New":
+                        $html .= "<h3><i class='fa fa-sticky-note-o' style='font-size:20px;'></i> $pageTitle</h3>";
+                        break;
+                    case "Edit":
+                        $html .= "<h3><i class='fa fa-pencil-square-o' style='font-size:20px;'></i> $pageTitle</h3>";
+                        break;
+                    case "Delete":
+                        $html .= "<h3><i class='fa fa-remove' style='font-size:20px;'></i> $pageTitle</h3>";
+                        break;
+                    case "Filter":
+                        $html .= "<h3><i class='fa fa-filter' style='font-size:20px;'></i> $pageTitle</h3>";
+                        break;
+                    default:    
+                        $html .= "<h3>$pageTitle</h3>";
+                }
+                
+
             } catch (Exception $ex) {
                 throw $ex;
             }
