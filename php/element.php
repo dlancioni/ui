@@ -160,6 +160,7 @@
                 $html .= " name=" . $stringUtil->dqt($name); 
                 $html .= " value=" . $stringUtil->dqt($value); 
                 $html .= " " . $event . "=" . $stringUtil->dqt($code);
+                $html .= " class=" . $stringUtil->dqt("w3-button w3-blue");                 
                 $html .= ">";
                 $html .= "&nbsp;";
             } catch (Exception $ex) {
