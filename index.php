@@ -43,7 +43,7 @@ include "php/page.php";
                     David Lancioni
                 </center>                        
             </div>
-            <hr>
+
             <div class="w3-panel w3-card">
                 <?php echo $mainMenu; ?>
             </div>
