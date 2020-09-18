@@ -138,32 +138,26 @@ class Form extends Base {
                                                 $fk);
                 
                 // Add label                
-                $cols .= $this->element->
-                    createTableCol($this->element->
-                        createLabel($fieldLabel, $fieldName));
+                $cols .= $this->element->createLabel($fieldLabel, $fieldName);
 
                 // Add field (textbox or dropdown)
                 if ($fk == 0) {
 
                     // Append textbox or text area
                     if ($fieldType == $TEXT_AREA) {
-                        $cols .= $this->element->
-                            createTableCol($this->element->
-                            createTextarea($fieldId, 
-                                           $fieldName, 
-                                           $fieldValue, 
-                                           $disabled, 
-                                           $this->PageEvent));
+                        $cols .= $this->element->createTextarea($fieldId, 
+                                                                $fieldName, 
+                                                                $fieldValue, 
+                                                                $disabled, 
+                                                                $this->PageEvent);
                     } else {
 
-                        $cols .= $this->element->
-                            createTableCol($this->element->
-                                createTextbox($fieldId, 
-                                              $fieldName,
-                                              $fieldValue,
-                                              $placeHolder,
-                                              $disabled,
-                                              $this->PageEvent));
+                        $cols .= $this->element->createTextbox($fieldId, 
+                                                               $fieldName,
+                                                               $fieldValue,
+                                                               $placeHolder,
+                                                               $disabled,
+                                                               $this->PageEvent);
                     }
 
                 } else {
@@ -208,31 +202,29 @@ class Form extends Base {
                     // Get related data and create element
                     $dataFk = $this->sqlBuilder->Query($this->cn, $fk, $filter->create());                        
 
-                    $cols .= $this->element->
-                        createTableCol($this->element->
-                            createDropdown($fieldId,
-                                           $fieldName, 
-                                           $fieldValue, 
-                                           $dataFk, 
-                                           $key, 
-                                           $value, 
-                                           $function,
-                                           $this->PageEvent,
-                                           $disabled));
+                    $cols .= $this->element->createDropdown($fieldId,
+                                                            $fieldName, 
+                                                            $fieldValue, 
+                                                            $dataFk, 
+                                                            $key, 
+                                                            $value, 
+                                                            $function,
+                                                            $this->PageEvent,
+                                                            $disabled);
                 }
 
                 // Add current col to rows
-                $rows .= $this->element->createTableRow($cols);
+                $rows .= $cols;
             }
 
             // Create page title
             $html .= $this->element->createPageTitle($tableId, $this->Event);
 
             // Finalize form
-            $html .= $this->element->createForm("form1", $this->element->createTable($rows));
+            $html .= $this->element->createForm("form1", $rows);
 
             // Add validateForm function
-            $html .= $this->element->createScript($js);            
+            $html .= $this->element->createScript($js);
 
 
         } catch (Exception $ex) {

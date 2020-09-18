@@ -25,9 +25,6 @@
                 // Create objects
                 $element = new HTMLElement($this->cn, $this->sqlBuilder);
 
-                // Space between form and buttons
-                $html = "<br><br>";
-
                 // Create event list
                 foreach ($pageEvent as $item) {
 

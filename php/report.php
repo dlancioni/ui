@@ -131,6 +131,10 @@ class Report extends Base {
             $html .= $this->element->createPaging($recordCount, 
                                                   $this->sqlBuilder->PageSize, 
                                                   $this->sqlBuilder->PageOffset);
+
+            // Space between form and buttons
+            $html .= "<br><br>";
+
         } catch (Exception $ex) {
             $html = '{"status":"fail", "error":' . $ex->getMessage() . '}';
         }

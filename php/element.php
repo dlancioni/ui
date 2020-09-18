@@ -39,6 +39,7 @@
                 $html .= " id=" . $stringUtil->dqt($name); 
                 $html .= " name=" . $stringUtil->dqt($name); 
                 $html .= " value=" . $stringUtil->dqt($value);
+                $html .= " class=" . $stringUtil->dqt("w3-input w3-border");
 
                 if ($placeholder != "")
                     $html .= " placeholder=" . $stringUtil->dqt($placeholder);
@@ -50,6 +51,7 @@
                     $html .= $this->getEvent($fieldId, $fieldEvent);
 
                 $html .= ">";
+                $html .= "<br>";
 
             } catch (Exception $ex) {
                 throw $ex;
@@ -77,6 +79,8 @@
                 $html .= ">";
                 $html .= $value;
                 $html .= "</textarea>";
+                $html .= "<br>";
+
             } catch (Exception $ex) {
                 throw $ex;
             }
@@ -102,6 +106,7 @@
                 $html .= "<select";
                 $html .= " id=" . $stringUtil->dqt($fieldName); 
                 $html .= " name=" . $stringUtil->dqt($fieldName);
+                $html .= " class=" . $stringUtil->dqt("w3-select w3-border");
 
                 if (trim($function) != "") 
                     $html .= $function;
@@ -138,6 +143,8 @@
 
                 // Close dropdown
                 $html .= "</select>";
+
+                $html .= "<br><br>";
 
             } catch (Exception $ex) {
                 throw $ex;
