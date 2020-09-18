@@ -43,7 +43,7 @@ class Report extends Base {
         $fk = 0;
         $recordCount = 0;       
         $numberUtil = "";
-        $PAGE_SIZE = 20;
+        $PAGE_SIZE = 15;
 
         try {
 

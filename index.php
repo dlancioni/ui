@@ -16,7 +16,7 @@ include "php/page.php";
 <body onKeyDown="__shortcut__(event)" onload="<?php echo $onLoadFunctions; ?>">
 <form id="form1" name="form1" action="index.php" method="post">
 
-    <br>
+
     <div class="w3-container" >
         <div class="w3-row">
             <div class="w3-container w3-quarter w3-black">
@@ -32,14 +32,27 @@ include "php/page.php";
                 <p>&nbsp;</p>
             </div>
         </div>
-    </div>     
+    </div>
 
     <div class="w3-row">
         <div class="w3-quarter w3-container" >
-            <?php echo $mainMenu; ?>
+            <div class="w3-panel w3-card">
+                <center>
+                    <img src="img/man.png" width="100" heigth="100">
+                    <br>
+                    David Lancioni
+                </center>                        
+            </div>
+            <hr>
+            <div class="w3-panel w3-card">
+                <?php echo $mainMenu; ?>
+            </div>
         </div>
-        <div class="w3-threequarter w3-container">
+
+        <div class="w3-threequarter w3-container">            
+            <div class="w3-panel w3-card">
             <?php echo $html;?>
+            </div>            
         </div>
     </div>
 

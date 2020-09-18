@@ -37,6 +37,8 @@
                     }
                 }
 
+                $html .= "<br><br>";
+
             } catch (Exception $ex) {                    
                 // Error handler
                 $html = '{"status":"fail", "error":' . $ex->getMessage() . '}';
