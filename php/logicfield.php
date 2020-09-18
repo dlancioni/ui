@@ -33,7 +33,6 @@
                         throw new Exception($msg);
                     }
                 }
-               
 
             } catch (Exception $ex) {
 
