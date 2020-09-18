@@ -69,7 +69,8 @@
             $id = 0;
 
             // Create main menu
-            $this->append("<ul>");
+            $this->append("<ul class='fa-ul'>");
+            
 
             foreach($array as $k => $v) {
                 if (is_array($v)) {
@@ -93,6 +94,7 @@
         private function createLink($id, $label) {
             $html = "";
             $html .= "<li>";
+            $html .= "<span class='fa-li'><i class='fa fa-angle-right'></i></span>";            
             $html .= "<a onclick='go(" . $id . ", 1)'>" . $label . "</a>" . "&nbsp;&nbsp;";
             $html .= "</li>";
             return $html;
