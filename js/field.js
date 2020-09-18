@@ -51,7 +51,7 @@ function cascade(fieldTarget, fieldName, fieldValue, tableName, id, ds) {
     url += "&ds=" + ds;
 
     let httpService = new HTTPService();
-    data = httpService.query(url);
+    data = httpService.execute(url);
 
     if (data != "") {
 

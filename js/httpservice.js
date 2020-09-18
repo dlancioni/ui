@@ -4,8 +4,8 @@ class HTTPService {
     constructor() {
     }
 
-    // Query Data
-    query(param) {
+    // Query database
+    query (param) {
 
         // General declaration
         let url = "./php/query.php?param=" + param;
@@ -24,7 +24,7 @@ class HTTPService {
         }
     }
 
-    persist(formData) {
+    persist (formData) {
 
         // General declaration
         let url = "./php/persist.php?" + formData;
@@ -42,4 +42,24 @@ class HTTPService {
             return xmlhttp.status;
         }
     }
+
+    // Query database
+    execute (url) {
+
+        url = "./php/" + url;
+
+        // Just call it
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("GET", url, false);
+        xmlhttp.setRequestHeader("Content-Type", "text/plain, charset=UTF-8");
+        xmlhttp.send(null);
+
+        // Handle status
+        if (xmlhttp.status == 200) {
+            return xmlhttp.responseText;
+        } else {
+            return xmlhttp.status;
+        }
+    }
+
 }

@@ -119,7 +119,7 @@
                 $html .= ">";
 
                 // Empty item
-                $html .= '<option value="0">Select</option>';
+                $html .= '<option value="0">Selecionar</option>';
 
                 // Add options
                 foreach ($dataFk as $item) {
