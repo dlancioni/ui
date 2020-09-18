@@ -71,6 +71,7 @@
                 $html .= " name=" . $stringUtil->dqt($fieldName); 
                 $html .= " rows=" . $stringUtil->dqt("10");
                 $html .= " cols=" . $stringUtil->dqt("50");
+                $html .= " class=" . $stringUtil->dqt("w3-input w3-border");
                 $html .= " " . $disabled;
 
                 if ($fieldEvent)
@@ -144,6 +145,7 @@
                 // Close dropdown
                 $html .= "</select>";
 
+                // Separete controls
                 $html .= "<br><br>";
 
             } catch (Exception $ex) {
