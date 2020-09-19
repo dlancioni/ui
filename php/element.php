@@ -40,7 +40,8 @@
                 $html .= " name=" . $stringUtil->dqt($name); 
                 $html .= " value=" . $stringUtil->dqt($value);
                 $html .= " class=" . $stringUtil->dqt("w3-input w3-border");
-
+                $html .= " style='width:50%'";
+                
                 if ($placeholder != "")
                     $html .= " placeholder=" . $stringUtil->dqt($placeholder);
 
@@ -67,6 +68,7 @@
             $stringUtil = new StringUtil();
             try {
                 $html .= "<textarea";
+                $html .= " style='width:50%'";                
                 $html .= " id=" . $stringUtil->dqt($fieldName); 
                 $html .= " name=" . $stringUtil->dqt($fieldName); 
                 $html .= " rows=" . $stringUtil->dqt("10");
@@ -104,10 +106,12 @@
             try {
 
                 // Open dropdown
+                $html .= "<br>";
                 $html .= "<select";
                 $html .= " id=" . $stringUtil->dqt($fieldName); 
                 $html .= " name=" . $stringUtil->dqt($fieldName);
                 $html .= " class=" . $stringUtil->dqt("w3-select w3-border");
+                $html .= " style='width:50%'";
 
                 if (trim($function) != "") 
                     $html .= $function;
