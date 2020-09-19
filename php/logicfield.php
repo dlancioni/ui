@@ -20,11 +20,28 @@
 
             // General declaration
             $msg = "";
+            $data = "";
             $message = "";
             $jsonUtil = new JsonUtil();
             $message = new Message($this->cn, $this->sqlBuilder);
 
             try {
+
+                // Validate transaction where field is been added
+                switch ($this->sqlBuilder->getEvent()) {
+                    case "New":
+                    case "Edit":
+                        $filter = new Filter();
+                        $filter->addCondition("tb_table", "id", "int", "=", $jsonUtil->getValue($new, "id_table"));
+                        $data = $this->sqlBuilder->Query($this->cn, $this->sqlBuilder->TB_TABLE, $filter->create());
+                        if ($data) {
+                            if ($data[0]["id_type"] == 3) {
+                                $msg = $message->getValue("A10");
+                                throw new Exception($msg);
+                            }
+                        }
+                        break;                        
+                }
 
                 // Validate TableFK without field - it causes system crash
                 if ($jsonUtil->getValue($new, "id_table_fk") != "0") {
