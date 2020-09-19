@@ -23,35 +23,38 @@ html, body, h1, h2, h3, h4, h5, h6 {
 
     <br>
 
-    <div class="w3-container" >
+    <div class="w3-container">
+
         <div class="w3-row">
             <div class="w3-container w3-black">
                 <img src="img/home.png" width="50" heigth="50">
             </div>
         </div>
-    </div>
 
-    <div class="w3-row">
-        <div class="w3-quarter w3-container" >
-            <div class="w3-panel w3-card">
-                <center>
-                    <img src="img/man.png" width="100" heigth="100">
-                    <br>
-                    David Lancioni
-                </center>                        
+        <div class="w3-row">
+
+            <div class="w3-quarter">
+                <div class="w3-panel">
+                    <?php echo $mainMenu; ?>
+                </div>
             </div>
 
-            <div class="w3-panel w3-card">
-                <?php echo $mainMenu; ?>
+            <div class="w3-half">
+                <div class="w3-panel">
+                <?php echo $html;?>
+                </div>            
             </div>
-        </div>
 
-        <div class="w3-threequarter w3-container">            
-            <div class="w3-panel w3-card">
-            <?php echo $html;?>
-            </div>            
+            <div class="w3-quarter" >
+                <div class="w3-panel">
+                    <?php echo $mainMenu; ?>
+                </div>
+            </div>
+            
         </div>
     </div>
+
+
 
     <input type="hidden" id="_TABLE_" name="_TABLE_" value="<?php echo $tableId; ?>">
     <input type="hidden" id="_FORMAT_" name="_FORMAT_" value="<?php echo $format; ?>">
