@@ -156,12 +156,23 @@ class SqlBuilder extends Base {
 
         try {
 
+            // Table name
+            $tableName = trim($tableDef[0]["table_name"]);
+
             // Get id            
             $sql .= "select ";
-            $sql .= trim($tableDef[0]["table_name"]) . ".id,";
-            $sql .= "count(*) over() as record_count";
 
-            // Generate select list            
+            // Count over pagination
+            $sql .= "count(*) over() as record_count,";
+
+            // System fields
+            $sql .= $jsonUtil->select($tableName, "id_system", "int", "id_system") . ",";
+            $sql .= $jsonUtil->select($tableName, "id_group", "int", "id_group") . ",";
+
+            // Base ID            
+            $sql .= trim($tableDef[0]["table_name"]) . ".id";
+
+            // Field list
             foreach ($tableDef as $row) {
 
                 // Keep info

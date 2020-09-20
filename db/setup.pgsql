@@ -81,8 +81,8 @@ insert into tb_field (field) values ('{"id_system":1,"id_group":1,"id_table":8,"
 -- 4 TB_DOMAIN
 -- -----------------------------------------------------
 -- tb_table_type
-insert into tb_domain (field) values ('{"id_system":1,"id_group":1,"key":"1","value":"Sistema","domain":"tb_table_type"}');
-insert into tb_domain (field) values ('{"id_system":1,"id_group":1,"key":"2","value":"Usuário","domain":"tb_table_type"}');
+insert into tb_domain (field) values ('{"id_system":1,"id_group":1,"key":"1","value":"Formulário","domain":"tb_table_type"}');
+insert into tb_domain (field) values ('{"id_system":1,"id_group":1,"key":"2","value":"Relatório","domain":"tb_table_type"}');
 insert into tb_domain (field) values ('{"id_system":1,"id_group":1,"key":"3","value":"Menu","domain":"tb_table_type"}');
 -- tb_bool
 insert into tb_domain (field) values ('{"id_system":1,"id_group":1,"key":"1","value":"Sim","domain":"tb_bool"}');

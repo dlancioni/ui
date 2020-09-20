@@ -47,13 +47,13 @@
         // Object instances
         $jsonUtil = new JsonUtil();
         $stringUtil = new StringUtil();
-        $numberUtil = new NumberUtil();        
+        $numberUtil = new NumberUtil();
         $message = new Message($cn, $sqlBuilder);
 
         // Get table structure
         $tableDef = $sqlBuilder->getTableDef($cn);
         if ($tableDef) {
-            $tableId = $_SESSION["_TABLE_"];            
+            $tableId = $_SESSION["_TABLE_"];
             $tableName = $tableDef[0]["table_name"];
             $event = $_SESSION["_EVENT_"];            
         }
