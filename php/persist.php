@@ -58,8 +58,10 @@
             $event = $_SESSION["_EVENT_"];            
         }
 
-        // Get exiting record
+        // Rules for update/delete
         if ($event == "Edit" || $event == "Delete") {
+
+            // Get existing record
             $filter = new Filter();
             $filter->add($tableName, "id", $sqlBuilder->getLastId());
             $data = $sqlBuilder->Query($cn, $tableId, $filter->create(), $sqlBuilder->QUERY_NO_JOIN);
@@ -68,6 +70,12 @@
                 $old = $stringUtil->RemoveSpecialChar($old);
                 $new = $old;
             }
+
+            // Cannot touch system info
+            if ($jsonUtil->getValue($old, "id_group", true) == "1") {
+                $msg = $message->getValue("A11", $key);
+                throw new Exception($msg);
+            }            
         }
 
         // Read form
@@ -115,7 +123,7 @@
                 if (count($data) > 0) {
                     $key =  rtrim($key, ", ");
                     $msg = $message->getValue("A4", $key);
-                    throw new Exception($msg);                    
+                    throw new Exception($msg);
                 }
             }
         }
