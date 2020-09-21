@@ -15,7 +15,7 @@
         /*
          * Create main menu
          */
-        public function createMenu() {
+        public function createMenu($systemId, $userId) {
 
             // General Declaration            
             $html = "";
@@ -26,11 +26,16 @@
 
             try {
 
-                // Get menu and table
+                // Get transactions applying access control
                 $filter = new Filter();
-                $table = $this->sqlBuilder->executeQuery($this->cn, $this->TB_TABLE, $filter->create());
+                $filter->add("tb_table", "id_system", $systemId);
+                $filter->add("tb_user_profile", "id_user", $userId);
+                $table = $this->sqlBuilder->executeView($this->cn, 1, $filter->create());
 
+                // Transform data in treeview structure
                 $x = $this->prepareTree($table);
+
+                // Write the tree
                 $this->writeTree($x);
 
             } catch (Exception $ex) {

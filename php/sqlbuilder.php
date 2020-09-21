@@ -63,6 +63,9 @@ class SqlBuilder extends Base {
     public function executeView($cn, $viewId="", $filter="[]", $queryType=1) {
 
         // General Declaration
+        $i = 0;
+        $old = "";
+        $new = "";
         $rs = "";
         $json = "";
         $query = "";
@@ -71,11 +74,20 @@ class SqlBuilder extends Base {
         try {
 
             // Get existing record
-            $filter = new Filter();
-            $filter->add("tb_view", "id", $viewId);
-            $rs = $this->Query($cn, $this->TB_VIEW, $filter->create(), $this->QUERY_NO_JOIN);
+            $filterView = new Filter();
+            $filterView->add("tb_view", "id", $viewId);
+            $rs = $this->executeQuery($cn, $this->TB_VIEW, $filterView->create(), $this->QUERY_NO_JOIN);
             if (count($rs) > 0) {
                 $query = $rs[0]["sql"];
+            }
+
+            // Apply parameters
+            $filter = json_decode($filter, true);
+            foreach ($filter as $item) {
+                $i ++;
+                $old = "p" . $i;
+                $new = $item['value'];                
+                $query = str_replace($old, $new, $query);
             }
 
             // Transform results to json

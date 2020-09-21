@@ -32,7 +32,7 @@
         $pageEvent = $sqlBuilder->executeQuery($cn, $sqlBuilder->TB_EVENT, $filter->create(), $sqlBuilder->QUERY_NO_PAGING);
 
         // Create main menu
-        $menu->createMenu();
+        $menu->createMenu($systemId, $userId);
         $mainMenu = $menu->html;        
 
         // Create table or form
