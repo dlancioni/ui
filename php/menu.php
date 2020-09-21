@@ -28,7 +28,7 @@
 
                 // Get menu and table
                 $filter = new Filter();
-                $table = $this->sqlBuilder->Query($this->cn, $this->TB_TABLE, $filter->create());
+                $table = $this->sqlBuilder->executeQuery($this->cn, $this->TB_TABLE, $filter->create());
 
                 $x = $this->prepareTree($table);
                 $this->writeTree($x);

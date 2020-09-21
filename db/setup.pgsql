@@ -14,6 +14,7 @@ drop table if exists tb_event cascade;      create table if not exists tb_event 
 drop table if exists tb_action cascade;     create table if not exists tb_action (id serial, field jsonb);
 drop table if exists tb_code cascade;       create table if not exists tb_code (id serial, field jsonb);
 drop table if exists tb_group cascade;      create table if not exists tb_group (id serial, field jsonb);
+drop table if exists tb_view cascade;       create table if not exists tb_view (id serial, field jsonb);
 
 -- -----------------------------------------------------
 -- 1 TB_SYSTEM
@@ -23,14 +24,15 @@ insert into tb_system (field) values ('{"name":"Forms","expire_date":"31/12/2020
 -- -----------------------------------------------------
 -- 2 TB_TABLE
 -- -----------------------------------------------------
-insert into tb_table (field) values ('{"id_system":1,"id_group":1,"name":"Sistemas","id_type":1,"table_name":"tb_system","id_parent":9}');
-insert into tb_table (field) values ('{"id_system":1,"id_group":1,"name":"Transações","id_type":1,"table_name":"tb_table","id_parent":9}');
-insert into tb_table (field) values ('{"id_system":1,"id_group":1,"name":"Campos","id_type":1,"table_name":"tb_field","id_parent":9}');
-insert into tb_table (field) values ('{"id_system":1,"id_group":1,"name":"Domínios","id_type":1,"table_name":"tb_domain","id_parent":9}');
-insert into tb_table (field) values ('{"id_system":1,"id_group":1,"name":"Eventos","id_type":1,"table_name":"tb_event","id_parent":9}');
-insert into tb_table (field) values ('{"id_system":1,"id_group":1,"name":"Ações","id_type":1,"table_name":"tb_action","id_parent":9}');
-insert into tb_table (field) values ('{"id_system":1,"id_group":1,"name":"Programação","id_type":1,"table_name":"tb_code","id_parent":9}');
-insert into tb_table (field) values ('{"id_system":1,"id_group":1,"name":"Grupos","id_type":1,"table_name":"tb_group","id_parent":9}');
+insert into tb_table (field) values ('{"id_system":1,"id_group":1,"name":"Sistemas","id_type":1,"table_name":"tb_system","id_parent":10}');
+insert into tb_table (field) values ('{"id_system":1,"id_group":1,"name":"Transações","id_type":1,"table_name":"tb_table","id_parent":10}');
+insert into tb_table (field) values ('{"id_system":1,"id_group":1,"name":"Campos","id_type":1,"table_name":"tb_field","id_parent":10}');
+insert into tb_table (field) values ('{"id_system":1,"id_group":1,"name":"Domínios","id_type":1,"table_name":"tb_domain","id_parent":10}');
+insert into tb_table (field) values ('{"id_system":1,"id_group":1,"name":"Eventos","id_type":1,"table_name":"tb_event","id_parent":10}');
+insert into tb_table (field) values ('{"id_system":1,"id_group":1,"name":"Ações","id_type":1,"table_name":"tb_action","id_parent":10}');
+insert into tb_table (field) values ('{"id_system":1,"id_group":1,"name":"Programação","id_type":1,"table_name":"tb_code","id_parent":10}');
+insert into tb_table (field) values ('{"id_system":1,"id_group":1,"name":"Grupos","id_type":1,"table_name":"tb_group","id_parent":10}');
+insert into tb_table (field) values ('{"id_system":1,"id_group":1,"name":"Visão","id_type":1,"table_name":"tb_view","id_parent":10}');
 insert into tb_table (field) values ('{"id_system":1,"id_group":1,"name":"Administração","id_type":3,"table_name":"","id_parent":0}');      -- MENU
 
 -- -----------------------------------------------------
@@ -76,6 +78,9 @@ insert into tb_field (field) values ('{"id_system":1,"id_group":1,"id_table":7,"
 insert into tb_field (field) values ('{"id_system":1,"id_group":1,"id_table":7,"label":"Código","name":"code","id_type":6,"size":500,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
 -- tb_group
 insert into tb_field (field) values ('{"id_system":1,"id_group":1,"id_table":8,"label":"Nome","name":"name","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
+-- tb_view
+insert into tb_field (field) values ('{"id_system":1,"id_group":1,"id_table":9,"label":"Nome","name":"name","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
+insert into tb_field (field) values ('{"id_system":1,"id_group":1,"id_table":9,"label":"SQL","name":"sql","id_type":6,"size":5000,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
 
 -- -----------------------------------------------------
 -- 4 TB_DOMAIN

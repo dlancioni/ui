@@ -24,6 +24,7 @@
         public $TB_ACTION = 6;
         public $TB_CODE = 7;
         public $TB_GROUP = 8;
+        public $TB_VIEW = 9;
 
         // Constructor
         function __construct($systemId, $tableId, $userId, $groupId) {

@@ -29,7 +29,7 @@
         $filter = new Filter();
         $filter->add("tb_event", "id_target", $format);
         $filter->add("tb_event", "id_table", $tableId);
-        $pageEvent = $sqlBuilder->Query($cn, $sqlBuilder->TB_EVENT, $filter->create(), $sqlBuilder->QUERY_NO_PAGING);
+        $pageEvent = $sqlBuilder->executeQuery($cn, $sqlBuilder->TB_EVENT, $filter->create(), $sqlBuilder->QUERY_NO_PAGING);
 
         // Create main menu
         $menu->createMenu();

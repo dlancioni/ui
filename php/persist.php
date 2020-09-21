@@ -64,7 +64,7 @@
             // Get existing record
             $filter = new Filter();
             $filter->add($tableName, "id", $sqlBuilder->getLastId());
-            $data = $sqlBuilder->Query($cn, $tableId, $filter->create(), $sqlBuilder->QUERY_NO_JOIN);
+            $data = $sqlBuilder->executeQuery($cn, $tableId, $filter->create(), $sqlBuilder->QUERY_NO_JOIN);
             if (count($data) > 0) {
                 $old = json_encode($data[0]);
                 $old = $stringUtil->RemoveSpecialChar($old);
@@ -119,7 +119,7 @@
 
             // Check if values already exists
             if ($filter->create() != "[]") {
-                $data = $sqlBuilder->Query($cn, $tableId, $filter->create(), $sqlBuilder->QUERY_NO_JOIN);
+                $data = $sqlBuilder->executeQuery($cn, $tableId, $filter->create(), $sqlBuilder->QUERY_NO_JOIN);
                 if (count($data) > 0) {
                     $key =  rtrim($key, ", ");
                     $msg = $message->getValue("A4", $key);

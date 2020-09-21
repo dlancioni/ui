@@ -33,7 +33,7 @@
                     case "Edit":
                         $filter = new Filter();
                         $filter->addCondition("tb_table", "id", "int", "=", $jsonUtil->getValue($new, "id_table"));
-                        $data = $this->sqlBuilder->Query($this->cn, $this->sqlBuilder->TB_TABLE, $filter->create());
+                        $data = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_TABLE, $filter->create());
                         if ($data) {
                             if ($data[0]["id_type"] == 3) {
                                 $msg = $message->getValue("A10");

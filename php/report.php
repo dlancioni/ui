@@ -68,7 +68,7 @@ class Report extends Base {
             // Paging
             $this->sqlBuilder->PageSize = $PAGE_SIZE;
             $this->sqlBuilder->PageOffset = $this->PageOffset;
-            $data = $this->sqlBuilder->Query($this->cn, $tableId, $filter->create());
+            $data = $this->sqlBuilder->executeQuery($this->cn, $tableId, $filter->create());
             if ($data) {
                 $recordCount = $data[0]["record_count"];
             }

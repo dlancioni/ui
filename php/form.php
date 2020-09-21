@@ -81,7 +81,7 @@ class Form extends Base {
                     // Get data
                     $filter = new Filter();
                     $filter->add($this->tableDef[0]["table_name"], "id", $id);
-                    $data = $this->sqlBuilder->Query($this->cn, $tableId, $filter->create());
+                    $data = $this->sqlBuilder->executeQuery($this->cn, $tableId, $filter->create());
                 }
 
                 // Create field Id (rules according to event)
@@ -91,7 +91,7 @@ class Form extends Base {
             // Keep cascade info for current transaction
             $filter = new Filter();
             $filter->add("tb_domain", "domain", "tb_cascade");
-            $cascade = $this->sqlBuilder->Query($this->cn, $this->TB_DOMAIN, $filter->create());            
+            $cascade = $this->sqlBuilder->executeQuery($this->cn, $this->TB_DOMAIN, $filter->create());            
 
             // Create base form
             foreach($this->tableDef as $item) {
@@ -200,7 +200,7 @@ class Form extends Base {
                     }
 
                     // Get related data and create element
-                    $dataFk = $this->sqlBuilder->Query($this->cn, $fk, $filter->create());                        
+                    $dataFk = $this->sqlBuilder->executeQuery($this->cn, $fk, $filter->create());                        
 
                     $cols .= $this->element->createDropdown($fieldId,
                                                             $fieldName, 

@@ -88,7 +88,7 @@
 
             // Get data
             $filter = new Filter();
-            $rs = $this->sqlBuilder->Query($this->cn, $this->TB_CODE, $filter, $this->sqlBuilder->QUERY_NO_PAGING);
+            $rs = $this->sqlBuilder->executeQuery($this->cn, $this->TB_CODE, $filter, $this->sqlBuilder->QUERY_NO_PAGING);
 
             // Create event list
             foreach ($rs as $item) {

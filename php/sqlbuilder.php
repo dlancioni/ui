@@ -15,10 +15,11 @@ class SqlBuilder extends Base {
     public $PageSize = 0;
     public $PageOffset = 0;
 
+
     /* 
      * Query and return json
      */
-    public function Query($cn, $table="", $filter="[]", $queryType=1) {
+    public function executeQuery($cn, $table="", $filter="[]", $queryType=1) {
 
         // General Declaration
         $rs = "";
@@ -54,8 +55,54 @@ class SqlBuilder extends Base {
 
         // Return rs as json
         return json_decode($json, true);
+    }
 
-    }     
+    /* 
+     * Query and return json
+     */
+    public function executeView($cn, $viewId="", $filter="[]", $queryType=1) {
+
+        // General Declaration
+        $rs = "";
+        $json = "";
+        $query = "";
+        $sql = "";
+
+        try {
+
+            // Get existing record
+            $filter = new Filter();
+            $filter->add("tb_view", "id", $viewId);
+            $rs = $this->Query($cn, $this->TB_VIEW, $filter->create(), $this->QUERY_NO_JOIN);
+            if (count($rs) > 0) {
+                $query = $rs[0]["sql"];
+            }
+
+            // Transform results to json
+            $sql = "select json_agg(t) from (" . $query . ") t";
+
+            // Execute query
+            $rs = pg_query($cn, $sql);
+            $this->setError("", "");
+
+            // Return data
+            while ($row = pg_fetch_row($rs)) {
+                $json = $row[0];
+                break;
+            }
+        } catch (exception $ex) {                
+            $this->setError("db.queryJson()", pg_last_error($cn));
+            echo $ex->getMessage();
+        }
+
+        // Handle empty json
+        if (!$json) {
+            $json = "[]";
+        }
+
+        // Return rs as json
+        return json_decode($json, true);
+    }
 
     /*
      * Get table definition
