@@ -110,7 +110,7 @@ insert into tb_field (field) values ('{"id_system":1,"id_group":1,"id_table":8,"
 insert into tb_field (field) values ('{"id_system":1,"id_group":1,"id_table":9,"label":"Nome","name":"name","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
 insert into tb_field (field) values ('{"id_system":1,"id_group":1,"id_table":9,"label":"SQL","name":"sql","id_type":6,"size":5000,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
 -- tb_view_field
-insert into tb_field (field) values ('{"id_system":1,"id_group":1,"id_table":9,"label":"Nome","name":"name","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
+insert into tb_field (field) values ('{"id_system":1,"id_group":1,"id_table":10,"label":"Nome","name":"name","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
 -- tb_profile
 insert into tb_field (field) values ('{"id_system":1,"id_group":1,"id_table":11,"label":"Nome","name":"name","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
 -- tb_profile_table
@@ -120,7 +120,9 @@ insert into tb_field (field) values ('{"id_system":1,"id_group":1,"id_table":12,
 insert into tb_field (field) values ('{"id_system":1,"id_group":1,"id_table":13,"label":"Transação","name":"id_table","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":2,"id_field_fk":6,"domain":""}');
 insert into tb_field (field) values ('{"id_system":1,"id_group":1,"id_table":13,"label":"Função","name":"id_function","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":6,"id_field_fk":29,"domain":""}');
 -- tb_user
-insert into tb_field (field) values ('{"id_system":1,"id_group":1,"id_table":14,"label":"Nome","name":"name","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
+insert into tb_field (field) values ('{"id_system":1,"id_group":1,"id_table":14,"label":"Nome","name":"fullname","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
+insert into tb_field (field) values ('{"id_system":1,"id_group":1,"id_table":14,"label":"Login","name":"login","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
+insert into tb_field (field) values ('{"id_system":1,"id_group":1,"id_table":14,"label":"Senha","name":"password","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
 -- tb_user_profile
 insert into tb_field (field) values ('{"id_system":1,"id_group":1,"id_table":15,"label":"Usuários","name":"id_user","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":14,"id_field_fk":41,"domain":""}');
 insert into tb_field (field) values ('{"id_system":1,"id_group":1,"id_table":15,"label":"Perfil","name":"id_profile","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":11,"id_field_fk":36,"domain":""}');
@@ -190,6 +192,48 @@ insert into tb_code (field) values ('{"id_system": 1, "id_group": 1, "comment": 
 -- -----------------------------------------------------
 insert into tb_group (field) values ('{"id_system":1,"id_group":1,"name":"Sistema"}');
 insert into tb_group (field) values ('{"id_system":1,"id_group":1,"name":"Público"}');
+
+-- ---------------------------------------------------------------------------------
+-- 5 TB_USER
+-- ---------------------------------------------------------------------------------
+insert into tb_user (field) values ('{"id_system":1,"id_group":1,"fullname":"Administrador","login":"admin","password":"123"}');
+insert into tb_user (field) values ('{"id_system":1,"id_group":1,"fullname":"João","login":"joao","password":"123"}');
+insert into tb_user (field) values ('{"id_system":1,"id_group":1,"fullname":"Maria","login":"maria","password":"123"}');
+
+-- ---------------------------------------------------------------------------------
+-- 5 TB_PROFILE
+-- ---------------------------------------------------------------------------------
+insert into tb_profile (field) values ('{"id_system":1,"id_group":1,"name":"Administrador"}');
+insert into tb_profile (field) values ('{"id_system":1,"id_group":1,"name":"Usuário"}');
+
+-- ---------------------------------------------------------------------------------
+-- 5 TB_PROFILE_TRANSACTION
+-- ---------------------------------------------------------------------------------
+insert into tb_profile_table (field) values ('{"id_system":1,"id_group":1,"id_profile":1,"id_table":1}');
+insert into tb_profile_table (field) values ('{"id_system":1,"id_group":1,"id_profile":1,"id_table":2}');
+insert into tb_profile_table (field) values ('{"id_system":1,"id_group":1,"id_profile":1,"id_table":3}');
+insert into tb_profile_table (field) values ('{"id_system":1,"id_group":1,"id_profile":1,"id_table":4}');
+insert into tb_profile_table (field) values ('{"id_system":1,"id_group":1,"id_profile":1,"id_table":5}');
+insert into tb_profile_table (field) values ('{"id_system":1,"id_group":1,"id_profile":1,"id_table":6}');
+insert into tb_profile_table (field) values ('{"id_system":1,"id_group":1,"id_profile":1,"id_table":7}');
+insert into tb_profile_table (field) values ('{"id_system":1,"id_group":1,"id_profile":1,"id_table":8}');
+insert into tb_profile_table (field) values ('{"id_system":1,"id_group":1,"id_profile":1,"id_table":9}');
+insert into tb_profile_table (field) values ('{"id_system":1,"id_group":1,"id_profile":1,"id_table":10}');
+insert into tb_profile_table (field) values ('{"id_system":1,"id_group":1,"id_profile":1,"id_table":11}');
+insert into tb_profile_table (field) values ('{"id_system":1,"id_group":1,"id_profile":1,"id_table":12}');
+insert into tb_profile_table (field) values ('{"id_system":1,"id_group":1,"id_profile":1,"id_table":13}');
+insert into tb_profile_table (field) values ('{"id_system":1,"id_group":1,"id_profile":1,"id_table":14}');
+insert into tb_profile_table (field) values ('{"id_system":1,"id_group":1,"id_profile":1,"id_table":15}');
+insert into tb_profile_table (field) values ('{"id_system":1,"id_group":1,"id_profile":1,"id_table":16}');
+insert into tb_profile_table (field) values ('{"id_system":1,"id_group":1,"id_profile":1,"id_table":17}');
+
+
+-- ---------------------------------------------------------------------------------
+-- 5 TB_USER_PROFILE
+-- ---------------------------------------------------------------------------------
+insert into tb_user_profile (field) values ('{"id_system":1,"id_user":1,"id_profile":1}');
+insert into tb_user_profile (field) values ('{"id_system":1,"id_user":2,"id_profile":2}');
+insert into tb_user_profile (field) values ('{"id_system":1,"id_user":3,"id_profile":2}');
 
 -- ---------------------------------------------------------------------------------
 -- 5 TB_EVENT
