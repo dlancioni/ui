@@ -41,7 +41,10 @@
                 $this->handleEvent($id);
 
                 // Delete fields
-                $this->handleField($id);                
+                $this->handleField($id);
+
+                // Profile x Transaction
+                $this->profileTransaction($id);                
 
             } catch (Exception $ex) {
 
@@ -221,7 +224,53 @@
             } finally {
                 // Do nothing
             }
-        }        
+        }
+
+
+        /*
+         * Delete fields
+         */
+        private function profileTransaction($tableId) {
+
+            // General Declaration
+            $sql = "";
+            $rs = "";
+            $record = "";
+            $affectedRows = 0;
+            $jsonUtil = new JsonUtil();            
+
+            try {
+
+                // Grant profiles Admin and User
+                switch ($this->sqlBuilder->getEvent()) {
+                    case "New":
+                        // Insert new 
+                        break;
+
+                    case "Edit":
+                        // Do nothing
+                        break;
+
+                    case "Delete":
+                        break;                    
+
+                }
+
+            } catch (Exception $ex) {
+
+                // Keep source and error                
+                $this->sqlBuilder->setError("TableLogic.profileTransaction()", $ex->getMessage());
+
+                // Rethrow it
+                throw $ex;
+
+            } finally {
+                // Do nothing
+            }
+        }
+
+
+
 
     } // End of class
 ?>

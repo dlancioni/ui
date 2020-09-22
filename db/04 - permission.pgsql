@@ -49,6 +49,9 @@ insert into tb_profile_table (field) values ('{"id_system":1,"id_group":1,"id_pr
 insert into tb_profile_table (field) values ('{"id_system":1,"id_group":1,"id_profile":1,"id_table":15}');
 insert into tb_profile_table (field) values ('{"id_system":1,"id_group":1,"id_profile":1,"id_table":16}');
 insert into tb_profile_table (field) values ('{"id_system":1,"id_group":1,"id_profile":1,"id_table":17}');
+insert into tb_profile_table (field) values ('{"id_system":1,"id_group":1,"id_profile":1,"id_table":18}');
+
+insert into tb_profile_table (field) values ('{"id_system":1,"id_group":1,"id_profile":2,"id_table":18}');
 
 -- ---------------------------------------------------------------------------------
 -- TB_USER_PROFILE

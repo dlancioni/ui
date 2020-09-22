@@ -67,6 +67,7 @@ insert into tb_table (field) values ('{"id_system":1,"id_group":1,"name":"Usuár
 
 insert into tb_table (field) values ('{"id_system":1,"id_group":1,"name":"Administração","id_type":3,"table_name":"","id_parent":0}');      -- MENU
 insert into tb_table (field) values ('{"id_system":1,"id_group":1,"name":"Controle de Acesso","id_type":3,"table_name":"","id_parent":0}'); -- MENU
+insert into tb_table (field) values ('{"id_system":1,"id_group":1,"name":"Cadastros","id_type":3,"table_name":"","id_parent":0}');          -- MENU
 
 -- -----------------------------------------------------
 -- TB_FIELD
