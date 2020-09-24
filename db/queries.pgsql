@@ -16,3 +16,6 @@ order by tb_table.field->>'name'
 
     --tb_profile.id,
     --tb_profile.field->>'name' as profile_name,
+select * from tb_profile_table where field->'id_table' = '36'
+
+select * from tb_profile_table where (tb_field.field->>'id_system')::int = 1 and (tb_field.field->>'id_table')::int = 36

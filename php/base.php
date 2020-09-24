@@ -26,6 +26,14 @@
         public $TB_GROUP = 8;
         public $TB_VIEW = 9;
 
+        // Access Control
+        public $TB_PROFILE = 11;
+        public $TB_PROFILE_TRANSACTION = 12;
+        public $TB_TRANSACTION_FUNCTION = 13;
+        public $TB_USER = 14;
+        public $TB_USER_PROFILE = 15;
+
+
         // Constructor
         function __construct($systemId, $tableId, $userId, $groupId) {
             $this->setSystem($systemId);

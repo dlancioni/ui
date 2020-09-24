@@ -56,9 +56,6 @@ class Report extends Base {
             // Get table structure
             $this->tableDef = $this->sqlBuilder->getTableDef($this->cn, $tableId);
 
-            $temp = "";
-            $temp = $jsonUtil->getJson($this->tableDef);
-
             // Get data
             $filter = new Filter();
             if ($this->Event == "Filter") {

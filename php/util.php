@@ -46,14 +46,23 @@
     class JsonUtil extends StringUtil {
 
         /*
-         * Set value in specific tag
+         * TableDef to json
          */
         public function getJson($tableDef) {
-
             $json = "";
+            $value = "";
             foreach ($tableDef as $item) {
-            }
+                switch ($item["data_type"]) {
+                    case "int":
+                    case "float":
+                        $value = 0;
+                        break;
+                    default:    
+                        $value = "";
+                }
 
+                $json = $this->setValue($json, $item["field_name"], $value);
+            }
             return $json;
         }
 

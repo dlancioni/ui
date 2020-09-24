@@ -235,16 +235,33 @@
             // General Declaration
             $sql = "";
             $rs = "";
+            $json = "";
             $record = "";
             $affectedRows = 0;
-            $jsonUtil = new JsonUtil();            
+            $tableDef = "";
+            $jsonUtil = new JsonUtil();
 
             try {
+
+                // Get structure to generate json
+                $tableDef = $this->sqlBuilder->getTableDef($this->cn, $this->sqlBuilder->TB_PROFILE_TRANSACTION);
+                $json = $jsonUtil->getJson($tableDef);
 
                 // Grant profiles Admin and User
                 switch ($this->sqlBuilder->getEvent()) {
                     case "New":
-                        // Insert new 
+
+                        // Add new profile to ADMINISTRATOR profile
+                        $json = $jsonUtil->setValue($json, "id_profile", 1);
+                        $json = $jsonUtil->setValue($json, "id_table", $tableId);
+                        $id = $this->sqlBuilder->persist($this->cn, "tb_profile_table", $json);
+
+                        // Add new profile to USER profile
+                        $json = $jsonUtil->setValue($json, "id_profile", 2);
+                        $json = $jsonUtil->setValue($json, "id_table", $tableId);
+                        $id = $this->sqlBuilder->persist($this->cn, "tb_profile_table", $json);
+                        
+                        // Finish insert flow
                         break;
 
                     case "Edit":
@@ -252,8 +269,12 @@
                         break;
 
                     case "Delete":
+                        $sql .= " delete from tb_profile_table";
+                        $sql .= " where " . $jsonUtil->condition("tb_profile_table", "id_system", "int", "=", $this->sqlBuilder->getSystem());
+                        $sql .= " and " . $jsonUtil->condition("tb_profile_table", "id_table", "int", "=", $tableId);
+                        $rs = pg_query($this->cn, $sql);
+                        $affectedRows = pg_affected_rows($rs);                        
                         break;                    
-
                 }
 
             } catch (Exception $ex) {
