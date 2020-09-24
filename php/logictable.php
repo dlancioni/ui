@@ -14,7 +14,7 @@
         }
 
         /*
-         * Logic before persist record
+         * Transactional logic BEFORE insert
          */
         public function before($old, $new) {
 
@@ -28,23 +28,26 @@
         }
 
         /*
-         * Logic before persist record
+         * Transactional logic AFTER insert
          */
         public function after($id, $old, $new) {
 
             try {
 
                 // Create, rename or delete table
-                $this->handleTable($old, $new);
+                $this->table($old, $new);
 
                 // Create or delete events
-                $this->handleEvent($id);
+                $this->event($id);
 
                 // Delete fields
-                $this->handleField($id);
+                $this->field($id);
 
                 // Profile x Transaction
-                $this->profileTransaction($id);                
+                $this->profileTransaction($id);
+
+                // Transaction x Function
+                $this->transactionFunction($id);                
 
             } catch (Exception $ex) {
 
@@ -56,7 +59,7 @@
         /*
          * Create physical table for current transaction
          */
-        private function handleTable($old, $new) {
+        private function table($old, $new) {
 
             // General Declaration
             $sql = "";
@@ -109,7 +112,7 @@
             } catch (Exception $ex) {
 
                 // Keep source and error
-                $this->sqlBuilder->setError("TableLogic.handleTable()", $ex->getMessage());
+                $this->sqlBuilder->setError("TableLogic.table()", $ex->getMessage());
 
                 // Rethrow it
                 throw $ex;
@@ -122,7 +125,7 @@
         /*
          * Create crud buttons for new table
          */
-        private function handleEvent($tableId) {
+        private function event($tableId) {
 
             // General Declaration
             $rs = "";
@@ -155,7 +158,7 @@
                     $filter->addCondition("tb_event", "id_table", "int", "=", $TB_SYSTEM);
                     $filter->addCondition("tb_event", "id_action", "int", "<>", "0");
                     $tableData = $this->sqlBuilder->executeQuery($this->cn, $EVENT, $filter->create());
-                    $tableDef = $this->sqlBuilder->getTableDef($this->cn, $tableId);
+                    $tableDef = $this->sqlBuilder->getTableDef($this->cn, $this->sqlBuilder->TB_EVENT);
 
                     // Create main menu
                     foreach ($tableData as $row) {
@@ -180,7 +183,7 @@
             } catch (Exception $ex) {
 
                 // Keep source and error                
-                $this->sqlBuilder->setError("TableLogic.handleEvent()", $ex->getMessage());
+                $this->sqlBuilder->setError("TableLogic.event()", $ex->getMessage());
 
                 // Rethrow it
                 throw $ex;
@@ -194,7 +197,7 @@
         /*
          * Delete fields
          */
-        private function handleField($tableId) {
+        private function field($tableId) {
 
             // General Declaration
             $sql = "";
@@ -216,7 +219,7 @@
             } catch (Exception $ex) {
 
                 // Keep source and error                
-                $this->sqlBuilder->setError("TableLogic.handleField()", $ex->getMessage());
+                $this->sqlBuilder->setError("TableLogic.field()", $ex->getMessage());
 
                 // Rethrow it
                 throw $ex;
@@ -241,6 +244,9 @@
             $tableDef = "";
             $jsonUtil = new JsonUtil();
 
+            $PROFILE_ADMINISTRATOR = 1;
+            $PROFILE_USER = 2;
+
             try {
 
                 // Get structure to generate json
@@ -249,31 +255,29 @@
 
                 // Grant profiles Admin and User
                 switch ($this->sqlBuilder->getEvent()) {
-                    case "New":
 
+                    case "New":
                         // Add new profile to ADMINISTRATOR profile
-                        $json = $jsonUtil->setValue($json, "id_profile", 1);
+                        $json = $jsonUtil->setValue($json, "id_profile", $PROFILE_ADMINISTRATOR);
                         $json = $jsonUtil->setValue($json, "id_table", $tableId);
                         $id = $this->sqlBuilder->persist($this->cn, "tb_profile_table", $json);
 
                         // Add new profile to USER profile
-                        $json = $jsonUtil->setValue($json, "id_profile", 2);
+                        $json = $jsonUtil->setValue($json, "id_profile", $PROFILE_USER);
                         $json = $jsonUtil->setValue($json, "id_table", $tableId);
                         $id = $this->sqlBuilder->persist($this->cn, "tb_profile_table", $json);
                         
                         // Finish insert flow
                         break;
 
-                    case "Edit":
-                        // Do nothing
-                        break;
-
                     case "Delete":
+                        // Remove transaction from Profile x Transaction
+                        $sql = "";
                         $sql .= " delete from tb_profile_table";
                         $sql .= " where " . $jsonUtil->condition("tb_profile_table", "id_system", "int", "=", $this->sqlBuilder->getSystem());
                         $sql .= " and " . $jsonUtil->condition("tb_profile_table", "id_table", "int", "=", $tableId);
                         $rs = pg_query($this->cn, $sql);
-                        $affectedRows = pg_affected_rows($rs);                        
+                        $affectedRows = pg_affected_rows($rs);
                         break;                    
                 }
 
@@ -290,8 +294,57 @@
             }
         }
 
+        private function transactionFunction($tableId) {
 
+            // General Declaration
+            $sql = "";
+            $rs = "";
+            $json = "";
+            $record = "";
+            $affectedRows = 0;
+            $tableDef = "";
+            $jsonUtil = new JsonUtil();
 
+            try {
 
+                // Get structure to generate json
+                $tableDef = $this->sqlBuilder->getTableDef($this->cn, $this->sqlBuilder->TB_TRANSACTION_FUNCTION);
+                $json = $jsonUtil->getJson($tableDef);
+
+                // Grant profiles Admin and User
+                switch ($this->sqlBuilder->getEvent()) {
+
+                    case "New":
+                        // Add standard 7 functions (New, Edit, Delete, Confirm, Filter, Clear, Back)                        
+                        for ($i=1; $i<=7; $i++) {
+                            $json = $jsonUtil->setValue($json, "id_table", $tableId);
+                            $json = $jsonUtil->setValue($json, "id_function", $i);
+                            $id = $this->sqlBuilder->persist($this->cn, "tb_table_function", $json);
+                        }
+                        // Finish insert flow
+                        break;
+
+                    case "Delete":
+                        // Remove transaction from Transaction x Function
+                        $sql = "";
+                        $sql .= " delete from tb_table_function";
+                        $sql .= " where " . $jsonUtil->condition("tb_table_function", "id_system", "int", "=", $this->sqlBuilder->getSystem());
+                        $sql .= " and " . $jsonUtil->condition("tb_table_function", "id_table", "int", "=", $tableId);
+                        $rs = pg_query($this->cn, $sql);
+                        $affectedRows = pg_affected_rows($rs);
+                }
+
+            } catch (Exception $ex) {
+
+                // Keep source and error                
+                $this->sqlBuilder->setError("TableLogic.profileTransaction()", $ex->getMessage());
+
+                // Rethrow it
+                throw $ex;
+
+            } finally {
+                // Do nothing
+            }
+        }
     } // End of class
 ?>
