@@ -16,7 +16,6 @@
     $value = "";
     $json = [];
     $data = "{}";
-    $tableDef = "";
     $jsonUtil = "";
     $sqlBuilder = "";    
     $fieldName = "";

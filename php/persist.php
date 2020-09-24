@@ -17,6 +17,7 @@
     $logic = "";
     $message = "";
     $tableDef = "";
+    $tableName = "";
     $jsonUtil = "";
     $unique = "";    
     $tableId = 0;
@@ -43,6 +44,7 @@
 
         $sqlBuilder->setLastId($_SESSION["_ID_"]);
         $sqlBuilder->setEvent($_SESSION["_EVENT_"]);
+        $tableId = $_SESSION["_TABLE_"];        
 
         // Object instances
         $jsonUtil = new JsonUtil();
@@ -51,9 +53,8 @@
         $message = new Message($cn, $sqlBuilder);
 
         // Get table structure
-        $tableDef = $sqlBuilder->getTableDef($cn);
+        $tableDef = $sqlBuilder->getTableDef($cn, $tableId);
         if ($tableDef) {
-            $tableId = $_SESSION["_TABLE_"];
             $tableName = $tableDef[0]["table_name"];
             $event = $_SESSION["_EVENT_"];            
         }

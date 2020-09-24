@@ -1,7 +1,6 @@
 <?php
 class SqlBuilder extends Base {
 
-
     /*
      * Paging
      */
@@ -119,7 +118,7 @@ class SqlBuilder extends Base {
     /*
      * Get table definition
      */
-    public function getTableDef($cn) {
+    public function getTableDef($cn, $tableId) {
         // General declaration    
         $sql = "";
         $rs = "";
@@ -127,7 +126,7 @@ class SqlBuilder extends Base {
 
         try {
             // Get table structure and related information
-            $sql = $this->getSqlTableDef();
+            $sql = $this->getSqlTableDef($tableId);
 
             // Execute query
             $rs = $db->queryJson($cn, $sql);
@@ -145,7 +144,7 @@ class SqlBuilder extends Base {
     /*
      * Return query based on mapping
      */
-    private function prepareQuery($cn, $table, $filter, $queryType) {
+    private function prepareQuery($cn, $tableId, $filter, $queryType) {
 
         // General Declaration
         $sql = "";
@@ -153,13 +152,13 @@ class SqlBuilder extends Base {
 
         try {
             // Handle table as parameter
-            if ($table != "") {
-                if (is_numeric($table)) {
-                    $this->setTable(intval($table));
+            if ($tableId != "") {
+                if (is_numeric($tableId)) {
+                    $this->setTable(intval($tableId));
                 }
             }
             // Get table structure
-            $tableDef = $this->getTableDef($cn);
+            $tableDef = $this->getTableDef($cn, $tableId);
 
             if (count($tableDef) > 0) {
 
@@ -175,7 +174,7 @@ class SqlBuilder extends Base {
                 }
 
                 // Get where
-                $sql .= $this->getWhere($tableDef, $table);
+                $sql .= $this->getWhere($tableDef, $tableId);
 
                 // Get condition
                 $sql .= $this->getCondition($filter);
@@ -412,7 +411,7 @@ class SqlBuilder extends Base {
         return $sql;
     }        
 
-    private function getSqlTableDef() {
+    private function getSqlTableDef($tableId) {
         
         $sql = "";
         $sql .= " select";
@@ -444,7 +443,7 @@ class SqlBuilder extends Base {
         $sql .= " left join tb_table tb_table_fk on (tb_field.field->>'id_table_fk')::int = tb_table_fk.id";
         $sql .= " left join tb_field tb_field_fk on (tb_field.field->>'id_field_fk')::int = tb_field_fk.id";
         $sql .= " where (tb_field.field->>'id_system')::int = " . $this->getSystem();
-        $sql .= " and (tb_field.field->>'id_table')::int = " . $this->getTable();
+        $sql .= " and (tb_field.field->>'id_table')::int = " . $tableId;
         $sql .= " order by tb_field.id";                
 
         // Return final query    

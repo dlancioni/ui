@@ -69,7 +69,7 @@ class Form extends Base {
             }
 
             // Get table structure
-            $this->tableDef = $this->sqlBuilder->getTableDef($this->cn);
+            $this->tableDef = $this->sqlBuilder->getTableDef($this->cn, $tableId);
             if (count($this->tableDef) > 0) {
                 
                 // Do not query database

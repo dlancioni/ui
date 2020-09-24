@@ -43,16 +43,21 @@ class Report extends Base {
         $fk = 0;
         $recordCount = 0;       
         $numberUtil = "";
+        $jsonUtil = "";
         $PAGE_SIZE = 15;
 
         try {
 
             // Create object instances
             $numberUtil = new NumberUtil();
+            $jsonUtil = new jsonUtil();
             $this->element = new HTMLElement($this->cn, $this->sqlBuilder);
 
             // Get table structure
-            $this->tableDef = $this->sqlBuilder->getTableDef($this->cn);
+            $this->tableDef = $this->sqlBuilder->getTableDef($this->cn, $tableId);
+
+            $temp = "";
+            $temp = $jsonUtil->getJson($this->tableDef);
 
             // Get data
             $filter = new Filter();

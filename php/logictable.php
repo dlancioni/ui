@@ -155,7 +155,7 @@
                     $filter->addCondition("tb_event", "id_table", "int", "=", $TB_SYSTEM);
                     $filter->addCondition("tb_event", "id_action", "int", "<>", "0");
                     $tableData = $this->sqlBuilder->executeQuery($this->cn, $EVENT, $filter->create());
-                    $tableDef = $this->sqlBuilder->getTableDef($this->cn);
+                    $tableDef = $this->sqlBuilder->getTableDef($this->cn, $tableId);
 
                     // Create main menu
                     foreach ($tableData as $row) {

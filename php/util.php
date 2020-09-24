@@ -44,6 +44,19 @@
     }
     
     class JsonUtil extends StringUtil {
+
+        /*
+         * Set value in specific tag
+         */
+        public function getJson($tableDef) {
+
+            $json = "";
+            foreach ($tableDef as $item) {
+            }
+
+            return $json;
+        }
+
         /*
          * Set value in specific tag
          */
