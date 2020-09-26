@@ -11,6 +11,7 @@
     $json = "";
     $jsonUtil = "";
     $tableName = "tb_system";
+    $total = 0;
     
     // Core code
     try {
@@ -30,6 +31,11 @@
         createTransaction($cn);
         createField($cn);
         createDomain($cn);
+        createEvent($cn);
+        createAction($cn);
+        createGroup($cn);
+        createUser($cn);
+        createProfile($cn);
 
         // Finished OK
         printl("Success :)");
@@ -114,6 +120,7 @@
 
         $json = "";
         global $tableName;
+        global $total;
 
         try {
 
@@ -138,6 +145,7 @@
             execute($cn, '{"id_system":1,"id_group":1,"name":"Transação x Function","id_type":1,"table_name":"tb_table_function","id_parent":17}');
             execute($cn, '{"id_system":1,"id_group":1,"name":"Usuários","id_type":1,"table_name":"tb_user","id_parent":17}');
             execute($cn, '{"id_system":1,"id_group":1,"name":"Usuários x Perfil","id_type":1,"table_name":"tb_user_profile","id_parent":17}');
+            $total = 15;
             
             // Create menus
             $tableName = "tb_table";
@@ -299,12 +307,175 @@
     }
 
 
+    /*
+     * Create events
+     */
+    function createEvent($cn) {
+
+        $i = 0;
+        $v1 = "";
+        $v2 = "";
+        $v3 = "";
+        $v4 = "";
+        $v5 = "";
+        $v6 = "";
+        $v6 = "";
+        global $tableName;
+        global $total;
+        $jsonUtil = new jsonUtil();
+
+        try {
+
+            // Create sysstem
+            $tableName = "tb_event";
+
+            // Create standard events
+            for ($i=1; $i<=$total; $i++) {
+                
+                $v1 = '{"id_system":1,"id_group":1,"id_target":1,"id_table":1,"id_field":0,"id_action":1,"id_event":2,"code":"formNew();"}';
+                $v1 = $jsonUtil->setValue($v1, "id_table", $i);
+                execute($cn, $v1);
+
+                $v2 = '{"id_system":1,"id_group":1,"id_target":1,"id_table":1,"id_field":0,"id_action":2,"id_event":2,"code":"formEdit()"}';
+                $v2 = $jsonUtil->setValue($v2, "id_table", $i);
+                execute($cn, $v2);
+
+                $v3 = '{"id_system":1,"id_group":1,"id_target":1,"id_table":1,"id_field":0,"id_action":3,"id_event":2,"code":"formDelete()"}';
+                $v3 = $jsonUtil->setValue($v3, "id_table", $i);
+                execute($cn, $v3);
+
+                $v4 = '{"id_system":1,"id_group":1,"id_target":2,"id_table":1,"id_field":0,"id_action":4,"id_event":2,"code":"confirm()"}';
+                $v4 = $jsonUtil->setValue($v4, "id_table", $i);
+                execute($cn, $v4);
+
+                $v5 = '{"id_system":1,"id_group":1,"id_target":1,"id_table":1,"id_field":0,"id_action":5,"id_event":2,"code":"formFilter()"}';
+                $v5 = $jsonUtil->setValue($v5, "id_table", $i);
+                execute($cn, $v5);
+
+                $v6 = '{"id_system":1,"id_group":1,"id_target":2,"id_table":1,"id_field":0,"id_action":6,"id_event":2,"code":"formClear()"}';
+                $v6 = $jsonUtil->setValue($v6, "id_table", $i);
+                execute($cn, $v6);
+
+                $v7 = '{"id_system":1,"id_group":1,"id_target":2,"id_table":1,"id_field":0,"id_action":7,"id_event":2,"code":"reportBack()"}';
+                $v7 = $jsonUtil->setValue($v7, "id_table", $i);
+                execute($cn, $v7);
+            }
+
+            // Custon events
 
 
 
+            // Success
+            printl("createEvent() OK");
+            
+        } catch (Exception $ex) {
+            printl("createEvent():" . $ex->getMessage());
+            throw $ex;
+        }
+    }
 
 
+    /*
+     * Create createAction
+     */
+    function createAction($cn) {
 
+        $json = "";
+        global $tableName;
+
+        try {
+
+            // Create sysstem
+            $tableName = "tb_system";
+
+            execute($cn, '{"id_system":1,"id_group":1,"name":"Novo"}');
+            execute($cn, '{"id_system":1,"id_group":1,"name":"Editar"}');
+            execute($cn, '{"id_system":1,"id_group":1,"name":"Apagar"}');
+            execute($cn, '{"id_system":1,"id_group":1,"name":"Confirmar"}');
+            execute($cn, '{"id_system":1,"id_group":1,"name":"Filtrar"}');
+            execute($cn, '{"id_system":1,"id_group":1,"name":"Limpar"}');
+            execute($cn, '{"id_system":1,"id_group":1,"name":"Voltar"}');
+            execute($cn, '{"id_system":1,"id_group":1,"name":"Testar"}');
+
+            // Success
+            printl("createAction() OK");
+            
+        } catch (Exception $ex) {
+            printl("createAction():" . $ex->getMessage());
+            throw $ex;
+        }
+    }
+
+    /*
+     * Create group
+     */
+    function createGroup($cn) {
+
+        $json = "";
+        global $tableName;
+
+        try {
+
+            // Create sysstem
+            $tableName = "tb_system";
+            execute($cn, '{"id_system":1,"id_group":1,"name":"Sistema"}');
+            execute($cn, '{"id_system":1,"id_group":1,"name":"Público"}');
+
+            // Success
+            printl("createGroup() OK");
+            
+        } catch (Exception $ex) {
+            printl("createGroup():" . $ex->getMessage());
+            throw $ex;
+        }
+    }
+
+    /*
+     * Create User
+     */
+    function createUser($cn) {
+
+        $json = "";
+        global $tableName;
+
+        try {
+
+            // Create User
+            execute($cn, '{"id_system":1,"id_group":1,"fullname":"Administrador","login":"admin","password":"123"}');
+            execute($cn, '{"id_system":1,"id_group":1,"fullname":"João","login":"joao","password":"123"}');
+            execute($cn, '{"id_system":1,"id_group":1,"fullname":"Maria","login":"maria","password":"123"}');
+
+            // Success
+            printl("createUser() OK");
+            
+        } catch (Exception $ex) {
+            printl("createUser():" . $ex->getMessage());
+            throw $ex;
+        }
+    }
+
+    /*
+     * Create Profile
+     */
+    function createProfile($cn) {
+
+        $json = "";
+        global $tableName;
+
+        try {
+
+            // Create Profile
+            execute($cn, '{"id_system":1,"id_group":1,"name":"Administrador"}');
+            execute($cn, '{"id_system":1,"id_group":1,"name":"Usuário"}');
+
+            // Success
+            printl("createProfile() OK");
+            
+        } catch (Exception $ex) {
+            printl("createProfile():" . $ex->getMessage());
+            throw $ex;
+        }
+    }
 
     /*
      * Create xyz
