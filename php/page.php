@@ -39,7 +39,7 @@
         if ($tableId > 0) {
 
             // Go to current table
-            $sqlBuilder->setTable($tableId);            
+            $sqlBuilder->setTable($tableId);
 
             // Create page or form
             if ($format == 1) {
@@ -56,6 +56,7 @@
             }
 
             // Add buttons to form
+            $sqlBuilder->setTable($tableId);            
             $html .= $eventAction->createButton($pageEvent);
 
             // Add global functions (js code)

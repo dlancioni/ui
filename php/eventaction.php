@@ -19,18 +19,31 @@
             // General declaration
             $html = "";
             $name = "";
+            $filter = "";
             $element = "";
+            $permission = "";
+            $FunctionByProfileUser = 2;
 
             try {
                 // Create objects
                 $element = new HTMLElement($this->cn, $this->sqlBuilder);
 
+                // Get access control
+                $filter = new Filter();
+                $filter->add("tb_table", "id_table", $this->sqlBuilder->getTable());
+                $filter->add("tb_user_profile", "id_user", $this->sqlBuilder->getUser());
+                $permission = $this->sqlBuilder->executeView($this->cn, $FunctionByProfileUser, $filter->create());
+                
                 // Create event list
-                foreach ($pageEvent as $item) {
-
-                    if ($item["id_action"] != 0) {
-                        $name = "btn" . $item["id_table"] . $item["id"];
-                        $html .= $element->createButton($name, $item["action"], $item["event"], $item["code"]);
+                foreach ($pageEvent as $event) {
+                    if ($event["id_function"] != 0) {
+                        foreach ($permission as $item) {
+                            if ($event["id_function"] == $item["id"]) {
+                                $name = "btn" . $event["id_table"] . $event["id"];
+                                $html .= $element->createButton($name, $event["function"], $event["event"], $event["code"]);
+                                break;
+                            }
+                        }
                     }
                 }
 

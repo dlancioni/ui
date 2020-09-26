@@ -207,7 +207,7 @@
             execute($cn, '{"id_system":1,"id_group":1,"id_table":5,"label":"Tela","name":"id_target","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":4,"id_field_fk":20,"domain":"tb_target"}');
             execute($cn, '{"id_system":1,"id_group":1,"id_table":5,"label":"Tabela","name":"id_table","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":2,"id_field_fk":6,"domain":""}');
             execute($cn, '{"id_system":1,"id_group":1,"id_table":5,"label":"Campo","name":"id_field","id_type":1,"size":0,"mask":"","id_mandatory":2,"id_unique":1,"id_table_fk":3,"id_field_fk":10,"domain":""}');
-            execute($cn, '{"id_system":1,"id_group":1,"id_table":5,"label":"Ação","name":"id_action","id_type":1,"size":0,"mask":"","id_mandatory":2,"id_unique":1,"id_table_fk":6,"id_field_fk":29,"domain":""}');
+            execute($cn, '{"id_system":1,"id_group":1,"id_table":5,"label":"Ação","name":"id_function","id_type":1,"size":0,"mask":"","id_mandatory":2,"id_unique":1,"id_table_fk":6,"id_field_fk":29,"domain":""}');
             execute($cn, '{"id_system":1,"id_group":1,"id_table":5,"label":"Evento","name":"id_event","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":4,"id_field_fk":20,"domain":"tb_event"}');
             execute($cn, '{"id_system":1,"id_group":1,"id_table":5,"label":"Código","name":"code","id_type":6,"size":10000,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
             // tb_function
@@ -333,47 +333,47 @@
             // Create standard events
             for ($i=1; $i<=$total; $i++) {
                 
-                $v1 = '{"id_system":1,"id_group":1,"id_target":1,"id_table":1,"id_field":0,"id_action":1,"id_event":2,"code":"formNew();"}';
+                $v1 = '{"id_system":1,"id_group":1,"id_target":1,"id_table":1,"id_field":0,"id_function":1,"id_event":2,"code":"formNew();"}';
                 $v1 = $jsonUtil->setValue($v1, "id_table", $i);
                 execute($cn, $v1);
 
-                $v2 = '{"id_system":1,"id_group":1,"id_target":1,"id_table":1,"id_field":0,"id_action":2,"id_event":2,"code":"formEdit()"}';
+                $v2 = '{"id_system":1,"id_group":1,"id_target":1,"id_table":1,"id_field":0,"id_function":2,"id_event":2,"code":"formEdit()"}';
                 $v2 = $jsonUtil->setValue($v2, "id_table", $i);
                 execute($cn, $v2);
 
-                $v3 = '{"id_system":1,"id_group":1,"id_target":1,"id_table":1,"id_field":0,"id_action":3,"id_event":2,"code":"formDelete()"}';
+                $v3 = '{"id_system":1,"id_group":1,"id_target":1,"id_table":1,"id_field":0,"id_function":3,"id_event":2,"code":"formDelete()"}';
                 $v3 = $jsonUtil->setValue($v3, "id_table", $i);
                 execute($cn, $v3);
 
-                $v4 = '{"id_system":1,"id_group":1,"id_target":2,"id_table":1,"id_field":0,"id_action":4,"id_event":2,"code":"confirm()"}';
+                $v4 = '{"id_system":1,"id_group":1,"id_target":2,"id_table":1,"id_field":0,"id_function":4,"id_event":2,"code":"confirm()"}';
                 $v4 = $jsonUtil->setValue($v4, "id_table", $i);
                 execute($cn, $v4);
 
-                $v5 = '{"id_system":1,"id_group":1,"id_target":1,"id_table":1,"id_field":0,"id_action":5,"id_event":2,"code":"formFilter()"}';
+                $v5 = '{"id_system":1,"id_group":1,"id_target":1,"id_table":1,"id_field":0,"id_function":5,"id_event":2,"code":"formFilter()"}';
                 $v5 = $jsonUtil->setValue($v5, "id_table", $i);
                 execute($cn, $v5);
 
-                $v6 = '{"id_system":1,"id_group":1,"id_target":2,"id_table":1,"id_field":0,"id_action":6,"id_event":2,"code":"formClear()"}';
+                $v6 = '{"id_system":1,"id_group":1,"id_target":2,"id_table":1,"id_field":0,"id_function":6,"id_event":2,"code":"formClear()"}';
                 $v6 = $jsonUtil->setValue($v6, "id_table", $i);
                 execute($cn, $v6);
 
-                $v7 = '{"id_system":1,"id_group":1,"id_target":2,"id_table":1,"id_field":0,"id_action":7,"id_event":2,"code":"reportBack()"}';
+                $v7 = '{"id_system":1,"id_group":1,"id_target":2,"id_table":1,"id_field":0,"id_function":7,"id_event":2,"code":"reportBack()"}';
                 $v7 = $jsonUtil->setValue($v7, "id_table", $i);
                 execute($cn, $v7);
             }
 
             // Custon events
-            $v1 = '{"id_system":1,"id_group":1,"id_target":2,"id_table":1,"id_field":3,"id_action":0,"id_event":3,"code":"this.value = formatValue(this.value)"}';
+            $v1 = '{"id_system":1,"id_group":1,"id_target":2,"id_table":1,"id_field":3,"id_function":0,"id_event":3,"code":"this.value = formatValue(this.value)"}';
             execute($cn, $v1);
             $v1 = '{"id_system":1,"id_group":1,"id_target":2,"id_table":2,"id_field":5,"label":"","id_event":3,"code":"this.value = validateTableName(this.value)"}';
             execute($cn, $v1);
-            $v1 = '{"id_system":1,"id_group":1,"id_target":2,"id_table":3,"id_field":17,"id_action":0,"id_event":3,"code":""}';
+            $v1 = '{"id_system":1,"id_group":1,"id_target":2,"id_table":3,"id_field":17,"id_function":0,"id_event":3,"code":""}';
             $v1 = $jsonUtil->setValue($v1, "code", "cascade(''id_field_fk'', ''id_table'', this.value, ''tb_field'', ''id'', ''label'');");
             execute($cn, $v1);
-            $v1 = '{"id_system":1,"id_group":1,"id_target":2,"id_table":5,"id_field":24,"id_action":0,"id_event":3,"code":""}';
+            $v1 = '{"id_system":1,"id_group":1,"id_target":2,"id_table":5,"id_field":24,"id_function":0,"id_event":3,"code":""}';
             $v1 = $jsonUtil->setValue($v1, "code", "cascade(''id_field'', ''id_table'', this.value, ''tb_field'', ''id'', ''label'');");
             execute($cn, $v1);
-            $v1 = '{"id_system":1,"id_group":1,"id_target":2,"id_table":7,"id_field":0,"id_action":8,"id_event":2,"code":""}';
+            $v1 = '{"id_system":1,"id_group":1,"id_target":2,"id_table":7,"id_field":0,"id_function":8,"id_event":2,"code":""}';
             $v1 = $jsonUtil->setValue($v1, "code", "eval(field(''code'').value);");
             execute($cn, $v1);
 
