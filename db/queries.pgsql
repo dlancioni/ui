@@ -10,3 +10,4 @@ where (tb_table_function.field->>'id_table')::int = 1
 and (tb_user_profile.field->>'id_user')::int = 1
 order by tb_action.id
 
+select * from tb_table
