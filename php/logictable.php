@@ -317,6 +317,7 @@
                     case "New":
                         // Add standard 7 functions (New, Edit, Delete, Confirm, Filter, Clear, Back)                        
                         for ($i=1; $i<=7; $i++) {
+                            $json = $jsonUtil->setValue($json, "id_profile", 1);
                             $json = $jsonUtil->setValue($json, "id_table", $tableId);
                             $json = $jsonUtil->setValue($json, "id_function", $i);
                             $id = $this->sqlBuilder->persist($this->cn, "tb_table_function", $json);
