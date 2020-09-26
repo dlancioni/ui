@@ -39,6 +39,8 @@
         createProfileTransaction($cn);
         createUserProfile($cn);
         createTransactionFunction($cn);
+        createCode($cn);
+        createView($cn);
 
         // Finished OK
         printl("Success :)");
@@ -147,10 +149,9 @@
             execute($cn, '{"id_system":1,"id_group":1,"name":"Transação x Function","id_type":1,"table_name":"tb_table_function","id_parent":17}');
             execute($cn, '{"id_system":1,"id_group":1,"name":"Usuários","id_type":1,"table_name":"tb_user","id_parent":17}');
             execute($cn, '{"id_system":1,"id_group":1,"name":"Usuários x Perfil","id_type":1,"table_name":"tb_user_profile","id_parent":17}');
-            $total = 15;
+            $total = 17;
             
             // Create menus
-            $tableName = "tb_table";
             execute($cn, '{"id_system":1,"id_group":1,"name":"Administração","id_type":3,"table_name":"","id_parent":0}');
             execute($cn, '{"id_system":1,"id_group":1,"name":"Controle de Acesso","id_type":3,"table_name":"","id_parent":0}');
             execute($cn, '{"id_system":1,"id_group":1,"name":"Cadastros","id_type":3,"table_name":"","id_parent":0}');
@@ -495,8 +496,9 @@
             $tableName = "tb_user_profile";
 
             // create User Profile
-            execute($cn, '{"id_system":1,"id_group":1,"name":"Administrador"}');
-            execute($cn, '{"id_system":1,"id_group":1,"name":"Usuário"}');
+            execute($cn, '{"id_system":1,"id_user":1,"id_profile":1}');
+            execute($cn, '{"id_system":1,"id_user":2,"id_profile":2}');
+            execute($cn, '{"id_system":1,"id_user":3,"id_profile":2}');            
 
             // Success
             printl("createUserProfile() OK");
@@ -583,8 +585,58 @@
     }
 
 
+    /*
+     * Create code
+     */
+    function createCode($cn) {
 
+        global $tableName;
 
+        try {
+
+            // Define table name
+            $tableName = "tb_code";
+
+            // Create groups
+            execute($cn, '{"id_system": 1, "id_group": 1, "comment": "Obtem o valor numérico de um campo", "id": 1, "code": "function valor(campo) {\r\n\r\n    value = field(campo).value;\r\n\r\n    if (value.trim() == \"\") {\r\n        value = \"0\";\r\n    }\r\n\r\n    if (!isNumeric(value)) {\r\n        value = \"0\";\r\n    }\r\n\r\n    value = value.split(\".\").join(\"\");\r\n    value = value.split(\",\").join(\".\");\r\n    value = parseFloat(value);\r\n\r\n    return value;\r\n}"}');
+            execute($cn, '{"id_system": 1, "id_group": 1, "comment": "Exemplo de query em banco de dados", "id": 2, "code": "let rs = query(\"select 1*2 as total\");\r\nalert(rs[0].total);"}');
+
+            // Success
+            printl("createCode() OK");
+            
+        } catch (Exception $ex) {
+            printl("createCode():" . $ex->getMessage());
+            throw $ex;
+        }
+    }
+
+    /*
+     * Create view
+     */
+    function createView($cn) {
+
+        $json = "";
+        global $tableName;
+        $jsonUtil = new JsonUtil();
+
+        try {
+
+            // Define table name
+            $tableName = "tb_view";
+
+            // View to menu
+            $json = '{"id_system": 1, "id_group": 2, "name": "TransactionByProfileUser", "sql": ""}';            
+            $json = $jsonUtil->setValue($json, "sql", "select distinct tb_table.id, tb_table.field->>''id_parent'' as id_parent, tb_table.field->>''name'' as name, tb_table.field->>''table_name'' as table_name from tb_table inner join tb_profile_table on (tb_profile_table.field->>''id_table'')::int = tb_table.id inner join tb_profile on (tb_profile_table.field->>''id_profile'')::int = tb_profile.id inner join tb_user_profile on (tb_user_profile.field->>''id_profile'')::int = tb_profile.id where (tb_table.field->>''id_system'')::int = p1 and (tb_user_profile.field->>''id_user'')::int = p1 order by tb_table.field->>''name''");
+            execute($cn, $json);
+
+            // Success
+            printl("createView() OK");
+            
+        } catch (Exception $ex) {
+            printl("createView():" . $ex->getMessage());
+            throw $ex;
+        }
+    }    
 
 
 
