@@ -635,10 +635,15 @@
             // Define table name
             $tableName = "tb_view";
 
-            // View to menu
+            // View to transaction
             $json = '{"id_system": 1, "id_group": 2, "name": "TransactionByProfileUser", "sql": ""}';            
             $json = $jsonUtil->setValue($json, "sql", "select distinct tb_table.id, tb_table.field->>''id_parent'' as id_parent, tb_table.field->>''name'' as name, tb_table.field->>''table_name'' as table_name from tb_table inner join tb_profile_table on (tb_profile_table.field->>''id_table'')::int = tb_table.id inner join tb_profile on (tb_profile_table.field->>''id_profile'')::int = tb_profile.id inner join tb_user_profile on (tb_user_profile.field->>''id_profile'')::int = tb_profile.id where (tb_table.field->>''id_system'')::int = p1 and (tb_user_profile.field->>''id_user'')::int = p1 order by tb_table.field->>''name''");
             execute($cn, $json);
+
+            // View to function
+            $json = '{"id_system": 1, "id_group": 2, "name": "FunctionByProfileUser", "sql": ""}';            
+            $json = $jsonUtil->setValue($json, "sql", "select distinct tb_user_profile.field->>''id_profile'' id_profile, tb_action.id, tb_action.field->>''name'' as name from tb_user_profile inner join tb_table_function on (tb_table_function.field->>''id_profile'')::int = (tb_user_profile.field->>''id_profile'')::int inner join tb_action on (tb_table_function.field->>''id_function'')::int = tb_action.id where (tb_table_function.field->>''id_table'')::int = p1 and (tb_user_profile.field->>''id_user'')::int = p2 order by tb_action.id");
+            execute($cn, $json);            
 
             // Success
             printl("createView() OK");
