@@ -36,6 +36,7 @@
         createGroup($cn);
         createUser($cn);
         createProfile($cn);
+        createProfileTransaction($cn);
 
         // Finished OK
         printl("Success :)");
@@ -124,11 +125,11 @@
 
         try {
 
-            // Create sysstem
+            // Define table name
             $tableName = "tb_system";
             execute($cn, '{"id_system":1,"id_group":1,"name":"Forms","expire_date":"31/12/2020","price":"100.00"}');
 
-            // Create tables
+            // Define table name
             $tableName = "tb_table";
             execute($cn, '{"id_system":1,"id_group":1,"name":"Sistemas","id_type":1,"table_name":"tb_system","id_parent":16}');
             execute($cn, '{"id_system":1,"id_group":1,"name":"Transações","id_type":1,"table_name":"tb_table","id_parent":16}');
@@ -172,8 +173,9 @@
 
         try {
 
-            // Create sysstem
+            // Define table name
             $tableName = "tb_field";
+
             // tb_system
             execute($cn, '{"id_system":1,"id_group":1,"id_table":1,"label":"Nome","name":"name","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
             execute($cn, '{"id_system":1,"id_group":1,"id_table":1,"label":"Expira em","name":"expire_date","id_type":4,"size":0,"mask":"dd/mm/yyyy","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
@@ -255,7 +257,7 @@
 
         try {
             
-            // Create sysstem
+            // Define table name
             $tableName = "tb_domain";
 
             // tb_table_type
@@ -326,7 +328,7 @@
 
         try {
 
-            // Create sysstem
+            // Define table name
             $tableName = "tb_event";
 
             // Create standard events
@@ -376,7 +378,7 @@
 
 
     /*
-     * Create createAction
+     * Create action
      */
     function createAction($cn) {
 
@@ -385,9 +387,10 @@
 
         try {
 
-            // Create sysstem
-            $tableName = "tb_system";
+            // Define table name
+            $tableName = "tb_action";
 
+            // Create actions
             execute($cn, '{"id_system":1,"id_group":1,"name":"Novo"}');
             execute($cn, '{"id_system":1,"id_group":1,"name":"Editar"}');
             execute($cn, '{"id_system":1,"id_group":1,"name":"Apagar"}');
@@ -416,8 +419,10 @@
 
         try {
 
-            // Create sysstem
-            $tableName = "tb_system";
+            // Define table name
+            $tableName = "tb_group";
+
+            // Create groups
             execute($cn, '{"id_system":1,"id_group":1,"name":"Sistema"}');
             execute($cn, '{"id_system":1,"id_group":1,"name":"Público"}');
 
@@ -439,6 +444,9 @@
         global $tableName;
 
         try {
+
+            // Define table name
+            $tableName = "tb_user";
 
             // Create User
             execute($cn, '{"id_system":1,"id_group":1,"fullname":"Administrador","login":"admin","password":"123"}');
@@ -464,6 +472,9 @@
 
         try {
 
+            // Define table name
+            $tableName = "tb_profile";
+
             // Create Profile
             execute($cn, '{"id_system":1,"id_group":1,"name":"Administrador"}');
             execute($cn, '{"id_system":1,"id_group":1,"name":"Usuário"}');
@@ -476,6 +487,54 @@
             throw $ex;
         }
     }
+
+    /*
+     * Create Profile x Transaction
+     */
+    function createProfileTransaction($cn) {
+
+        $i = 0;
+        $v1 = "";
+        global $tableName;
+        global $total;
+        $jsonUtil = new jsonUtil();
+
+        try {
+
+            // Define table name
+            $tableName = "tb_profile_table";
+
+            // Create standard events
+            for ($i=1; $i<=$total; $i++) {               
+                $v1 = '{"id_system":1,"id_group":1,"id_profile":1,"id_table":1}';
+                $v1 = $jsonUtil->setValue($v1, "id_table", $i);
+                execute($cn, $v1);
+            }
+
+            // Success
+            printl("createProfileTransaction() OK");
+            
+        } catch (Exception $ex) {
+            printl("createProfileTransaction():" . $ex->getMessage());
+            throw $ex;
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /*
      * Create xyz
