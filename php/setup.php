@@ -37,6 +37,8 @@
         createUser($cn);
         createProfile($cn);
         createProfileTransaction($cn);
+        createUserProfile($cn);
+        createTransactionFunction($cn);
 
         // Finished OK
         printl("Success :)");
@@ -119,7 +121,6 @@
      */
     function createTransaction($cn) {
 
-        $json = "";
         global $tableName;
         global $total;
 
@@ -168,7 +169,6 @@
      */
     function createField($cn) {
 
-        $json = "";
         global $tableName;
 
         try {
@@ -252,7 +252,6 @@
      */
     function createDomain($cn) {
 
-        $json = "";
         global $tableName;
 
         try {
@@ -307,7 +306,6 @@
             throw $ex;
         }
     }
-
 
     /*
      * Create events
@@ -382,7 +380,6 @@
      */
     function createAction($cn) {
 
-        $json = "";
         global $tableName;
 
         try {
@@ -414,7 +411,6 @@
      */
     function createGroup($cn) {
 
-        $json = "";
         global $tableName;
 
         try {
@@ -440,7 +436,6 @@
      */
     function createUser($cn) {
 
-        $json = "";
         global $tableName;
 
         try {
@@ -467,7 +462,6 @@
      */
     function createProfile($cn) {
 
-        $json = "";
         global $tableName;
 
         try {
@@ -487,6 +481,32 @@
             throw $ex;
         }
     }
+
+    /*
+     * Create User x Profile
+     */
+    function createUserProfile($cn) {
+
+        global $tableName;
+
+        try {
+
+            // Define table name
+            $tableName = "tb_user_profile";
+
+            // create User Profile
+            execute($cn, '{"id_system":1,"id_group":1,"name":"Administrador"}');
+            execute($cn, '{"id_system":1,"id_group":1,"name":"Usuário"}');
+
+            // Success
+            printl("createUserProfile() OK");
+            
+        } catch (Exception $ex) {
+            printl("createUserProfile():" . $ex->getMessage());
+            throw $ex;
+        }
+    }
+
 
     /*
      * Create Profile x Transaction
@@ -521,43 +541,60 @@
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     /*
-     * Create xyz
+     * Create events
      */
-    function createXYZ($cn) {
+    function createTransactionFunction($cn) {
 
-        $json = "";
+        $i = 0;
+        $j = 0;
+        $v1 = "";
+
         global $tableName;
+        global $total;
+        $jsonUtil = new jsonUtil();
 
         try {
 
-            // Create sysstem
-            $tableName = "tb_system";
-            execute($cn, 'json here');
+            // Define table name
+            $tableName = "tb_table_function";
+
+            // Create standard permissions
+            for ($i=1; $i<=$total; $i++) {
+          
+                // Set table id
+                $v1 = '{"id_system":1,"id_group":1,"id_profile":1,"id_table":1,"id_function":1}';
+                $v1 = $jsonUtil->setValue($v1, "id_table", $i);
+
+                // Create each permission
+                for ($j=1; $j<=7; $j++) {
+                    $v1 = $jsonUtil->setValue($v1, "id_function", $j);
+                    execute($cn, $v1);                    
+                }
+            }
 
             // Success
-            printl("createXYZ() OK");
+            printl("createTransactionFunction() OK");
             
         } catch (Exception $ex) {
-            printl("createXYZ():" . $ex->getMessage());
+            printl("createTransactionFunction():" . $ex->getMessage());
             throw $ex;
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     function execute($cn, $json) {
 
