@@ -32,7 +32,7 @@
         createField($cn);
         createDomain($cn);
         createEvent($cn);
-        createAction($cn);
+        createFunction($cn);
         createGroup($cn);
         createUser($cn);
         createProfile($cn);
@@ -71,7 +71,7 @@
             pg_query($cn, "drop table if exists tb_field cascade;");
             pg_query($cn, "drop table if exists tb_domain cascade;");
             pg_query($cn, "drop table if exists tb_event cascade;");
-            pg_query($cn, "drop table if exists tb_action cascade;");
+            pg_query($cn, "drop table if exists tb_function cascade;");
             pg_query($cn, "drop table if exists tb_code cascade;");
             pg_query($cn, "drop table if exists tb_group cascade;");
             pg_query($cn, "drop table if exists tb_view cascade;");
@@ -100,7 +100,7 @@
             pg_query($cn, "create table if not exists tb_field (id serial, field jsonb);");
             pg_query($cn, "create table if not exists tb_domain (id serial, field jsonb);");
             pg_query($cn, "create table if not exists tb_event (id serial, field jsonb);");
-            pg_query($cn, "create table if not exists tb_action (id serial, field jsonb);");
+            pg_query($cn, "create table if not exists tb_function (id serial, field jsonb);");
             pg_query($cn, "create table if not exists tb_code (id serial, field jsonb);");
             pg_query($cn, "create table if not exists tb_group (id serial, field jsonb);");
             pg_query($cn, "create table if not exists tb_view (id serial, field jsonb);");
@@ -139,7 +139,7 @@
             execute($cn, '{"id_system":1,"id_group":1,"name":"Campos","id_type":1,"table_name":"tb_field","id_parent":16}');
             execute($cn, '{"id_system":1,"id_group":1,"name":"Domínios","id_type":1,"table_name":"tb_domain","id_parent":16}');
             execute($cn, '{"id_system":1,"id_group":1,"name":"Eventos","id_type":1,"table_name":"tb_event","id_parent":16}');
-            execute($cn, '{"id_system":1,"id_group":1,"name":"Ações","id_type":1,"table_name":"tb_action","id_parent":16}');
+            execute($cn, '{"id_system":1,"id_group":1,"name":"Funções","id_type":1,"table_name":"tb_function","id_parent":16}');
             execute($cn, '{"id_system":1,"id_group":1,"name":"Programação","id_type":1,"table_name":"tb_code","id_parent":16}');
             execute($cn, '{"id_system":1,"id_group":1,"name":"Grupos","id_type":1,"table_name":"tb_group","id_parent":16}');
             execute($cn, '{"id_system":1,"id_group":1,"name":"Visão","id_type":1,"table_name":"tb_view","id_parent":16}');
@@ -210,7 +210,7 @@
             execute($cn, '{"id_system":1,"id_group":1,"id_table":5,"label":"Ação","name":"id_action","id_type":1,"size":0,"mask":"","id_mandatory":2,"id_unique":1,"id_table_fk":6,"id_field_fk":29,"domain":""}');
             execute($cn, '{"id_system":1,"id_group":1,"id_table":5,"label":"Evento","name":"id_event","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":4,"id_field_fk":20,"domain":"tb_event"}');
             execute($cn, '{"id_system":1,"id_group":1,"id_table":5,"label":"Código","name":"code","id_type":6,"size":10000,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
-            // tb_action
+            // tb_function
             execute($cn, '{"id_system":1,"id_group":1,"id_table":6,"label":"Nome","name":"name","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
             // tb_code
             execute($cn, '{"id_system":1,"id_group":1,"id_table":7,"label":"Comentário","name":"comment","id_type":3,"size":500,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
@@ -390,14 +390,14 @@
     /*
      * Create action
      */
-    function createAction($cn) {
+    function createFunction($cn) {
 
         global $tableName;
 
         try {
 
             // Define table name
-            $tableName = "tb_action";
+            $tableName = "tb_function";
 
             // Create actions
             execute($cn, '{"id_system":1,"id_group":1,"name":"Novo"}');
@@ -410,10 +410,10 @@
             execute($cn, '{"id_system":1,"id_group":1,"name":"Testar"}');
 
             // Success
-            printl("createAction() OK");
+            printl("createFunction() OK");
             
         } catch (Exception $ex) {
-            printl("createAction():" . $ex->getMessage());
+            printl("createFunction():" . $ex->getMessage());
             throw $ex;
         }
     }
@@ -642,7 +642,7 @@
 
             // View to function
             $json = '{"id_system": 1, "id_group": 2, "name": "FunctionByProfileUser", "sql": ""}';            
-            $json = $jsonUtil->setValue($json, "sql", "select distinct tb_user_profile.field->>''id_profile'' id_profile, tb_action.id, tb_action.field->>''name'' as name from tb_user_profile inner join tb_table_function on (tb_table_function.field->>''id_profile'')::int = (tb_user_profile.field->>''id_profile'')::int inner join tb_action on (tb_table_function.field->>''id_function'')::int = tb_action.id where (tb_table_function.field->>''id_table'')::int = p1 and (tb_user_profile.field->>''id_user'')::int = p2 order by tb_action.id");
+            $json = $jsonUtil->setValue($json, "sql", "select distinct tb_user_profile.field->>''id_profile'' id_profile, tb_function.id, tb_function.field->>''name'' as name from tb_user_profile inner join tb_table_function on (tb_table_function.field->>''id_profile'')::int = (tb_user_profile.field->>''id_profile'')::int inner join tb_function on (tb_table_function.field->>''id_function'')::int = tb_function.id where (tb_table_function.field->>''id_table'')::int = p1 and (tb_user_profile.field->>''id_user'')::int = p2 order by tb_function.id");
             execute($cn, $json);            
 
             // Success
