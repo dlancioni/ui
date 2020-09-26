@@ -1,12 +1,12 @@
 select 
-tb_table.id as id_table,
-tb_table_function.id,
-tb_table_function.field->>'id_profile' as profile,
+tb_user_profile.field->>'id_profile' id_profile,
+tb_action.id,
 tb_action.field->>'name' as name
-from tb_table_function
-inner join tb_table on (tb_table_function.field->>'id_table')::int = tb_table.id 
+from tb_user_profile
+inner join tb_table_function on 
+          (tb_table_function.field->>'id_profile')::int = (tb_user_profile.field->>'id_profile')::int   
 inner join tb_action on (tb_table_function.field->>'id_function')::int = tb_action.id
-inner join tb_profile_table on (tb_profile_table.field->>'id_profile')::int = (tb_table_function.field->>'id_profile')::int 
-and (tb_table_function.field->>'id_table')::int = tb_table.id
-where tb_table.id = 1
-and (tb_table_function.field->>'id_profile')::int = 1
+where (tb_table_function.field->>'id_table')::int = 1
+and (tb_user_profile.field->>'id_user')::int = 1
+order by tb_action.id
+
