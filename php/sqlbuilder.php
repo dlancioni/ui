@@ -75,7 +75,7 @@ class SqlBuilder extends Base {
             // Get existing record
             $filterView = new Filter();
             $filterView->add("tb_view", "id", $viewId);
-            $rs = $this->executeQuery($cn, $this->TB_VIEW, $filterView->create(), $this->QUERY_NO_JOIN);
+            $rs = $this->executeQuery($cn, $this->TB_VIEW, $filterView->create(), $this->QUERY_NO_PAGING);
             if (count($rs) > 0) {
                 $query = $rs[0]["sql"];
             }
