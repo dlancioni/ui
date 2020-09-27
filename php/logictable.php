@@ -47,7 +47,7 @@
                 $this->profileTransaction($id);
 
                 // Transaction x Function
-                $this->transactionFunction($id);                
+                $this->transactionFunction($id);
 
             } catch (Exception $ex) {
 

@@ -137,6 +137,9 @@
             case "tb_field":
                 $logic = new LogicField($cn, $sqlBuilder);
                 break;
+            case "tb_event":
+                $logic = new LogicEvent($cn, $sqlBuilder);
+                break;
             default:  
                 $logic  = "";
         }

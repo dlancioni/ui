@@ -14,5 +14,6 @@
     include "menu.php";
     include "logictable.php";
     include "logicfield.php";
+    include "logicevent.php";
     include "eventaction.php";
 ?>    
