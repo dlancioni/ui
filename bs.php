@@ -19,6 +19,9 @@ include "php/page.php";
 <form id="form1" name="form1" action="index.php" method="post">
 
     <!-- Session info -->
+    <?php include "php/layout.php";?>
+
+    <!-- Session info -->
     <?php include "php/hidden.php";?>
  
 </form>
