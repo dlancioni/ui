@@ -18,38 +18,8 @@ include "php/page.php";
 <body onKeyDown="__shortcut__(event)" onload="<?php echo $onLoadFunctions;?>">
 <form id="form1" name="form1" action="index.php" method="post">
 
-    <!-- Main container -->
-    <div class="w3-container">
-
-        <!-- Topnav -->
-        <div class="w3-row">
-            <div class="w3-container w3-black">
-                <img src="" width="50" heigth="50">
-            </div>
-        </div>
-
-        <!-- Main area -->
-        <div class="w3-row">       
-
-            <!-- Main menu -->
-            <div class="w3-quarter">
-                <div class="w3-panel">
-                    <?php echo $mainMenu; ?>
-                </div>
-            </div>
-
-            <!-- Contents -->
-            <div class="w3-threequarter">
-                <div class="w3-panel">
-                <?php echo $html;?>
-                </div>            
-            </div>
-
-        </div>
-    </div>
-
     <!-- Session info -->
-    <?php include "php/page.php";?>
+    <?php include "php/hidden.php";?>
  
 </form>
 </body>
