@@ -10,15 +10,11 @@ include "php/page.php";
 </head>    
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="css/w3.css">
-<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
-<style>
-    html, body, h1, h2, h3, h4, h5, h6 {
-    font-family: "Arial";
-    }
-</style>
-<br>
 
+<!-- Add dependencies-->
+<?php include "php/lib.php";?>
+
+<br>
 <body onKeyDown="__shortcut__(event)" onload="<?php echo $onLoadFunctions;?>">
 <form id="form1" name="form1" action="index.php" method="post">
 
@@ -52,23 +48,9 @@ include "php/page.php";
         </div>
     </div>
 
-    <!-- Session Info -->
-    <input type="hidden" id="_TABLE_" name="_TABLE_" value="<?php echo $tableId; ?>">
-    <input type="hidden" id="_FORMAT_" name="_FORMAT_" value="<?php echo $format; ?>">
-    <input type="hidden" id="_EVENT_" name="_EVENT_" value="<?php echo $event; ?>">
-    <input type="hidden" id="_PAGING_" name="_PAGING_" value="<?php echo $pageOffset; ?>">
-
-    <!-- JS -->
-    <script src="js/filesaver.js"></script>
-    <script src="js/moment.js"></script>
-    <script src="js/httpservice.js"></script>
-    <script src="js/session.js"></script>
-    <script src="js/db.js"></script>
-    <script src="js/event.js"></script>
-    <script src="js/validation.js"></script>
-    <script src="js/format.js"></script>
-    <script src="js/field.js"></script>
-   
+    <!-- Session info -->
+    <?php include "php/page.php";?>
+ 
 </form>
 </body>
 </html>
