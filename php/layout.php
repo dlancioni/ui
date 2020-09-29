@@ -28,31 +28,68 @@
       </div>
     </nav>
 
+    <br>
+    <br>    
 
-<br>
-<br>
+    <div class="container-fluid">
+        <div class="float-sm-right">
+            lancid
+        </div>
+    </div>
 
 
-
-<div class="container">
-
-    <table class="table table-sm">
+    <div class="container">
+    <table class="table table-borderless table-hover table-sm">
 
         <thead>
             <tr>
                 <th scope="col">Id</th>
                 <th scope="col">First</th>
-                <th scope="col">Last</th>
             </tr>
         </thead>
 
         <tbody>
             <tr>
                 <td style="width: 10%">1</th>
-                <td style="width: 20%">Mark</td>
-                <td style="width: 70%">Ottoooooooooooooooo</td>
+                <td style="width: 90%">Mark</td>
             </tr>
+            <tr>
+                <td style="width: 10%">1</th>
+                <td style="width: 90%">Mark</td>
+            </tr>
+            <tr>
+                <td style="width: 10%">1</th>
+                <td style="width: 90%">Mark</td>
+            </tr>
+            <tr>
+                <td style="width: 10%">1</th>
+                <td style="width: 90%">Mark</td>
+            </tr>                                    
         </tbody>
     </table>
+
+
+<br>
+<br>
+
+    <ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link active" data-toggle="tab" href="#home">Home</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#menu1">Menu 1</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#menu2">Menu 2</a>
+  </li>
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content">
+  <div class="tab-pane active container" id="home">...</div>
+  <div class="tab-pane container" id="menu1">...</div>
+  <div class="tab-pane container" id="menu2">...</div>
+</div>
+
 
 </div>
