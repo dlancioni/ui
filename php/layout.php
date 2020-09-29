@@ -38,58 +38,131 @@
     </div>
 
 
+
     <div class="container">
-    <table class="table table-borderless table-hover table-sm">
 
-        <thead>
-            <tr>
-                <th scope="col">Id</th>
-                <th scope="col">First</th>
-            </tr>
-        </thead>
+    <div class="card-body">
+      <h4 class="card-title">Perfil</h4>
+      
+      <table class="table table-borderless table-hover table-sm">
 
-        <tbody>
-            <tr>
-                <td style="width: 10%">1</th>
-                <td style="width: 90%">Mark</td>
-            </tr>
-            <tr>
-                <td style="width: 10%">1</th>
-                <td style="width: 90%">Mark</td>
-            </tr>
-            <tr>
-                <td style="width: 10%">1</th>
-                <td style="width: 90%">Mark</td>
-            </tr>
-            <tr>
-                <td style="width: 10%">1</th>
-                <td style="width: 90%">Mark</td>
-            </tr>                                    
-        </tbody>
-    </table>
+          <thead>
+              <tr>
+                  <th scope="col">Id</th>
+                  <th scope="col">First</th>
+              </tr>
+          </thead>
 
+          <tbody>
+              <tr>
+                  <td style="width: 10%">1</th>
+                  <td style="width: 90%">Administrador</td>
+              </tr>
+              <tr>
+                  <td style="width: 10%">2</th>
+                  <td style="width: 90%">Usuario</td>
+              </tr>
+              <tr>
+                  <td style="width: 10%">3</th>
+                  <td style="width: 90%">Vendedor</td>
+              </tr>
+              <tr>
+                  <td style="width: 10%">4</th>
+                  <td style="width: 90%">Gerente</td>
+              </tr>                                    
+          </tbody>
+      </table>
+    </div>
+
+
+
+    <nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-center pagination-sm">
+    <li class="page-item">
+      <a class="page-link" href="#" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+        <span class="sr-only">Previous</span>
+      </a>
+    </li>
+    <li class="page-item"><a class="page-link" href="#">1</a></li>
+    <li class="page-item active"><a class="page-link" href="#">2</a></li>
+    <li class="page-item"><a class="page-link" href="#">3</a></li>
+    <li class="page-item">
+      <a class="page-link" href="#" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+        <span class="sr-only">Next</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+
+    <button type="button" class="btn btn-primary">Novo</button>
+    <button type="button" class="btn btn-primary">Editar</button>
+    <button type="button" class="btn btn-primary">Apagar</button>
+    <button type="button" class="btn btn-primary">Filtrar</button>
+
+
+
+
+    
 
 <br>
 <br>
+<br>
+<br>
+<br>
+<br>
+<br>
 
-    <ul class="nav nav-tabs">
-  <li class="nav-item">
-    <a class="nav-link active" data-toggle="tab" href="#home">Home</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" data-toggle="tab" href="#menu1">Menu 1</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" data-toggle="tab" href="#menu2">Menu 2</a>
-  </li>
-</ul>
 
-<!-- Tab panes -->
-<div class="tab-content">
-  <div class="tab-pane active container" id="home">...</div>
-  <div class="tab-pane container" id="menu1">...</div>
-  <div class="tab-pane container" id="menu2">...</div>
+
+<form>
+
+  <div class="form-group row">
+    <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
+    <div class="col-sm-10">
+      <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
+    <div class="col-sm-10">
+      <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+    </div>
+  </div>
+
+
+  <div class="form-group row">
+    <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
+    <div class="col-sm-10">
+
+      <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref">
+      <option selected>Choose...</option>
+      <option value="1">One</option>
+      <option value="2">Two</option>
+      <option value="3">Three</option>
+      </select> 
+
+    </div>
+  </div>
+
+
+</form>
+
+
+
+
+
+
+
+
+
+
+
+
 </div>
 
 
-</div>
+
