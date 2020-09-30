@@ -20,7 +20,7 @@ include "php/page.php";
 <br>
 
 <body onKeyDown="__shortcut__(event)" onload="<?php echo $onLoadFunctions;?>">
-<form id="form1" name="form1" action="index.php" method="post">
+<form id="form1" name="form1" action="index.php" method="post" enctype="multipart/form-data">
 
     <!-- Main container -->
     <div class="w3-container">

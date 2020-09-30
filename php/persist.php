@@ -28,6 +28,7 @@
     $fieldUnique = "";
     $fieldLabel = "";    
     $changed = false;
+    $file = "";
 
     // Core code
     try {
@@ -78,7 +79,7 @@
                 throw new Exception($msg);
             }            
         }
-
+        
         // Read form
         foreach($tableDef as $item) {
             $fieldName = $item["field_name"];

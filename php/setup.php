@@ -274,6 +274,7 @@
             execute($cn, '{"id_system":1,"id_group":1,"key":4,"value":"Data","domain":"tb_field_type"}');
             execute($cn, '{"id_system":1,"id_group":1,"key":5,"value":"Hora","domain":"tb_field_type"}');
             execute($cn, '{"id_system":1,"id_group":1,"key":6,"value":"Area","domain":"tb_field_type"}');
+            execute($cn, '{"id_system":1,"id_group":1,"key":7,"value":"Binário","domain":"tb_field_type"}');
             // tb_event
             execute($cn, '{"id_system":1,"id_group":1,"key":1,"value":"onLoad","domain":"tb_event"}');
             execute($cn, '{"id_system":1,"id_group":1,"key":2,"value":"onClick","domain":"tb_event"}');

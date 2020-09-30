@@ -54,8 +54,10 @@ class Form extends Base {
         $datatype = "";
 
         // Constants
-        $TEXT_AREA = 6;
         $TB_DOMAIN = 4;
+        $TEXT_AREA = 6;
+        $FILE = 7;
+
 
         try {
 
@@ -150,6 +152,11 @@ class Form extends Base {
                                                                 $fieldValue, 
                                                                 $disabled, 
                                                                 $this->PageEvent);
+
+                    } else if ($fieldType == $FILE) {
+                        $cols .= $this->element->createUpload($fieldId, 
+                                                              $fieldName, 
+                                                              $fieldValue);
                     } else {
 
                         $cols .= $this->element->createTextbox($fieldId, 

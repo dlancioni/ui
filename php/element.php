@@ -27,6 +27,29 @@
             return $html;            
         }
 
+
+        /* 
+         * Create textbox
+         */
+        public function createUpload($fieldId, $name, $value, $placeholder="", $disabled=false) {
+            $html = "";
+            $stringUtil = new StringUtil();
+            try {
+                $html .= "<input";
+                $html .= " type=" . $stringUtil->dqt("file");
+                $html .= " id=" . $stringUtil->dqt($name); 
+                $html .= " name=" . $stringUtil->dqt($name); 
+                $html .= " value=" . $stringUtil->dqt($value);
+                $html .= " class=" . $stringUtil->dqt("w3-input w3-border");
+                $html .= " style='width:50%'";
+                $html .= ">";
+                $html .= "<br>";
+            } catch (Exception $ex) {
+                throw $ex;
+            }
+            return $html;            
+        }
+
         /* 
          * Create textbox
          */
