@@ -3,25 +3,34 @@
   <input type="button" value="Submit" onclick="submit()">
   <input type="file" name="img">
 
-  <script>
+<script>
 
     async function submit() {
 
-      var input = document.querySelector('input[type="file"]')
+      try {
 
-      let formData = new FormData();
+          var input = document.querySelector('input[type="file"]')
+          let formData = new FormData();
 
-      formData.append("firstName", "John");
-      formData.append('file', input.files[0])
+          for (let file of input.files) {
+            formData.append('file', file, file.name)
+          }
 
-      let response = await fetch('upload2.php', {
-        method: 'POST',
-        body: formData
-      });
+          let response = await fetch('upload2.php', {
+            method: 'POST',
+            body: formData
+          });
 
-      let result = await response.json();
-      alert(result.upload);
+          let result = await response.json();
+
+          alert(result.upload);
+
+      } catch (ex) {
+        alert("Erro: " + ex);
+      }
+
+      
     }
 
-  </script>
+</script>
 </body>

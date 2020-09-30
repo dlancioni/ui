@@ -1,6 +1,9 @@
 <?php
 
 
+$file = $_FILES["file"]["name"];
+
+/*
 try {
   $target_dir = "uploads/";
   $target_file = $target_dir . basename($_FILES["file"]["name"]);
@@ -10,6 +13,7 @@ try {
   
     $check = getimagesize($_FILES["file"]["tmp_name"]);
     if($check !== false) {
+      
       echo "File is an image - " . $check["mime"] . ".";
       $uploadOk = 1;
     } else {
@@ -19,6 +23,6 @@ try {
 } catch (Exception $ex) {
 
 }
-
+*/
   echo '{"upload":"success"}';
 ?>
