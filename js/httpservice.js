@@ -28,6 +28,7 @@ class HTTPService {
 
         // General declaration
         let url = "./php/persist.php?" + formData;
+        alert(url);
 
         // Just call it
         var xmlhttp = new XMLHttpRequest();
