@@ -1,7 +1,7 @@
 <body style="margin:0">
 
   <input type="button" value="Submit" onclick="submit()">
-  <input type="file" name="img">
+  <input type="file" name="file" multiple>
 
 <script>
 

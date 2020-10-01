@@ -3,11 +3,10 @@
   $json = '{"upload":"Pending"}';
 
   try {
-    throw new Exception("Deu pau");
     $target_dir = "uploads/";
-    $target_file = $target_dir . basename($_FILES["file"]["name"]);
+    $target_file = $target_dir . basename($_FILES["file"]["name"][1]);
     $fileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-    $fileSize = getimagesize($_FILES["file"]["tmp_name"]);
+    $fileSize = getimagesize($_FILES["file"]["tmp_name"][1]);
     $json = '{"upload":"success"}';
 
   } catch (Exception $ex) {
