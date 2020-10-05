@@ -23,8 +23,7 @@ function validateTableName(value) {
 function getFormData() {
     let form = document.getElementById('form1');
     let fd = new FormData(form);
-    alert(fd);
-    let formData = new URLSearchParams(fd).toString();
+    let formData = new URLSearchParams(new FormData(form)).toString();
     return formData;
 }
 
