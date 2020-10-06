@@ -130,11 +130,6 @@ class Form extends Base {
                     }
                 }
 
-                // Format values
-                if ($datatype == "file") {
-                    $fieldValue = "Selecionar";
-                }                
-
                 // Accumulate JS for validation
                 $js .= $this->element->createJs($fieldLabel, 
                                                 $fieldName,

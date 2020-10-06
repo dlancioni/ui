@@ -107,10 +107,10 @@
             if (isset($_FILES[$fieldName])) {
                 $fieldValue = $_FILES[$fieldName]["name"];
                 $fieldValue = $stringUtil->RemoveSpecialChar($fieldValue);
-                $new = $jsonUtil->setValue($new, $fieldName, $fieldValue);
+                if (trim($fieldValue) != "") {
+                    $new = $jsonUtil->setValue($new, $fieldName, $fieldValue);
+                }
             }
-
-
         }
 
         // Validate unique fields (when changed)

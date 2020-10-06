@@ -44,7 +44,9 @@
                     $this->fileExtension = strtolower(pathinfo($this->destination, PATHINFO_EXTENSION));
 
                     // Move file to destination folder
-                    $this->move();
+                    if (trim($this->tempFile) != "") {
+                        $this->move();
+                    }
                 }
 
             } catch (Exception $ex) {
