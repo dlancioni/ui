@@ -64,3 +64,26 @@ class HTTPService {
     }
 
 }
+
+
+// Out of class
+async function async_persist(formData) {
+
+    try {
+
+        // Submit it        
+        let response = await fetch('./php/persist.php', {
+            method: 'POST',
+            body: formData
+        });
+
+        // Return processing results
+        return await response.text();
+
+    } catch (ex) {
+
+        // Error handling
+        return ex;
+    }
+    
+  }

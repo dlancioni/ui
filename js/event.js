@@ -8,8 +8,7 @@ async function confirm() {
         go(getTable(), 1, getEvent());
     } else {
         if (validateForm()) {
-            let formData = getFormData();
-            async_confirm(formData).then(alert);
+            await async_persist(getFormData()).then(alert);
             if (getEvent() == "Delete") {
                 reportBack();
             }
@@ -81,30 +80,3 @@ function __shortcut__(e) {
     }
 }
 
-
-
-
-
-
-
-async function async_confirm(formData) {
-
-    try {
-
-        // Submit it        
-        let response = await fetch('./php/persist.php', {
-            method: 'POST',
-            body: formData
-        });
-
-        // Return processing results
-        return await response.text();
-
-    } catch (ex) {
-
-        // Error handling
-        return ex;
-    }
-
-    
-  }
