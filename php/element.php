@@ -519,6 +519,23 @@
             return $html;
         }        
 
+
+        /* 
+         * Create link
+         */
+        public function createLink($label, $path) {
+            $html = "";
+            $stringUtil = new StringUtil();
+            try {
+                $html .= "<a href=" . $stringUtil->dqt($path) . ">";
+                $html .= $label;
+                $html .= "</a>";                
+            } catch (Exception $ex) {
+                throw $ex;
+            }
+            return $html;            
+        }        
+
     // End of class
     }
 ?>

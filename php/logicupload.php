@@ -28,6 +28,7 @@
             $rs = "";
             $affectedRows = 0;
             $jsonUtil = new JsonUtil();
+            $pathUtil = new PathUtil();
 
             try {
 
@@ -35,7 +36,7 @@
                 foreach($_FILES as $file) {
 
                     // Extract file attributes
-                    $this->destination = $this->getUploadPath();
+                    $this->destination = $pathUtil->getUploadPath();
                     $this->tempFile = $file['tmp_name'];
                     $this->fileName = $file['name'];
                     $this->fileSize = $file['size'];
@@ -80,35 +81,5 @@
                 throw $ex;
             }
         }
-
-        /*
-         * Get upload path for windows or linux
-         */
-        private function getUploadPath() {
-
-            $path = "";
-            $pos = 0;
-
-            try {
-
-                // Get slash position
-                $pos = strpos(realpath('.'), "\\");
-
-                if ($pos > 0) {
-                    $path = realpath('.') . "\\files\\"; // Windows
-                } else {
-                    $path = realpath('.') . "/files/"; // Linux
-                }
-
-            } catch (Exception $ex) {
-                throw $ex;
-            }
-
-            return $path;
-        }
-
-
-
-
     } // End of class
 ?>

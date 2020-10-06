@@ -1,5 +1,34 @@
 <?php
 
+    class PathUtil {
+        /*
+         * Get upload path for windows or linux
+         */
+        public function getUploadPath() {
+
+            $path = "";
+            $pos = 0;
+
+            try {
+
+                // Get slash position
+                $pos = strpos(realpath('.'), "\\");
+
+                if ($pos > 0) {
+                    $path = realpath('.') . "\\files\\"; // Windows
+                } else {
+                    $path = realpath('.') . "/files/"; // Linux
+                }
+
+            } catch (Exception $ex) {
+                throw $ex;
+            }
+
+            return $path;
+        }
+    }
+
+
     class NumberUtil {
        /*
         * Make number in english (remove , or .)
@@ -9,7 +38,6 @@
             $value = str_replace(",", ".", $value);
             return $value;
         }
-
     }
 
     class StringUtil {

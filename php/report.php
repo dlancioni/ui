@@ -45,12 +45,14 @@ class Report extends Base {
         $numberUtil = "";
         $jsonUtil = "";
         $PAGE_SIZE = 15;
+        $link = "";
 
         try {
 
             // Create object instances
             $numberUtil = new NumberUtil();
             $jsonUtil = new jsonUtil();
+            $pathUtil = new PathUtil();            
             $this->element = new HTMLElement($this->cn, $this->sqlBuilder);
 
             // Get table structure
@@ -113,7 +115,15 @@ class Report extends Base {
 
                     // Format values
                     if ($fieldType == "float") {
-                        $fieldValue = number_format($fieldValue, 2, ',', '.');;
+                        $fieldValue = number_format($fieldValue, 2, ',', '.');
+                    }
+
+                    // Handle downloads
+                    if ($fieldType == "file") {
+                        if ($fieldValue != null) {
+                            $link = $pathUtil->getUploadPath() . $fieldValue;
+                            $fieldValue = $this->element->createLink($fieldValue, $link);
+                        }
                     }
 
                     // Print it
