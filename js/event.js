@@ -2,14 +2,13 @@
 /*
  * Functions used in system events 
  */
-function confirm() {
+async function confirm() {
     if (getEvent() == "Filter") {
         setPaging(0);
         go(getTable(), 1, getEvent());
     } else {
         if (validateForm()) {
-            //alert(persist(getFormData()));
-            async_confirm();
+            async_confirm().then(alert);
             if (getEvent() == "Delete") {
                 reportBack();
             }
@@ -110,12 +109,10 @@ async function async_confirm() {
             body: data
         });
 
-        let result = await response.text();
-
-        alert(result);
+        return await response.text();
 
     } catch (ex) {
-      alert("Erro: " + ex);
+        return ex;
     }
 
     
