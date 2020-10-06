@@ -128,6 +128,11 @@ class Form extends Base {
                     if ($fieldValue != "") {
                         $fieldValue = number_format($fieldValue, 2, ',', '.');
                     }
+                }
+
+                // Format values
+                if ($datatype == "file") {
+                    $fieldValue = "Selecionar";
                 }                
 
                 // Accumulate JS for validation
