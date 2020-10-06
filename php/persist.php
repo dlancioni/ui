@@ -34,7 +34,7 @@
     try {
 
         // Open connection
-        $db = new Db();       
+        $db = new Db();
         $cn = $db->getConnection();                
 
         // Keep instance of SqlBuilder for current session
@@ -78,6 +78,11 @@
                 $msg = $message->getValue("A11", $key);
                 throw new Exception($msg);
             }            
+        }
+
+        // Handle files
+        if (count($_FILES) > 0) {
+            echo count($_FILES);
         }
         
         // Read form

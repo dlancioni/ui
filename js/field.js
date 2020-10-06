@@ -21,9 +21,20 @@ function validateTableName(value) {
  * Read form and return array
  */
 function getFormData() {
+    
+    // Read form
     let form = document.getElementById('form1');
-    let fd = new FormData(form);
-    let formData = new URLSearchParams(new FormData(form)).toString();
+    let formData = new FormData(form);
+
+    // Append upload related fields        
+    var input = document.querySelector('input[type="file"]')         
+    if (input != null) {
+        for (let file of input.files) {
+            formData.append('file', file, file.name)
+        }
+    }
+
+    // Just return it
     return formData;
 }
 

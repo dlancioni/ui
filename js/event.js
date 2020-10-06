@@ -8,7 +8,8 @@ async function confirm() {
         go(getTable(), 1, getEvent());
     } else {
         if (validateForm()) {
-            async_confirm().then(alert);
+            let formData = getFormData();
+            async_confirm(formData).then(alert);
             if (getEvent() == "Delete") {
                 reportBack();
             }
@@ -86,21 +87,9 @@ function __shortcut__(e) {
 
 
 
-async function async_confirm() {
+async function async_confirm(formData) {
 
     try {
-
-        // Read form
-        let form = document.getElementById('form1');
-        let formData = new FormData(form);
-
-        // Append upload related fields        
-        var input = document.querySelector('input[type="file"]')         
-        if (input != null) {
-            for (let file of input.files) {
-                formData.append('file', file, file.name)
-            }
-        }
 
         // Submit it        
         let response = await fetch('./php/persist.php', {
