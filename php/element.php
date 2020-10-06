@@ -523,16 +523,27 @@
         /* 
          * Create link
          */
-        public function createLink($label, $path) {
+        public function createLink($label, $path, $download=false) {
+
             $html = "";
             $stringUtil = new StringUtil();
+
             try {
-                $html .= "<a href=" . $stringUtil->dqt($path) . ">";
+
+                $html .= "<a href=" . $stringUtil->dqt($path);
+
+                if ($download) {
+                    $html .= " download=" . $stringUtil->dqt($label);
+                }
+
+                $html .= ">";
                 $html .= $label;
-                $html .= "</a>";                
+                $html .= "</a>";
+
             } catch (Exception $ex) {
                 throw $ex;
             }
+            
             return $html;            
         }        
 

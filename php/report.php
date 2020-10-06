@@ -121,8 +121,9 @@ class Report extends Base {
                     // Handle downloads
                     if ($fieldType == "file") {
                         if ($fieldValue != null) {
-                            $link = $pathUtil->getUploadPath() . $fieldValue;
-                            $fieldValue = $this->element->createLink($fieldValue, $link);
+                            //$link = $pathUtil->getUploadPath() . $fieldValue;
+                            $link = "/ui/php/files/" . $fieldValue;
+                            $fieldValue = $this->element->createLink($fieldValue, $link, true);
                         }
                     }
 
