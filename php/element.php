@@ -545,7 +545,32 @@
             }
             
             return $html;            
-        }        
+        }
+
+        /* 
+         * Create link
+         */
+        public function createImage($path) {
+
+            $html = "";
+            $stringUtil = new StringUtil();
+
+            try {
+
+                $html .= "<img src=" . $stringUtil->dqt($path);
+                $html .= " width=" . $stringUtil->dqt("100");
+                $html .= " heigth=" . $stringUtil->dqt("100");
+                $html .= ">";
+
+            } catch (Exception $ex) {
+                throw $ex;
+            }
+            
+            return $html;            
+        }
+
+
+
 
     // End of class
     }

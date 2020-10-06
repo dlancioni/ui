@@ -124,6 +124,7 @@ class Report extends Base {
                             //$link = $pathUtil->getUploadPath() . $fieldValue;
                             $link = "/ui/php/files/" . $fieldValue;
                             $fieldValue = $this->element->createLink($fieldValue, $link, true);
+                            $fieldValue = $this->element->createImage($link);
                         }
                     }
 
