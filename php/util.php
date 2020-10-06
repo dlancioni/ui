@@ -1,6 +1,23 @@
 <?php
 
     class PathUtil {
+
+        /*
+         * Get virtual file path
+         */
+        public function getVirtualPath() {
+
+            $path = "";
+
+            try {
+                $path = "/ui/php/files/";
+            } catch (Exception $ex) {
+                throw $ex;
+            }
+
+            return $path;
+        }
+
         /*
          * Get upload path for windows or linux
          */
