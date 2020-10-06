@@ -31,6 +31,9 @@
 
             try {
 
+                // Keep upload folder
+                $this->destination = $this->getUploadPath();
+
                 // Handle uploads
                 //for ($i=0; $i<=count($files); $i++) {
                 $this->file = $_FILES['file'];
@@ -78,6 +81,33 @@
                 throw $ex;
             }
         }
+
+        /*
+         * Get upload path for windows or linux
+         */
+        private function getUploadPath() {
+
+            $path = "";
+            $pos = 0;
+
+            try {
+
+                // Get slash position
+                $pos = strpos(realpath('.'), "\\");
+
+                if ($pos > 0) {
+                    $path = realpath('.') . "\\files\\"; // Windows
+                } else {
+                    $path = realpath('.') . "/files/"; // Linux
+                }
+
+            } catch (Exception $ex) {
+                throw $ex;
+            }
+
+            return $path;
+        }
+
 
 
 
