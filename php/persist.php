@@ -82,7 +82,9 @@
 
         // Handle files
         if (count($_FILES) > 0) {
-            echo count($_FILES);
+            $logicUpload = new LogicTable($cn, $sqlBuilder);
+            $logicUpload->messageService = $message;
+            $logicUpload->uploadFiles($_FILES);
         }
         
         // Read form

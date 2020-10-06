@@ -15,5 +15,6 @@
     include "logictable.php";
     include "logicfield.php";
     include "logicevent.php";
+    include "logicupload.php";
     include "eventaction.php";
 ?>    
