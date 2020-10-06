@@ -118,7 +118,11 @@
             $json = json_decode($json, true);
 
             if (is_numeric($value)) {
-                $json[$field] = intval($value);
+                if (is_int($value)) {
+                    $json[$field] = intval($value);
+                } else {
+                    $json[$field] = floatval($value);
+                }
             } else {
                 $json[$field] = strval($value);
             }

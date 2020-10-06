@@ -1,1 +1,1 @@
-delete from tb_1
+select * from tb_upload
