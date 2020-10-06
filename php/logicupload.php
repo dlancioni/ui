@@ -31,26 +31,25 @@
 
             try {
 
-                // Keep upload folder
-                $this->destination = $this->getUploadPath();
-
                 // Handle uploads
-                //for ($i=0; $i<=count($files); $i++) {
-                $this->file = $_FILES['file'];
-                $this->tempFile = $this->file['tmp_name'];
-                $this->fileName = $this->file['name'];
-                $this->fileSize = $this->file['size'];
-                $this->destination = $this->destination . basename($this->fileName);
-                $this->fileExtension = strtolower(pathinfo($this->destination, PATHINFO_EXTENSION));
+                foreach($_FILES as $file) {
 
-                // Move file to destination folder
-                $this->move();
-                //}
+                    // Extract file attributes
+                    $this->destination = $this->getUploadPath();
+                    $this->tempFile = $file['tmp_name'];
+                    $this->fileName = $file['name'];
+                    $this->fileSize = $file['size'];
+                    $this->destination = $this->destination . basename($this->fileName);
+                    $this->fileExtension = strtolower(pathinfo($this->destination, PATHINFO_EXTENSION));
+
+                    // Move file to destination folder
+                    $this->move();
+                }
 
             } catch (Exception $ex) {
 
                 // Keep source and error                
-                $this->sqlBuilder->setError("Upload.uploadFile()", $ex->getMessage());
+                $this->sqlBuilder->setError("Upload.uploadFiles()", $ex->getMessage());
 
                 // Rethrow it
                 throw $ex;
