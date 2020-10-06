@@ -5,14 +5,17 @@
         private $cn = 0;
         private $file = "";
         private $fileName = "";
+        private $tempFile = "";
         private $fileSize = "";
-        private $destination = "./php/files/";
-        public $messageService = "";
+        private $fileExtension = "";
+        private $destination = "C:\\Users\\david\\xampp\\htdocs\\ui\\php\\files\\";
+        private $message = "";
 
         // Constructor
         function __construct($cn, $sqlBuilder) {
             $this->cn = $cn;
             $this->sqlBuilder = $sqlBuilder;
+            $this->message = new Message($this->cn, $this->sqlBuilder);
         }
 
         /*
@@ -29,10 +32,17 @@
             try {
 
                 // Handle uploads
-                for ($i=0; $i<=count($files); $i++) {
-                    $this->file = $_FILES['userfile']['name'][$i];
-                    $this->filename = $_FILES['userfile']['name'][$i];
-                }
+                //for ($i=0; $i<=count($files); $i++) {
+                $this->file = $_FILES['file'];
+                $this->tempFile = $this->file['tmp_name'];
+                $this->fileName = $this->file['name'];
+                $this->fileSize = $this->file['size'];
+                $this->destination = $this->destination . basename($this->fileName);
+                $this->fileExtension = strtolower(pathinfo($this->destination, PATHINFO_EXTENSION));
+
+                // Move file to destination folder
+                $this->move();
+                //}
 
             } catch (Exception $ex) {
 
@@ -53,10 +63,12 @@
          */
         public function move() {
 
+            $msg = "";
+
             try {
 
-                if (move_uploaded_file($file, $this->destination)) {
-                    $msg = $message->getValue("A5");
+                if (!move_uploaded_file($this->tempFile, $this->destination)) {
+                    $msg = $this->message->getValue("A12");
                     throw new Exception($msg);
                 }
 
