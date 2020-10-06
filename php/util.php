@@ -128,7 +128,7 @@
             $output = "";
             
             // Avoid conversion on select field
-            if ($type == "date") {
+            if ($type == "date" || $type == "file") {
                 $type = "text";
             }
 

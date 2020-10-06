@@ -88,16 +88,29 @@
         
         // Read form
         foreach($tableDef as $item) {
+
+            // Read base fields
             $fieldName = $item["field_name"];
             $fieldType = $item["data_type"];
+
+            // Get form info
             if (isset($_REQUEST[$fieldName])) {
-                $fieldValue = $_REQUEST[$fieldName];                
+                $fieldValue = $_REQUEST[$fieldName];
                 if ($fieldType == "float") {
                     $fieldValue = $numberUtil->valueOf($fieldValue);
                 }
                 $fieldValue = $stringUtil->RemoveSpecialChar($fieldValue);
                 $new = $jsonUtil->setValue($new, $fieldName, $fieldValue);
             }
+
+            // Get file info
+            if (isset($_FILES[$fieldName])) {
+                $fieldValue = $_FILES[$fieldName]["name"];
+                $fieldValue = $stringUtil->RemoveSpecialChar($fieldValue);
+                $new = $jsonUtil->setValue($new, $fieldName, $fieldValue);
+            }
+
+
         }
 
         // Validate unique fields (when changed)
