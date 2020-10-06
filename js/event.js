@@ -90,28 +90,30 @@ async function async_confirm() {
 
     try {
 
-        const data = new URLSearchParams();
+        // Read form
         let form = document.getElementById('form1');
         let formData = new FormData(form);
-        for (const pair of formData) {
-            data.append(pair[0], pair[1]);
-        }
 
+        // Append upload related fields        
         var input = document.querySelector('input[type="file"]')         
         if (input != null) {
             for (let file of input.files) {
-                data.append('file', file, file.name)
+                formData.append('file', file, file.name)
             }
         }
 
+        // Submit it        
         let response = await fetch('./php/persist.php', {
             method: 'POST',
-            body: data
+            body: formData
         });
 
+        // Return processing results
         return await response.text();
 
     } catch (ex) {
+
+        // Error handling
         return ex;
     }
 
