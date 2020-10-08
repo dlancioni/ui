@@ -229,10 +229,15 @@
          * Create table
          */
         public function createTable($value) {
+
             $html = "";
+            $stringUtil = new StringUtil();
+
             try {
                 $html .="<div style='overflow-x:auto;'>";
-                $html .= "<table class='w3-table w3-bordered w3-hoverable'>$value</table>";
+                $html .= "<table class=" . $stringUtil->dqt("table table-borderless table-hover table-sm"); 
+                $html .= $value;
+                $html .="</table>";
                 $html .="</div>";
             } catch (Exception $ex) {
                 throw $ex;
