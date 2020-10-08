@@ -11,10 +11,12 @@
     include "class/form.php";
     include "class/filter.php";
     include "class/element.php";
+    include "class/eventaction.php";    
+    
     include "class/logicmenu.php";
     include "class/logictable.php";
     include "class/logicfield.php";
     include "class/logicevent.php";
     include "class/logicupload.php";
-    include "class/eventaction.php";
+
 ?>    

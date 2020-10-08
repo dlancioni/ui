@@ -23,7 +23,8 @@ include "php/page.php";
         <!-- Topnav -->
         <div class="w3-row">
             <div class="w3-container w3-black">
-                <img src="" width="50" heigth="50">
+
+                &nbsp;<br>&nbsp;
             </div>
         </div>
 
