@@ -53,6 +53,10 @@ class Form extends Base {
         $fieldValue = "";
         $datatype = "";
 
+        $label = "";
+        $control = "";
+        $controls = "";
+
         // Constants
         $TB_DOMAIN = 4;
         $TEXT_AREA = 6;
@@ -87,7 +91,7 @@ class Form extends Base {
                 }
 
                 // Create field Id (rules according to event)
-                $rows .= $this->createId($data, $placeHolder, $disabled);
+                $controls .= $this->createId($data, $placeHolder, $disabled);
             }
 
             // Keep cascade info for current transaction
@@ -140,31 +144,31 @@ class Form extends Base {
                                                 $fk);
                 
                 // Add label                
-                $cols .= $this->element->createLabel($fieldLabel, $fieldName);
+                $label = $this->element->createLabel($fieldLabel, $fieldName);
 
                 // Add field (textbox or dropdown)
                 if ($fk == 0) {
 
                     // Append textbox or text area
                     if ($fieldType == $TEXT_AREA) {
-                        $cols .= $this->element->createTextarea($fieldId, 
-                                                                $fieldName, 
-                                                                $fieldValue, 
-                                                                $disabled, 
-                                                                $this->PageEvent);
+                        $control = $this->element->createTextarea($fieldId, 
+                                                                  $fieldName, 
+                                                                  $fieldValue, 
+                                                                  $disabled, 
+                                                                  $this->PageEvent);
 
                     } else if ($fieldType == $FILE) {
-                        $cols .= $this->element->createUpload($fieldId, 
-                                                              $fieldName, 
-                                                              $fieldValue);
+                        $control = $this->element->createUpload($fieldId, 
+                                                                $fieldName, 
+                                                                $fieldValue);
                     } else {
 
-                        $cols .= $this->element->createTextbox($fieldId, 
-                                                               $fieldName,
-                                                               $fieldValue,
-                                                               $placeHolder,
-                                                               $disabled,
-                                                               $this->PageEvent);
+                        $control = $this->element->createTextbox($fieldId, 
+                                                                 $fieldName,
+                                                                 $fieldValue,
+                                                                 $placeHolder,
+                                                                 $disabled,
+                                                                 $this->PageEvent);
                     }
 
                 } else {
@@ -206,29 +210,30 @@ class Form extends Base {
                         }
                     }
 
-                    // Get related data and create element
+                    // Get FK related data
                     $dataFk = $this->sqlBuilder->executeQuery($this->cn, $fk, $filter->create());                        
 
-                    $cols .= $this->element->createDropdown($fieldId,
-                                                            $fieldName, 
-                                                            $fieldValue, 
-                                                            $dataFk, 
-                                                            $key, 
-                                                            $value, 
-                                                            $function,
-                                                            $this->PageEvent,
-                                                            $disabled);
+                    // Create control
+                    $control = $this->element->createDropdown($fieldId,
+                                                              $fieldName, 
+                                                              $fieldValue, 
+                                                              $dataFk, 
+                                                              $key, 
+                                                              $value, 
+                                                              $function,
+                                                              $this->PageEvent,
+                                                              $disabled);
                 }
 
                 // Add current col to rows
-                $rows .= $cols;
+                $controls .= $this->element->createFieldGroup($label, $control);
             }
 
             // Create page title
             $html .= $this->element->createPageTitle($tableId, $this->Event);
 
             // Finalize form
-            $html .= $this->element->createForm("form1", $rows);
+            $html .= $this->element->createForm("form1", $controls);
 
             // Add validateForm function
             $html .= $this->element->createScript($js);
@@ -248,9 +253,8 @@ class Form extends Base {
     private function createId($data, $placeHolder, $disabled) {
         // General declaration
         $id = "";
-        $cols = "";
-        $rows = "";
-        $fieldId = "_id_";        
+        $fieldId = "_id_";
+        $controls = "";
 
         // Keep value
         if (isset($data[0]["id"])) {
@@ -273,12 +277,13 @@ class Form extends Base {
                 $disabled = "";
         }
 
-        // Create field
-        $cols .= $this->element->createTableCol($this->element->createLabel("id", "id"));
-        $cols .= $this->element->createTableCol($this->element->createTextbox(0, $fieldId, $id, $placeHolder, $disabled));
-        $rows .= $this->element->createTableRow($cols);
+        // Create field group
+        $controls .= $this->element->createFieldGroup(
+            $this->element->createLabel("id", "id"), 
+                $this->element->createTextbox(0, $fieldId, $id, $placeHolder, $disabled));
 
-        return $rows;
+        // Just return it
+        return $controls;
     }
 }
 ?>

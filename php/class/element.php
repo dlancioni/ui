@@ -18,9 +18,10 @@
             $html = "";
             $stringUtil = new StringUtil();
             try {
-                $html .= "<label for=" . $stringUtil->dqt($name) . ">";
+                $html .= "<label for=" . $stringUtil->dqt($name);
+                $html .= " class=" . $stringUtil->dqt("col-sm-2 col-form-label") . ">";
                 $html .= $label;
-                $html .= "</label>";                
+                $html .= "</label>";
             } catch (Exception $ex) {
                 throw $ex;
             }
@@ -40,10 +41,9 @@
                 $html .= " id=" . $stringUtil->dqt($name); 
                 $html .= " name=" . $stringUtil->dqt($name); 
                 $html .= " value=" . $stringUtil->dqt($value);
-                $html .= " class=" . $stringUtil->dqt("w3-input w3-border");
+                $html .= " class=" . $stringUtil->dqt("form-control");
                 $html .= " style='width:50%'";
                 $html .= ">";
-                $html .= "<br>";
             } catch (Exception $ex) {
                 throw $ex;
             }
@@ -62,8 +62,7 @@
                 $html .= " id=" . $stringUtil->dqt($name); 
                 $html .= " name=" . $stringUtil->dqt($name); 
                 $html .= " value=" . $stringUtil->dqt($value);
-                $html .= " class=" . $stringUtil->dqt("w3-input w3-border");
-                $html .= " style='width:50%'";
+                $html .= " class=" . $stringUtil->dqt("form-control");
                 
                 if ($placeholder != "")
                     $html .= " placeholder=" . $stringUtil->dqt($placeholder);
@@ -75,7 +74,6 @@
                     $html .= $this->getEvent($fieldId, $fieldEvent);
 
                 $html .= ">";
-                $html .= "<br>";
 
             } catch (Exception $ex) {
                 throw $ex;
@@ -96,7 +94,7 @@
                 $html .= " name=" . $stringUtil->dqt($fieldName); 
                 $html .= " rows=" . $stringUtil->dqt("10");
                 $html .= " cols=" . $stringUtil->dqt("50");
-                $html .= " class=" . $stringUtil->dqt("w3-input w3-border");
+                $html .= " class=" . $stringUtil->dqt("form-control");
                 $html .= " " . $disabled;
 
                 if ($fieldEvent)
@@ -105,7 +103,6 @@
                 $html .= ">";
                 $html .= $value;
                 $html .= "</textarea>";
-                $html .= "<br>";
 
             } catch (Exception $ex) {
                 throw $ex;
@@ -129,12 +126,10 @@
             try {
 
                 // Open dropdown
-                $html .= "<br>";
                 $html .= "<select";
                 $html .= " id=" . $stringUtil->dqt($fieldName); 
                 $html .= " name=" . $stringUtil->dqt($fieldName);
-                $html .= " class=" . $stringUtil->dqt("w3-select w3-border");
-                $html .= " style='width:50%'";
+                $html .= " class=" . $stringUtil->dqt("custom-select my-1 mr-sm-2");
 
                 if (trim($function) != "") 
                     $html .= $function;
@@ -172,8 +167,6 @@
                 // Close dropdown
                 $html .= "</select>";
 
-                // Separete controls
-                $html .= "<br><br>";
 
             } catch (Exception $ex) {
                 throw $ex;
@@ -196,7 +189,7 @@
                 $html .= " name=" . $stringUtil->dqt($name); 
                 $html .= " value=" . $stringUtil->dqt($value); 
                 $html .= " " . $event . "=" . $stringUtil->dqt($code);
-                $html .= " class=" . $stringUtil->dqt("w3-button w3-blue");                 
+                $html .= " class=" . $stringUtil->dqt("btn btn-primary");                 
                 $html .= ">";
                 $html .= "&nbsp;";
             } catch (Exception $ex) {
@@ -251,7 +244,9 @@
         public function createTableRow($value) {
             $html = "";
             try {
-                $html = "<tr>$value</tr>";
+                $html .= "<tr>";
+                $html .= $value;
+                $html .= "</tr>";
             } catch (Exception $ex) {
                 throw $ex;
             }
@@ -264,7 +259,9 @@
         public function createTableHeader($value) {
             $html = "";
             try {
-                $html = "<th>$value</th>";
+                $html .= "<th>";
+                $html .= $value;
+                $html .= "</th>";
             } catch (Exception $ex) {
                 throw $ex;
             }
@@ -274,11 +271,19 @@
         /* 
          * Create column
          */
-        public function createTableCol($value) {
+        public function createTableCol($value, $width="") {
             $html = "";
             $stringUtil = new StringUtil();
             try {
-                $html = "<td>$value</td>";
+
+                $html .= "<td ";
+                if ($width != "") {
+                    $html .= "style=" . $stringUtil->dqt("width: $width");
+                }
+                $html .= ">";
+                $html .= $value;
+                $html .= "</td>";
+
             } catch (Exception $ex) {
                 throw $ex;
             }
@@ -574,6 +579,31 @@
             return $html;            
         }
 
+
+
+        /* 
+         * Create field group
+         */
+        public function createFieldGroup($label, $control) {
+
+            $html = "";
+            $stringUtil = new StringUtil();
+
+            try {
+
+                $html .= "<div class=" . $stringUtil->dqt("form-group row w-75") . ">";
+                    $html .= $label;
+                    $html .= "<div class=" . $stringUtil->dqt("col-sm-10") . ">";
+                    $html .= $control;
+                    $html .= "</div>";
+                $html .= "</div>";
+
+            } catch (Exception $ex) {
+                throw $ex;
+            }
+            
+            return $html;            
+        }        
 
 
 
