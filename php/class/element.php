@@ -89,11 +89,10 @@
             $stringUtil = new StringUtil();
             try {
                 $html .= "<textarea";
-                $html .= " style='width:50%'";                
                 $html .= " id=" . $stringUtil->dqt($fieldName); 
                 $html .= " name=" . $stringUtil->dqt($fieldName); 
                 $html .= " rows=" . $stringUtil->dqt("10");
-                $html .= " cols=" . $stringUtil->dqt("50");
+                $html .= " cols=" . $stringUtil->dqt("100");
                 $html .= " class=" . $stringUtil->dqt("form-control");
                 $html .= " " . $disabled;
 
@@ -337,6 +336,8 @@
                         $html .= "<h3>$pageTitle</h3>";
                 }
                 
+                $html .= "<br>";
+
 
             } catch (Exception $ex) {
                 throw $ex;

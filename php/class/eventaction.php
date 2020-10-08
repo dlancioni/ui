@@ -33,7 +33,9 @@
                 $filter->add("tb_table", "id_table", $this->sqlBuilder->getTable());
                 $filter->add("tb_user_profile", "id_user", $this->sqlBuilder->getUser());
                 $permission = $this->sqlBuilder->executeView($this->cn, $FunctionByProfileUser, $filter->create());
-                
+
+                $html .= "<br>";
+
                 // Create event list
                 foreach ($pageEvent as $event) {
                     if ($event["id_function"] != 0) {
@@ -46,8 +48,6 @@
                         }
                     }
                 }
-
-                $html .= "<br><br>";
 
             } catch (Exception $ex) {                    
                 // Error handler
