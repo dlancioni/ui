@@ -99,8 +99,7 @@
         private function createLink($id, $label) {
             $html = "";
             $html .= "<li>";
-            $html .= "<span class='fa-li'><i class='fa fa-angle-right'></i></span>";            
-            $html .= "<a onclick='go(" . $id . ", 1)'>" . $label . "</a>" . "&nbsp;&nbsp;";
+            $html .= "<a onclick='go(" . $id . ", 1)'>" . $label . "</a>";
             $html .= "</li>";
             return $html;
         }
