@@ -11,7 +11,7 @@
     include "form.php";
     include "filter.php";
     include "element.php";
-    include "menu.php";
+    include "logicmenu.php";
     include "logictable.php";
     include "logicfield.php";
     include "logicevent.php";

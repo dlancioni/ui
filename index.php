@@ -12,11 +12,6 @@ include "php/page.php";
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="css/w3.css">
 <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
-<style>
-    html, body, h1, h2, h3, h4, h5, h6 {
-    font-family: "Arial";
-    }
-</style>
 <br>
 
 <body onKeyDown="__shortcut__(event)" onload="<?php echo $onLoadFunctions;?>">
@@ -38,7 +33,7 @@ include "php/page.php";
             <!-- Main menu -->
             <div class="w3-quarter">
                 <div class="w3-panel">
-                    <?php echo $mainMenu; ?>
+                    <?php echo $menu; ?>
                 </div>
             </div>
 

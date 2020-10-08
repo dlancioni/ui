@@ -10,8 +10,9 @@
     $event = "";
     $eventAction = "";
     $pageEvent = "";
-    $element = "";
-    $mainMenu = "";
+    $element = "";    
+    $menu = "";
+    $logicMenu = "";
     $onLoadFunctions = "";
     
     try {
@@ -22,7 +23,7 @@
         // Get main menu    
         $sqlBuilder = new SqlBuilder($systemId, $tableId, $userId, $groupId);    
         $eventAction = new EventAction($cn, $sqlBuilder);
-        $menu = new Menu($cn, $sqlBuilder);
+        $logicMenu = new LogicMenu($cn, $sqlBuilder);
         $element = new HTMLElement($cn, $sqlBuilder);
 
         // Get events
@@ -32,8 +33,8 @@
         $pageEvent = $sqlBuilder->executeQuery($cn, $sqlBuilder->TB_EVENT, $filter->create(), $sqlBuilder->QUERY_NO_PAGING);
 
         // Create main menu
-        $menu->createMenu($systemId, $userId);
-        $mainMenu = $menu->html;        
+        $logicMenu->createMenu($systemId, $userId);
+        $menu = $logicMenu->html;
 
         // Create table or form
         if ($tableId > 0) {

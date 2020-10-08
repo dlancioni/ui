@@ -1,5 +1,5 @@
 <?php
-    class Menu extends Base {
+    class LogicMenu extends Base {
 
         // Private members
         private $cn = 0;
