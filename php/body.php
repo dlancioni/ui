@@ -11,24 +11,17 @@
 
     <!-- Menu -->
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item dropdown">           
-                <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Administração</a>
-                <div class="dropdown-menu" aria-labelledby="dropdown01">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
-                </div>            
-            </li>
+        <ul class="navbar-nav mr-auto">       
 
             <li class="nav-item dropdown">           
-                <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Cadastros</a>
+                <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown">Administração</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown01">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <a class="dropdown-item" href="#">Something else here</a>
                 </div>            
-            </li>          
+            </li>
+           
         </ul>
     </div>
 
@@ -36,7 +29,7 @@
     <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-            <a href="" class="text-white"><b>David</b></a>
+            <a href="" class="text-white">&nbsp;&nbsp;&nbsp;</a>
             </li>
         </ul>
     </div>
