@@ -86,7 +86,7 @@
 
                 if ($k == "id") 
                     $id = $v; // temporario
-                if ($k == "name") 
+                if ($k == "name" && $array["id_parent"] != "0") 
                     $this->append($this->addMenuItem($id, $v));
             }
         }
