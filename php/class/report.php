@@ -53,10 +53,15 @@ class Report extends Base {
             $numberUtil = new NumberUtil();
             $jsonUtil = new jsonUtil();
             $pathUtil = new PathUtil();            
+            $message = new Message($this->cn, $this->sqlBuilder);            
             $this->element = new HTMLElement($this->cn, $this->sqlBuilder);
 
             // Get table structure
             $this->tableDef = $this->sqlBuilder->getTableDef($this->cn, $tableId);
+            if (count($this->tableDef) == 0) {
+                $msg = $message->getValue("A13");
+                throw new Exception($msg);
+            }
 
             // Get data
             $filter = new Filter();
@@ -148,7 +153,7 @@ class Report extends Base {
             $html .= "<br><br>";
 
         } catch (Exception $ex) {
-            $html = '{"status":"fail", "error":' . $ex->getMessage() . '}';
+            throw $ex;
         }
 
         // Return report        

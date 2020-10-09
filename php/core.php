@@ -70,7 +70,7 @@
     } catch (Exception $ex) {        
         
         // Error handler
-        $html = '{"status":"fail", "error":' . $ex->getMessage() . '}';
+        $html = $ex->getMessage();
 
     } finally {
 
