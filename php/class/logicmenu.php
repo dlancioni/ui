@@ -73,34 +73,49 @@
             // General Declaration
             $id = 0;
 
-            // Create main menu
-            $this->append("<ul class='fa-ul'>");
-            
-
             foreach($array as $k => $v) {
                 if (is_array($v)) {
+                    if (isset($v["children"])) {
+                        if (count($v["children"]) > 0) {
+                            $this->append($this->addMenu($v["name"]));
+                        }
+                    }
                     $this->writeTree($v);
                     continue;
                 }
 
                 if ($k == "id") 
                     $id = $v; // temporario
-
                 if ($k == "name") 
-                    $this->append($this->createLink($id, $v));
+                    $this->append($this->addMenuItem($id, $v));
             }
-        
-            $this->append("</ul>");
         }
 
         /*
-         * Add link to current menu
+         * Create main menu
          */
-        private function createLink($id, $label) {
+        private function addMenu($label) {
+
             $html = "";
-            $html .= "<li>";
-            $html .= "<a onclick='go(" . $id . ", 1)'>" . $label . "</a>";
-            $html .= "</li>";
+            $stringUtil = new StringUtil();
+
+            $html .= "<li class=" . $stringUtil->dqt("nav-item dropdown") . ">";
+            $html .= "<a class=". $stringUtil->dqt("nav-link dropdown-toggle") . " href=" . $stringUtil->dqt("#") . "id=". $stringUtil->dqt("menu") ." data-toggle=" . $stringUtil->dqt("dropdown") . ">" . trim($label) . "</a>";
+            $html .= "<div class=" . $stringUtil->dqt("dropdown-menu") . " aria-labelledby=" . $stringUtil->dqt("menu") .">";
+            
+            return $html;
+        }
+
+        /*
+         * Create menu item
+         */
+        private function addMenuItem($id, $label) {
+
+            $html = "";
+            $jsonUtil = new JsonUtil();
+
+            $html .= "<a class='dropdown-item' href='#' onclick='go(" . $id . ", 1)'>" . $label . "</a>";
+
             return $html;
         }
 

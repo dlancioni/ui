@@ -21,7 +21,7 @@
         include "request.php";
 
         // Get main menu    
-        $sqlBuilder = new SqlBuilder($systemId, $tableId, $userId, $groupId);    
+        $sqlBuilder = new SqlBuilder($systemId, $tableId, $userId, $groupId);
         $eventAction = new EventAction($cn, $sqlBuilder);
         $logicMenu = new LogicMenu($cn, $sqlBuilder);
         $element = new HTMLElement($cn, $sqlBuilder);

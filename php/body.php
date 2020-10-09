@@ -13,14 +13,15 @@
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">       
 
+            <!-- Model    
             <li class="nav-item dropdown">           
                 <a class="nav-link dropdown-toggle" href="#" id="menu" data-toggle="dropdown">Administração</a>
                 <div class="dropdown-menu" aria-labelledby="menu">
                     <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <a class="dropdown-item" href="#">Something else here</a>
                 </div>            
             </li>
+            -->
+            <?php echo $menu; ?>
            
         </ul>
     </div>
@@ -43,7 +44,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-3">
-            <?php echo $menu; ?>
+            
         </div>
         <div class="col-sm-9">
             <?php echo $html;?>
