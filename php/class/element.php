@@ -271,14 +271,17 @@
          * Create column
          */
         public function createTableCol($value, $width="") {
+
             $html = "";
             $stringUtil = new StringUtil();
             try {
-
                 $html .= "<td ";
+
                 if ($width != "") {
-                    $html .= "style=" . $stringUtil->dqt("width: $width");
+                    $width = "width: " . $width . "%";
+                    $html .= "style=" . $stringUtil->dqt($width);
                 }
+                
                 $html .= ">";
                 $html .= $value;
                 $html .= "</td>";

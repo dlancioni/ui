@@ -32,6 +32,9 @@
         public $TB_TRANSACTION_FUNCTION = 13;
         public $TB_USER = 14;
         public $TB_USER_PROFILE = 15;
+        public $TB_FIELD_ATTRIBUTE = 16;
+
+
 
 
         // Constructor

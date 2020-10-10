@@ -32,6 +32,7 @@ class Report extends Base {
         $rows = "";
         $col = "";
         $cols = "";        
+        $fieldId = "";        
         $fieldLabel = "";
         $fieldName = "";
         $fieldType = "";
@@ -46,6 +47,8 @@ class Report extends Base {
         $jsonUtil = "";
         $PAGE_SIZE = 15;
         $link = "";
+        $columnSize = "";
+        $fieldAttribute = "";
 
         try {
 
@@ -91,6 +94,11 @@ class Report extends Base {
             }
             $rows .= $this->element->createTableRow($cols);
 
+            // Get columns attributes
+            $filter = new Filter();
+            $filter->add("tb_field_attribute", "id_table", $tableId);
+            $fieldAttribute = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_FIELD_ATTRIBUTE, $filter->create(), $this->sqlBuilder->QUERY_NO_PAGING);
+
             // Prepare table contents
             $cols = "";
             foreach ($data as $row) {
@@ -105,6 +113,7 @@ class Report extends Base {
                 foreach ($this->tableDef as $col) {
 
                     // Keep info
+                    $fieldId = $col["id"];
                     $tableFk = $col["table_fk"];
                     $fieldFk = $col["field_fk"];
                     $fieldName = $col["field_name"];
@@ -131,8 +140,17 @@ class Report extends Base {
                         }
                     }
 
+                    // Calculate column size
+                    if (count($fieldAttribute) > 0) {
+                        foreach ($fieldAttribute as $item) {
+                            if ($fieldId == $item["id_field"]) {
+                                $columnSize = $item["colsize"];
+                            }
+                        }
+                    }
+
                     // Print it
-                    $cols .= $this->element->createTableCol($fieldValue);
+                    $cols .= $this->element->createTableCol($fieldValue, $columnSize);
                 }
 
                 $rows .= $this->element->createTableRow($cols);
