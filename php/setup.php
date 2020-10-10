@@ -41,6 +41,7 @@
         createTransactionFunction($cn);
         createCode($cn);
         createView($cn);
+        createFieldSetup($cn);
 
         // Finished OK
         printl("Success :)");
@@ -247,7 +248,7 @@
             // tb_field_attribute
             execute($cn, '{"id_system":1,"id_group":1,"id_table":16,"label":"Tabela","name":"id_table","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":2,"id_field_fk":6,"domain":""}');
             execute($cn, '{"id_system":1,"id_group":1,"id_table":16,"label":"Campo","name":"id_field","id_type":1,"size":0,"mask":"","id_mandatory":2,"id_unique":1,"id_table_fk":3,"id_field_fk":10,"domain":""}');
-            execute($cn, '{"id_system":1,"id_group":1,"id_table":16,"label":"Coluna (%)","name":"colsize","id_type":1,"size":0,"mask":"","id_mandatory":2,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
+            execute($cn, '{"id_system":1,"id_group":1,"id_table":16,"label":"Coluna (%)","name":"column_size","id_type":1,"size":0,"mask":"","id_mandatory":2,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
             // Success
             printl("createField() OK");
             
@@ -672,14 +673,72 @@
             printl("createView():" . $ex->getMessage());
             throw $ex;
         }
-    }    
+    }
 
+    /*
+     * Create code
+     */
+    function createFieldSetup($cn) {
 
+        global $tableName;
 
+        try {
 
+            // Define table name
+            $tableName = "tb_field_attribute";
 
+            // tb_system
+            execute($cn, '{"id_system":1,"id_group":1,"id_table":1,"id_field":1,"column_size":10}');
+            execute($cn, '{"id_system":1,"id_group":1,"id_table":1,"id_field":2,"column_size":10}');
+            execute($cn, '{"id_system":1,"id_group":1,"id_table":1,"id_field":3,"column_size":75}');
 
+            // tb_table
+            execute($cn, '{"id_system":1,"id_group":1,"id_table":2,"id_field":1,"column_size":5}');
+            execute($cn, '{"id_system":1,"id_group":1,"id_table":2,"id_field":2,"column_size":5}');
+            execute($cn, '{"id_system":1,"id_group":1,"id_table":2,"id_field":1,"column_size":5}');
+            execute($cn, '{"id_system":1,"id_group":1,"id_table":2,"id_field":2,"column_size":5}');            
+            execute($cn, '{"id_system":1,"id_group":1,"id_table":2,"id_field":3,"column_size":75}');
 
+            // tb_table
+            execute($cn, '{"id_system":1,"id_group":1,"id_table":4,"id_field":20,"column_size":10}');
+            execute($cn, '{"id_system":1,"id_group":1,"id_table":4,"id_field":21,"column_size":10}');
+            execute($cn, '{"id_system":1,"id_group":1,"id_table":4,"id_field":22,"column_size":75}');
+
+            // tb_function
+            execute($cn, '{"id_system":1,"id_group":1,"id_table":6,"id_field":29,"column_size":95}');
+
+            // tb_group
+            execute($cn, '{"id_system":1,"id_group":1,"id_table":8,"id_field":32,"column_size":95}');
+
+            // tb_profile
+            execute($cn, '{"id_system":1,"id_group":1,"id_table":11,"id_field":36,"column_size":95}');
+
+            // tb_profile_transaction
+            execute($cn, '{"id_system":1,"id_group":1,"id_table":12,"id_field":37,"column_size":10}');
+            execute($cn, '{"id_system":1,"id_group":1,"id_table":12,"id_field":38,"column_size":85}');
+
+            // tb_transaction_function
+            execute($cn, '{"id_system":1,"id_group":1,"id_table":13,"id_field":39,"column_size":10}');
+            execute($cn, '{"id_system":1,"id_group":1,"id_table":13,"id_field":40,"column_size":10}');
+            execute($cn, '{"id_system":1,"id_group":1,"id_table":13,"id_field":41,"column_size":75}');
+
+            // tb_user
+            execute($cn, '{"id_system":1,"id_group":1,"id_table":14,"id_field":42,"column_size":10}');
+            execute($cn, '{"id_system":1,"id_group":1,"id_table":14,"id_field":43,"column_size":10}');
+            execute($cn, '{"id_system":1,"id_group":1,"id_table":14,"id_field":44,"column_size":75}');            
+
+            // tb_user_profile
+            execute($cn, '{"id_system":1,"id_group":1,"id_table":15,"id_field":45,"column_size":10}');
+            execute($cn, '{"id_system":1,"id_group":1,"id_table":15,"id_field":46,"column_size":85}');
+
+            // Success
+            printl("createCode() OK");
+            
+        } catch (Exception $ex) {
+            printl("createCode():" . $ex->getMessage());
+            throw $ex;
+        }
+    }
 
 
 

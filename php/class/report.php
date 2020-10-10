@@ -144,7 +144,7 @@ class Report extends Base {
                     if (count($fieldAttribute) > 0) {
                         foreach ($fieldAttribute as $item) {
                             if ($fieldId == $item["id_field"]) {
-                                $columnSize = $item["colsize"];
+                                $columnSize = $item["column_size"];
                             }
                         }
                     }
