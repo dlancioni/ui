@@ -150,7 +150,7 @@
             execute($cn, '{"id_system":1,"id_group":1,"name":"Visão x Campos","id_type":1,"table_name":"tb_view_field","id_parent":17}');
             execute($cn, '{"id_system":1,"id_group":1,"name":"Perfil","id_type":1,"table_name":"tb_profile","id_parent":18}');
             execute($cn, '{"id_system":1,"id_group":1,"name":"Perfil x Transação","id_type":1,"table_name":"tb_profile_table","id_parent":18}');
-            execute($cn, '{"id_system":1,"id_group":1,"name":"Transação x Function","id_type":1,"table_name":"tb_table_function","id_parent":18}');
+            execute($cn, '{"id_system":1,"id_group":1,"name":"Transação x Função","id_type":1,"table_name":"tb_table_function","id_parent":18}');
             execute($cn, '{"id_system":1,"id_group":1,"name":"Usuários","id_type":1,"table_name":"tb_user","id_parent":18}');
             execute($cn, '{"id_system":1,"id_group":1,"name":"Usuários x Perfil","id_type":1,"table_name":"tb_user_profile","id_parent":18}');
             execute($cn, '{"id_system":1,"id_group":1,"name":"Atributos","id_type":1,"table_name":"tb_field_attribute","id_parent":17}');
