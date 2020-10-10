@@ -81,6 +81,7 @@
             pg_query($cn, "drop table if exists tb_table_function cascade;");
             pg_query($cn, "drop table if exists tb_user cascade;");
             pg_query($cn, "drop table if exists tb_user_profile cascade;");
+            pg_query($cn, "drop table if exists tb_field_attribute cascade;");            
             printl("dropTable() OK");
 
         } catch (Exception $ex) {
@@ -110,6 +111,8 @@
             pg_query($cn, "create table if not exists tb_table_function (id serial, field jsonb);");
             pg_query($cn, "create table if not exists tb_user (id serial, field jsonb);");
             pg_query($cn, "create table if not exists tb_user_profile (id serial, field jsonb);");
+            pg_query($cn, "create table if not exists tb_field_attribute (id serial, field jsonb);");
+            
             printl("createTable() OK");
 
         } catch (Exception $ex) {
@@ -134,21 +137,22 @@
 
             // Define table name
             $tableName = "tb_table";
-            execute($cn, '{"id_system":1,"id_group":1,"name":"Sistemas","id_type":1,"table_name":"tb_system","id_parent":16}');
-            execute($cn, '{"id_system":1,"id_group":1,"name":"Transações","id_type":1,"table_name":"tb_table","id_parent":16}');
-            execute($cn, '{"id_system":1,"id_group":1,"name":"Campos","id_type":1,"table_name":"tb_field","id_parent":16}');
-            execute($cn, '{"id_system":1,"id_group":1,"name":"Domínios","id_type":1,"table_name":"tb_domain","id_parent":16}');
-            execute($cn, '{"id_system":1,"id_group":1,"name":"Eventos","id_type":1,"table_name":"tb_event","id_parent":16}');
-            execute($cn, '{"id_system":1,"id_group":1,"name":"Funções","id_type":1,"table_name":"tb_function","id_parent":16}');
-            execute($cn, '{"id_system":1,"id_group":1,"name":"Programação","id_type":1,"table_name":"tb_code","id_parent":16}');
-            execute($cn, '{"id_system":1,"id_group":1,"name":"Grupos","id_type":1,"table_name":"tb_group","id_parent":16}');
-            execute($cn, '{"id_system":1,"id_group":1,"name":"Visão","id_type":1,"table_name":"tb_view","id_parent":16}');
-            execute($cn, '{"id_system":1,"id_group":1,"name":"Visão x Campos","id_type":1,"table_name":"tb_view_field","id_parent":16}');
-            execute($cn, '{"id_system":1,"id_group":1,"name":"Perfil","id_type":1,"table_name":"tb_profile","id_parent":17}');
-            execute($cn, '{"id_system":1,"id_group":1,"name":"Perfil x Transação","id_type":1,"table_name":"tb_profile_table","id_parent":17}');
-            execute($cn, '{"id_system":1,"id_group":1,"name":"Transação x Function","id_type":1,"table_name":"tb_table_function","id_parent":17}');
-            execute($cn, '{"id_system":1,"id_group":1,"name":"Usuários","id_type":1,"table_name":"tb_user","id_parent":17}');
-            execute($cn, '{"id_system":1,"id_group":1,"name":"Usuários x Perfil","id_type":1,"table_name":"tb_user_profile","id_parent":17}');
+            execute($cn, '{"id_system":1,"id_group":1,"name":"Sistemas","id_type":1,"table_name":"tb_system","id_parent":17}');
+            execute($cn, '{"id_system":1,"id_group":1,"name":"Transações","id_type":1,"table_name":"tb_table","id_parent":17}');
+            execute($cn, '{"id_system":1,"id_group":1,"name":"Campos","id_type":1,"table_name":"tb_field","id_parent":17}');
+            execute($cn, '{"id_system":1,"id_group":1,"name":"Domínios","id_type":1,"table_name":"tb_domain","id_parent":17}');
+            execute($cn, '{"id_system":1,"id_group":1,"name":"Eventos","id_type":1,"table_name":"tb_event","id_parent":17}');
+            execute($cn, '{"id_system":1,"id_group":1,"name":"Funções","id_type":1,"table_name":"tb_function","id_parent":17}');
+            execute($cn, '{"id_system":1,"id_group":1,"name":"Programação","id_type":1,"table_name":"tb_code","id_parent":17}');
+            execute($cn, '{"id_system":1,"id_group":1,"name":"Grupos","id_type":1,"table_name":"tb_group","id_parent":17}');
+            execute($cn, '{"id_system":1,"id_group":1,"name":"Visão","id_type":1,"table_name":"tb_view","id_parent":17}');
+            execute($cn, '{"id_system":1,"id_group":1,"name":"Visão x Campos","id_type":1,"table_name":"tb_view_field","id_parent":17}');
+            execute($cn, '{"id_system":1,"id_group":1,"name":"Perfil","id_type":1,"table_name":"tb_profile","id_parent":18}');
+            execute($cn, '{"id_system":1,"id_group":1,"name":"Perfil x Transação","id_type":1,"table_name":"tb_profile_table","id_parent":18}');
+            execute($cn, '{"id_system":1,"id_group":1,"name":"Transação x Function","id_type":1,"table_name":"tb_table_function","id_parent":18}');
+            execute($cn, '{"id_system":1,"id_group":1,"name":"Usuários","id_type":1,"table_name":"tb_user","id_parent":18}');
+            execute($cn, '{"id_system":1,"id_group":1,"name":"Usuários x Perfil","id_type":1,"table_name":"tb_user_profile","id_parent":18}');
+            execute($cn, '{"id_system":1,"id_group":1,"name":"Atributos","id_type":1,"table_name":"tb_field_attribute","id_parent":17}');
            
             // Create menus
             execute($cn, '{"id_system":1,"id_group":1,"name":"Administração","id_type":3,"table_name":"","id_parent":0}');
@@ -156,7 +160,7 @@
             execute($cn, '{"id_system":1,"id_group":1,"name":"Cadastros","id_type":3,"table_name":"","id_parent":0}');
 
             // Must have total transactions including menus
-            $total = 18;
+            $total = 19;
 
             // Success
             printl("createTransaction() OK");
@@ -239,8 +243,11 @@
             execute($cn, '{"id_system":1,"id_group":1,"id_table":14,"label":"Senha","name":"password","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
             // tb_user_profile
             execute($cn, '{"id_system":1,"id_group":1,"id_table":15,"label":"Usuários","name":"id_user","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":14,"id_field_fk":42,"domain":""}');
-            execute($cn, '{"id_system":1,"id_group":1,"id_table":15,"label":"Perfil","name":"id_profile","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":11,"id_field_fk":36,"domain":""}');            
-
+            execute($cn, '{"id_system":1,"id_group":1,"id_table":15,"label":"Perfil","name":"id_profile","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":11,"id_field_fk":36,"domain":""}');
+            // tb_field_attribute
+            execute($cn, '{"id_system":1,"id_group":1,"id_table":16,"label":"Tabela","name":"id_table","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":2,"id_field_fk":6,"domain":""}');
+            execute($cn, '{"id_system":1,"id_group":1,"id_table":16,"label":"Campo","name":"id_field","id_type":1,"size":0,"mask":"","id_mandatory":2,"id_unique":1,"id_table_fk":3,"id_field_fk":10,"domain":""}');
+            execute($cn, '{"id_system":1,"id_group":1,"id_table":16,"label":"Coluna (%)","name":"colsize","id_type":1,"size":0,"mask":"","id_mandatory":2,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
             // Success
             printl("createField() OK");
             
@@ -370,14 +377,22 @@
             // Custon events
             $v1 = '{"id_system":1,"id_group":1,"id_target":2,"id_table":1,"id_field":3,"id_function":0,"id_event":3,"code":"this.value = formatValue(this.value)"}';
             execute($cn, $v1);
+
             $v1 = '{"id_system":1,"id_group":1,"id_target":2,"id_table":2,"id_field":5,"label":"","id_event":3,"code":"this.value = validateTableName(this.value)"}';
             execute($cn, $v1);
+
             $v1 = '{"id_system":1,"id_group":1,"id_target":2,"id_table":3,"id_field":17,"id_function":0,"id_event":3,"code":""}';
             $v1 = $jsonUtil->setValue($v1, "code", "cascade(''id_field_fk'', ''id_table'', this.value, ''tb_field'', ''id'', ''label'');");
             execute($cn, $v1);
+
             $v1 = '{"id_system":1,"id_group":1,"id_target":2,"id_table":5,"id_field":24,"id_function":0,"id_event":3,"code":""}';
             $v1 = $jsonUtil->setValue($v1, "code", "cascade(''id_field'', ''id_table'', this.value, ''tb_field'', ''id'', ''label'');");
             execute($cn, $v1);
+
+            $v1 = '{"id_system":1,"id_group":1,"id_target":2,"id_table":16,"id_field":47,"id_function":0,"id_event":3,"code":""}';
+            $v1 = $jsonUtil->setValue($v1, "code", "cascade(''id_field'', ''id_table'', this.value, ''tb_field'', ''id'', ''label'');");
+            execute($cn, $v1);            
+
             $v1 = '{"id_system":1,"id_group":1,"id_target":2,"id_table":7,"id_field":0,"id_function":8,"id_event":2,"code":""}';
             $v1 = $jsonUtil->setValue($v1, "code", "eval(field(''code'').value);");
             execute($cn, $v1);
