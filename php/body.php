@@ -51,7 +51,7 @@
         <!-- Middle center -->        
         <div id="center1" class="col-sm-11">
             <?php echo $html;?>
-        </div>
+        </div>    
 
     </div>
 </div>

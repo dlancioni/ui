@@ -32,9 +32,11 @@
         $filter->add("tb_event", "id_table", $tableId);
         $pageEvent = $sqlBuilder->executeQuery($cn, $sqlBuilder->TB_EVENT, $filter->create(), $sqlBuilder->QUERY_NO_PAGING);
 
-        // Create main menu
-        $logicMenu->createMenu($systemId, $userId);
-        $menu = $logicMenu->html;
+        // If usre is authenticated, create main menu
+        if ($_SESSION["_AUTH_"] == 1) {
+            $logicMenu->createMenu($systemId, $userId);
+            $menu = $logicMenu->html;
+        }
 
         // Create table or form
         if ($tableId > 0) {
