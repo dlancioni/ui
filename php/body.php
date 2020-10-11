@@ -43,11 +43,15 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-sm-1">
-            
+
+        <!-- Left side -->
+        <div id="left1" class="col-sm-1">
         </div>
-        <div class="col-sm-11">
+
+        <!-- Middle center -->        
+        <div id="center1" class="col-sm-11">
             <?php echo $html;?>
         </div>
+
     </div>
 </div>
