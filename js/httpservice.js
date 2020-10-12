@@ -87,3 +87,23 @@ async function async_persist(formData) {
     }
     
   }
+
+// Login and keep info in session
+async function async_login(formData) {
+
+    try {
+
+        // Submit it        
+        let response = await fetch('./php/login.php', {
+            method: 'POST',
+            body: formData
+        });
+
+        // Return processing results
+        return await response.text();
+
+    } catch (ex) {
+        // Error handling
+        return ex;
+    }
+  }

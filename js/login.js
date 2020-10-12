@@ -1,14 +1,18 @@
 /*
  * Format value
  */
-function login() {
+async function login() {
     
-    // Read form
-    let code = document.getElementById("code").value;
-    let username = document.getElementById("username").value;
-    let password = document.getElementById("password").value;
+    let code = document.getElementById("_SIGNID_").value;
+    let username = document.getElementById("_USERNAME_").value;
+    let password = document.getElementById("_PASSWORD_").value;
 
-    alert(code);
-    alert(username);
-    alert(password);
+    let info = await async_login(getFormData());
+    if (info.trim() == "1") {
+        alert('logado');
+        document.form1.method = 'post';
+        document.form1.action = 'index.php';
+        document.form1.submit();
+    }
+
 }

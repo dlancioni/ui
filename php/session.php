@@ -17,18 +17,13 @@
     $filter = "[]"; 
     $pageOffset = 0;
 
-    // Sign in info
-    $signId = 0;
-    $username = "";
-    $password = "";
-
     // Get connection
     $db = new Db();
     $cn = $db->getConnection();    
 
     // Filter for current table
     //$_SESSION["_FILTER_"] = [];
-    $_SESSION["_AUTH_"] = 0;
+    //$_SESSION["_AUTH_"] = "";
 
     // Key attributes
     $_SESSION["_SYSTEM_"] = 1;

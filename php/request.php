@@ -33,18 +33,4 @@
     if (isset($_REQUEST["_PAGING_"])) {
         $pageOffset = $_REQUEST["_PAGING_"];
     }
-
-
-    // Authentication related variables
-    if (isset($_REQUEST["_SIGNID_"])) {
-        $signId = $_REQUEST["_SIGNID_"];
-    }
-    if (isset($_REQUEST["_SIGNID_"])) {
-        $username = $_REQUEST["_USERNAME_"];
-    }
-    if (isset($_REQUEST["_SIGNID_"])) {
-        $password = $_REQUEST["_PASSWORD_"];
-    }    
-
-
 ?>

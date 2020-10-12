@@ -20,25 +20,8 @@
         // Handle request outside to organize code
         include "request.php";
 
-        // Get main menu    
-        $sqlBuilder = new SqlBuilder($systemId, $tableId, $userId, $groupId);
-
-        // First step, authentication
-        $logicAuth = new LogicAuth($cn, $sqlBuilder);
-        $logicAuth->authenticate($signId, $username, $password);
-
-        if ($logicAuth->authenticated == 1) {
-            $_SESSION["_AUTH_"] = 1;
-            $userId = $logicAuth->userId;
-            $_SESSION['_USER_'] = $userId;
-            $groupId = $logicAuth->groupId;
-            $_SESSION['_GROUP_'] = 2;
-        } else {
-            echo $logicAuth->error;
-        }
-
-        // Get main menu    
-        $sqlBuilder = new SqlBuilder($systemId, $tableId, $userId, $groupId);
+        // Get main menu
+        $sqlBuilder = new SqlBuilder($systemId, $tableId, $userId, $groupId);        
         $eventAction = new EventAction($cn, $sqlBuilder);
         $logicMenu = new LogicMenu($cn, $sqlBuilder);
         $element = new HTMLElement($cn, $sqlBuilder);
@@ -50,9 +33,11 @@
         $pageEvent = $sqlBuilder->executeQuery($cn, $sqlBuilder->TB_EVENT, $filter->create(), $sqlBuilder->QUERY_NO_PAGING);
 
         // If usre is authenticated, create main menu
-        if ($_SESSION["_AUTH_"] == 1) {
-            $logicMenu->createMenu($systemId, $userId);
-            $menu = $logicMenu->html;
+        if (isset($_SESSION["_AUTH_"])) {
+            if ($_SESSION["_AUTH_"] == 1) {
+                $logicMenu->createMenu($systemId, $userId);
+                $menu = $logicMenu->html;
+            }
         }
 
         // Create table or form

@@ -1,29 +1,29 @@
 <?php
-if ($_SESSION["_AUTH_"] == 0) {
-    ?>    
-        <form id="form1" name="form1" action="index.php" method="post" enctype="multipart/form-data">
+
+    if (isset($_SESSION["_AUTH_"]) == false || $_SESSION["_AUTH_"] == 0) {
+        ?>    
             <div class="form-row">
                 <div class="col">
-                    <input type="text" id="_SIGNID_" name="_SIGNID_" class="form-control form-control-sm" placeholder="Cód. Assinante">
+                    <input type="text" id="_SIGNID_" name="_SIGNID_" class="form-control form-control-sm" placeholder="Cód. Assinante" value="123">
                 </div>        
                 <div class="col">
-                    <input type="text" id="_USERNAME_" name="_USERNAME_" class="form-control form-control-sm" placeholder="Usuário">
+                    <input type="text" id="_USERNAME_" name="_USERNAME_" class="form-control form-control-sm" placeholder="Usuário" value="david">
                 </div>
                 <div class="col">
-                    <input type="password" id="_PASSWORD_" name="_PASSWORD_" class="form-control form-control-sm" placeholder="Senha">
+                    <input type="password" id="_PASSWORD_" name="_PASSWORD_" class="form-control form-control-sm" placeholder="Senha" value="senha">
                 </div>
                 <div class="col">
-                    <button type="submit" class="btn btn-primary btn-sm" data-toggle="button" aria-pressed="false">
+                    <button type="button" class="btn btn-primary btn-sm" data-toggle="button" aria-pressed="false" onclick="login()">
                     Entrar
                     </button>
                 </div>
             </div>
-        </form>
-    <?php
+        <?php
 
-} else {
-    ?>    
+    } else {
+        ?>    
 
-    <?php    
-}
+        <?php    
+    }
+
 ?>
