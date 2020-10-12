@@ -1,6 +1,5 @@
 <?php
 if ($_SESSION["_AUTH_"] == 0) {
-
     ?>    
         <form>
         <div class="form-row">
@@ -11,7 +10,7 @@ if ($_SESSION["_AUTH_"] == 0) {
             <input type="text" class="form-control form-control-sm" placeholder="Senha">
             </div>
             <div class="col">
-                <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false">
+                <button type="button" class="btn btn-primary btn-sm" data-toggle="button" aria-pressed="false">
                 Entrar
                 </button>
             </div>
@@ -20,10 +19,8 @@ if ($_SESSION["_AUTH_"] == 0) {
     <?php
 
 } else {
-
     ?>    
-        Seja bem vindo lancid
-    <?php    
 
+    <?php    
 }
 ?>

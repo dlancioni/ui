@@ -26,14 +26,7 @@
         </ul>
     </div>
 
-    <!-- Topnav aligned right -->
-    <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-            <a href="" class="text-white">&nbsp;&nbsp;&nbsp;</a>
-            </li>
-        </ul>
-    </div>
+    <?php include "php/login.php";?>
     
 </nav>
 
