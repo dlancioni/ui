@@ -8,3 +8,4 @@
 <script src="js/validation.js"></script>
 <script src="js/format.js"></script>
 <script src="js/field.js"></script>
+<script src="js/login.js"></script>

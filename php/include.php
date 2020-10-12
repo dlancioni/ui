@@ -18,5 +18,6 @@
     include "class/logicfield.php";
     include "class/logicevent.php";
     include "class/logicupload.php";
+    include "class/logicauth.php";
 
 ?>    

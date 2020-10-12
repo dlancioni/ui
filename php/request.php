@@ -10,25 +10,19 @@
     * Finally, $-REQUEST[] uses field NAME, not ID
     */
 
-    // Current module
+    // Session related variables
     if (isset($_REQUEST["_TABLE_"])) {
         $tableId = $_REQUEST["_TABLE_"];
         $_SESSION['_TABLE_'] = $tableId;
     }
-
-    // Current format (table or form)
     if (isset($_REQUEST["_FORMAT_"])) {
         $format = $_REQUEST["_FORMAT_"];
         $_SESSION['_FORMAT_'] = $format;
     }
-
-    // Current event (new, save, delete)
     if (isset($_REQUEST["_EVENT_"])) {
         $event = $_REQUEST["_EVENT_"];
         $_SESSION['_EVENT_'] = $event;
     }
-
-    // Current record
     if (isset($_REQUEST["selection"])) {
         $id = intval($_REQUEST['selection']);
         if ($event == "filter") {
@@ -36,11 +30,21 @@
         }
         $_SESSION['_ID_'] = $id;
     }
-
-    // Current event (new, save, delete)
     if (isset($_REQUEST["_PAGING_"])) {
         $pageOffset = $_REQUEST["_PAGING_"];
     }
+
+
+    // Authentication related variables
+    if (isset($_REQUEST["_SIGNID_"])) {
+        $signId = $_REQUEST["_SIGNID_"];
+    }
+    if (isset($_REQUEST["_SIGNID_"])) {
+        $username = $_REQUEST["_USERNAME_"];
+    }
+    if (isset($_REQUEST["_SIGNID_"])) {
+        $password = $_REQUEST["_PASSWORD_"];
+    }    
 
 
 ?>

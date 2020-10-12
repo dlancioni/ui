@@ -22,6 +22,23 @@
 
         // Get main menu    
         $sqlBuilder = new SqlBuilder($systemId, $tableId, $userId, $groupId);
+
+        // First step, authentication
+        $logicAuth = new LogicAuth($cn, $sqlBuilder);
+        $logicAuth->authenticate($signId, $username, $password);
+
+        if ($logicAuth->authenticated == 1) {
+            $_SESSION["_AUTH_"] = 1;
+            $userId = $logicAuth->userId;
+            $_SESSION['_USER_'] = $userId;
+            $groupId = $logicAuth->groupId;
+            $_SESSION['_GROUP_'] = 2;
+        } else {
+            echo $logicAuth->error;
+        }
+
+        // Get main menu    
+        $sqlBuilder = new SqlBuilder($systemId, $tableId, $userId, $groupId);
         $eventAction = new EventAction($cn, $sqlBuilder);
         $logicMenu = new LogicMenu($cn, $sqlBuilder);
         $element = new HTMLElement($cn, $sqlBuilder);

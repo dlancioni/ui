@@ -12,12 +12,12 @@
     <!-- Menu -->
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">       
-            <?php echo $menu; ?>           
+            <?php echo $menu; ?>
         </ul>
     </div>
 
     <!-- Add login form -->
-    <?php include "php/login.php";?>
+    <?php include "php/formlogin.php";?>
     
 </nav>
 

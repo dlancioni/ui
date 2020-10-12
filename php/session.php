@@ -17,6 +17,11 @@
     $filter = "[]"; 
     $pageOffset = 0;
 
+    // Sign in info
+    $signId = 0;
+    $username = "";
+    $password = "";
+
     // Get connection
     $db = new Db();
     $cn = $db->getConnection();    
@@ -25,7 +30,7 @@
     //$_SESSION["_FILTER_"] = [];
     $_SESSION["_AUTH_"] = 0;
 
-    // Key attributes    
+    // Key attributes
     $_SESSION["_SYSTEM_"] = 1;
     $_SESSION['_TABLE_'] = 2;
     $_SESSION['_USER_'] = 1;
