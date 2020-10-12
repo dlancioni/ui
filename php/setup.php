@@ -308,6 +308,9 @@
             execute($cn, '{"id_system":1,"id_group":1,"key":"A11","value":"Registro pertence ao grupo Sistema, não pode ser modificado ou excluído","domain":"tb_message"}');
             execute($cn, '{"id_system":1,"id_group":1,"key":"A12","value":"Não foi possível concluir o upload dos arquivos","domain":"tb_message"}');
             execute($cn, '{"id_system":1,"id_group":1,"key":"A13","value":"Transação ainda não possui campos cadastrados","domain":"tb_message"}');
+            execute($cn, '{"id_system":1,"id_group":1,"key":"A14","value":"Usuário não cadastrado","domain":"tb_message"}');
+            execute($cn, '{"id_system":1,"id_group":1,"key":"A15","value":"Senha inválida","domain":"tb_message"}');
+            execute($cn, '{"id_system":1,"id_group":1,"key":"A16","value":"Autenticado com sucesso, seja bem vindo","domain":"tb_message"}');
             // tb_cascade
             execute($cn, '{"id_system":1,"id_group":1,"key":"tb_field.id_table_fk","value":"id_field_fk; tb_field; id; label","domain":"tb_cascade"}');
             execute($cn, '{"id_system":1,"id_group":1,"key":"tb_event.id_table","value":"id_field; tb_field; id; label","domain":"tb_cascade"}');            

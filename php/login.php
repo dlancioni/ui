@@ -14,7 +14,8 @@
     // Sign in info
     $signId = 0;
     $username = "";
-    $password = "";    
+    $password = "";
+    $msg = "";
     
     // Core code
     try {
@@ -40,25 +41,41 @@
                                      $_SESSION["_TABLE_"], 
                                      $_SESSION["_USER_"],
                                      $_SESSION["_GROUP_"]);
+        $message = new Message($cn, $sqlBuilder);                                     
 
-        // First step, authentication
+        // Authenticate user
         $logicAuth = new LogicAuth($cn, $sqlBuilder);
         $logicAuth->authenticate($signId, $username, $password);
 
+        // Handle results
         if ($logicAuth->authenticated == 1) {
+
+            // Success
+            $msg = $message->getValue("A16");
+            $json = $message->getStatus(1, $msg);            
+
+            // Keep sessioninfo
             $_SESSION["_AUTH_"] = 1;
             $_SESSION['_USER_'] = 22;
             $_SESSION['_GROUP_'] = 2;
+
         } else {
-            echo $logicAuth->error;
+
+            // Fail
+            $msg = $logicAuth->error;
+            $json = $message->getStatus(2, $msg);
+
+            // Keep sessioninfo
+            $_SESSION["_AUTH_"] = 0;  // No 
+            $_SESSION['_USER_'] = 1;  // public 
+            $_SESSION['_GROUP_'] = 2; // public
         }
 
-        $json = "1";
-
-    } catch (Exception $ex) {        
+    } catch (Exception $ex) {
 
         // No data on error
-        $json = "[]";
+        $msg = $ex->getMessage();
+        $json = $message->getStatus(2, $msg);
 
     } finally {
 

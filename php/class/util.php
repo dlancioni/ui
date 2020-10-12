@@ -260,6 +260,24 @@
             $this->sqlBuilder = $sqlBuilder;
         }
 
+        public function getStatus($status=0, $message) {
+
+            $json = "";
+            $jsonUtil = new JsonUtil();
+
+            // 0 - Fail
+            // 1 - Success
+            // 2 - Alert
+            $json = $jsonUtil->setValue($json, "status", $status);
+
+            // 0 - Fail
+            // 1 - Success
+            $json = $jsonUtil->setValue($json, "message", $message);
+
+            // Return it
+            return $json;
+        }
+
         public function getValue($code, $value="") {
 
             // General Declaration            

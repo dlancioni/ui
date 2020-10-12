@@ -34,9 +34,6 @@
         public $TB_USER_PROFILE = 15;
         public $TB_FIELD_ATTRIBUTE = 16;
 
-
-
-
         // Constructor
         function __construct($systemId, $tableId, $userId, $groupId) {
             $this->setSystem($systemId);
