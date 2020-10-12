@@ -23,7 +23,7 @@
 
     // Filter for current table
     //$_SESSION["_FILTER_"] = [];
-    $_SESSION["_AUTH_"] = 1;
+    $_SESSION["_AUTH_"] = 0;
 
     // Key attributes    
     $_SESSION["_SYSTEM_"] = 1;

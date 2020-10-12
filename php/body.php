@@ -12,20 +12,11 @@
     <!-- Menu -->
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">       
-
-            <!-- Model    
-            <li class="nav-item dropdown">           
-                <a class="nav-link dropdown-toggle" href="#" id="menu" data-toggle="dropdown">Administração</a>
-                <div class="dropdown-menu" aria-labelledby="menu">
-                    <a class="dropdown-item" href="#">Action</a>
-                </div>            
-            </li>
-            -->
-            <?php echo $menu; ?>
-           
+            <?php echo $menu; ?>           
         </ul>
     </div>
 
+    <!-- Add login form -->
     <?php include "php/login.php";?>
     
 </nav>
