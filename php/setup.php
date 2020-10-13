@@ -16,6 +16,9 @@
     // Core code
     try {
 
+        // system id
+        $id_system = 1;
+
         // DB interface
         $db = new Db();       
         $jsonUtil = new JsonUtil();
@@ -28,8 +31,8 @@
 
         dropTable($cn);
         createTable($cn);
-        createTransaction($cn);
-        createField($cn);
+        createTransaction($cn, $id_system);
+        createField($cn, $id_system);
         createDomain($cn);
         createEvent($cn);
         createFunction($cn);
@@ -125,7 +128,7 @@
     /*
      * Create transactions (menus, tables)
      */
-    function createTransaction($cn) {
+    function createTransaction($cn, $id_system) {
 
         global $tableName;
         global $total;
@@ -134,32 +137,34 @@
 
             // Define table name
             $tableName = "tb_system";
-            execute($cn, '{"id_system":1,"id_group":1,"name":"Forms","expire_date":"31/12/2020","price":"100.00"}');
-
+            execute($cn, addSystem($id_system, "Forms", "31/12/2020", "100.00"));
+            
             // Define table name
             $tableName = "tb_table";
-            execute($cn, '{"id_system":1,"id_group":1,"name":"Sistemas","id_type":1,"table_name":"tb_system","id_parent":17}');
-            execute($cn, '{"id_system":1,"id_group":1,"name":"Transações","id_type":1,"table_name":"tb_table","id_parent":17}');
-            execute($cn, '{"id_system":1,"id_group":1,"name":"Campos","id_type":1,"table_name":"tb_field","id_parent":17}');
-            execute($cn, '{"id_system":1,"id_group":1,"name":"Domínios","id_type":1,"table_name":"tb_domain","id_parent":17}');
-            execute($cn, '{"id_system":1,"id_group":1,"name":"Eventos","id_type":1,"table_name":"tb_event","id_parent":17}');
-            execute($cn, '{"id_system":1,"id_group":1,"name":"Funções","id_type":1,"table_name":"tb_function","id_parent":17}');
-            execute($cn, '{"id_system":1,"id_group":1,"name":"Programação","id_type":1,"table_name":"tb_code","id_parent":17}');
-            execute($cn, '{"id_system":1,"id_group":1,"name":"Grupos","id_type":1,"table_name":"tb_group","id_parent":18}');
-            execute($cn, '{"id_system":1,"id_group":1,"name":"Visão","id_type":1,"table_name":"tb_view","id_parent":17}');
-            execute($cn, '{"id_system":1,"id_group":1,"name":"Visão x Campos","id_type":1,"table_name":"tb_view_field","id_parent":17}');
-            execute($cn, '{"id_system":1,"id_group":1,"name":"Perfil","id_type":1,"table_name":"tb_profile","id_parent":18}');
-            execute($cn, '{"id_system":1,"id_group":1,"name":"Perfil x Transação","id_type":1,"table_name":"tb_profile_table","id_parent":18}');
-            execute($cn, '{"id_system":1,"id_group":1,"name":"Transação x Função","id_type":1,"table_name":"tb_table_function","id_parent":18}');
-            execute($cn, '{"id_system":1,"id_group":1,"name":"Usuários","id_type":1,"table_name":"tb_user","id_parent":18}');
-            execute($cn, '{"id_system":1,"id_group":1,"name":"Usuários x Perfil","id_type":1,"table_name":"tb_user_profile","id_parent":18}');
-            execute($cn, '{"id_system":1,"id_group":1,"name":"Atributos","id_type":1,"table_name":"tb_field_attribute","id_parent":17}');
-           
-            // Create menus
-            execute($cn, '{"id_system":1,"id_group":1,"name":"Administração","id_type":3,"table_name":"","id_parent":0}');
-            execute($cn, '{"id_system":1,"id_group":1,"name":"Controle de Acesso","id_type":3,"table_name":"","id_parent":0}');
-            execute($cn, '{"id_system":1,"id_group":1,"name":"Cadastros","id_type":3,"table_name":"","id_parent":0}');
 
+            // Transactions
+            execute($cn, addTable($id_system, "Sistemas", 1, "tb_system", 17));
+            execute($cn, addTable($id_system, "Transações", 1, "tb_table", 17));
+            execute($cn, addTable($id_system, "Campos", 1, "tb_field", 17));
+            execute($cn, addTable($id_system, "Domínios", 1, "tb_domain", 17));
+            execute($cn, addTable($id_system, "Eventos", 1, "tb_event", 17));
+            execute($cn, addTable($id_system, "Funções", 1, "tb_function", 17));
+            execute($cn, addTable($id_system, "Programação", 1, "tb_code", 17));
+            execute($cn, addTable($id_system, "Grupos", 1, "tb_group", 18));
+            execute($cn, addTable($id_system, "Visão", 1, "tb_view", 17));
+            execute($cn, addTable($id_system, "Visão x Campos", 1, "tb_view_field", 17));
+            execute($cn, addTable($id_system, "Perfil", 1, "tb_profile", 18));
+            execute($cn, addTable($id_system, "Perfil x Transação", 1, "tb_profile_table", 18));
+            execute($cn, addTable($id_system, "Transação x Funcão", 1, "tb_table_function", 18));
+            execute($cn, addTable($id_system, "Usuários", 1, "tb_user", 18));
+            execute($cn, addTable($id_system, "Usuários x Pefil", 1, "tb_user_profile", 18));
+            execute($cn, addTable($id_system, "Atributos de Campos", 1, "tb_field_attribute", 17));
+
+            // Menus
+            execute($cn, addTable($id_system, "Administração", 3, "", 0));
+            execute($cn, addTable($id_system, "Controle de Acesso", 3, "", 0));
+            execute($cn, addTable($id_system, "Cadastros", 3, "", 0));
+            
             // Must have total transactions including menus
             $total = 19;
 
@@ -175,25 +180,35 @@
     /*
      * Create fields
      */
-    function createField($cn) {
+    function createField($cn, $id_system) {
 
         global $tableName;
 
         try {
 
-            // Define table name
+            // Datatype
+            $int = 1;
+            $float = 2;
+            $text = 3;
+            $date = 4;
+
+            // Constants
+            $yes = 1;
+            $no = 2;
             $tableName = "tb_field";
 
             // tb_system
-            execute($cn, '{"id_system":1,"id_group":1,"id_table":1,"label":"Nome","name":"name","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
-            execute($cn, '{"id_system":1,"id_group":1,"id_table":1,"label":"Expira em","name":"expire_date","id_type":4,"size":0,"mask":"dd/mm/yyyy","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
-            execute($cn, '{"id_system":1,"id_group":1,"id_table":1,"label":"Preço","name":"price","id_type":2,"size":0,"mask":"1.000,00","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
+            execute($cn, addField($id_system, 1, "Nome", "name", $text, 50, "", $yes, $yes, 0, 0, ""));
+            execute($cn, addField($id_system, 1, "Expira em", "expire_date", $date, 0, "dd/mm/yyyy", $yes, $no, 0, 0, ""));
+            execute($cn, addField($id_system, 1, "Preço", "price", $float, 0, "1.000,00", $yes, $no, 0, 0, ""));
+            
             // tb_table
-            execute($cn, '{"id_system":1,"id_group":1,"id_table":2,"label":"Sistema","name":"id_system","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":1,"id_field_fk":1,"domain":""}');
-            execute($cn, '{"id_system":1,"id_group":1,"id_table":2,"label":"Tipo","name":"id_type","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":4,"id_field_fk":20,"domain":"tb_table_type"}');
-            execute($cn, '{"id_system":1,"id_group":1,"id_table":2,"label":"Nome","name":"name","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
-            execute($cn, '{"id_system":1,"id_group":1,"id_table":2,"label":"Tabela","name":"table_name","id_type":3,"size":50,"mask":"","id_mandatory":2,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
-            execute($cn, '{"id_system":1,"id_group":1,"id_table":2,"label":"Parente","name":"id_parent","id_type":1,"size":0,"mask":"","id_mandatory":2,"id_unique":2,"id_table_fk":2,"id_field_fk":6,"domain":""}');
+            execute($cn, addField($id_system, 2, "Sistema", "id_system", $int, 0, "", $yes, $no, 0, 0, ""));
+            execute($cn, addField($id_system, 2, "Tipo", "id_type", $int, 0, "", $yes, $no, 4, 20, "tb_table_type"));
+            execute($cn, addField($id_system, 2, "Nome", "name", $text, 50, "", $yes, $no, 0, 0, ""));
+            execute($cn, addField($id_system, 2, "Tabela", "table_name", $text, 50, "", $no, $yes, 0, 0, ""));
+            execute($cn, addField($id_system, 2, "parente", "id_parent", $int, 0, "", $no, $no, 2, 6, ""));
+
             // tb_field
             execute($cn, '{"id_system":1,"id_group":1,"id_table":3,"label":"Tabela","name":"id_table","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":2,"id_field_fk":6,"domain":""}');
             execute($cn, '{"id_system":1,"id_group":1,"id_table":3,"label":"Rótulo","name":"label","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
@@ -761,5 +776,77 @@
     function printl($msg) {
         echo $msg . "<br>";
     }
+
+
+
+
+    /*
+     * Create jsons for each transaction 
+     */
+    function addSystem($id_system, $name, $expire_date, $price) {
+
+        // General Declaration
+        $json = "";
+        $jsonUtil = new JsonUtil();
+
+        // Create key
+        $json = $jsonUtil->setValue($json, "id_system", $id_system);
+        $json = $jsonUtil->setValue($json, "id_group", 1);
+
+        // Create record        
+        $json = $jsonUtil->setValue($json, "name", $name);
+        $json = $jsonUtil->setValue($json, "expire_date", $expire_date);
+        $json = $jsonUtil->setValue($json, "price", $price);
+
+        // Return final json
+        return $json;
+    }
+
+    function addTable($id_system, $name, $id_type, $table_name, $id_parent) {
+
+        // General Declaration
+        $json = "";
+        $jsonUtil = new JsonUtil();
+
+        // Create key
+        $json = $jsonUtil->setValue($json, "id_system", $id_system);
+        $json = $jsonUtil->setValue($json, "id_group", 1);
+
+        // Create record        
+        $json = $jsonUtil->setValue($json, "name", $name);
+        $json = $jsonUtil->setValue($json, "id_type", $id_type);
+        $json = $jsonUtil->setValue($json, "table_name", $table_name);
+        $json = $jsonUtil->setValue($json, "id_parent", $id_parent);
+
+        // Return final json
+        return $json;
+    }
+
+    function addField($id_system, $id_table, $label, $name, $id_type, $size, $mask, $id_mandatory, $id_unique, $id_table_fk, $id_field_fk, $domain) {
+
+        // General Declaration
+        $json = "";
+        $jsonUtil = new JsonUtil();
+
+        // Create key
+        $json = $jsonUtil->setValue($json, "id_system", $id_system);
+        $json = $jsonUtil->setValue($json, "id_group", 1);
+
+        // Create record        
+        $json = $jsonUtil->setValue($json, "id_table", $id_table);
+        $json = $jsonUtil->setValue($json, "label", $label);
+        $json = $jsonUtil->setValue($json, "name", $name);
+        $json = $jsonUtil->setValue($json, "id_type", $id_type);
+        $json = $jsonUtil->setValue($json, "size", $size); 
+        $json = $jsonUtil->setValue($json, "mask", $mask);
+        $json = $jsonUtil->setValue($json, "id_mandatory", $id_mandatory);
+        $json = $jsonUtil->setValue($json, "id_unique", $id_unique);
+        $json = $jsonUtil->setValue($json, "id_table_fk", $id_table_fk);
+        $json = $jsonUtil->setValue($json, "id_field_fk", $id_field_fk);
+        $json = $jsonUtil->setValue($json, "domain", $domain);
+
+        // Return final json
+        return $json;
+    }    
 
 ?>

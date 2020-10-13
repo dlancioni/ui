@@ -4,4 +4,4 @@ and (tb_user.field->>'id_system')::int = 1
 and (tb_user.field->>'login')::text = 'joao' 
 order by tb_user.id
 
-select * from tb_user
+select * from tb_field
