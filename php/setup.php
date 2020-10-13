@@ -145,7 +145,7 @@
             execute($cn, '{"id_system":1,"id_group":1,"name":"Eventos","id_type":1,"table_name":"tb_event","id_parent":17}');
             execute($cn, '{"id_system":1,"id_group":1,"name":"Funções","id_type":1,"table_name":"tb_function","id_parent":17}');
             execute($cn, '{"id_system":1,"id_group":1,"name":"Programação","id_type":1,"table_name":"tb_code","id_parent":17}');
-            execute($cn, '{"id_system":1,"id_group":1,"name":"Grupos","id_type":1,"table_name":"tb_group","id_parent":17}');
+            execute($cn, '{"id_system":1,"id_group":1,"name":"Grupos","id_type":1,"table_name":"tb_group","id_parent":18}');
             execute($cn, '{"id_system":1,"id_group":1,"name":"Visão","id_type":1,"table_name":"tb_view","id_parent":17}');
             execute($cn, '{"id_system":1,"id_group":1,"name":"Visão x Campos","id_type":1,"table_name":"tb_view_field","id_parent":17}');
             execute($cn, '{"id_system":1,"id_group":1,"name":"Perfil","id_type":1,"table_name":"tb_profile","id_parent":18}');
