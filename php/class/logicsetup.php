@@ -6,6 +6,7 @@
         private $sqlBuilder = 0;
         public $error = "";
         public $systemId = 0;
+        public $tableId = 0;
 
         // Constructor
         function __construct($cn, $sqlBuilder) {
@@ -27,9 +28,6 @@
             $this->systemId = $id_system;            
 
             try {
-
-                $x = $this->getTableId("tb_table");
-                $x = $this->getFieldId("tb_table", "name");
 
                 // DB interface
                 $db = new Db();       
@@ -175,17 +173,22 @@
                 $no = 2;
                 $tableName = "tb_field";
 
+                // tb_domain
+                $this->execute($cn, $model->addField($id_system, 4, "Chave", "key", $text, 50, "", $yes, $yes, 0, 0, ""));
+                $this->execute($cn, $model->addField($id_system, 4, "Valor", "value", $text, 50, "", $yes, $yes, 0, 0, ""));
+                $this->execute($cn, $model->addField($id_system, 4, "Domínio", "domain", $text, 50, "", $yes, $yes, 0, 0, ""));                
+
                 // tb_system
                 $this->execute($cn, $model->addField($id_system, 1, "Nome", "name", $text, 50, "", $yes, $yes, 0, 0, ""));
                 $this->execute($cn, $model->addField($id_system, 1, "Expira em", "expire_date", $date, 0, "dd/mm/yyyy", $yes, $no, 0, 0, ""));
                 $this->execute($cn, $model->addField($id_system, 1, "Preço", "price", $float, 0, "1.000,00", $yes, $no, 0, 0, ""));
-                
+
                 // tb_table
                 $this->execute($cn, $model->addField($id_system, 2, "Sistema", "id_system", $int, 0, "", $yes, $no, 0, 0, ""));
-                $this->execute($cn, $model->addField($id_system, 2, "Tipo", "id_type", $int, 0, "", $yes, $no, 4, 20, "tb_table_type"));
+                $this->execute($cn, $model->addField($id_system, 2, "Tipo", "id_type", $int, 0, "", $yes, $no, $this->tb("tb_domain"), $this->fd("value"), "tb_table_type"));
                 $this->execute($cn, $model->addField($id_system, 2, "Nome", "name", $text, 50, "", $yes, $no, 0, 0, ""));
                 $this->execute($cn, $model->addField($id_system, 2, "Tabela", "table_name", $text, 50, "", $no, $yes, 0, 0, ""));
-                $this->execute($cn, $model->addField($id_system, 2, "parente", "id_parent", $int, 0, "", $no, $no, 2, 6, ""));
+                $this->execute($cn, $model->addField($id_system, 2, "parente", "id_parent", $int, 0, "", $no, $no, $this->tb("tb_table"), $this->fd("name"), ""));
 
                 // tb_field
                 $this->execute($cn, $model->addField($id_system, 3, "Tabela", "id_table", $int, 0, "", $yes, $yes, 2, 6, ""));
@@ -199,10 +202,7 @@
                 $this->execute($cn, $model->addField($id_system, 3, "Tabela FK", "id_table_fk", $int, 0, "", $no, $no, 2, 6, ""));
                 $this->execute($cn, $model->addField($id_system, 3, "Campo FK", "id_field_fk", $int, 0, "", $no, $no, 3, 10, ""));
                 $this->execute($cn, $model->addField($id_system, 3, "Domínio", "domain", $text, 50, "", $no, $no, 0, 0, ""));
-                // tb_domain
-                $this->execute($cn, $model->addField($id_system, 4, "Chave", "key", $text, 50, "", $yes, $yes, 0, 0, ""));
-                $this->execute($cn, $model->addField($id_system, 4, "Valor", "value", $text, 50, "", $yes, $yes, 0, 0, ""));
-                $this->execute($cn, $model->addField($id_system, 4, "Domínio", "domain", $text, 50, "", $yes, $yes, 0, 0, ""));
+
                 // tb_event
                 $this->execute($cn, $model->addField($id_system, 5, "Tela", "id_target", $int, 0, "", $yes, $yes, 4, 20, "tb_target"));
                 $this->execute($cn, $model->addField($id_system, 5, "Tabela", "id_table", $int, 0, "", $yes, $yes, 2, 6, ""));
@@ -210,34 +210,45 @@
                 $this->execute($cn, $model->addField($id_system, 5, "Ação", "id_function", $int, 0, "", $yes, $yes, 6, 29, ""));
                 $this->execute($cn, $model->addField($id_system, 5, "Evento", "id_event", $int, 0, "", $yes, $yes, 4, 20, "tb_event"));
                 $this->execute($cn, $model->addField($id_system, 5, "Código", "code", $textarea, 10000, "", $yes, $yes, 0, 0, ""));
+
                 // tb_function
                 $this->execute($cn, $model->addField($id_system, 6, "Nome", "name", $text, 50, "", $yes, $yes, 0, 0, ""));
+
                 // tb_code
                 $this->execute($cn, $model->addField($id_system, 7, "Comentário", "comment", $text, 50, "", $yes, $yes, 0, 0, ""));
                 $this->execute($cn, $model->addField($id_system, 7, "Código", "code", $textarea, 10000, "", $yes, $yes, 0, 0, ""));
+
                 // tb_group
                 $this->execute($cn, $model->addField($id_system, 8, "Nome", "name", $text, 50, "", $yes, $yes, 0, 0, ""));
+
                 // tb_view
                 $this->execute($cn, $model->addField($id_system, 9, "Nome", "name", $text, 50, "", $yes, $yes, 0, 0, ""));
                 $this->execute($cn, $model->addField($id_system, 9, "SQL", "sql", $textarea, 10000, "", $yes, $yes, 0, 0, ""));
+
                 // tb_view_field
                 $this->execute($cn, $model->addField($id_system, 10, "Nome", "name", $text, 50, "", $yes, $yes, 0, 0, ""));
+
                 // tb_profile
                 $this->execute($cn, $model->addField($id_system, 11, "Nome", "name", $text, 50, "", $yes, $yes, 0, 0, ""));
+
                 // tb_profile_table
                 $this->execute($cn, $model->addField($id_system, 12, "Perfil", "id_profile", $int, 0, "", $yes, $yes, 11, 36, ""));
                 $this->execute($cn, $model->addField($id_system, 12, "Transação", "id_table", $int, 0, "", $yes, $yes, 2, 6, ""));
+
                 // tb_table_function
                 $this->execute($cn, $model->addField($id_system, 13, "Perfil", "id_profile", $int, 0, "", $yes, $yes, 11, 36, ""));
                 $this->execute($cn, $model->addField($id_system, 13, "Transação", "id_table", $int, 0, "", $yes, $yes, 2, 6, ""));
                 $this->execute($cn, $model->addField($id_system, 13, "Function", "id_function", $int, 0, "", $yes, $yes, 6, 29, ""));
+
                 // tb_user
                 $this->execute($cn, $model->addField($id_system, 14, "Nome", "name", $text, 50, "", $yes, $yes, 0, 0, ""));
                 $this->execute($cn, $model->addField($id_system, 14, "Usuário", "username", $text, 50, "", $yes, $yes, 0, 0, ""));
                 $this->execute($cn, $model->addField($id_system, 14, "Password", "password", $text, 50, "", $yes, $yes, 0, 0, ""));
+
                 // tb_user_profile
                 $this->execute($cn, $model->addField($id_system, 15, "Usuário", "id_user", $int, 0, "", $yes, $yes, 14, 42, ""));
                 $this->execute($cn, $model->addField($id_system, 15, "Perfil", "id_profile", $int, 0, "", $yes, $yes, 11, 36, ""));
+
                 // tb_field_attribute
                 $this->execute($cn, $model->addField($id_system, 16, "Tabela", "id_table", $int, 0, "", $yes, $yes, 2, 6, ""));
                 $this->execute($cn, $model->addField($id_system, 16, "Campo", "id_field", $int, 0, "", $yes, $yes, 3, 10, ""));
@@ -646,18 +657,26 @@
         /*
          * Get table ID
          */        
-        private function getTableId($tableName) {
+        private function tb($tableName) {
 
+            $rs = "";
+            $sql = "";
             $tableId = 0;
 
             try {
 
-                $filter = new Filter();
-                $filter->addCondition("tb_table", "id_system", "int", "=", $this->systemId);
-                $filter->addCondition("tb_table", "table_name", "text", "=", $tableName);
-                $data = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_TABLE, $filter->create(), $this->sqlBuilder->QUERY_NO_JOIN);
-                if ($data) {
-                    $tableId = $data[0]["id"];
+                // Query fields
+                $sql .= " select";
+                $sql .= " tb_table.id";
+                $sql .= " from tb_table";
+                $sql .= " where (tb_table.field->>'id_system')::int = " . $this->systemId;
+                $sql .= " and (tb_table.field->>'table_name')::text = " . "'" . $tableName . "'";
+                
+                $rs = pg_query($this->cn, $sql);
+                while ($row = pg_fetch_row($rs)) {
+                    $fieldId = $row[0];
+                    $this->tableId = $fieldId;
+                    break;
                 }
             } catch (Exception $ex) {
                 throw $ex;
@@ -669,25 +688,26 @@
         /*
          * Get field ID
          */        
-        private function getFieldId($tableName, $fieldName) {
+        private function fd($fieldName) {
 
-            $tableId = 0;
+            $rs = "";
+            $sql = "";
             $fieldId = 0;
 
             try {
 
-                // Figure out table Id
-                $tableId = $this->getTableId($tableName);
-
-                // Figure out field id
-                $filter = new Filter();
-                $filter->addCondition("tb_field", "id_system", "int", "=", $this->systemId);
-                $filter->addCondition("tb_field", "id_table", "int", "=", $tableId);
-                $filter->addCondition("tb_field", "name", "text", "=", $fieldName);
-                $data = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_FIELD, $filter->create(), $this->sqlBuilder->QUERY_NO_JOIN);
-
-                if ($data) {
-                    $fieldId = $data[0]["id"];
+                // Query fields
+                $sql .= " select";
+                $sql .= " tb_field.id";
+                $sql .= " from tb_field";
+                $sql .= " where (tb_field.field->>'id_system')::int = " . $this->systemId;
+                $sql .= " and (tb_field.field->>'id_table')::int = " . $this->tableId;
+                $sql .= " and tb_field.field->>'name' = " . "'" . $fieldName . "'";
+                
+                $rs = pg_query($this->cn, $sql);
+                while ($row = pg_fetch_row($rs)) {
+                    $fieldId = $row[0];
+                    break;
                 }
 
             } catch (Exception $ex) {
