@@ -663,39 +663,39 @@
             $tableName = "tb_field_attribute";
 
             // tb_system
-            execute($cn, $model->addTableFunction($id_system, 1, 1, 10));
-            execute($cn, $model->addTableFunction($id_system, 1, 2, 10));
-            execute($cn, $model->addTableFunction($id_system, 1, 3, 75));
+            execute($cn, $model->addFieldSetup($id_system, 1, 1, 10));
+            execute($cn, $model->addFieldSetup($id_system, 1, 2, 10));
+            execute($cn, $model->addFieldSetup($id_system, 1, 3, 75));
             // tb_table
-            execute($cn, $model->addTableFunction($id_system, 2, 1, 5));
-            execute($cn, $model->addTableFunction($id_system, 2, 2, 5));
-            execute($cn, $model->addTableFunction($id_system, 2, 1, 5));
-            execute($cn, $model->addTableFunction($id_system, 2, 2, 5));
-            execute($cn, $model->addTableFunction($id_system, 2, 2, 75));
+            execute($cn, $model->addFieldSetup($id_system, 2, 1, 5));
+            execute($cn, $model->addFieldSetup($id_system, 2, 2, 5));
+            execute($cn, $model->addFieldSetup($id_system, 2, 1, 5));
+            execute($cn, $model->addFieldSetup($id_system, 2, 2, 5));
+            execute($cn, $model->addFieldSetup($id_system, 2, 2, 75));
             // tb_table
-            execute($cn, $model->addTableFunction($id_system, 4, 20, 10));
-            execute($cn, $model->addTableFunction($id_system, 4, 21, 10));
-            execute($cn, $model->addTableFunction($id_system, 4, 22, 75));
+            execute($cn, $model->addFieldSetup($id_system, 4, 20, 10));
+            execute($cn, $model->addFieldSetup($id_system, 4, 21, 10));
+            execute($cn, $model->addFieldSetup($id_system, 4, 22, 75));
             // tb_function
-            execute($cn, $model->addTableFunction($id_system, 6, 29, 95));
+            execute($cn, $model->addFieldSetup($id_system, 6, 29, 95));
             // tb_group
-            execute($cn, $model->addTableFunction($id_system, 8, 32, 95));
+            execute($cn, $model->addFieldSetup($id_system, 8, 32, 95));
             // tb_profile
-            execute($cn, $model->addTableFunction($id_system, 11, 36, 95));
+            execute($cn, $model->addFieldSetup($id_system, 11, 36, 95));
             // tb_profile_transaction
-            execute($cn, $model->addTableFunction($id_system, 12, 37, 10));
-            execute($cn, $model->addTableFunction($id_system, 12, 38, 85));
+            execute($cn, $model->addFieldSetup($id_system, 12, 37, 10));
+            execute($cn, $model->addFieldSetup($id_system, 12, 38, 85));
             // tb_transaction_function
-            execute($cn, $model->addTableFunction($id_system, 13, 39, 10));
-            execute($cn, $model->addTableFunction($id_system, 13, 40, 10));
-            execute($cn, $model->addTableFunction($id_system, 13, 41, 75));
+            execute($cn, $model->addFieldSetup($id_system, 13, 39, 10));
+            execute($cn, $model->addFieldSetup($id_system, 13, 40, 10));
+            execute($cn, $model->addFieldSetup($id_system, 13, 41, 75));
             // tb_user
-            execute($cn, $model->addTableFunction($id_system, 14, 42, 10));
-            execute($cn, $model->addTableFunction($id_system, 14, 43, 10));
-            execute($cn, $model->addTableFunction($id_system, 14, 44, 75));
+            execute($cn, $model->addFieldSetup($id_system, 14, 42, 10));
+            execute($cn, $model->addFieldSetup($id_system, 14, 43, 10));
+            execute($cn, $model->addFieldSetup($id_system, 14, 44, 75));
             // tb_user_profile
-            execute($cn, $model->addTableFunction($id_system, 15, 45, 10));
-            execute($cn, $model->addTableFunction($id_system, 15, 46, 85));            
+            execute($cn, $model->addFieldSetup($id_system, 15, 45, 10));
+            execute($cn, $model->addFieldSetup($id_system, 15, 46, 85));            
 
             // Success
             printl("createFieldSetup() OK");
