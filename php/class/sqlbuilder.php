@@ -34,6 +34,11 @@ class SqlBuilder extends Base {
             // Transform results to json
             $sql = "select json_agg(t) from (" . $query . ") t";
 
+            // Log file
+            $file = fopen("c:\\temp\\log.txt", "w") or die("Unable to open file!");
+            fwrite($file, $sql);
+            fclose($file);
+
             // Execute query
             $rs = pg_query($cn, $sql);
             $this->setError("", "");
