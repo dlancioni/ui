@@ -191,24 +191,24 @@
                 $this->execute($cn, $model->addField($id_system, 2, "parente", "id_parent", $int, 0, "", $no, $no, $this->tb("tb_table"), $this->fd("name"), ""));
 
                 // tb_field
-                $this->execute($cn, $model->addField($id_system, 3, "Tabela", "id_table", $int, 0, "", $yes, $yes, 2, 6, ""));
+                $this->execute($cn, $model->addField($id_system, 3, "Tabela", "id_table", $int, 0, "", $yes, $yes, $this->tb("tb_table"), $this->fd("name"), ""));
                 $this->execute($cn, $model->addField($id_system, 3, "Rótulo", "label", $text, 50, "", $yes, $no, 0, 0, ""));
                 $this->execute($cn, $model->addField($id_system, 3, "Nome", "name", $text, 50, "", $yes, $yes, 0, 0, ""));
-                $this->execute($cn, $model->addField($id_system, 3, "Tipo", "id_type", $int, 0, "", $yes, $no, 4, 20, "tb_field_type"));
+                $this->execute($cn, $model->addField($id_system, 3, "Tipo", "id_type", $int, 0, "", $yes, $no, $this->tb("tb_domain"), $this->fd("value"), "tb_field_type"));
                 $this->execute($cn, $model->addField($id_system, 3, "Tamanho", "size", $int, 0, "", $yes, $no, 0, 0, ""));
                 $this->execute($cn, $model->addField($id_system, 3, "Máscara", "mask", $text, 50, "", $no, $no, 0, 0, ""));
-                $this->execute($cn, $model->addField($id_system, 3, "Obrigatório", "id_mandatory", $int, 0, "", $yes, $no, 4, 20, "tb_bool"));
-                $this->execute($cn, $model->addField($id_system, 3, "Único", "id_unique", $int, 0, "", $yes, $no, 4, 20, "tb_bool"));
-                $this->execute($cn, $model->addField($id_system, 3, "Tabela FK", "id_table_fk", $int, 0, "", $no, $no, 2, 6, ""));
-                $this->execute($cn, $model->addField($id_system, 3, "Campo FK", "id_field_fk", $int, 0, "", $no, $no, 3, 10, ""));
+                $this->execute($cn, $model->addField($id_system, 3, "Obrigatório", "id_mandatory", $int, 0, "", $yes, $no, $this->tb("tb_domain"), $this->fd("value"), "tb_bool"));
+                $this->execute($cn, $model->addField($id_system, 3, "Único", "id_unique", $int, 0, "", $yes, $no, $this->tb("tb_domain"), $this->fd("value"), "tb_bool"));
+                $this->execute($cn, $model->addField($id_system, 3, "Tabela FK", "id_table_fk", $int, 0, "", $no, $no, $this->tb("tb_table"), $this->fd("name"), ""));
+                $this->execute($cn, $model->addField($id_system, 3, "Campo FK", "id_field_fk", $int, 0, "", $no, $no, $this->tb("tb_field"), $this->fd("label"), ""));
                 $this->execute($cn, $model->addField($id_system, 3, "Domínio", "domain", $text, 50, "", $no, $no, 0, 0, ""));
 
                 // tb_event
-                $this->execute($cn, $model->addField($id_system, 5, "Tela", "id_target", $int, 0, "", $yes, $yes, 4, 20, "tb_target"));
-                $this->execute($cn, $model->addField($id_system, 5, "Tabela", "id_table", $int, 0, "", $yes, $yes, 2, 6, ""));
-                $this->execute($cn, $model->addField($id_system, 5, "Campo", "id_field", $int, 0, "", $yes, $yes, 3, 10, ""));
-                $this->execute($cn, $model->addField($id_system, 5, "Ação", "id_function", $int, 0, "", $yes, $yes, 6, 29, ""));
-                $this->execute($cn, $model->addField($id_system, 5, "Evento", "id_event", $int, 0, "", $yes, $yes, 4, 20, "tb_event"));
+                $this->execute($cn, $model->addField($id_system, 5, "Tela", "id_target", $int, 0, "", $yes, $yes, $this->tb("tb_domain"), $this->fd("value"), "tb_target"));
+                $this->execute($cn, $model->addField($id_system, 5, "Tabela", "id_table", $int, 0, "", $yes, $yes, $this->tb("tb_table"), $this->fd("name"), ""));
+                $this->execute($cn, $model->addField($id_system, 5, "Campo", "id_field", $int, 0, "", $yes, $yes, $this->tb("tb_field"), $this->fd("label"), ""));
+                $this->execute($cn, $model->addField($id_system, 5, "Ação", "id_function", $int, 0, "", $yes, $yes, $this->tb("tb_function"), $this->fd("name"), ""));
+                $this->execute($cn, $model->addField($id_system, 5, "Evento", "id_event", $int, 0, "", $yes, $yes, $this->tb("tb_domain"), $this->fd("value"), "tb_event"));
                 $this->execute($cn, $model->addField($id_system, 5, "Código", "code", $textarea, 10000, "", $yes, $yes, 0, 0, ""));
 
                 // tb_function
@@ -232,13 +232,13 @@
                 $this->execute($cn, $model->addField($id_system, 11, "Nome", "name", $text, 50, "", $yes, $yes, 0, 0, ""));
 
                 // tb_profile_table
-                $this->execute($cn, $model->addField($id_system, 12, "Perfil", "id_profile", $int, 0, "", $yes, $yes, 11, 36, ""));
-                $this->execute($cn, $model->addField($id_system, 12, "Transação", "id_table", $int, 0, "", $yes, $yes, 2, 6, ""));
+                $this->execute($cn, $model->addField($id_system, 12, "Perfil", "id_profile", $int, 0, "", $yes, $yes, $this->tb("tb_profile"), $this->fd("name"), ""));
+                $this->execute($cn, $model->addField($id_system, 12, "Transação", "id_table", $int, 0, "", $yes, $yes, $this->tb("tb_table"), $this->fd("name"), ""));
 
                 // tb_table_function
-                $this->execute($cn, $model->addField($id_system, 13, "Perfil", "id_profile", $int, 0, "", $yes, $yes, 11, 36, ""));
-                $this->execute($cn, $model->addField($id_system, 13, "Transação", "id_table", $int, 0, "", $yes, $yes, 2, 6, ""));
-                $this->execute($cn, $model->addField($id_system, 13, "Function", "id_function", $int, 0, "", $yes, $yes, 6, 29, ""));
+                $this->execute($cn, $model->addField($id_system, 13, "Perfil", "id_profile", $int, 0, "", $yes, $yes, $this->tb("tb_profile"), $this->fd("name"), ""));
+                $this->execute($cn, $model->addField($id_system, 13, "Transação", "id_table", $int, 0, "", $yes, $yes, $this->tb("tb_table"), $this->fd("name"), ""));
+                $this->execute($cn, $model->addField($id_system, 13, "Function", "id_function", $int, 0, "", $yes, $yes, $this->tb("tb_function"), $this->fd("name"), ""));
 
                 // tb_user
                 $this->execute($cn, $model->addField($id_system, 14, "Nome", "name", $text, 50, "", $yes, $yes, 0, 0, ""));
@@ -246,13 +246,13 @@
                 $this->execute($cn, $model->addField($id_system, 14, "Password", "password", $text, 50, "", $yes, $yes, 0, 0, ""));
 
                 // tb_user_profile
-                $this->execute($cn, $model->addField($id_system, 15, "Usuário", "id_user", $int, 0, "", $yes, $yes, 14, 42, ""));
-                $this->execute($cn, $model->addField($id_system, 15, "Perfil", "id_profile", $int, 0, "", $yes, $yes, 11, 36, ""));
+                $this->execute($cn, $model->addField($id_system, 15, "Usuário", "id_user", $int, 0, "", $yes, $yes, $this->tb("tb_user"), $this->fd("name"), ""));
+                $this->execute($cn, $model->addField($id_system, 15, "Perfil", "id_profile", $int, 0, "", $yes, $yes, $this->tb("tb_profile"), $this->fd("name"), ""));
 
                 // tb_field_attribute
-                $this->execute($cn, $model->addField($id_system, 16, "Tabela", "id_table", $int, 0, "", $yes, $yes, 2, 6, ""));
-                $this->execute($cn, $model->addField($id_system, 16, "Campo", "id_field", $int, 0, "", $yes, $yes, 3, 10, ""));
-                $this->execute($cn, $model->addField($id_system, 16, "Coluna (%)", "column_size", $int, 0, "", $yes, $yes, 3, 10, ""));
+                $this->execute($cn, $model->addField($id_system, 16, "Tabela", "id_table", $int, 0, "", $yes, $yes, $this->tb("tb_table"), $this->fd("name"), ""));
+                $this->execute($cn, $model->addField($id_system, 16, "Campo", "id_field", $int, 0, "", $yes, $yes, $this->tb("tb_field"), $this->fd("label"), ""));
+                $this->execute($cn, $model->addField($id_system, 16, "Coluna (%)", "column_size", $int, 0, "", $yes, $yes, 0, 0, ""));
                 
             } catch (Exception $ex) {
                 throw $ex;
