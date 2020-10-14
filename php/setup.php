@@ -34,7 +34,7 @@
         createTransaction($cn, $id_system);
         createField($cn, $id_system);
         createDomain($cn, $id_system);
-        createEvent($cn);
+        createEvent($cn, $id_system);
         createFunction($cn);
         createGroup($cn);
         createUser($cn);
@@ -330,7 +330,7 @@
             // tb_cascade
             execute($cn, addDomain($id_system, "tb_field.id_table_fk", "id_field_fk; tb_field; id; label", "tb_cascade"));
             execute($cn, addDomain($id_system, "tb_event.id_table", "id_field; tb_field; id; label", "tb_cascade"));
-            
+
             // Success
             printl("createDomain() OK");
             
@@ -343,7 +343,7 @@
     /*
      * Create events
      */
-    function createEvent($cn) {
+    function createEvent($cn, $id_system) {
 
         $i = 0;
         $v1 = "";
@@ -364,34 +364,13 @@
 
             // Create standard events
             for ($i=1; $i<=$total; $i++) {
-                
-                $v1 = '{"id_system":1,"id_group":1,"id_target":1,"id_table":1,"id_field":0,"id_function":1,"id_event":2,"code":"formNew();"}';
-                $v1 = $jsonUtil->setValue($v1, "id_table", $i);
-                execute($cn, $v1);
-
-                $v2 = '{"id_system":1,"id_group":1,"id_target":1,"id_table":1,"id_field":0,"id_function":2,"id_event":2,"code":"formEdit()"}';
-                $v2 = $jsonUtil->setValue($v2, "id_table", $i);
-                execute($cn, $v2);
-
-                $v3 = '{"id_system":1,"id_group":1,"id_target":1,"id_table":1,"id_field":0,"id_function":3,"id_event":2,"code":"formDelete()"}';
-                $v3 = $jsonUtil->setValue($v3, "id_table", $i);
-                execute($cn, $v3);
-
-                $v4 = '{"id_system":1,"id_group":1,"id_target":2,"id_table":1,"id_field":0,"id_function":4,"id_event":2,"code":"confirm()"}';
-                $v4 = $jsonUtil->setValue($v4, "id_table", $i);
-                execute($cn, $v4);
-
-                $v5 = '{"id_system":1,"id_group":1,"id_target":1,"id_table":1,"id_field":0,"id_function":5,"id_event":2,"code":"formFilter()"}';
-                $v5 = $jsonUtil->setValue($v5, "id_table", $i);
-                execute($cn, $v5);
-
-                $v6 = '{"id_system":1,"id_group":1,"id_target":2,"id_table":1,"id_field":0,"id_function":6,"id_event":2,"code":"formClear()"}';
-                $v6 = $jsonUtil->setValue($v6, "id_table", $i);
-                execute($cn, $v6);
-
-                $v7 = '{"id_system":1,"id_group":1,"id_target":2,"id_table":1,"id_field":0,"id_function":7,"id_event":2,"code":"reportBack()"}';
-                $v7 = $jsonUtil->setValue($v7, "id_table", $i);
-                execute($cn, $v7);
+                execute($cn, addEvent($id_system, 1, $i, 0, 1, 2, "formNew();"));
+                execute($cn, addEvent($id_system, 1, $i, 0, 2, 2, "formEdit();"));
+                execute($cn, addEvent($id_system, 1, $i, 0, 3, 2, "formDelete();"));
+                execute($cn, addEvent($id_system, 2, $i, 0, 4, 2, "confirm();"));
+                execute($cn, addEvent($id_system, 1, $i, 0, 5, 2, "formFilter();"));
+                execute($cn, addEvent($id_system, 2, $i, 0, 6, 2, "formClear();"));
+                execute($cn, addEvent($id_system, 2, $i, 0, 7, 2, "reportBack();"));
             }
 
             // Custon events
@@ -867,6 +846,30 @@
 
         // Return final json
         return $json;
+    }
+
+    function addEvent($id_system, $id_target, $id_table, $id_field, $id_function, $id_event, $code) {
+
+        // General Declaration
+        $json = "";
+        $jsonUtil = new JsonUtil();
+
+        // Create key
+        $json = $jsonUtil->setValue($json, "id_system", $id_system);
+        $json = $jsonUtil->setValue($json, "id_group", 1);
+
+        // Create record        
+        $json = $jsonUtil->setValue($json, "id_target", $id_target);
+        $json = $jsonUtil->setValue($json, "id_table", $id_table);
+        $json = $jsonUtil->setValue($json, "id_field", $id_field);
+        $json = $jsonUtil->setValue($json, "id_function", $id_function);
+        $json = $jsonUtil->setValue($json, "id_event", $id_event);
+        $json = $jsonUtil->setValue($json, "code", $code);
+
+        // Return final json
+        return $json;
     }    
+
+
 
 ?>
