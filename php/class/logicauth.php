@@ -36,7 +36,7 @@
                 // Validate the username
                 $filter = new Filter();
                 $filter->addCondition("tb_user", "id_system", "int", "=", $signId);
-                $filter->addCondition("tb_user", "login", "text", "=", $username);
+                $filter->addCondition("tb_user", "username", "text", "=", $username);
                 $data = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_USER, $filter->create(), $this->sqlBuilder->QUERY_NO_JOIN);
                 if (count($data) <= 0) {
                     $msg = $message->getValue("A14");

@@ -35,16 +35,15 @@
         createField($cn, $id_system);
         createDomain($cn, $id_system);
         createEvent($cn, $id_system);
-        createFunction($cn);
-        createGroup($cn);
-        createUser($cn);
-        createProfile($cn);
-        createProfileTransaction($cn);
-        createUserProfile($cn);
-        createTransactionFunction($cn);
-        createCode($cn);
-        createView($cn);
-        createFieldSetup($cn);
+        createFunctionGroup($cn, $id_system);
+        createUser($cn, $id_system);
+        createProfile($cn, $id_system);
+        createProfileTable($cn, $id_system);
+        createUserProfile($cn, $id_system);
+        createTableFunction($cn, $id_system);
+        createCode($cn, $id_system);
+        createView($cn, $id_system);
+        createFieldSetup($cn, $id_system);
 
         // Finished OK
         printl("Success :)");
@@ -346,13 +345,6 @@
     function createEvent($cn, $id_system) {
 
         $i = 0;
-        $v1 = "";
-        $v2 = "";
-        $v3 = "";
-        $v4 = "";
-        $v5 = "";
-        $v6 = "";
-        $v6 = "";
         global $tableName;
         global $total;
         $jsonUtil = new jsonUtil();
@@ -394,7 +386,7 @@
     /*
      * Create action
      */
-    function createFunction($cn) {
+    function createFunctionGroup($cn, $id_system) {
 
         global $tableName;
 
@@ -404,14 +396,21 @@
             $tableName = "tb_function";
 
             // Create actions
-            execute($cn, '{"id_system":1,"id_group":1,"name":"Novo"}');
-            execute($cn, '{"id_system":1,"id_group":1,"name":"Editar"}');
-            execute($cn, '{"id_system":1,"id_group":1,"name":"Apagar"}');
-            execute($cn, '{"id_system":1,"id_group":1,"name":"Confirmar"}');
-            execute($cn, '{"id_system":1,"id_group":1,"name":"Filtrar"}');
-            execute($cn, '{"id_system":1,"id_group":1,"name":"Limpar"}');
-            execute($cn, '{"id_system":1,"id_group":1,"name":"Voltar"}');
-            execute($cn, '{"id_system":1,"id_group":1,"name":"Testar"}');
+            execute($cn, addFunctionGroup($id_system, "Novo"));
+            execute($cn, addFunctionGroup($id_system, "Editar"));
+            execute($cn, addFunctionGroup($id_system, "Apagar"));
+            execute($cn, addFunctionGroup($id_system, "Confirmar"));
+            execute($cn, addFunctionGroup($id_system, "Filtrar"));
+            execute($cn, addFunctionGroup($id_system, "Limpar"));
+            execute($cn, addFunctionGroup($id_system, "Voltar"));
+            execute($cn, addFunctionGroup($id_system, "Testar"));
+
+            // Define table name
+            $tableName = "tb_group";
+
+            // Create groups
+            execute($cn, addFunctionGroup($id_system, "Sistema"));
+            execute($cn, addFunctionGroup($id_system, "Público"));
 
             // Success
             printl("createFunction() OK");
@@ -423,34 +422,9 @@
     }
 
     /*
-     * Create group
-     */
-    function createGroup($cn) {
-
-        global $tableName;
-
-        try {
-
-            // Define table name
-            $tableName = "tb_group";
-
-            // Create groups
-            execute($cn, '{"id_system":1,"id_group":1,"name":"Sistema"}');
-            execute($cn, '{"id_system":1,"id_group":1,"name":"Público"}');
-
-            // Success
-            printl("createGroup() OK");
-            
-        } catch (Exception $ex) {
-            printl("createGroup():" . $ex->getMessage());
-            throw $ex;
-        }
-    }
-
-    /*
      * Create User
      */
-    function createUser($cn) {
+    function createUser($cn, $id_system) {
 
         global $tableName;
 
@@ -460,9 +434,9 @@
             $tableName = "tb_user";
 
             // Create User
-            execute($cn, '{"id_system":1,"id_group":1,"name":"Administrador","username":"admin","password":"123"}');
-            execute($cn, '{"id_system":1,"id_group":1,"name":"João","username":"joao","password":"123"}');
-            execute($cn, '{"id_system":1,"id_group":1,"name":"Maria","username":"maria","password":"123"}');
+            execute($cn, addUser($id_system, "Administrador", "admin", "123"));
+            execute($cn, addUser($id_system, "João", "joao", "123"));
+            execute($cn, addUser($id_system, "Maria", "maria", "123"));
 
             // Success
             printl("createUser() OK");
@@ -476,7 +450,7 @@
     /*
      * Create Profile
      */
-    function createProfile($cn) {
+    function createProfile($cn, $id_system) {
 
         global $tableName;
 
@@ -486,8 +460,8 @@
             $tableName = "tb_profile";
 
             // Create Profile
-            execute($cn, '{"id_system":1,"id_group":1,"name":"Administrador"}');
-            execute($cn, '{"id_system":1,"id_group":1,"name":"Usuário"}');
+            execute($cn, addProfile($id_system, "Administrador"));
+            execute($cn, addProfile($id_system, "Usuário"));
 
             // Success
             printl("createProfile() OK");
@@ -501,7 +475,7 @@
     /*
      * Create User x Profile
      */
-    function createUserProfile($cn) {
+    function createUserProfile($cn, $id_system) {
 
         global $tableName;
 
@@ -511,9 +485,9 @@
             $tableName = "tb_user_profile";
 
             // create User Profile
-            execute($cn, '{"id_system":1,"id_user":1,"id_profile":1}');
-            execute($cn, '{"id_system":1,"id_user":2,"id_profile":2}');
-            execute($cn, '{"id_system":1,"id_user":3,"id_profile":2}');            
+            execute($cn, addUserProfile($id_system, 1, 1));
+            execute($cn, addUserProfile($id_system, 2, 2));
+            execute($cn, addUserProfile($id_system, 3, 2));
 
             // Success
             printl("createUserProfile() OK");
@@ -528,10 +502,9 @@
     /*
      * Create Profile x Transaction
      */
-    function createProfileTransaction($cn) {
+    function createProfileTable($cn, $id_system) {
 
         $i = 0;
-        $v1 = "";
         global $tableName;
         global $total;
         $jsonUtil = new jsonUtil();
@@ -543,16 +516,14 @@
 
             // Create standard events
             for ($i=1; $i<=$total; $i++) {               
-                $v1 = '{"id_system":1,"id_group":1,"id_profile":1,"id_table":1}';
-                $v1 = $jsonUtil->setValue($v1, "id_table", $i);
-                execute($cn, $v1);
+                execute($cn, addProfileTable($id_system, 1, $i));
             }
 
             // Success
-            printl("createProfileTransaction() OK");
+            printl("createProfileTable() OK");
             
         } catch (Exception $ex) {
-            printl("createProfileTransaction():" . $ex->getMessage());
+            printl("createProfileTable():" . $ex->getMessage());
             throw $ex;
         }
     }
@@ -561,11 +532,10 @@
     /*
      * Create events
      */
-    function createTransactionFunction($cn) {
+    function createTableFunction($cn, $id_system) {
 
         $i = 0;
         $j = 0;
-        $v1 = "";
 
         global $tableName;
         global $total;
@@ -585,16 +555,15 @@
 
                 // Create each permission
                 for ($j=1; $j<=7; $j++) {
-                    $v1 = $jsonUtil->setValue($v1, "id_function", $j);
-                    execute($cn, $v1);                    
+                    execute($cn, addTableFunction($id_system, 1, $i, $j));
                 }
             }
 
             // Success
-            printl("createTransactionFunction() OK");
+            printl("createTableFunction() OK");
             
         } catch (Exception $ex) {
-            printl("createTransactionFunction():" . $ex->getMessage());
+            printl("createTableFunction():" . $ex->getMessage());
             throw $ex;
         }
     }
@@ -603,7 +572,7 @@
     /*
      * Create code
      */
-    function createCode($cn) {
+    function createCode($cn, $id_system) {
 
         global $tableName;
 
@@ -629,7 +598,7 @@
     /*
      * Create view
      */
-    function createView($cn) {
+    function createView($cn, $id_system) {
 
         $json = "";
         global $tableName;
@@ -660,9 +629,9 @@
     }
 
     /*
-     * Create code
+     * Create field setup
      */
-    function createFieldSetup($cn) {
+    function createFieldSetup($cn, $id_system) {
 
         global $tableName;
 
@@ -856,5 +825,112 @@
     }    
 
 
+    function addFunctionGroup($id_system, $name) {
 
+        // General Declaration
+        $json = "";
+        $jsonUtil = new JsonUtil();
+
+        // Create key
+        $json = $jsonUtil->setValue($json, "id_system", $id_system);
+        $json = $jsonUtil->setValue($json, "id_group", 1);
+
+        // Create record        
+        $json = $jsonUtil->setValue($json, "name", $name);
+
+        // Return final json
+        return $json;
+    }
+
+    function addProfile($id_system, $name) {
+
+        // General Declaration
+        $json = "";
+        $jsonUtil = new JsonUtil();
+
+        // Create key
+        $json = $jsonUtil->setValue($json, "id_system", $id_system);
+        $json = $jsonUtil->setValue($json, "id_group", 1);
+
+        // Create record        
+        $json = $jsonUtil->setValue($json, "name", $name);
+
+        // Return final json
+        return $json;
+    }
+
+
+    function addProfileTable($id_system, $id_profile, $id_table) {
+
+        // General Declaration
+        $json = "";
+        $jsonUtil = new JsonUtil();
+
+        // Create key
+        $json = $jsonUtil->setValue($json, "id_system", $id_system);
+        $json = $jsonUtil->setValue($json, "id_group", 1);
+
+        // Create record        
+        $json = $jsonUtil->setValue($json, "id_profile", $id_profile);
+        $json = $jsonUtil->setValue($json, "id_table", $id_table);
+
+        // Return final json
+        return $json;
+    }
+
+    function addTableFunction($id_system, $id_profile, $id_table, $id_function) {
+
+        // General Declaration
+        $json = "";
+        $jsonUtil = new JsonUtil();
+
+        // Create key
+        $json = $jsonUtil->setValue($json, "id_system", $id_system);
+        $json = $jsonUtil->setValue($json, "id_group", 1);
+
+        // Create record        
+        $json = $jsonUtil->setValue($json, "id_profile", $id_profile);
+        $json = $jsonUtil->setValue($json, "id_table", $id_table);
+        $json = $jsonUtil->setValue($json, "id_function", $id_function);
+
+        // Return final json
+        return $json;
+    }
+
+    function addUser($id_system, $name, $username, $password) {
+
+        // General Declaration
+        $json = "";
+        $jsonUtil = new JsonUtil();
+
+        // Create key
+        $json = $jsonUtil->setValue($json, "id_system", $id_system);
+        $json = $jsonUtil->setValue($json, "id_group", 1);
+
+        // Create record        
+        $json = $jsonUtil->setValue($json, "name", $name);
+        $json = $jsonUtil->setValue($json, "username", $username);
+        $json = $jsonUtil->setValue($json, "password", $password);
+
+        // Return final json
+        return $json;
+    }
+
+    function addUserProfile($id_system, $id_user, $id_profile) {
+
+        // General Declaration
+        $json = "";
+        $jsonUtil = new JsonUtil();
+
+        // Create key
+        $json = $jsonUtil->setValue($json, "id_system", $id_system);
+        $json = $jsonUtil->setValue($json, "id_group", 1);
+
+        // Create record        
+        $json = $jsonUtil->setValue($json, "id_user", $id_user);
+        $json = $jsonUtil->setValue($json, "id_profile", $id_profile);
+
+        // Return final json
+        return $json;
+    }
 ?>
