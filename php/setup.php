@@ -10,16 +10,19 @@
     $sql = "";
     $json = "";
     $jsonUtil = "";
-    $tableName = "tb_system";
+    $sqlBuilder = "";
     $total = 0;
     
     // Core code
     try {
 
+        // Keep instance of SqlBuilder for current session
+        $sqlBuilder = new SqlBuilder(1, 1, 0, 1);
+
         // Open connection
         $db = new Db();
         $cn = $db->getConnection();
-        $logicSetup = new LogicSetup($cn);
+        $logicSetup = new LogicSetup($cn, $sqlBuilder);
         $logicSetup->setup(1);
 
         echo "Done !!";

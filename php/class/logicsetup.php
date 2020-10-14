@@ -3,11 +3,14 @@
 
         // Private members
         private $cn = 0;
-        public $error = ""; 
+        private $sqlBuilder = 0;
+        public $error = "";
+        public $systemId = 0;
 
         // Constructor
-        function __construct($cn) {
+        function __construct($cn, $sqlBuilder) {
             $this->cn = $cn;
+            $this->sqlBuilder = $sqlBuilder;
         }
 
         /*
@@ -21,8 +24,12 @@
             $affectedRows = 0;
             $jsonUtil = new JsonUtil();
             $pathUtil = new PathUtil();
+            $this->systemId = $id_system;            
 
             try {
+
+                $x = $this->getTableId("tb_table");
+                $x = $this->getFieldId("tb_table", "name");
 
                 // DB interface
                 $db = new Db();       
@@ -570,8 +577,8 @@
         }
 
         /*
-        * Create field setup
-        */
+         * Create field setup
+         */
         private function createFieldSetup($cn, $id_system) {
 
             global $tableName;
@@ -622,6 +629,9 @@
             }
         }
 
+        /*
+         * Execute statements
+         */        
         private function execute($cn, $json) {
 
             global $tableName;
@@ -633,9 +643,60 @@
             }
         }
 
-        function printl($msg) {
-            echo $msg . "<br>";
+        /*
+         * Get table ID
+         */        
+        private function getTableId($tableName) {
+
+            $tableId = 0;
+
+            try {
+
+                $filter = new Filter();
+                $filter->addCondition("tb_table", "id_system", "int", "=", $this->systemId);
+                $filter->addCondition("tb_table", "table_name", "text", "=", $tableName);
+                $data = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_TABLE, $filter->create(), $this->sqlBuilder->QUERY_NO_JOIN);
+                if ($data) {
+                    $tableId = $data[0]["id"];
+                }
+            } catch (Exception $ex) {
+                throw $ex;
+            }
+
+            return $tableId;
         }
+
+        /*
+         * Get field ID
+         */        
+        private function getFieldId($tableName, $fieldName) {
+
+            $tableId = 0;
+            $fieldId = 0;
+
+            try {
+
+                // Figure out table Id
+                $tableId = $this->getTableId($tableName);
+
+                // Figure out field id
+                $filter = new Filter();
+                $filter->addCondition("tb_field", "id_system", "int", "=", $this->systemId);
+                $filter->addCondition("tb_field", "id_table", "int", "=", $tableId);
+                $filter->addCondition("tb_field", "name", "text", "=", $fieldName);
+                $data = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_FIELD, $filter->create(), $this->sqlBuilder->QUERY_NO_JOIN);
+
+                if ($data) {
+                    $fieldId = $data[0]["id"];
+                }
+
+            } catch (Exception $ex) {
+                throw $ex;
+            }
+
+            return $fieldId;
+        }        
+
 
     } // End of class
 ?>
