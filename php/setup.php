@@ -374,27 +374,12 @@
             }
 
             // Custon events
-            $v1 = '{"id_system":1,"id_group":1,"id_target":2,"id_table":1,"id_field":3,"id_function":0,"id_event":3,"code":"this.value = formatValue(this.value)"}';
-            execute($cn, $v1);
-
-            $v1 = '{"id_system":1,"id_group":1,"id_target":2,"id_table":2,"id_field":5,"label":"","id_event":3,"code":"this.value = validateTableName(this.value)"}';
-            execute($cn, $v1);
-
-            $v1 = '{"id_system":1,"id_group":1,"id_target":2,"id_table":3,"id_field":17,"id_function":0,"id_event":3,"code":""}';
-            $v1 = $jsonUtil->setValue($v1, "code", "cascade(''id_field_fk'', ''id_table'', this.value, ''tb_field'', ''id'', ''label'');");
-            execute($cn, $v1);
-
-            $v1 = '{"id_system":1,"id_group":1,"id_target":2,"id_table":5,"id_field":24,"id_function":0,"id_event":3,"code":""}';
-            $v1 = $jsonUtil->setValue($v1, "code", "cascade(''id_field'', ''id_table'', this.value, ''tb_field'', ''id'', ''label'');");
-            execute($cn, $v1);
-
-            $v1 = '{"id_system":1,"id_group":1,"id_target":2,"id_table":16,"id_field":47,"id_function":0,"id_event":3,"code":""}';
-            $v1 = $jsonUtil->setValue($v1, "code", "cascade(''id_field'', ''id_table'', this.value, ''tb_field'', ''id'', ''label'');");
-            execute($cn, $v1);            
-
-            $v1 = '{"id_system":1,"id_group":1,"id_target":2,"id_table":7,"id_field":0,"id_function":8,"id_event":2,"code":""}';
-            $v1 = $jsonUtil->setValue($v1, "code", "eval(field(''code'').value);");
-            execute($cn, $v1);           
+            execute($cn, addEvent($id_system, 2, 1, 3, 0, 3, "this.value = formatValue(this.value);"));
+            execute($cn, addEvent($id_system, 2, 2, 5, 0, 3, "this.value = validateTableName(this.value);"));
+            execute($cn, addEvent($id_system, 2, 3, 17, 0, 3, "cascade(''id_field_fk'', ''id_table'', this.value, ''tb_field'', ''id'', ''label'');"));
+            execute($cn, addEvent($id_system, 2, 5, 24, 0, 3, "cascade(''id_field'', ''id_table'', this.value, ''tb_field'', ''id'', ''label'');"));
+            execute($cn, addEvent($id_system, 2, 16, 47, 0, 3, "cascade(''id_field'', ''id_table'', this.value, ''tb_field'', ''id'', ''label'');"));
+            execute($cn, addEvent($id_system, 2, 7, 0, 8, 2, "eval(field(''code'').value);"));
 
             // Success
             printl("createEvent() OK");
