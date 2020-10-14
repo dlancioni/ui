@@ -96,7 +96,6 @@
                     pg_query($cn, "create table if not exists $tableName (id serial, field jsonb);");
                 }
 
-
             } catch (Exception $ex) {
                 throw $ex;
             }
