@@ -33,7 +33,7 @@
         createTable($cn);
         createTransaction($cn, $id_system);
         createField($cn, $id_system);
-        createDomain($cn);
+        createDomain($cn, $id_system);
         createEvent($cn);
         createFunction($cn);
         createGroup($cn);
@@ -277,7 +277,7 @@
     /*
      * Create domain
      */
-    function createDomain($cn) {
+    function createDomain($cn, $id_system) {
 
         global $tableName;
 
@@ -287,50 +287,50 @@
             $tableName = "tb_domain";
 
             // tb_table_type
-            execute($cn, '{"id_system":1,"id_group":1,"key":"1","value":"Formulário","domain":"tb_table_type"}');
-            execute($cn, '{"id_system":1,"id_group":1,"key":"2","value":"Relatório","domain":"tb_table_type"}');
-            execute($cn, '{"id_system":1,"id_group":1,"key":"3","value":"Menu","domain":"tb_table_type"}');
+            execute($cn, addDomain($id_system, 1, "Formulário", "tb_table_type"));
+            execute($cn, addDomain($id_system, 2, "Relatório", "tb_table_type"));
+            execute($cn, addDomain($id_system, 3, "Menu", "tb_table_type"));
             // tb_bool
-            execute($cn, '{"id_system":1,"id_group":1,"key":"1","value":"Sim","domain":"tb_bool"}');
-            execute($cn, '{"id_system":1,"id_group":1,"key":"2","value":"Não","domain":"tb_bool"}');
+            execute($cn, addDomain($id_system, 1, "Sim", "tb_bool"));
+            execute($cn, addDomain($id_system, 2, "Não", "tb_bool"));
             // tb_field_type
-            execute($cn, '{"id_system":1,"id_group":1,"key":1,"value":"Inteiro","domain":"tb_field_type"}');
-            execute($cn, '{"id_system":1,"id_group":1,"key":2,"value":"Decimal","domain":"tb_field_type"}');
-            execute($cn, '{"id_system":1,"id_group":1,"key":3,"value":"Texto","domain":"tb_field_type"}');
-            execute($cn, '{"id_system":1,"id_group":1,"key":4,"value":"Data","domain":"tb_field_type"}');
-            execute($cn, '{"id_system":1,"id_group":1,"key":5,"value":"Hora","domain":"tb_field_type"}');
-            execute($cn, '{"id_system":1,"id_group":1,"key":6,"value":"Area","domain":"tb_field_type"}');
-            execute($cn, '{"id_system":1,"id_group":1,"key":7,"value":"Binário","domain":"tb_field_type"}');
+            execute($cn, addDomain($id_system, 1, "Inteiro", "tb_field_type"));
+            execute($cn, addDomain($id_system, 2, "Decimal", "tb_field_type"));
+            execute($cn, addDomain($id_system, 3, "Texto", "tb_field_type"));
+            execute($cn, addDomain($id_system, 4, "Data", "tb_field_type"));
+            execute($cn, addDomain($id_system, 5, "Hora", "tb_field_type"));
+            execute($cn, addDomain($id_system, 6, "Area", "tb_field_type"));
+            execute($cn, addDomain($id_system, 7, "Binário", "tb_field_type"));
             // tb_event
-            execute($cn, '{"id_system":1,"id_group":1,"key":1,"value":"onLoad","domain":"tb_event"}');
-            execute($cn, '{"id_system":1,"id_group":1,"key":2,"value":"onClick","domain":"tb_event"}');
-            execute($cn, '{"id_system":1,"id_group":1,"key":3,"value":"onChange","domain":"tb_event"}');
-            execute($cn, '{"id_system":1,"id_group":1,"key":4,"value":"onFocus","domain":"tb_event"}');
-            execute($cn, '{"id_system":1,"id_group":1,"key":5,"value":"onBlur","domain":"tb_event"}');
+            execute($cn, addDomain($id_system, 1, "onLoad", "tb_event"));
+            execute($cn, addDomain($id_system, 2, "onClick", "tb_event"));
+            execute($cn, addDomain($id_system, 3, "OnChange", "tb_event"));
+            execute($cn, addDomain($id_system, 4, "onFocus", "tb_event"));
+            execute($cn, addDomain($id_system, 5, "onBlur", "tb_event"));
             // tb_target
-            execute($cn, '{"id_system":1,"id_group":1,"key":1,"value":"Tabela","domain":"tb_target"}');
-            execute($cn, '{"id_system":1,"id_group":1,"key":2,"value":"Formulário","domain":"tb_target"}');
+            execute($cn, addDomain($id_system, 1, "Tabela", "tb_target"));
+            execute($cn, addDomain($id_system, 2, "Formulário", "tb_target"));
             // tb_message
-            execute($cn, '{"id_system":1,"id_group":1,"key":"A1","value":"Campo % é obrigatório","domain":"tb_message"}');
-            execute($cn, '{"id_system":1,"id_group":1,"key":"A2","value":"Data inválida informada no campo %","domain":"tb_message"}');
-            execute($cn, '{"id_system":1,"id_group":1,"key":"A3","value":"Numero inválido informada no campo %","domain":"tb_message"}');
-            execute($cn, '{"id_system":1,"id_group":1,"key":"A4","value":"Os valores para os campos % ja existem na tabela e não podem se repetir","domain":"tb_message"}');
-            execute($cn, '{"id_system":1,"id_group":1,"key":"A5","value":"Nenhuma mudança identifica no registro, alteração não realizada","domain":"tb_message"}');
-            execute($cn, '{"id_system":1,"id_group":1,"key":"A6","value":"Registro incluído com sucesso","domain":"tb_message"}');
-            execute($cn, '{"id_system":1,"id_group":1,"key":"A7","value":"Registro alterado com sucesso","domain":"tb_message"}');
-            execute($cn, '{"id_system":1,"id_group":1,"key":"A8","value":"Registro excluído com sucesso","domain":"tb_message"}');
-            execute($cn, '{"id_system":1,"id_group":1,"key":"A9","value":"Campo Tabela FK foi selecionado, entao Campo FK é obrigatório","domain":"tb_message"}');
-            execute($cn, '{"id_system":1,"id_group":1,"key":"A10","value":"Transação selecionada é do tipo menu, não é permitido adicionar campos","domain":"tb_message"}');
-            execute($cn, '{"id_system":1,"id_group":1,"key":"A11","value":"Registro pertence ao grupo Sistema, não pode ser modificado ou excluído","domain":"tb_message"}');
-            execute($cn, '{"id_system":1,"id_group":1,"key":"A12","value":"Não foi possível concluir o upload dos arquivos","domain":"tb_message"}');
-            execute($cn, '{"id_system":1,"id_group":1,"key":"A13","value":"Transação ainda não possui campos cadastrados","domain":"tb_message"}');
-            execute($cn, '{"id_system":1,"id_group":1,"key":"A14","value":"Usuário não cadastrado","domain":"tb_message"}');
-            execute($cn, '{"id_system":1,"id_group":1,"key":"A15","value":"Senha inválida","domain":"tb_message"}');
-            execute($cn, '{"id_system":1,"id_group":1,"key":"A16","value":"Autenticado com sucesso, seja bem vindo","domain":"tb_message"}');
+            execute($cn, addDomain($id_system, "A1", "Campo % é obrigatório", "tb_message"));
+            execute($cn, addDomain($id_system, "A2", "Data inválida informada no campo %", "tb_message"));
+            execute($cn, addDomain($id_system, "A3", "Numero inválido informada no campo %", "tb_message"));
+            execute($cn, addDomain($id_system, "A4", "Os valores para os campos % ja existem na tabela e não podem se repetir", "tb_message"));
+            execute($cn, addDomain($id_system, "A5", "Nenhuma mudança identifica no registro, alteração não realizada", "tb_message"));
+            execute($cn, addDomain($id_system, "A6", "Registro incluído com sucesso", "tb_message"));
+            execute($cn, addDomain($id_system, "A7", "Registro alterado com sucesso", "tb_message"));
+            execute($cn, addDomain($id_system, "A8", "Registro excluído com sucesso", "tb_message"));
+            execute($cn, addDomain($id_system, "A9", "Campo Tabela FK foi selecionado, entao Campo FK é obrigatório", "tb_message"));
+            execute($cn, addDomain($id_system, "A10", "Transação selecionada é do tipo menu, não é permitido adicionar campos", "tb_message"));
+            execute($cn, addDomain($id_system, "A11", "Registro pertence ao grupo Sistema, não pode ser modificado ou excluído", "tb_message"));
+            execute($cn, addDomain($id_system, "A12", "Não foi possível concluir o upload dos arquivos", "tb_message"));
+            execute($cn, addDomain($id_system, "A13", "Transação ainda não possui campos cadastrados", "tb_message"));
+            execute($cn, addDomain($id_system, "A14", "Usuário não cadastrado", "tb_message"));
+            execute($cn, addDomain($id_system, "A15", "Senha inválida", "tb_message"));
+            execute($cn, addDomain($id_system, "A16", "Autenticado com sucesso, seja bem vindo", "tb_message"));
             // tb_cascade
-            execute($cn, '{"id_system":1,"id_group":1,"key":"tb_field.id_table_fk","value":"id_field_fk; tb_field; id; label","domain":"tb_cascade"}');
-            execute($cn, '{"id_system":1,"id_group":1,"key":"tb_event.id_table","value":"id_field; tb_field; id; label","domain":"tb_cascade"}');            
-
+            execute($cn, addDomain($id_system, "tb_field.id_table_fk", "id_field_fk; tb_field; id; label", "tb_cascade"));
+            execute($cn, addDomain($id_system, "tb_event.id_table", "id_field; tb_field; id; label", "tb_cascade"));
+            
             // Success
             printl("createDomain() OK");
             
@@ -844,6 +844,25 @@
         $json = $jsonUtil->setValue($json, "id_unique", $id_unique);
         $json = $jsonUtil->setValue($json, "id_table_fk", $id_table_fk);
         $json = $jsonUtil->setValue($json, "id_field_fk", $id_field_fk);
+        $json = $jsonUtil->setValue($json, "domain", $domain);
+
+        // Return final json
+        return $json;
+    }    
+
+    function addDomain($id_system, $key, $value, $domain) {
+
+        // General Declaration
+        $json = "";
+        $jsonUtil = new JsonUtil();
+
+        // Create key
+        $json = $jsonUtil->setValue($json, "id_system", $id_system);
+        $json = $jsonUtil->setValue($json, "id_group", 1);
+
+        // Create record        
+        $json = $jsonUtil->setValue($json, "key", $key);
+        $json = $jsonUtil->setValue($json, "value", $value);
         $json = $jsonUtil->setValue($json, "domain", $domain);
 
         // Return final json
