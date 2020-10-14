@@ -4,22 +4,24 @@
         // Private members
         private $cn = 0;
         private $sqlBuilder = 0;
-        public $html;
+        public $systemId;
+        public $groupId;
 
         // Constructor
-        function __construct() {
-
+        function __construct($id_system, $id_group) {
+            $this->systemId = $id_system;
+            $this->groupId = $id_group;
         }
 
-        public function addSystem($id_system, $name, $expire_date, $price) {
+        public function addSystem($name, $expire_date, $price) {
 
             // General Declaration
             $json = "";
             $jsonUtil = new JsonUtil();
 
             // Create key
-            $json = $jsonUtil->setValue($json, "id_system", $id_system);
-            $json = $jsonUtil->setValue($json, "id_group", 1);
+            $json = $jsonUtil->setValue($json, "id_system", $this->systemId);
+            $json = $jsonUtil->setValue($json, "id_group", $this->groupId);
 
             // Create record        
             $json = $jsonUtil->setValue($json, "name", $name);
@@ -30,15 +32,15 @@
             return $json;
         }
 
-        public function addTable($id_system, $name, $id_type, $table_name, $id_parent) {
+        public function addTable($name, $id_type, $table_name, $id_parent) {
 
             // General Declaration
             $json = "";
             $jsonUtil = new JsonUtil();
 
             // Create key
-            $json = $jsonUtil->setValue($json, "id_system", $id_system);
-            $json = $jsonUtil->setValue($json, "id_group", 1);
+            $json = $jsonUtil->setValue($json, "id_system", $this->systemId);
+            $json = $jsonUtil->setValue($json, "id_group", $this->groupId);
 
             // Create record        
             $json = $jsonUtil->setValue($json, "name", $name);
@@ -50,15 +52,15 @@
             return $json;
         }
 
-        public function addField($id_system, $id_table, $label, $name, $id_type, $size, $mask, $id_mandatory, $id_unique, $id_table_fk, $id_field_fk, $domain) {
+        public function addField($id_table, $label, $name, $id_type, $size, $mask, $id_mandatory, $id_unique, $id_table_fk, $id_field_fk, $domain) {
 
             // General Declaration
             $json = "";
             $jsonUtil = new JsonUtil();
 
             // Create key
-            $json = $jsonUtil->setValue($json, "id_system", $id_system);
-            $json = $jsonUtil->setValue($json, "id_group", 1);
+            $json = $jsonUtil->setValue($json, "id_system", $this->systemId);
+            $json = $jsonUtil->setValue($json, "id_group", $this->groupId);
 
             // Create record        
             $json = $jsonUtil->setValue($json, "id_table", $id_table);
@@ -77,15 +79,15 @@
             return $json;
         }    
 
-        public function addDomain($id_system, $key, $value, $domain) {
+        public function addDomain($key, $value, $domain) {
 
             // General Declaration
             $json = "";
             $jsonUtil = new JsonUtil();
 
             // Create key
-            $json = $jsonUtil->setValue($json, "id_system", $id_system);
-            $json = $jsonUtil->setValue($json, "id_group", 1);
+            $json = $jsonUtil->setValue($json, "id_system", $this->systemId);
+            $json = $jsonUtil->setValue($json, "id_group", $this->groupId);
 
             // Create record        
             $json = $jsonUtil->setValue($json, "key", $key);
@@ -96,15 +98,15 @@
             return $json;
         }
 
-        public function addEvent($id_system, $id_target, $id_table, $id_field, $id_function, $id_event, $code) {
+        public function addEvent($id_target, $id_table, $id_field, $id_function, $id_event, $code) {
 
             // General Declaration
             $json = "";
             $jsonUtil = new JsonUtil();
 
             // Create key
-            $json = $jsonUtil->setValue($json, "id_system", $id_system);
-            $json = $jsonUtil->setValue($json, "id_group", 1);
+            $json = $jsonUtil->setValue($json, "id_system", $this->systemId);
+            $json = $jsonUtil->setValue($json, "id_group", $this->groupId);
 
             // Create record        
             $json = $jsonUtil->setValue($json, "id_target", $id_target);
@@ -119,15 +121,15 @@
         }    
 
 
-        public function addFunctionGroup($id_system, $name) {
+        public function addFunctionGroup($name) {
 
             // General Declaration
             $json = "";
             $jsonUtil = new JsonUtil();
 
             // Create key
-            $json = $jsonUtil->setValue($json, "id_system", $id_system);
-            $json = $jsonUtil->setValue($json, "id_group", 1);
+            $json = $jsonUtil->setValue($json, "id_system", $this->systemId);
+            $json = $jsonUtil->setValue($json, "id_group", $this->groupId);
 
             // Create record        
             $json = $jsonUtil->setValue($json, "name", $name);
@@ -136,15 +138,15 @@
             return $json;
         }
 
-        public function addProfile($id_system, $name) {
+        public function addProfile($name) {
 
             // General Declaration
             $json = "";
             $jsonUtil = new JsonUtil();
 
             // Create key
-            $json = $jsonUtil->setValue($json, "id_system", $id_system);
-            $json = $jsonUtil->setValue($json, "id_group", 1);
+            $json = $jsonUtil->setValue($json, "id_system", $this->systemId);
+            $json = $jsonUtil->setValue($json, "id_group", $this->groupId);
 
             // Create record        
             $json = $jsonUtil->setValue($json, "name", $name);
@@ -154,15 +156,15 @@
         }
 
 
-        public function addProfileTable($id_system, $id_profile, $id_table) {
+        public function addProfileTable($id_profile, $id_table) {
 
             // General Declaration
             $json = "";
             $jsonUtil = new JsonUtil();
 
             // Create key
-            $json = $jsonUtil->setValue($json, "id_system", $id_system);
-            $json = $jsonUtil->setValue($json, "id_group", 1);
+            $json = $jsonUtil->setValue($json, "id_system", $this->systemId);
+            $json = $jsonUtil->setValue($json, "id_group", $this->groupId);
 
             // Create record        
             $json = $jsonUtil->setValue($json, "id_profile", $id_profile);
@@ -172,15 +174,15 @@
             return $json;
         }
 
-        public function addTableFunction($id_system, $id_profile, $id_table, $id_function) {
+        public function addTableFunction($id_profile, $id_table, $id_function) {
 
             // General Declaration
             $json = "";
             $jsonUtil = new JsonUtil();
 
             // Create key
-            $json = $jsonUtil->setValue($json, "id_system", $id_system);
-            $json = $jsonUtil->setValue($json, "id_group", 1);
+            $json = $jsonUtil->setValue($json, "id_system", $this->systemId);
+            $json = $jsonUtil->setValue($json, "id_group", $this->groupId);
 
             // Create record        
             $json = $jsonUtil->setValue($json, "id_profile", $id_profile);
@@ -191,15 +193,15 @@
             return $json;
         }
 
-        public function addUser($id_system, $name, $username, $password) {
+        public function addUser($name, $username, $password) {
 
             // General Declaration
             $json = "";
             $jsonUtil = new JsonUtil();
 
             // Create key
-            $json = $jsonUtil->setValue($json, "id_system", $id_system);
-            $json = $jsonUtil->setValue($json, "id_group", 1);
+            $json = $jsonUtil->setValue($json, "id_system", $this->systemId);
+            $json = $jsonUtil->setValue($json, "id_group", $this->groupId);
 
             // Create record        
             $json = $jsonUtil->setValue($json, "name", $name);
@@ -210,15 +212,15 @@
             return $json;
         }
 
-        public function addUserProfile($id_system, $id_user, $id_profile) {
+        public function addUserProfile($id_user, $id_profile) {
 
             // General Declaration
             $json = "";
             $jsonUtil = new JsonUtil();
 
             // Create key
-            $json = $jsonUtil->setValue($json, "id_system", $id_system);
-            $json = $jsonUtil->setValue($json, "id_group", 1);
+            $json = $jsonUtil->setValue($json, "id_system", $this->systemId);
+            $json = $jsonUtil->setValue($json, "id_group", $this->groupId);
 
             // Create record        
             $json = $jsonUtil->setValue($json, "id_user", $id_user);
@@ -228,15 +230,15 @@
             return $json;
         }        
 
-        public function addCode($id_system, $comment, $code) {
+        public function addCode($comment, $code) {
 
             // General Declaration
             $json = "";
             $jsonUtil = new JsonUtil();
 
             // Create key
-            $json = $jsonUtil->setValue($json, "id_system", $id_system);
-            $json = $jsonUtil->setValue($json, "id_group", 1);
+            $json = $jsonUtil->setValue($json, "id_system", $this->systemId);
+            $json = $jsonUtil->setValue($json, "id_group", $this->groupId);
 
             // Create record        
             $json = $jsonUtil->setValue($json, "comment", $comment);
@@ -246,15 +248,15 @@
             return $json;
         }
 
-        public function addView($id_system, $name, $sql) {
+        public function addView($name, $sql) {
 
             // General Declaration
             $json = "";
             $jsonUtil = new JsonUtil();
 
             // Create key
-            $json = $jsonUtil->setValue($json, "id_system", $id_system);
-            $json = $jsonUtil->setValue($json, "id_group", 1);
+            $json = $jsonUtil->setValue($json, "id_system", $this->systemId);
+            $json = $jsonUtil->setValue($json, "id_group", $this->groupId);
 
             // Create record        
             $json = $jsonUtil->setValue($json, "name", $name);
@@ -264,15 +266,15 @@
             return $json;
         }
 
-        public function addFieldSetup($id_system, $id_table, $id_field, $column_size) {
+        public function addFieldSetup($id_table, $id_field, $column_size) {
 
             // General Declaration
             $json = "";
             $jsonUtil = new JsonUtil();
 
             // Create key
-            $json = $jsonUtil->setValue($json, "id_system", $id_system);
-            $json = $jsonUtil->setValue($json, "id_group", 1);
+            $json = $jsonUtil->setValue($json, "id_system", $this->systemId);
+            $json = $jsonUtil->setValue($json, "id_group", $this->groupId);
 
             // Create record        
             $json = $jsonUtil->setValue($json, "id_table", $id_table);
