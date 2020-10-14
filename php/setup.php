@@ -191,6 +191,7 @@
             $float = 2;
             $text = 3;
             $date = 4;
+            $textarea = 6;
 
             // Constants
             $yes = 1;
@@ -221,50 +222,49 @@
             execute($cn, addField($id_system, 3, "Tabela FK", "id_table_fk", $int, 0, "", $no, $no, 2, 6, ""));
             execute($cn, addField($id_system, 3, "Campo FK", "id_field_fk", $int, 0, "", $no, $no, 3, 10, ""));
             execute($cn, addField($id_system, 3, "Domínio", "domain", $text, 50, "", $no, $no, 0, 0, ""));
-
             // tb_domain
-            execute($cn, '{"id_system":1,"id_group":1,"id_table":4,"label":"Chave","name":"key","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
-            execute($cn, '{"id_system":1,"id_group":1,"id_table":4,"label":"Valor","name":"value","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
-            execute($cn, '{"id_system":1,"id_group":1,"id_table":4,"label":"Domínio","name":"domain","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
+            execute($cn, addField($id_system, 4, "Chave", "key", $text, 50, "", $yes, $yes, 0, 0, ""));
+            execute($cn, addField($id_system, 4, "Valor", "value", $text, 50, "", $yes, $yes, 0, 0, ""));
+            execute($cn, addField($id_system, 4, "Domínio", "domain", $text, 50, "", $yes, $yes, 0, 0, ""));
             // tb_event
-            execute($cn, '{"id_system":1,"id_group":1,"id_table":5,"label":"Tela","name":"id_target","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":4,"id_field_fk":20,"domain":"tb_target"}');
-            execute($cn, '{"id_system":1,"id_group":1,"id_table":5,"label":"Tabela","name":"id_table","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":2,"id_field_fk":6,"domain":""}');
-            execute($cn, '{"id_system":1,"id_group":1,"id_table":5,"label":"Campo","name":"id_field","id_type":1,"size":0,"mask":"","id_mandatory":2,"id_unique":1,"id_table_fk":3,"id_field_fk":10,"domain":""}');
-            execute($cn, '{"id_system":1,"id_group":1,"id_table":5,"label":"Ação","name":"id_function","id_type":1,"size":0,"mask":"","id_mandatory":2,"id_unique":1,"id_table_fk":6,"id_field_fk":29,"domain":""}');
-            execute($cn, '{"id_system":1,"id_group":1,"id_table":5,"label":"Evento","name":"id_event","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":4,"id_field_fk":20,"domain":"tb_event"}');
-            execute($cn, '{"id_system":1,"id_group":1,"id_table":5,"label":"Código","name":"code","id_type":6,"size":10000,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
+            execute($cn, addField($id_system, 5, "Tela", "id_target", $int, 0, "", $yes, $yes, 4, 20, "tb_target"));
+            execute($cn, addField($id_system, 5, "Tabela", "id_table", $int, 0, "", $yes, $yes, 2, 6, ""));
+            execute($cn, addField($id_system, 5, "Campo", "id_field", $int, 0, "", $yes, $yes, 3, 10, ""));
+            execute($cn, addField($id_system, 5, "Ação", "id_function", $int, 0, "", $yes, $yes, 6, 29, ""));
+            execute($cn, addField($id_system, 5, "Evento", "id_event", $int, 0, "", $yes, $yes, 4, 20, "tb_event"));
+            execute($cn, addField($id_system, 5, "Código", "code", $textarea, 10000, "", $yes, $yes, 0, 0, ""));
             // tb_function
-            execute($cn, '{"id_system":1,"id_group":1,"id_table":6,"label":"Nome","name":"name","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
+            execute($cn, addField($id_system, 6, "Nome", "name", $text, 50, "", $yes, $yes, 0, 0, ""));
             // tb_code
-            execute($cn, '{"id_system":1,"id_group":1,"id_table":7,"label":"Comentário","name":"comment","id_type":3,"size":500,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
-            execute($cn, '{"id_system":1,"id_group":1,"id_table":7,"label":"Código","name":"code","id_type":6,"size":500,"mask":"","id_mandatory":1,"id_unique":2,"id_table_fk":0,"id_field_fk":0,"domain":""}');
+            execute($cn, addField($id_system, 7, "Comentário", "comment", $text, 50, "", $yes, $yes, 0, 0, ""));
+            execute($cn, addField($id_system, 7, "Código", "code", $textarea, 10000, "", $yes, $yes, 0, 0, ""));
             // tb_group
-            execute($cn, '{"id_system":1,"id_group":1,"id_table":8,"label":"Nome","name":"name","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
+            execute($cn, addField($id_system, 8, "Nome", "name", $text, 50, "", $yes, $yes, 0, 0, ""));
             // tb_view
-            execute($cn, '{"id_system":1,"id_group":1,"id_table":9,"label":"Nome","name":"name","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
-            execute($cn, '{"id_system":1,"id_group":1,"id_table":9,"label":"SQL","name":"sql","id_type":6,"size":5000,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
+            execute($cn, addField($id_system, 9, "Nome", "name", $text, 50, "", $yes, $yes, 0, 0, ""));
+            execute($cn, addField($id_system, 9, "SQL", "sql", $textarea, 10000, "", $yes, $yes, 0, 0, ""));
             // tb_view_field
-            execute($cn, '{"id_system":1,"id_group":1,"id_table":10,"label":"Nome","name":"name","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
+            execute($cn, addField($id_system, 10, "Nome", "name", $text, 50, "", $yes, $yes, 0, 0, ""));
             // tb_profile
-            execute($cn, '{"id_system":1,"id_group":1,"id_table":11,"label":"Nome","name":"name","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
+            execute($cn, addField($id_system, 11, "Nome", "name", $text, 50, "", $yes, $yes, 0, 0, ""));
             // tb_profile_table
-            execute($cn, '{"id_system":1,"id_group":1,"id_table":12,"label":"Perfil","name":"id_profile","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":11,"id_field_fk":36,"domain":""}');
-            execute($cn, '{"id_system":1,"id_group":1,"id_table":12,"label":"Transação","name":"id_table","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":2,"id_field_fk":6,"domain":""}');
+            execute($cn, addField($id_system, 12, "Perfil", "id_profile", $int, 0, "", $yes, $yes, 11, 36, ""));
+            execute($cn, addField($id_system, 12, "Transação", "id_table", $int, 0, "", $yes, $yes, 2, 6, ""));
             // tb_table_function
-            execute($cn, '{"id_system":1,"id_group":1,"id_table":13,"label":"Perfil","name":"id_profile","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":11,"id_field_fk":36,"domain":""}');
-            execute($cn, '{"id_system":1,"id_group":1,"id_table":13,"label":"Transação","name":"id_table","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":2,"id_field_fk":6,"domain":""}');
-            execute($cn, '{"id_system":1,"id_group":1,"id_table":13,"label":"Função","name":"id_function","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":6,"id_field_fk":29,"domain":""}');
+            execute($cn, addField($id_system, 13, "Perfil", "id_profile", $int, 0, "", $yes, $yes, 11, 36, ""));
+            execute($cn, addField($id_system, 13, "Transação", "id_table", $int, 0, "", $yes, $yes, 2, 6, ""));
+            execute($cn, addField($id_system, 13, "Function", "id_function", $int, 0, "", $yes, $yes, 6, 29, ""));
             // tb_user
-            execute($cn, '{"id_system":1,"id_group":1,"id_table":14,"label":"Nome","name":"fullname","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
-            execute($cn, '{"id_system":1,"id_group":1,"id_table":14,"label":"Login","name":"login","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
-            execute($cn, '{"id_system":1,"id_group":1,"id_table":14,"label":"Senha","name":"password","id_type":3,"size":50,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
+            execute($cn, addField($id_system, 14, "Nome", "name", $text, 50, "", $yes, $yes, 0, 0, ""));
+            execute($cn, addField($id_system, 14, "Usuário", "username", $text, 50, "", $yes, $yes, 0, 0, ""));
+            execute($cn, addField($id_system, 14, "Password", "password", $text, 50, "", $yes, $yes, 0, 0, ""));
             // tb_user_profile
-            execute($cn, '{"id_system":1,"id_group":1,"id_table":15,"label":"Usuários","name":"id_user","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":14,"id_field_fk":42,"domain":""}');
-            execute($cn, '{"id_system":1,"id_group":1,"id_table":15,"label":"Perfil","name":"id_profile","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":11,"id_field_fk":36,"domain":""}');
+            execute($cn, addField($id_system, 15, "Usuário", "id_user", $int, 0, "", $yes, $yes, 14, 42, ""));
+            execute($cn, addField($id_system, 15, "Perfil", "id_profile", $int, 0, "", $yes, $yes, 11, 36, ""));
             // tb_field_attribute
-            execute($cn, '{"id_system":1,"id_group":1,"id_table":16,"label":"Tabela","name":"id_table","id_type":1,"size":0,"mask":"","id_mandatory":1,"id_unique":1,"id_table_fk":2,"id_field_fk":6,"domain":""}');
-            execute($cn, '{"id_system":1,"id_group":1,"id_table":16,"label":"Campo","name":"id_field","id_type":1,"size":0,"mask":"","id_mandatory":2,"id_unique":1,"id_table_fk":3,"id_field_fk":10,"domain":""}');
-            execute($cn, '{"id_system":1,"id_group":1,"id_table":16,"label":"Coluna (%)","name":"column_size","id_type":1,"size":0,"mask":"","id_mandatory":2,"id_unique":1,"id_table_fk":0,"id_field_fk":0,"domain":""}');
+            execute($cn, addField($id_system, 16, "Tabela", "id_table", $int, 0, "", $yes, $yes, 2, 6, ""));
+            execute($cn, addField($id_system, 16, "Campo", "id_field", $int, 0, "", $yes, $yes, 3, 10, ""));
+            execute($cn, addField($id_system, 16, "Coluna (%)", "column_size", $int, 0, "", $yes, $yes, 3, 10, ""));
             // Success
             printl("createField() OK");
             
@@ -496,9 +496,9 @@
             $tableName = "tb_user";
 
             // Create User
-            execute($cn, '{"id_system":1,"id_group":1,"fullname":"Administrador","login":"admin","password":"123"}');
-            execute($cn, '{"id_system":1,"id_group":1,"fullname":"João","login":"joao","password":"123"}');
-            execute($cn, '{"id_system":1,"id_group":1,"fullname":"Maria","login":"maria","password":"123"}');
+            execute($cn, '{"id_system":1,"id_group":1,"name":"Administrador","username":"admin","password":"123"}');
+            execute($cn, '{"id_system":1,"id_group":1,"name":"João","username":"joao","password":"123"}');
+            execute($cn, '{"id_system":1,"id_group":1,"name":"Maria","username":"maria","password":"123"}');
 
             // Success
             printl("createUser() OK");
