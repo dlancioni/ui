@@ -203,6 +203,9 @@
                 $this->execute($cn, $model->addField(3, "Campo FK", "id_field_fk", $int, 0, "", $no, $no, $this->tb("tb_field"), $this->fd("label"), ""));
                 $this->execute($cn, $model->addField(3, "Domínio", "domain", $text, 50, "", $no, $no, 0, 0, ""));
 
+                // tb_function
+                $this->execute($cn, $model->addField(6, "Nome", "name", $text, 50, "", $yes, $yes, 0, 0, ""));
+
                 // tb_event
                 $this->execute($cn, $model->addField(5, "Tela", "id_target", $int, 0, "", $yes, $yes, $this->tb("tb_domain"), $this->fd("value"), "tb_target"));
                 $this->execute($cn, $model->addField(5, "Tabela", "id_table", $int, 0, "", $yes, $yes, $this->tb("tb_table"), $this->fd("name"), ""));
@@ -210,9 +213,6 @@
                 $this->execute($cn, $model->addField(5, "Ação", "id_function", $int, 0, "", $yes, $yes, $this->tb("tb_function"), $this->fd("name"), ""));
                 $this->execute($cn, $model->addField(5, "Evento", "id_event", $int, 0, "", $yes, $yes, $this->tb("tb_domain"), $this->fd("value"), "tb_event"));
                 $this->execute($cn, $model->addField(5, "Código", "code", $textarea, 10000, "", $yes, $yes, 0, 0, ""));
-
-                // tb_function
-                $this->execute($cn, $model->addField(6, "Nome", "name", $text, 50, "", $yes, $yes, 0, 0, ""));
 
                 // tb_code
                 $this->execute($cn, $model->addField(7, "Comentário", "comment", $text, 50, "", $yes, $yes, 0, 0, ""));
@@ -377,14 +377,14 @@
                 $tableName = "tb_function";
 
                 // Create actions
-                $this->execute($cn, $model->addFunctionGroup("Novo"));
-                $this->execute($cn, $model->addFunctionGroup("Editar"));
-                $this->execute($cn, $model->addFunctionGroup("Apagar"));
-                $this->execute($cn, $model->addFunctionGroup("Confirmar"));
-                $this->execute($cn, $model->addFunctionGroup("Filtrar"));
-                $this->execute($cn, $model->addFunctionGroup("Limpar"));
-                $this->execute($cn, $model->addFunctionGroup("Voltar"));
-                $this->execute($cn, $model->addFunctionGroup("Testar"));
+                $this->execute($cn, $model->addFunction("Novo"));
+                $this->execute($cn, $model->addFunction("Editar"));
+                $this->execute($cn, $model->addFunction("Apagar"));
+                $this->execute($cn, $model->addFunction("Confirmar"));
+                $this->execute($cn, $model->addFunction("Filtrar"));
+                $this->execute($cn, $model->addFunction("Limpar"));
+                $this->execute($cn, $model->addFunction("Voltar"));
+                $this->execute($cn, $model->addFunction("Testar"));
                 
             } catch (Exception $ex) {
                 throw $ex;
@@ -405,8 +405,8 @@
                 $tableName = "tb_group";
 
                 // Create groups
-                $this->execute($cn, $model->addFunctionGroup("Sistema"));
-                $this->execute($cn, $model->addFunctionGroup("Público"));
+                $this->execute($cn, $model->addGroup("Sistema"));
+                $this->execute($cn, $model->addGroup("Público"));
                 
             } catch (Exception $ex) {
                 throw $ex;
@@ -674,8 +674,8 @@
                 
                 $rs = pg_query($this->cn, $sql);
                 while ($row = pg_fetch_row($rs)) {
-                    $fieldId = $row[0];
-                    $this->tableId = $fieldId;
+                    $tableId = $row[0];
+                    $this->tableId = $tableId;
                     break;
                 }
             } catch (Exception $ex) {

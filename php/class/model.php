@@ -62,7 +62,7 @@
             $json = $jsonUtil->setValue($json, "id_system", $this->systemId);
             $json = $jsonUtil->setValue($json, "id_group", $this->groupId);
 
-            // Create record        
+            // Create record
             $json = $jsonUtil->setValue($json, "id_table", $id_table);
             $json = $jsonUtil->setValue($json, "label", $label);
             $json = $jsonUtil->setValue($json, "name", $name);
@@ -121,7 +121,7 @@
         }    
 
 
-        public function addFunctionGroup($name) {
+        public function addFunction($name) {
 
             // General Declaration
             $json = "";
@@ -137,6 +137,23 @@
             // Return final json
             return $json;
         }
+
+        public function addGroup($name) {
+
+            // General Declaration
+            $json = "";
+            $jsonUtil = new JsonUtil();
+
+            // Create key
+            $json = $jsonUtil->setValue($json, "id_system", $this->systemId);
+            $json = $jsonUtil->setValue($json, "id_group", $this->groupId);
+
+            // Create record        
+            $json = $jsonUtil->setValue($json, "name", $name);
+
+            // Return final json
+            return $json;
+        }        
 
         public function addProfile($name) {
 
