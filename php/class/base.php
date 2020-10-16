@@ -25,11 +25,12 @@
         public $TB_CODE = 7;
         public $TB_GROUP = 8;
         public $TB_VIEW = 9;
+        public $TB_VIEW_FIELD = 10;
 
         // Access Control
         public $TB_PROFILE = 11;
-        public $TB_PROFILE_TRANSACTION = 12;
-        public $TB_TRANSACTION_FUNCTION = 13;
+        public $TB_PROFILE_TABLE = 12;
+        public $TB_TABLE_FUNCTION = 13;
         public $TB_USER = 14;
         public $TB_USER_PROFILE = 15;
         public $TB_FIELD_ATTRIBUTE = 16;
