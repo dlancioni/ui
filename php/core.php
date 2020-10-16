@@ -2,8 +2,8 @@
 
     // General declaration      
     $id = 0;
-    $report = "";
-    $form = "";
+    $logicReport = "";
+    $logicForm = "";
     $tableId = 0;  
     $format = 1;
     $html = "";
@@ -48,16 +48,15 @@
 
             // Create page or form
             if ($format == 1) {
-                $report = new Report($cn, $sqlBuilder, $_REQUEST);
-                $report->Event = $event;
-                $report->PageEvent = $pageEvent;
-                $report->PageOffset = $pageOffset;
-                $html .= $report->createReport($tableId);
+                $logicReport = new LogicReport($cn, $sqlBuilder, $_REQUEST);
+                $logicReport->Event = $event;
+                $logicReport->PageEvent = $pageEvent;
+                $html .= $logicReport->createReport($tableId, $pageOffset);
             } else {
-                $form = new Form($cn, $sqlBuilder);
-                $form->Event = $event;
-                $form->PageEvent = $pageEvent;                
-                $html .= $form->createForm($tableId, $id);
+                $logicForm = new LogicForm($cn, $sqlBuilder);
+                $logicForm->Event = $event;
+                $logicForm->PageEvent = $pageEvent;                
+                $html .= $logicForm->createForm($tableId, $id);
             }
 
             // Add buttons to form

@@ -1,9 +1,8 @@
 <?php
-class Report extends Base {
+class LogicReport extends Base {
 
     // Public members
     public $PageEvent = "";
-    public $PageOffset = "";
     public $Event = "";   
 
     // Private members
@@ -24,7 +23,7 @@ class Report extends Base {
     /* 
     * Create a table
     */
-    function createReport($tableId) {
+    function createReport($tableId, $pageOffset) {
 
         // General Declaration
         $html = "";
@@ -79,7 +78,7 @@ class Report extends Base {
 
             // Paging
             $this->sqlBuilder->PageSize = $PAGE_SIZE;
-            $this->sqlBuilder->PageOffset = $this->PageOffset;
+            $this->sqlBuilder->PageOffset = $pageOffset;
             $data = $this->sqlBuilder->executeQuery($this->cn, $tableId, $filter->create());
             if ($data) {
                 $recordCount = $data[0]["record_count"];

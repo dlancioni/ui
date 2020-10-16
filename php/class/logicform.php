@@ -1,5 +1,5 @@
 <?php
-class Form extends Base {
+class LogicForm extends Base {
 
     // Public members
     public $Event = "";
