@@ -679,13 +679,26 @@
          */        
         private function execute($cn, $json) {
 
+            $id = 0;
+            $rs = "";
             global $tableName;
 
             try {
-                pg_query($cn, "insert into " . $tableName . " (field) values ('" . $json . "')");
+
+                // Insert the record
+                $rs = pg_query($cn, "insert into " . $tableName . " (field) values ('" . $json . "') returning id");
+                
+                // Get inserted ID
+                while ($row = pg_fetch_array($rs)) {
+                    $id = $row['id'];
+                }
+
             } catch (Exception $ex) {
                 throw $ex;
             }
+
+            // Return generated id
+            return $id;
         }
 
         /*
