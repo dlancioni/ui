@@ -133,7 +133,7 @@
                 $this->execute($cn, $model->addTable("Visão x Campos", 1, "tb_view_field", 17));
                 $this->execute($cn, $model->addTable("Perfil", 1, "tb_profile", 18));
                 $this->execute($cn, $model->addTable("Perfil x Transação", 1, "tb_profile_table", 18));
-                $this->execute($cn, $model->addTable("Transação x Funcão", 1, "tb_table_function", 18));
+                $this->execute($cn, $model->addTable("Transação x Função", 1, "tb_table_function", 18));
                 $this->execute($cn, $model->addTable("Usuários", 1, "tb_user", 18));
                 $this->execute($cn, $model->addTable("Usuários x Pefil", 1, "tb_user_profile", 18));
                 $this->execute($cn, $model->addTable("Atributos de Campos", 1, "tb_field_attribute", 17));
@@ -601,39 +601,39 @@
                 $tableName = "tb_field_attribute";
 
                 // tb_system
-                $this->execute($cn, $model->addFieldSetup(1, 1, 10));
-                $this->execute($cn, $model->addFieldSetup(1, 2, 10));
-                $this->execute($cn, $model->addFieldSetup(1, 3, 75));
+                $this->execute($cn, $model->addFieldSetup($this->tb("tb_system"), $this->fd("name"), 10));
+                $this->execute($cn, $model->addFieldSetup($this->tb("tb_system"), $this->fd("expire_date"), 10));
+                $this->execute($cn, $model->addFieldSetup($this->tb("tb_system"), $this->fd("price"), 75));
                 // tb_table
-                $this->execute($cn, $model->addFieldSetup(2, 1, 5));
-                $this->execute($cn, $model->addFieldSetup(2, 2, 5));
-                $this->execute($cn, $model->addFieldSetup(2, 1, 5));
-                $this->execute($cn, $model->addFieldSetup(2, 2, 5));
-                $this->execute($cn, $model->addFieldSetup(2, 2, 75));
-                // tb_table
-                $this->execute($cn, $model->addFieldSetup(4, 20, 10));
-                $this->execute($cn, $model->addFieldSetup(4, 21, 10));
-                $this->execute($cn, $model->addFieldSetup(4, 22, 75));
+                $this->execute($cn, $model->addFieldSetup($this->tb("tb_table"), $this->fd("id_system"), 5));
+                $this->execute($cn, $model->addFieldSetup($this->tb("tb_table"), $this->fd("id_type"), 5));
+                $this->execute($cn, $model->addFieldSetup($this->tb("tb_table"), $this->fd("name"), 15));
+                $this->execute($cn, $model->addFieldSetup($this->tb("tb_table"), $this->fd("table_name"), 5));
+                $this->execute($cn, $model->addFieldSetup($this->tb("tb_table"), $this->fd("id_parent"), 65));
+                // tb_domain
+                $this->execute($cn, $model->addFieldSetup($this->tb("tb_domain"), $this->fd("key"), 10));
+                $this->execute($cn, $model->addFieldSetup($this->tb("tb_domain"), $this->fd("value"), 40));
+                $this->execute($cn, $model->addFieldSetup($this->tb("tb_domain"), $this->fd("domain"), 45));
                 // tb_function
-                $this->execute($cn, $model->addFieldSetup(6, 29, 95));
+                $this->execute($cn, $model->addFieldSetup($this->tb("tb_function"), $this->fd("name"), 95));
                 // tb_group
-                $this->execute($cn, $model->addFieldSetup(8, 32, 95));
+                $this->execute($cn, $model->addFieldSetup($this->tb("tb_group"), $this->fd("name"), 95));
                 // tb_profile
-                $this->execute($cn, $model->addFieldSetup(11, 36, 95));
+                $this->execute($cn, $model->addFieldSetup($this->tb("tb_profile"), $this->fd("name"), 95));
                 // tb_profile_transaction
-                $this->execute($cn, $model->addFieldSetup(12, 37, 10));
-                $this->execute($cn, $model->addFieldSetup(12, 38, 85));
+                $this->execute($cn, $model->addFieldSetup($this->tb("tb_profile_table"), $this->fd("id_profile"), 10));
+                $this->execute($cn, $model->addFieldSetup($this->tb("tb_profile_table"), $this->fd("id_table"), 85));
                 // tb_transaction_function
-                $this->execute($cn, $model->addFieldSetup(13, 39, 10));
-                $this->execute($cn, $model->addFieldSetup(13, 40, 10));
-                $this->execute($cn, $model->addFieldSetup(13, 41, 75));
+                $this->execute($cn, $model->addFieldSetup($this->tb("tb_table_function"), $this->fd("id_profile"), 10));
+                $this->execute($cn, $model->addFieldSetup($this->tb("tb_table_function"), $this->fd("id_table"), 10));
+                $this->execute($cn, $model->addFieldSetup($this->tb("tb_table_function"), $this->fd("id_function"), 75));
                 // tb_user
-                $this->execute($cn, $model->addFieldSetup(14, 42, 10));
-                $this->execute($cn, $model->addFieldSetup(14, 43, 10));
-                $this->execute($cn, $model->addFieldSetup(14, 44, 75));
+                $this->execute($cn, $model->addFieldSetup($this->tb("tb_user"), $this->fd("name"), 10));
+                $this->execute($cn, $model->addFieldSetup($this->tb("tb_user"), $this->fd("username"), 10));
+                $this->execute($cn, $model->addFieldSetup($this->tb("tb_user"), $this->fd("password"), 75));
                 // tb_user_profile
-                $this->execute($cn, $model->addFieldSetup(15, 45, 10));
-                $this->execute($cn, $model->addFieldSetup(15, 46, 85));            
+                $this->execute($cn, $model->addFieldSetup($this->tb("tb_user_profile"), $this->fd("id_user"), 10));
+                $this->execute($cn, $model->addFieldSetup($this->tb("tb_user_profile"), $this->fd("id_profile"), 85));
                 
             } catch (Exception $ex) {
                 throw $ex;

@@ -383,7 +383,7 @@
                             $pageOffset = (($i-1) * $pageSize);
     
                             // Define function call                        
-                            $html .= "<a onClick='paging($pageOffset);'>$i </a>";
+                            $html .= "<a href='#' onClick='paging($pageOffset);'>$i </a>";
                         }
                     }
                 }
