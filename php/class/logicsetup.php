@@ -127,7 +127,7 @@
                 $MENU_ADM = 18;
                 $MENU_AC = 19;
 
-                // Transactions
+                // Table - changing order here you must change constants ordem in Base class
                 $this->TB_SYSTEM = $this->execute($cn, $model->addTable("Sistemas", 1, "tb_system", $MENU_ADM));
                 $this->TB_TABLE = $this->execute($cn, $model->addTable("Transações", 1, "tb_table", $MENU_ADM));
                 $this->TB_FIELD = $this->execute($cn, $model->addTable("Campos", 1, "tb_field", $MENU_ADM));
@@ -135,16 +135,16 @@
                 $this->TB_EVENT = $this->execute($cn, $model->addTable("Eventos", 1, "tb_event", $MENU_ADM));
                 $this->TB_FUNCTION = $this->execute($cn, $model->addTable("Funções", 1, "tb_function", $MENU_ADM));
                 $this->TB_CODE = $this->execute($cn, $model->addTable("Programação", 1, "tb_code", $MENU_ADM));
-                $this->TB_GROUP = $this->execute($cn, $model->addTable("Grupos", 1, "tb_group", $MENU_AC));
                 $this->TB_VIEW = $this->execute($cn, $model->addTable("Visão", 1, "tb_view", $MENU_ADM));
                 $this->TB_VIEW_FIELD = $this->execute($cn, $model->addTable("Visão x Campos", 1, "tb_view_field", $MENU_ADM));
+                $this->TB_FIELD_ATTRIBUTE = $this->execute($cn, $model->addTable("Atributos de Campos", 1, "tb_field_attribute", $MENU_ADM));                
 
                 $this->TB_PROFILE = $this->execute($cn, $model->addTable("Perfil", 1, "tb_profile", $MENU_AC));
                 $this->TB_PROFILE_TABLE = $this->execute($cn, $model->addTable("Perfil x Transação", 1, "tb_profile_table", $MENU_AC));
                 $this->TB_TABLE_FUNCTION = $this->execute($cn, $model->addTable("Transação x Função", 1, "tb_table_function", $MENU_AC));
                 $this->TB_USER = $this->execute($cn, $model->addTable("Usuários", 1, "tb_user", $MENU_AC));
                 $this->TB_USER_PROFILE = $this->execute($cn, $model->addTable("Usuários x Pefil", 1, "tb_user_profile", $MENU_AC));
-                $this->TB_FIELD_ATTRIBUTE = $this->execute($cn, $model->addTable("Atributos de Campos", 1, "tb_field_attribute", $MENU_ADM));
+                $this->TB_GROUP = $this->execute($cn, $model->addTable("Grupos", 1, "tb_group", $MENU_AC));                
                 $this->TB_USER_GROUP = $this->execute($cn, $model->addTable("Usuários x Grupos", 1, "tb_user_group", $MENU_AC));
 
                 // Menus

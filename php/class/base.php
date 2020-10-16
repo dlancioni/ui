@@ -23,9 +23,9 @@
         public $TB_EVENT = 5;
         public $TB_ACTION = 6;
         public $TB_CODE = 7;
-        public $TB_GROUP = 8;
-        public $TB_VIEW = 9;
-        public $TB_VIEW_FIELD = 10;
+        public $TB_VIEW = 8;
+        public $TB_VIEW_FIELD = 9;
+        public $TB_FIELD_ATTRIBUTE = 10;
 
         // Access Control
         public $TB_PROFILE = 11;
@@ -33,7 +33,7 @@
         public $TB_TABLE_FUNCTION = 13;
         public $TB_USER = 14;
         public $TB_USER_PROFILE = 15;
-        public $TB_FIELD_ATTRIBUTE = 16;
+        public $TB_GROUP = 16;
         public $TB_USER_GROUP = 17;
 
 
