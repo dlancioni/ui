@@ -46,6 +46,7 @@
                 $this->createGroup($cn);
                 $this->createUser($cn);
                 $this->createProfile($cn);
+                $this->createUserGroup($cn);
                 $this->createProfileTable($cn);
                 $this->createUserProfile($cn);
                 $this->createTableFunction($cn);
@@ -90,6 +91,7 @@
                 array_push($table, "tb_user");
                 array_push($table, "tb_user_profile");
                 array_push($table, "tb_field_attribute");
+                array_push($table, "tb_user_group");
 
                 for ($i=0; $i<=count($table)-1; $i++) {
                     $tableName = $table[$i];
@@ -120,32 +122,35 @@
                 // Define table name
                 $tableName = "tb_table";
 
+                // Count control
+                $total = 20;    
+                $MENU_ADM = 18;
+                $MENU_AC = 19;
+
                 // Transactions
-                $this->execute($cn, $model->addTable("Sistemas", 1, "tb_system", 17));
-                $this->execute($cn, $model->addTable("Transações", 1, "tb_table", 17));
-                $this->execute($cn, $model->addTable("Campos", 1, "tb_field", 17));
-                $this->execute($cn, $model->addTable("Domínios", 1, "tb_domain", 17));
-                $this->execute($cn, $model->addTable("Eventos", 1, "tb_event", 17));
-                $this->execute($cn, $model->addTable("Funções", 1, "tb_function", 17));
-                $this->execute($cn, $model->addTable("Programação", 1, "tb_code", 17));
-                $this->execute($cn, $model->addTable("Grupos", 1, "tb_group", 18));
-                $this->execute($cn, $model->addTable("Visão", 1, "tb_view", 17));
-                $this->execute($cn, $model->addTable("Visão x Campos", 1, "tb_view_field", 17));
-                $this->execute($cn, $model->addTable("Perfil", 1, "tb_profile", 18));
-                $this->execute($cn, $model->addTable("Perfil x Transação", 1, "tb_profile_table", 18));
-                $this->execute($cn, $model->addTable("Transação x Função", 1, "tb_table_function", 18));
-                $this->execute($cn, $model->addTable("Usuários", 1, "tb_user", 18));
-                $this->execute($cn, $model->addTable("Usuários x Pefil", 1, "tb_user_profile", 18));
-                $this->execute($cn, $model->addTable("Atributos de Campos", 1, "tb_field_attribute", 17));
+                $this->execute($cn, $model->addTable("Sistemas", 1, "tb_system", $MENU_ADM));
+                $this->execute($cn, $model->addTable("Transações", 1, "tb_table", $MENU_ADM));
+                $this->execute($cn, $model->addTable("Campos", 1, "tb_field", $MENU_ADM));
+                $this->execute($cn, $model->addTable("Domínios", 1, "tb_domain", $MENU_ADM));
+                $this->execute($cn, $model->addTable("Eventos", 1, "tb_event", $MENU_ADM));
+                $this->execute($cn, $model->addTable("Funções", 1, "tb_function", $MENU_ADM));
+                $this->execute($cn, $model->addTable("Programação", 1, "tb_code", $MENU_ADM));
+                $this->execute($cn, $model->addTable("Grupos", 1, "tb_group", $MENU_AC));
+                $this->execute($cn, $model->addTable("Visão", 1, "tb_view", $MENU_ADM));
+                $this->execute($cn, $model->addTable("Visão x Campos", 1, "tb_view_field", $MENU_ADM));
+                $this->execute($cn, $model->addTable("Perfil", 1, "tb_profile", $MENU_AC));
+                $this->execute($cn, $model->addTable("Perfil x Transação", 1, "tb_profile_table", $MENU_AC));
+                $this->execute($cn, $model->addTable("Transação x Função", 1, "tb_table_function", $MENU_AC));
+                $this->execute($cn, $model->addTable("Usuários", 1, "tb_user", $MENU_AC));
+                $this->execute($cn, $model->addTable("Usuários x Pefil", 1, "tb_user_profile", $MENU_AC));
+                $this->execute($cn, $model->addTable("Atributos de Campos", 1, "tb_field_attribute", $MENU_ADM));
+                $this->execute($cn, $model->addTable("Usuários x Grupos", 1, "tb_user_group", $MENU_AC));
 
                 // Menus
                 $this->execute($cn, $model->addTable("Administração", 3, "", 0));
                 $this->execute($cn, $model->addTable("Controle de Acesso", 3, "", 0));
                 $this->execute($cn, $model->addTable("Cadastros", 3, "", 0));
-                
-                // Must have total transactions including menus
-                $total = 19;
-                
+               
             } catch (Exception $ex) {
                 throw $ex;
             }
@@ -253,6 +258,10 @@
                 $this->execute($cn, $model->addField(16, "Tabela", "id_table", $int, 0, "", $yes, $yes, $this->tb("tb_table"), $this->fd("name"), ""));
                 $this->execute($cn, $model->addField(16, "Campo", "id_field", $int, 0, "", $yes, $yes, $this->tb("tb_field"), $this->fd("label"), ""));
                 $this->execute($cn, $model->addField(16, "Coluna (%)", "column_size", $int, 0, "", $yes, $yes, 0, 0, ""));
+
+                // tb_user_group
+                $this->execute($cn, $model->addField(17, "Usuário", "id_user", $int, 0, "", $yes, $yes, $this->tb("tb_user"), $this->fd("name"), ""));
+                $this->execute($cn, $model->addField(17, "Grupo", "id_group", $int, 0, "", $yes, $yes, $this->tb("tb_group"), $this->fd("name"), ""));                
                 
             } catch (Exception $ex) {
                 throw $ex;
@@ -438,8 +447,8 @@
         }
 
         /*
-        * Create Profile
-        */
+         * Create Profile
+         */
         private function createProfile($cn) {
 
             global $tableName;
@@ -482,6 +491,28 @@
             }
         }
 
+        /*
+         * Create User x Group
+         */
+        private function createUserGroup($cn) {
+
+            global $tableName;
+            $model = new Model($this->systemId, $this->groupId);
+
+            try {
+
+                // Define table name
+                $tableName = "tb_user_group";
+
+                // create User Profile
+                $this->execute($cn, $model->addUserGroup(1, 1));
+                $this->execute($cn, $model->addUserGroup(2, 2));
+                $this->execute($cn, $model->addUserGroup(3, 2));
+                
+            } catch (Exception $ex) {
+                throw $ex;
+            }
+        }        
 
         /*
         * Create Profile x Transaction
@@ -634,6 +665,9 @@
                 // tb_user_profile
                 $this->execute($cn, $model->addFieldSetup($this->tb("tb_user_profile"), $this->fd("id_user"), 10));
                 $this->execute($cn, $model->addFieldSetup($this->tb("tb_user_profile"), $this->fd("id_profile"), 85));
+                // tb_user_group
+                $this->execute($cn, $model->addFieldSetup($this->tb("tb_user_group"), $this->fd("id_user"), 10));
+                $this->execute($cn, $model->addFieldSetup($this->tb("tb_user_group"), $this->fd("id_group"), 85));
                 
             } catch (Exception $ex) {
                 throw $ex;

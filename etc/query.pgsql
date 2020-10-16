@@ -12,6 +12,7 @@ select * from tb_profile
 select * from tb_profile_table
 select * from tb_table_function
 select * from tb_field
+select * from tb_user_group
 select field->'sql' from tb_view
 
 

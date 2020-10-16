@@ -245,7 +245,32 @@
 
             // Return final json
             return $json;
-        }        
+        }
+
+        public function addUserGroup($id_user, $id_group) {
+
+            // General Declaration
+            $json = "";
+            $jsonUtil = new JsonUtil();
+            $GROUP_PUBLIC = 2;
+
+            // Create key
+            $json = $jsonUtil->setValue($json, "id_system", $this->systemId);
+
+            // Only SYSTEM must be immutable
+            if ($id_user == 1) {
+                $json = $jsonUtil->setValue($json, "id_group", $this->groupId);
+            } else {
+                $json = $jsonUtil->setValue($json, "id_group", $GROUP_PUBLIC);
+            }
+
+            // Create record
+            $json = $jsonUtil->setValue($json, "id_user", $id_user);
+            $json = $jsonUtil->setValue($json, "id_group", $id_group);
+
+            // Return final json
+            return $json;
+        }
 
         public function addCode($comment, $code) {
 
