@@ -34,6 +34,8 @@
         public $TB_USER = 14;
         public $TB_USER_PROFILE = 15;
         public $TB_FIELD_ATTRIBUTE = 16;
+        public $TB_USER_GROUP = 17;
+
 
         // Constructor
         function __construct($systemId, $tableId, $userId, $groupId) {
