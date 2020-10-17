@@ -1,5 +1,5 @@
 /*
- * Format value
+ * Autenticate and login
  */
 async function login() {
     
@@ -12,11 +12,30 @@ async function login() {
     
     if (info.status == 1) {
         alert(info.message);
-        document.form1.method = 'post';
-        document.form1.action = 'index.php';
-        document.form1.submit();
+        submit();
     } else {
         alert(info.message);
     }
+
+}
+
+/*
+ * End session and logout
+ */
+async function logout() {
+    
+    // General Declaration
+    let page = 'eval.php';
+    let formData = new FormData();
+
+    // Set commands to end session
+    formData.append('1', '$_SESSION["status"] = 0;');
+    formData.append('2', 'session_destroy();');
+
+    // Execute it in server side
+    await execute(page, formData);
+
+    // Refresh it
+    submit();
 
 }

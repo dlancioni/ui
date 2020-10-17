@@ -6,7 +6,7 @@
 //$sSomeVar = 'something';
 //echo eval( 'return $sSomeVar = 3;' );
 
-$command = 'return $_SESSION["status"] = "Fechamento";';
+$command = '$_SESSION["status"] = 0;';
 echo eval($command);
 
 

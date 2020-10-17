@@ -16,9 +16,9 @@
         </ul>
     </div>
 
-    <!-- Add login form -->
-    <?php include "php/formlogin.php";?>
-    
+
+
+
 </nav>
 
 <br>
@@ -28,10 +28,8 @@
 <div class="container-fluid">
     <div class="row">
 
-        <!-- Left side itens -->
-        <div class="col-12 text-right">
-            <button class="btn btn-outline-primary" onclick="logout()">Logout</button>
-        </div>
+        <!-- Add logout button -->
+        <?php include "php/formlogin.php";?>
 
         <!-- Left side -->
         <div id="left1" class="col-sm-1">
