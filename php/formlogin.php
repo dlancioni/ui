@@ -21,8 +21,10 @@
 
     } else {
         ?>    
-            <!-- Left side itens -->
+            <!-- Left side itens -->        
             <div class="col-12 text-right">
+                <?php echo $username ?>
+                &nbsp;&nbsp;&nbsp;
                 <button class="btn btn-outline-primary" onclick="logout()">Logout</button>
             </div>
         <?php    
