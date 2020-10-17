@@ -35,6 +35,9 @@ async function logout() {
     // Execute it in server side
     await execute(page, formData);
 
+    // Do not show screen
+    setTable(0);
+
     // Refresh it
     submit();
 

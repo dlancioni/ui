@@ -70,7 +70,19 @@
                     throw new Exception($msg);
                 } else {
                     $groupId = $data[0]["id_group"];
-                }                
+                }
+
+                // Validate if profile has transactions
+                $filter = new Filter();
+                $filter->addCondition("tb_profile_table", "id_system", "int", "=", $systemId);
+                $filter->addCondition("tb_profile_table", "id_profile", "int", "=", $profileId);
+                $data = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_PROFILE_TABLE, $filter->create(), $this->sqlBuilder->QUERY_NO_JOIN);
+                if (count($data) <= 0) {
+                    $msg = $message->getValue("A16");
+                    throw new Exception($msg);
+                } else {
+                    $groupId = $data[0]["id_group"];
+                }
 
                 // Authenticate the password
                 $filter = new Filter();
@@ -79,7 +91,7 @@
                 $filter->addCondition("tb_user", "password", "text", "=", $password);
                 $data = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_USER, $filter->create(), $this->sqlBuilder->QUERY_NO_JOIN);
                 if (count($data) <= 0) {
-                    $msg = $message->getValue("A16");
+                    $msg = $message->getValue("A17");
                     throw new Exception($msg);
                 }
 
@@ -88,7 +100,7 @@
                 $this->userId = $userId;
                 $this->profileId = $profileId;
                 $this->groupId = $groupId;
-                $this->message = $message->getValue("A17");
+                $this->message = $message->getValue("A18");
 
             } catch (Exception $ex) {
 

@@ -322,9 +322,10 @@
                 
                 $this->execute($cn, $model->addDomain("A13", "Usuário não cadastrado", "tb_message"));
                 $this->execute($cn, $model->addDomain("A14", "Usuário não está associado a nenhum perfil", "tb_message"));
-                $this->execute($cn, $model->addDomain("A15", "Usuário não está associado a nenhum grupo", "tb_message"));                
-                $this->execute($cn, $model->addDomain("A16", "Senha inválida", "tb_message"));
-                $this->execute($cn, $model->addDomain("A17", "Autenticado com sucesso, seja bem vindo", "tb_message"));
+                $this->execute($cn, $model->addDomain("A15", "Usuário não está associado a nenhum grupo", "tb_message"));
+                $this->execute($cn, $model->addDomain("A16", "Perfil associado ao usuário não possui transações associadas", "tb_message"));
+                $this->execute($cn, $model->addDomain("A17", "Senha inválida", "tb_message"));
+                $this->execute($cn, $model->addDomain("A18", "Autenticado com sucesso, seja bem vindo", "tb_message"));
                 
                 // tb_cascade
                 $this->execute($cn, $model->addDomain("tb_field.id_table_fk", "id_field_fk; tb_field; id; label", "tb_cascade"));
@@ -614,7 +615,7 @@
                 $tableName = "tb_view";
 
                 // View to transaction
-                $this->execute($cn, $model->addView("TransactionByProfileUser", "select distinct tb_table.id, tb_table.field->>''id_parent'' as id_parent, tb_table.field->>''name'' as name, tb_table.field->>''table_name'' as table_name from tb_table inner join tb_profile_table on (tb_profile_table.field->>''id_table'')::int = tb_table.id inner join tb_profile on (tb_profile_table.field->>''id_profile'')::int = tb_profile.id inner join tb_user_profile on (tb_user_profile.field->>''id_profile'')::int = tb_profile.id where (tb_table.field->>''id_system'')::int = p1 and (tb_user_profile.field->>''id_user'')::int = p1 order by tb_table.id"));
+                $this->execute($cn, $model->addView("TransactionByProfileUser", "select distinct tb_table.id, tb_table.field->>''id_parent'' as id_parent, tb_table.field->>''name'' as name, tb_table.field->>''table_name'' as table_name from tb_table inner join tb_profile_table on (tb_profile_table.field->>''id_table'')::int = tb_table.id inner join tb_profile on (tb_profile_table.field->>''id_profile'')::int = tb_profile.id inner join tb_user_profile on (tb_user_profile.field->>''id_profile'')::int = tb_profile.id where (tb_table.field->>''id_system'')::int = p1 and (tb_user_profile.field->>''id_user'')::int = p2 order by tb_table.id"));
                 $this->execute($cn, $model->addView("FunctionByProfileUser", "select distinct tb_user_profile.field->>''id_profile'' id_profile, tb_function.id, tb_function.field->>''name'' as name from tb_user_profile inner join tb_table_function on (tb_table_function.field->>''id_profile'')::int = (tb_user_profile.field->>''id_profile'')::int inner join tb_function on (tb_table_function.field->>''id_function'')::int = tb_function.id where (tb_table_function.field->>''id_table'')::int = p1 and (tb_user_profile.field->>''id_user'')::int = p2 order by tb_function.id"));
                 
             } catch (Exception $ex) {

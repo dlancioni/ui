@@ -37,3 +37,13 @@ where (tb_event.field->>'id_system')::int = 1
 and (tb_event.field->>'id_target')::int = 1 
 and (tb_event.field->>'id_table')::int = 3
 order by tb_event.id
+select * from tb_profile_table
+select * from tb_user_profile
+select 
+(tb_profile_table.field->>'id_system')::int as id_system,
+(tb_profile_table.field->>'id_group')::int as id_group,
+tb_profile_table.id, (tb_profile_table.field->>'id_profile')::int as id_profile, 
+(tb_profile_table.field->>'id_table')::int as id_table 
+from tb_profile_table where (tb_profile_table.field->>'id_system')::int = 1 
+and (tb_profile_table.field->>'id_system')::int = 1 
+and (tb_profile_table.field->>'id_profile')::int = 2 
