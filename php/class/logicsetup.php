@@ -318,13 +318,12 @@
                 $this->execute($cn, $model->addDomain("A9", "Campo Tabela FK foi selecionado, entao Campo FK é obrigatório", "tb_message"));
                 $this->execute($cn, $model->addDomain("A10", "Transação selecionada é do tipo menu, não é permitido adicionar campos", "tb_message"));
                 $this->execute($cn, $model->addDomain("A11", "Registro pertence ao grupo Sistema, não pode ser modificado ou excluído", "tb_message"));
-                $this->execute($cn, $model->addDomain("A12", "Não foi possível concluir o upload dos arquivos", "tb_message"));
-                
-                $this->execute($cn, $model->addDomain("A13", "Usuário não cadastrado", "tb_message"));
+                $this->execute($cn, $model->addDomain("A12", "Não foi possível concluir o upload dos arquivos", "tb_message"));                
+                $this->execute($cn, $model->addDomain("A13", "Usuário não cadastrado ou não informado", "tb_message"));
                 $this->execute($cn, $model->addDomain("A14", "Usuário não está associado a nenhum perfil", "tb_message"));
                 $this->execute($cn, $model->addDomain("A15", "Usuário não está associado a nenhum grupo", "tb_message"));
                 $this->execute($cn, $model->addDomain("A16", "Perfil associado ao usuário não possui transações associadas", "tb_message"));
-                $this->execute($cn, $model->addDomain("A17", "Senha inválida", "tb_message"));
+                $this->execute($cn, $model->addDomain("A17", "Senha inválida ou não informada", "tb_message"));
                 $this->execute($cn, $model->addDomain("A18", "Autenticado com sucesso, seja bem vindo", "tb_message"));
                 
                 // tb_cascade
@@ -767,7 +766,7 @@
             }
 
             return $fieldId;
-        }        
+        }
 
 
     } // End of class

@@ -47,3 +47,7 @@ tb_profile_table.id, (tb_profile_table.field->>'id_profile')::int as id_profile,
 from tb_profile_table where (tb_profile_table.field->>'id_system')::int = 1 
 and (tb_profile_table.field->>'id_system')::int = 1 
 and (tb_profile_table.field->>'id_profile')::int = 2 
+
+
+
+ select id from tb_field where id = 0

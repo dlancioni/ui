@@ -44,6 +44,7 @@
                 $data = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_USER, $filter->create(), $this->sqlBuilder->QUERY_NO_JOIN);
                 if (count($data) <= 0) {
                     $msg = $message->getValue("A13");
+                    throw new Exception($msg);
                 } else {
                     $userId = $data[0]["id"];
                 }

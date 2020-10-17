@@ -6,45 +6,61 @@
     include "include.php";
 
     // General declaration
+    $rs = "";
     $db = "";
     $cn = "";
+    $sql = "";
     $json = "";
     $jsonUtil = "";
 
     // Sign in info
-    $signId = 0;
+    $systemId = 0;
     $username = "";
     $password = "";
+    $stringUtil = new StringUtil();    
     
     // Core code
     try {
 
         // Authentication related variables
-        if (isset($_REQUEST["_SIGNID_"])) {
-            $signId = $_REQUEST["_SIGNID_"];
+        if (isset($_REQUEST["_SYSTEM_"])) {
+            if (trim($_REQUEST["_SYSTEM_"]) != "") {
+                $systemId = $stringUtil->RemoveSpecialChar($_REQUEST["_SYSTEM_"]);
+            }
         }
-        if (isset($_REQUEST["_SIGNID_"])) {
-            $username = $_REQUEST["_USERNAME_"];
+
+        if (isset($_REQUEST["_USERNAME_"])) {
+            $username = $stringUtil->RemoveSpecialChar($_REQUEST["_USERNAME_"]);
         }
-        if (isset($_REQUEST["_SIGNID_"])) {
-            $password = $_REQUEST["_PASSWORD_"];
-        }    
+
+        if (isset($_REQUEST["_PASSWORD_"])) {
+            $password = $stringUtil->RemoveSpecialChar($_REQUEST["_PASSWORD_"]);
+        }
+
 
         // DB interface
-        $db = new Db();       
-        $jsonUtil = new JsonUtil();
+        $db = new Db();
         $cn = $db->getConnection();
-
-        // Keep instance of SqlBuilder for current session
-        $sqlBuilder = new SqlBuilder($_SESSION["_SYSTEM_"], 
-                                     $_SESSION["_TABLE_"], 
-                                     $_SESSION["_USER_"],
-                                     $_SESSION["_GROUP_"]);
+        $jsonUtil = new JsonUtil();        
+        $sqlBuilder = new SqlBuilder($systemId, 0, 0, 0);
         $message = new Message($cn, $sqlBuilder);
+        $logicAuth = new LogicAuth($cn, $sqlBuilder);
+
+        /*
+         * Validate the system id
+         */
+        $sql = "";
+        $sql .= " select";
+        $sql .= " id";
+        $sql .= " from tb_field";
+        $sql .= " where (id)::text = " . "'" . $systemId . "'";
+        $rs = pg_query($cn, $sql);
+        if (!pg_fetch_row($rs)) {
+            throw new Exception("Cód. Assinante não encontrado");
+        }
 
         // Authenticate user
-        $logicAuth = new LogicAuth($cn, $sqlBuilder);
-        $logicAuth->authenticate($signId, $username, $password);
+        $logicAuth->authenticate($systemId, $username, $password);
 
         // Handle results
         if ($logicAuth->authenticated == 1) {
@@ -56,6 +72,7 @@
             $_SESSION["_AUTH_"] = $logicAuth->authenticated;
             $_SESSION['_USER_'] = $logicAuth->userId;
             $_SESSION['_GROUP_'] = $logicAuth->groupId;
+            $_SESSION['_SYSTEM_'] = $systemId;
 
         } else {
 
@@ -66,6 +83,7 @@
             $_SESSION["_AUTH_"] = 0;
             $_SESSION['_USER_'] = 0;
             $_SESSION['_GROUP_'] = 0;
+            $_SESSION['_SYSTEM_'] = 0;
         }
 
     } catch (Exception $ex) {

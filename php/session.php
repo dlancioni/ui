@@ -10,7 +10,9 @@
     session_start();
 
     // General Declaration
-    $systemId = 0; 
+    $systemId = ""; 
+    $username = "";
+    $password = "";
     $tableId = 0; 
     $userId = 0;
     $groupId = 0; 
@@ -21,16 +23,14 @@
     $db = new Db();
     $cn = $db->getConnection();    
 
-    // Filter for current table
-    //$_SESSION["_FILTER_"] = [];
-    //$_SESSION["_AUTH_"] = "";
-
     // Key attributes
-    $_SESSION["_SYSTEM_"] = 1;
-    $_SESSION['_TABLE_'] = 2;
-    $_SESSION['_USER_'] = 1;
-    $_SESSION['_GROUP_'] = 2;
-    $_SESSION['_ID_'] = 0;
+    // $_SESSION["_SYSTEM_"] = 1;
+    // $_SESSION['_TABLE_'] = 2;
+    // $_SESSION['_USER_'] = 1;
+    // $_SESSION['_GROUP_'] = 2;
+    // $_SESSION['_ID_'] = 0;
+    // $_SESSION["_FILTER_"] = [];
+    // $_SESSION["_AUTH_"] = "";    
 
     // Solution allow multiple systems
     if (isset($_SESSION["_SYSTEM_"])) {

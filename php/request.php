@@ -33,4 +33,19 @@
     if (isset($_REQUEST["_PAGING_"])) {
         $pageOffset = $_REQUEST["_PAGING_"];
     }
+
+    if (isset($_REQUEST["_SYSTEM_"])) {
+        $systemId = $_REQUEST["_SYSTEM_"];
+        $_SESSION['_SYSTEM_'] = $systemId;
+    }
+
+    if (isset($_REQUEST["_USERNAME_"])) {
+        $username = $_REQUEST["_USERNAME_"];
+        $_SESSION['_USERNAME_'] = $username;
+    }
+
+    if (isset($_REQUEST["_PASSWORD_"])) {
+        $password = $_REQUEST["_PASSWORD_"];
+        $_SESSION['_PASSWORD_'] = $password;
+    }    
 ?>

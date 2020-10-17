@@ -3,20 +3,19 @@
  */
 async function login() {
     
-    let code = document.getElementById("_SIGNID_").value;
+    let code = document.getElementById("_SYSTEM_").value;
     let username = document.getElementById("_USERNAME_").value;
     let password = document.getElementById("_PASSWORD_").value;
+    let formData = new FormData();
 
-    let info = await execute('login.php', getFormData());
-    info = JSON.parse(info);
+    // Set commands to end session
+    formData.append('_SYSTEM_', code);
+    formData.append('_USERNAME_', username);
+    formData.append('_PASSWORD_', password);
     
-    if (info.status == 1) {
-        alert(info.message);
-        submit();
-    } else {
-        alert(info.message);
-    }
-
+    let info = await execute('login.php', formData);
+    info = JSON.parse(info);
+    alert(info.message);
 }
 
 /*
