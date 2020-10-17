@@ -327,13 +327,16 @@ class SqlBuilder extends Base {
     private function getWhere($tableDef, $table) {
 
         $sql = "";
+        $tableName = "";
         $jsonUtil = new JsonUtil();
 
         try {
 
+            $tableName = $tableDef[0]["table_name"];
+
             // TB_SYSTEM does not have id_system (!!)
-            if ($tableDef[0]["table_name"] != "tb_system" && $table <> 1) {
-                $sql .= " where " . $jsonUtil->condition($tableDef[0]["table_name"], 
+            if ($tableName != "tb_system" && $table <> 1) {
+                $sql .= " where " . $jsonUtil->condition($tableName, 
                                                          "id_system",
                                                          "int", 
                                                          "=", 
@@ -341,6 +344,11 @@ class SqlBuilder extends Base {
             } else {
                 $sql = " where 1 = 1";
             }
+
+            // Group control
+            //$sql .= " and " . $jsonUtil->field($tableName, "id_group", "int");
+            
+
 
         } catch (Exception $ex) {
             $this->setError("QueryBuilder.getWhere()", $ex->getMessage());
