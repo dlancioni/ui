@@ -7,7 +7,7 @@ async function login() {
     let username = document.getElementById("_USERNAME_").value;
     let password = document.getElementById("_PASSWORD_").value;
 
-    let info = await async_login(getFormData());
+    let info = await execute('login.php', getFormData());
     info = JSON.parse(info);
     
     if (info.status == 1) {

@@ -8,7 +8,7 @@ async function confirm() {
         go(getTable(), 1, getEvent());
     } else {
         if (validateForm()) {
-            await async_persist(getFormData()).then(alert);
+            await persist(getFormData()).then(alert);
             if (getEvent() == "Delete") {
                 reportBack();
             }

@@ -20,8 +20,6 @@ include "php/core.php";
         <?php include "php/body.php";?>
         <!-- Session Info -->
         <?php include "php/hidden.php";?>
-        <!-- Session Info -->
-        <?php include "php/js.php";?>   
     </form>
 </body>
 </html>

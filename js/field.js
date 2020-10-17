@@ -48,22 +48,22 @@ function field(element) {
 /*
  * Cascade drop down
  */
-function cascade(fieldTarget, fieldName, fieldValue, tableName, id, ds) {
+async function cascade(fieldTarget, fieldName, fieldValue, tableName, id, ds) {
 
     let url = "";
     let data = "";
+    let page = 'dropdown.php';
+    let formData = new FormData();
     let dropdown = document.getElementById(fieldTarget);
     let option = document.createElement("option");
 
-    url += "dropdown.php";
-    url += "?fieldName=" + fieldName;
-    url += "&fieldValue=" + fieldValue;
-    url += "&tableName=" + tableName;
-    url += "&id=" + id;
-    url += "&ds=" + ds;
-
-    let httpService = new HTTPService();
-    data = httpService.execute(url);
+    // Set commands to end session
+    formData.append('fieldName', fieldName);
+    formData.append('fieldValue', fieldValue);
+    formData.append('tableName', tableName);
+    formData.append('id', id);
+    formData.append('ds', ds);
+    data = await execute(page, formData);
 
     if (data != "") {
 
