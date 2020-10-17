@@ -28,6 +28,11 @@
 <div class="container-fluid">
     <div class="row">
 
+        <!-- Left side itens -->
+        <div class="col-12 text-right">
+            <button class="btn btn-outline-primary" onclick="logout()">Logout</button>
+        </div>
+
         <!-- Left side -->
         <div id="left1" class="col-sm-1">
         </div>
