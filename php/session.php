@@ -51,5 +51,10 @@
     if (isset($_SESSION["_GROUP_"])) {
         $groupId = $_SESSION["_GROUP_"];
     }
+
+    // Current group
+    if (isset($_SESSION["_USERNAME_"])) {
+        $username = $_SESSION["_USERNAME_"];
+    }    
     
 ?>
