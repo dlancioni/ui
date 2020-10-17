@@ -53,9 +53,14 @@ and (tb_profile_table.field->>'id_profile')::int = 2
  select id from tb_field where id = 0
 
 
-select * from tb_profile
+select * from tb_user_group
 where (tb_profile.field->>'id_group')::int in (1,2)
 
 select field->>'id_group' from tb_user_group where (field->>'id_user')::int = 1
+select id from tb_user_group where (tb_event.field->>'id_system')::int = 1 and (tb_event.field->>'id_user')::int = 1
+ select (tb_user_group.field->>'id_group') from tb_user_group where (tb_user_group.field->>'id_system')::int = 1 and (tb_user_group.field->>'id_user')::int = 3
 
 
+
+truncate table tb_1
+select * from tb_1

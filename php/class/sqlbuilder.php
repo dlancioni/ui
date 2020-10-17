@@ -346,9 +346,13 @@ class SqlBuilder extends Base {
             }
 
             // Group control
-            //$sql .= " and " . $jsonUtil->field($tableName, "id_group", "int");
-            
-
+            if ($this->getGroup() > 1) {
+                $sql .= " and " . $jsonUtil->field($tableName, "id_group", "int");
+                $sql .= " in ";
+                $sql .= " (";
+                $sql .= $this->getSqlGroupIdByUser($this->getUser());
+                $sql .= ") ";
+            }
 
         } catch (Exception $ex) {
             $this->setError("QueryBuilder.getWhere()", $ex->getMessage());
@@ -422,7 +426,7 @@ class SqlBuilder extends Base {
         }
         
         return $sql;
-    }        
+    }
 
     private function getSqlTableDef($tableId) {
         
@@ -545,5 +549,38 @@ class SqlBuilder extends Base {
         // Return ID
         return $this->getLastId();
     }
+
+
+    /*
+     * Get paging
+     */
+    private function getSqlGroupIdByUser($userId) {
+
+        $sql = "";
+        $jsonUtil = new JsonUtil();
+
+        try {
+
+            // Mandatory to access transactions (event, buttons, etc)
+            $sql .= " select 1"; 
+
+            // Join results    
+            $sql .= " union";
+
+            // Groups users are mapped
+            $sql .= " select ";
+            $sql .= $jsonUtil->field("tb_user_group", "id_group", "int");
+            $sql .= " from tb_user_group";
+            $sql .= " where " . $jsonUtil->field("tb_user_group", "id_system", "int") . " = " . $this->getSystem();
+            $sql .= " and " . $jsonUtil->field("tb_user_group", "id_user", "int") . " = " . $userId;
+
+        } catch (Exception $ex) {
+            $this->setError("QueryBuilder.getSqlGroupIdByUser()", $ex->getMessage());
+        }
+        
+        return $sql;
+    }
+
+
 } // End of class
 ?>
