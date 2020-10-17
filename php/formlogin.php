@@ -8,7 +8,7 @@
                     <input type="text" id="_SIGNID_" name="_SIGNID_" class="form-control" placeholder="Cód. Assinante" value="1">
                 </div>        
                 <div class="col">
-                    <input type="text" id="_USERNAME_" name="_USERNAME_" class="form-control" placeholder="Usuário" value="joao">
+                    <input type="text" id="_USERNAME_" name="_USERNAME_" class="form-control" placeholder="Usuário" value="david">
                 </div>
                 <div class="col">
                     <input type="password" id="_PASSWORD_" name="_PASSWORD_" class="form-control" placeholder="Senha" value="123">

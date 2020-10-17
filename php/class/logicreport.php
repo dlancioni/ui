@@ -61,8 +61,7 @@ class LogicReport extends Base {
             // Get table structure
             $this->tableDef = $this->sqlBuilder->getTableDef($this->cn, $tableId);
             if (count($this->tableDef) == 0) {
-                $msg = $message->getValue("A13");
-                //throw new Exception($msg);
+
             }
 
             // Get data

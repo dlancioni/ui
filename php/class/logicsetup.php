@@ -319,10 +319,13 @@
                 $this->execute($cn, $model->addDomain("A10", "Transação selecionada é do tipo menu, não é permitido adicionar campos", "tb_message"));
                 $this->execute($cn, $model->addDomain("A11", "Registro pertence ao grupo Sistema, não pode ser modificado ou excluído", "tb_message"));
                 $this->execute($cn, $model->addDomain("A12", "Não foi possível concluir o upload dos arquivos", "tb_message"));
-                $this->execute($cn, $model->addDomain("A13", "Transação ainda não possui campos cadastrados", "tb_message"));
-                $this->execute($cn, $model->addDomain("A14", "Usuário não cadastrado", "tb_message"));
-                $this->execute($cn, $model->addDomain("A15", "Senha inválida", "tb_message"));
-                $this->execute($cn, $model->addDomain("A16", "Autenticado com sucesso, seja bem vindo", "tb_message"));
+                
+                $this->execute($cn, $model->addDomain("A13", "Usuário não cadastrado", "tb_message"));
+                $this->execute($cn, $model->addDomain("A14", "Usuário não está associado a nenhum perfil", "tb_message"));
+                $this->execute($cn, $model->addDomain("A15", "Usuário não está associado a nenhum grupo", "tb_message"));                
+                $this->execute($cn, $model->addDomain("A16", "Senha inválida", "tb_message"));
+                $this->execute($cn, $model->addDomain("A17", "Autenticado com sucesso, seja bem vindo", "tb_message"));
+                
                 // tb_cascade
                 $this->execute($cn, $model->addDomain("tb_field.id_table_fk", "id_field_fk; tb_field; id; label", "tb_cascade"));
                 $this->execute($cn, $model->addDomain("tb_event.id_table", "id_field; tb_field; id; label", "tb_cascade"));

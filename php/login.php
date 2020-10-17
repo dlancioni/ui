@@ -15,7 +15,6 @@
     $signId = 0;
     $username = "";
     $password = "";
-    $msg = "";
     
     // Core code
     try {
@@ -41,7 +40,7 @@
                                      $_SESSION["_TABLE_"], 
                                      $_SESSION["_USER_"],
                                      $_SESSION["_GROUP_"]);
-        $message = new Message($cn, $sqlBuilder);                                     
+        $message = new Message($cn, $sqlBuilder);
 
         // Authenticate user
         $logicAuth = new LogicAuth($cn, $sqlBuilder);
@@ -51,31 +50,28 @@
         if ($logicAuth->authenticated == 1) {
 
             // Success
-            $msg = $message->getValue("A16");
-            $json = $message->getStatus(1, $msg);            
+            $json = $message->getStatus(1, $logicAuth->message);
 
             // Keep sessioninfo
-            $_SESSION["_AUTH_"] = 1;
-            $_SESSION['_USER_'] = 22;
-            $_SESSION['_GROUP_'] = 2;
+            $_SESSION["_AUTH_"] = $logicAuth->authenticated;
+            $_SESSION['_USER_'] = $logicAuth->userId;
+            $_SESSION['_GROUP_'] = $logicAuth->groupId;
 
         } else {
 
             // Fail
-            $msg = $logicAuth->error;
-            $json = $message->getStatus(2, $msg);
+            $json = $message->getStatus(2, $logicAuth->message);
 
-            // Keep sessioninfo
-            $_SESSION["_AUTH_"] = 0;  // No 
-            $_SESSION['_USER_'] = 1;  // public 
-            $_SESSION['_GROUP_'] = 2; // public
+            // Can navigate but not authenticated
+            $_SESSION["_AUTH_"] = 0;
+            $_SESSION['_USER_'] = 0;
+            $_SESSION['_GROUP_'] = 0;
         }
 
     } catch (Exception $ex) {
 
         // No data on error
-        $msg = $ex->getMessage();
-        $json = $message->getStatus(2, $msg);
+        $json = $message->getStatus(2, $ex->getMessage());
 
     } finally {
 
