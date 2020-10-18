@@ -210,7 +210,7 @@
             return $json;
         }
 
-        public function addUser($name, $username, $password) {
+        public function addUser($groupId, $name, $username, $password) {
 
             // General Declaration
             $json = "";
@@ -218,7 +218,7 @@
 
             // Create key
             $json = $jsonUtil->setValue($json, "id_system", $this->systemId);
-            $json = $jsonUtil->setValue($json, "id_group", $this->groupId);
+            $json = $jsonUtil->setValue($json, "id_group", $groupId);
 
             // Create record        
             $json = $jsonUtil->setValue($json, "name", $name);
@@ -229,7 +229,7 @@
             return $json;
         }
 
-        public function addUserProfile($id_user, $id_profile) {
+        public function addUserProfile($groupId, $id_user, $id_profile) {
 
             // General Declaration
             $json = "";
@@ -237,7 +237,7 @@
 
             // Create key
             $json = $jsonUtil->setValue($json, "id_system", $this->systemId);
-            $json = $jsonUtil->setValue($json, "id_group", $this->groupId);
+            $json = $jsonUtil->setValue($json, "id_group", $groupId);
 
             // Create record        
             $json = $jsonUtil->setValue($json, "id_user", $id_user);
@@ -247,20 +247,19 @@
             return $json;
         }
 
-        public function addUserGroup($id_user, $id_group) {
+        public function addUserGroup($groupId, $id_user, $id_group) {
 
             // General Declaration
             $json = "";
             $jsonUtil = new JsonUtil();
-            $GROUP_PUBLIC = 2;
 
             // Create key
             $json = $jsonUtil->setValue($json, "id_system", $this->systemId);
-            $json = $jsonUtil->setValue($json, "id_group", $GROUP_PUBLIC);
+            $json = $jsonUtil->setValue($json, "id_group", $groupId);
             
             // Create record
             $json = $jsonUtil->setValue($json, "id_user", $id_user);
-            $json = $jsonUtil->setValue($json, "id_group", $id_group);
+            $json = $jsonUtil->setValue($json, "id_grp", $id_group);
 
             // Return final json
             return $json;

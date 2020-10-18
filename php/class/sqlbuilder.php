@@ -345,8 +345,10 @@ class SqlBuilder extends Base {
                 $sql = " where 1 = 1";
             }
 
-            // Group control
-            if ($this->getGroup() > 1) {
+            // 1-system
+            // 2-admin
+            // No restriction to view data for both groups
+            if ($this->getGroup() > 2) {
                 $sql .= " and " . $jsonUtil->field($tableName, "id_group", "int");
                 $sql .= " in ";
                 $sql .= " (";

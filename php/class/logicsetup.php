@@ -6,8 +6,11 @@
         private $sqlBuilder = 0;
         public $error = "";
         public $systemId = 0;
-        public $groupId = 1;
         public $tableId = 0;
+
+        // Group info
+        public $groupId = 1;
+        public $public = 2;
 
         // Constructor
         function __construct($cn, $sqlBuilder) {
@@ -37,6 +40,7 @@
                 // Open connection
                 $cn = $this->cn;
 
+                // System Structure
                 $this->createTable($cn);
                 $this->createTransaction($cn);
                 $this->createField($cn);
@@ -44,15 +48,18 @@
                 $this->createEvent($cn);
                 $this->createFunction($cn);
                 $this->createGroup($cn);
+                $this->createCode($cn);
+                $this->createView($cn);
+                $this->createFieldSetup($cn);
+
+                // Access control
                 $this->createUser($cn);
                 $this->createProfile($cn);
                 $this->createUserGroup($cn);
                 $this->createProfileTable($cn);
                 $this->createUserProfile($cn);
                 $this->createTableFunction($cn);
-                $this->createCode($cn);
-                $this->createView($cn);
-                $this->createFieldSetup($cn);
+
 
             } catch (Exception $ex) {
 
@@ -252,8 +259,8 @@
                 $this->execute($cn, $model->addField($this->TB_USER, "Password", "password", $text, 50, "", $yes, $yes, 0, 0, ""));
 
                 // tb_user_profile
-                $this->execute($cn, $model->addField($this->TB_USER_PROFILE, "Usuário", "id_user", $int, 0, "", $yes, $yes, $this->tb("tb_user"), $this->fd("name"), ""));
-                $this->execute($cn, $model->addField($this->TB_USER_PROFILE, "Perfil", "id_profile", $int, 0, "", $yes, $yes, $this->tb("tb_profile"), $this->fd("name"), ""));
+                $this->execute($cn, $model->addField($this->TB_USER_PROFILE, "Usuário", "id_user", $int, 0, "", $yes, $no, $this->tb("tb_user"), $this->fd("name"), ""));
+                $this->execute($cn, $model->addField($this->TB_USER_PROFILE, "Perfil", "id_profile", $int, 0, "", $yes, $no, $this->tb("tb_profile"), $this->fd("name"), ""));
 
                 // tb_field_attribute
                 $this->execute($cn, $model->addField($this->TB_FIELD_ATTRIBUTE, "Tabela", "id_table", $int, 0, "", $yes, $yes, $this->tb("tb_table"), $this->fd("name"), ""));
@@ -261,8 +268,8 @@
                 $this->execute($cn, $model->addField($this->TB_FIELD_ATTRIBUTE, "Coluna (%)", "column_size", $int, 0, "", $yes, $yes, 0, 0, ""));
 
                 // tb_user_group
-                $this->execute($cn, $model->addField($this->TB_USER_GROUP, "Usuário", "id_user", $int, 0, "", $yes, $yes, $this->tb("tb_user"), $this->fd("name"), ""));
-                $this->execute($cn, $model->addField($this->TB_USER_GROUP, "Grupo", "id_group", $int, 0, "", $yes, $yes, $this->tb("tb_group"), $this->fd("name"), ""));                
+                $this->execute($cn, $model->addField($this->TB_USER_GROUP, "Usuário", "id_user", $int, 0, "", $yes, $no, $this->tb("tb_user"), $this->fd("name"), ""));
+                $this->execute($cn, $model->addField($this->TB_USER_GROUP, "Grupo", "id_grp", $int, 0, "", $yes, $no, $this->tb("tb_group"), $this->fd("name"), ""));
                 
             } catch (Exception $ex) {
                 throw $ex;
@@ -418,8 +425,11 @@
                 $tableName = "tb_group";
 
                 // Create groups
-                $this->execute($cn, $model->addGroup("Sistema"));
-                $this->execute($cn, $model->addGroup("Público"));
+                $this->execute($cn, $model->addGroup("Sistema"));           // 1) Change structure 2) No restrictions on view
+                $this->execute($cn, $model->addGroup("Administrador"));     // 2) No restrictions on view
+                $this->execute($cn, $model->addGroup("Público"));           // 3) Restricted on view
+                $this->execute($cn, $model->addGroup("Homens"));
+                $this->execute($cn, $model->addGroup("Mulheres"));
                 
             } catch (Exception $ex) {
                 throw $ex;
@@ -441,9 +451,10 @@
                 $tableName = "tb_user";
 
                 // Create User
-                $this->execute($cn, $model->addUser("Administrador", "admin", "123"));
-                $this->execute($cn, $model->addUser("João", "joao", "123"));
-                $this->execute($cn, $model->addUser("Maria", "maria", "123"));
+                $this->execute($cn, $model->addUser($this->groupId, "System", "system", "123"));
+                $this->execute($cn, $model->addUser($this->groupId, "Administrador", "admin", "123"));
+                $this->execute($cn, $model->addUser($this->public, "João", "joao", "123"));
+                $this->execute($cn, $model->addUser($this->public, "Maria", "maria", "123"));
                 
             } catch (Exception $ex) {
                 throw $ex;
@@ -464,6 +475,7 @@
                 $tableName = "tb_profile";
 
                 // Create Profile
+                $this->execute($cn, $model->addProfile("System"));
                 $this->execute($cn, $model->addProfile("Administrador"));
                 $this->execute($cn, $model->addProfile("Usuário"));
                 
@@ -486,9 +498,10 @@
                 $tableName = "tb_user_profile";
 
                 // create User Profile
-                $this->execute($cn, $model->addUserProfile(1, 1));
-                $this->execute($cn, $model->addUserProfile(2, 2));
-                $this->execute($cn, $model->addUserProfile(3, 2));
+                $this->execute($cn, $model->addUserProfile($this->groupId, 1, 1)); // system-system
+                $this->execute($cn, $model->addUserProfile($this->groupId, 2, 2)); // admin-administrador
+                $this->execute($cn, $model->addUserProfile($this->public, 3, 3));  // joao-usuario
+                $this->execute($cn, $model->addUserProfile($this->public, 4, 3));  // maria-usuario 
                 
             } catch (Exception $ex) {
                 throw $ex;
@@ -508,10 +521,11 @@
                 // Define table name
                 $tableName = "tb_user_group";
 
-                // create User Profile
-                $this->execute($cn, $model->addUserGroup(1, 1));
-                $this->execute($cn, $model->addUserGroup(2, 2));
-                $this->execute($cn, $model->addUserGroup(3, 2));
+                // create User Profile (cannot add permission to group 1)
+                $this->execute($cn, $model->addUserGroup($this->groupId, 1, 1)); // System 
+                $this->execute($cn, $model->addUserGroup($this->groupId, 2, 2)); // Admin
+                $this->execute($cn, $model->addUserGroup($this->public, 3, 3));  // Joao  
+                $this->execute($cn, $model->addUserGroup($this->public, 4, 3));  // Maria
                 
             } catch (Exception $ex) {
                 throw $ex;
@@ -529,16 +543,31 @@
             $jsonUtil = new jsonUtil();
             $model = new Model($this->systemId, $this->groupId);
 
+            // Profiles
+            $SYSTEM = 1;
+            $ADMIN = 2;
+
             try {
 
                 // Define table name
                 $tableName = "tb_profile_table";
 
-                // Create standard events
+                // SYSTEM
                 for ($i=1; $i<=$total; $i++) {               
-                    $this->execute($cn, $model->addProfileTable(1, $i));
+                    $this->execute($cn, $model->addProfileTable($SYSTEM, $i));
                 }
-                
+
+                // ADMIN
+                $this->execute($cn, $model->addProfileTable($ADMIN, $this->MENU_2)); // Access control
+                $this->execute($cn, $model->addProfileTable($ADMIN, $this->TB_PROFILE));
+                $this->execute($cn, $model->addProfileTable($ADMIN, $this->TB_PROFILE));
+                $this->execute($cn, $model->addProfileTable($ADMIN, $this->TB_PROFILE_TABLE));
+                $this->execute($cn, $model->addProfileTable($ADMIN, $this->TB_TABLE_FUNCTION));
+                $this->execute($cn, $model->addProfileTable($ADMIN, $this->TB_USER));
+                $this->execute($cn, $model->addProfileTable($ADMIN, $this->TB_USER_PROFILE));
+                $this->execute($cn, $model->addProfileTable($ADMIN, $this->TB_GROUP));
+                $this->execute($cn, $model->addProfileTable($ADMIN, $this->TB_USER_GROUP));
+
             } catch (Exception $ex) {
                 throw $ex;
             }
@@ -558,15 +587,26 @@
             $jsonUtil = new jsonUtil();
             $model = new Model($this->systemId, $this->groupId);
 
+            // Profiles
+            $SYSTEM = 1;
+            $ADMIN = 2;            
+
             try {
 
                 // Define table name
                 $tableName = "tb_table_function";
 
-                // Create standard permissions
+                // SYSTEM has all permissions
                 for ($i=1; $i<=$total; $i++) {
                     for ($j=1; $j<=7; $j++) {
-                        $this->execute($cn, $model->addTableFunction(1, $i, $j));
+                        $this->execute($cn, $model->addTableFunction($SYSTEM, $i, $j));
+                    }
+                }
+
+                // ADMIN has Access Control only (11 ... 17)
+                for ($i=11; $i<=17; $i++) {
+                    for ($j=1; $j<=7; $j++) {
+                        $this->execute($cn, $model->addTableFunction($ADMIN, $i, $j));
                     }
                 }
                 
@@ -671,7 +711,7 @@
                 $this->execute($cn, $model->addFieldSetup($this->tb("tb_user_profile"), $this->fd("id_profile"), 85));
                 // tb_user_group
                 $this->execute($cn, $model->addFieldSetup($this->tb("tb_user_group"), $this->fd("id_user"), 10));
-                $this->execute($cn, $model->addFieldSetup($this->tb("tb_user_group"), $this->fd("id_group"), 85));
+                $this->execute($cn, $model->addFieldSetup($this->tb("tb_user_group"), $this->fd("id_grp"), 85));
                 
             } catch (Exception $ex) {
                 throw $ex;

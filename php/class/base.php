@@ -36,6 +36,10 @@
         public $TB_GROUP = 16;
         public $TB_USER_GROUP = 17;
 
+        public $MENU_1 = 18; // Admin
+        public $MENU_2 = 19; // Controle acesso
+        public $MENU_3 = 20; // Cadastros
+
 
         // Constructor
         function __construct($systemId, $tableId, $userId, $groupId) {
