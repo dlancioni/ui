@@ -70,7 +70,7 @@
                     $msg = $message->getValue("A15");
                     throw new Exception($msg);
                 } else {
-                    $groupId = $data[0]["id_group"];
+                    $groupId = $data[0]["id_grp"];
                 }
 
                 // Validate if profile has transactions
@@ -81,8 +81,6 @@
                 if (count($data) <= 0) {
                     $msg = $message->getValue("A16");
                     throw new Exception($msg);
-                } else {
-                    $groupId = $data[0]["id_group"];
                 }
 
                 // Authenticate the password

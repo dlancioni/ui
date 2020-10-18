@@ -571,7 +571,7 @@ class SqlBuilder extends Base {
 
             // Groups users are mapped
             $sql .= " select ";
-            $sql .= $jsonUtil->field("tb_user_group", "id_group", "int");
+            $sql .= $jsonUtil->field("tb_user_group", "id_grp", "int");
             $sql .= " from tb_user_group";
             $sql .= " where " . $jsonUtil->field("tb_user_group", "id_system", "int") . " = " . $this->getSystem();
             $sql .= " and " . $jsonUtil->field("tb_user_group", "id_user", "int") . " = " . $userId;

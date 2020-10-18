@@ -62,5 +62,5 @@ select id from tb_user_group where (tb_event.field->>'id_system')::int = 1 and (
 
 
 
-truncate table tb_1
+delete from tb_1 where id >2
 select * from tb_1
