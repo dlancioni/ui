@@ -58,7 +58,6 @@ class LogicForm extends Base {
         $controls = "";
 
         // Constants
-        $TB_DOMAIN = 4;
         $TEXT_AREA = 6;
         $FILE = 7;
 
@@ -174,7 +173,7 @@ class LogicForm extends Base {
                 } else {
 
                     // Append dropdown
-                    if ($fk == $TB_DOMAIN) {
+                    if ($fk == $this->TB_DOMAIN) {
                         $key = "key";
                         $value = "value";
                         $filter = new Filter();

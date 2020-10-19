@@ -255,7 +255,7 @@ class SqlBuilder extends Base {
                 } else {
                     if ($fk == 0) {
                         $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias);
-                    } else if ($fk == 4) {
+                    } else if ($fk == $this->TB_DOMAIN) {
                         $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias);
                         $sql .= ", ";
                         $fieldAlias = substr($fieldName, 3);
@@ -459,9 +459,12 @@ class SqlBuilder extends Base {
         $sql .= " when (tb_field.field->>'id_type')::int = 7 then 'file'";
         $sql .= " end data_type";  
         $sql .= " from tb_field";
+
         $sql .= " inner join tb_table on (tb_field.field->>'id_table')::text = (tb_table.id)::text";
+
         $sql .= " left join tb_table tb_table_fk on (tb_field.field->>'id_table_fk')::text = (tb_table_fk.id)::text";
         $sql .= " left join tb_field tb_field_fk on (tb_field.field->>'id_field_fk')::text = (tb_field_fk.id)::text";
+
         $sql .= " where (tb_field.field->>'id_system')::int = " . $this->getSystem();
         $sql .= " and (tb_field.field->>'id_table')::int = " . $tableId;
         $sql .= " order by tb_field.id";                

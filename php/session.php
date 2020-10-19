@@ -11,8 +11,8 @@
 
     // General Declaration
     $systemId = "1"; 
-    $username = "joao";
-    $password = "123";
+    $username = "system";
+    $password = "123@456";
     $tableId = 0; 
     $userId = 0;
     $groupId = 0; 

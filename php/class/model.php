@@ -32,7 +32,26 @@
             return $json;
         }
 
-        public function addTable($name, $id_type, $table_name, $id_parent) {
+        public function addMenu($id_menu, $name, $id_parent) {
+
+            // General Declaration
+            $json = "";
+            $jsonUtil = new JsonUtil();
+
+            // Create key
+            $json = $jsonUtil->setValue($json, "id_system", $this->systemId);
+            $json = $jsonUtil->setValue($json, "id_group", $this->groupId);
+
+            // Create record        
+            $json = $jsonUtil->setValue($json, "id_menu", $id_menu);
+            $json = $jsonUtil->setValue($json, "name", $name);
+            $json = $jsonUtil->setValue($json, "id_parent", $id_parent);
+
+            // Return final json
+            return $json;
+        }
+
+        public function addTable($name, $id_type, $table_name, $id_menu) {
 
             // General Declaration
             $json = "";
@@ -46,7 +65,7 @@
             $json = $jsonUtil->setValue($json, "name", $name);
             $json = $jsonUtil->setValue($json, "id_type", $id_type);
             $json = $jsonUtil->setValue($json, "table_name", $table_name);
-            $json = $jsonUtil->setValue($json, "id_parent", $id_parent);
+            $json = $jsonUtil->setValue($json, "id_menu", $id_menu);
 
             // Return final json
             return $json;

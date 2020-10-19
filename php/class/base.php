@@ -13,32 +13,33 @@
         private $lastId = 0;
 
         // Other
-        private $event = 0;        
+        private $event = 0;
 
         // Transactions
-        public $TB_SYSTEM = 1;
-        public $TB_TABLE = 2;
-        public $TB_FIELD = 3;
-        public $TB_DOMAIN = 4;
-        public $TB_EVENT = 5;
-        public $TB_ACTION = 6;
-        public $TB_CODE = 7;
-        public $TB_VIEW = 8;
-        public $TB_VIEW_FIELD = 9;
-        public $TB_FIELD_ATTRIBUTE = 10;
+        public $TB_MENU = 1;
+        public $TB_SYSTEM = 2;
+        public $TB_TABLE = 3;
+        public $TB_FIELD = 4;
+        public $TB_DOMAIN = 5;
+        public $TB_EVENT = 6;
+        public $TB_ACTION = 7;
+        public $TB_CODE = 8;
+        public $TB_VIEW = 9;
+        public $TB_VIEW_FIELD = 10;
+        public $TB_FIELD_ATTRIBUTE = 11;
 
         // Access Control
-        public $TB_PROFILE = 11;
-        public $TB_PROFILE_TABLE = 12;
-        public $TB_TABLE_FUNCTION = 13;
-        public $TB_USER = 14;
-        public $TB_USER_PROFILE = 15;
-        public $TB_GROUP = 16;
-        public $TB_USER_GROUP = 17;
+        public $TB_PROFILE = 12;
+        public $TB_PROFILE_TABLE = 13;
+        public $TB_TABLE_FUNCTION = 14;
+        public $TB_USER = 15;
+        public $TB_USER_PROFILE = 16;
+        public $TB_GROUP = 17;
+        public $TB_USER_GROUP = 18;
 
-        public $MENU_1 = 18; // Admin
-        public $MENU_2 = 19; // Controle acesso
-        public $MENU_3 = 20; // Cadastros
+        public $MENU_1 = 19; // Admin
+        public $MENU_2 = 20; // Controle acesso
+        public $MENU_3 = 21; // Cadastros
 
 
         // Constructor
