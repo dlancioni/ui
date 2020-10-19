@@ -1,0 +1,155 @@
+[1mdiff --git a/etc/query.pgsql b/etc/query.pgsql[m
+[1mindex 4ff7d90..517ee8b 100644[m
+[1m--- a/etc/query.pgsql[m
+[1m+++ b/etc/query.pgsql[m
+[36m@@ -1,8 +1,8 @@[m
+ [m
+ [m
+[31m--- Modules[m
+ select * from [m
+ ([m
+[32m+[m[32m    -- Modules[m[41m    [m
+     select[m
+     tb_table.id, [m
+     (tb_table.field->>'id_menu')::int as id_parent, [m
+[36m@@ -13,10 +13,8 @@[m [mselect * from[m
+     inner join tb_user_profile on (tb_user_profile.field->>'id_profile')::int = tb_profile.id [m
+     where (tb_table.field->>'id_system')::int = 1 [m
+     and (tb_user_profile.field->>'id_user')::int = 1 [m
+[31m-[m
+     union[m
+[31m-[m
+[31m-    -- menus[m
+[32m+[m[32m    -- Menus[m
+     select [m
+     (field->>'id_menu')::int as id,[m
+     (field->>'id_parent')::int as id_parent,[m
+[1mdiff --git a/php/class/logicmenu.php b/php/class/logicmenu.php[m
+[1mindex ca7bcae..8f58e04 100644[m
+[1m--- a/php/class/logicmenu.php[m
+[1m+++ b/php/class/logicmenu.php[m
+[36m@@ -4,7 +4,7 @@[m
+         // Private members[m
+         private $cn = 0;[m
+         private $sqlBuilder = 0;[m
+[31m-        public $html;[m
+[32m+[m[32m        public $html = "";[m
+ [m
+         // Constructor[m
+         function __construct($cn, $sqlBuilder) {[m
+[36m@@ -18,32 +18,23 @@[m
+         public function createMenu($systemId, $userId) {[m
+ [m
+             // General Declaration            [m
+[31m-            $html = "";[m
+[31m-            $menu = "";[m
+[31m-            $table = "";[m
+[31m-            $output = "";[m
+[31m-            $stringUtil = new StringUtil();[m
+[32m+[m[32m            $rs = "";[m
+[32m+[m[32m            $tree = "";[m
+ [m
+             try {[m
+ [m
+                 // Get transactions applying access control[m
+[31m-                $filter = new Filter();[m
+[31m-                $filter->add("tb_table", "id_system", $systemId);[m
+[31m-                $filter->add("tb_user_profile", "id_user", $userId);[m
+[31m-                $table = $this->sqlBuilder->executeView($this->cn, 1, $filter->create());[m
+[32m+[m[32m                $rs = $this->getData();[m
+ [m
+[31m-                // Transform data in treeview structure[m
+[31m-                $x = $this->prepareTree($table);[m
+[32m+[m[32m                // Data to treeview[m
+[32m+[m[32m                $tree = $this->prepareTree($rs);[m
+ [m
+[31m-                // Write the tree[m
+[31m-                $this->writeTree($x);[m
+[32m+[m[32m                // Treeview to html[m
+[32m+[m[32m                $this->writeTree($tree);[m
+ [m
+             } catch (Exception $ex) {[m
+                 throw $ex;[m
+             }[m
+[31m-[m
+[31m-            // Return main menu[m
+[31m-            return $html;[m
+         }[m
+ [m
+         /*[m
+[36m@@ -113,9 +104,7 @@[m
+ [m
+             $html = "";[m
+             $jsonUtil = new JsonUtil();[m
+[31m-[m
+             $html .= "<a class='dropdown-item' href='#' onclick='go(" . $id . ", 1)'>" . $label . "</a>";[m
+[31m-[m
+             return $html;[m
+         }[m
+ [m
+[36m@@ -126,6 +115,65 @@[m
+             $this->html .= $html;         [m
+         }[m
+ [m
+[32m+[m[32m        /*[m
+[32m+[m[32m        * Get table definition[m
+[32m+[m[32m        */[m
+[32m+[m[32m        private function getData() {[m
+[32m+[m
+[32m+[m[32m            // General declaration[m[41m    [m
+[32m+[m[32m            $rs = "";[m
+[32m+[m[32m            $sql = "";[m
+[32m+[m[32m            $db = new Db();[m
+[32m+[m
+[32m+[m[32m            try {[m
+[32m+[m
+[32m+[m[32m                // Query menus and modules[m
+[32m+[m[32m                $sql .= " select * from";[m
+[32m+[m[32m                $sql .= " (";[m
+[32m+[m[32m                    $sql .= " -- Modules";[m
+[32m+[m[32m                    $sql .= " select";[m
+[32m+[m[32m                    $sql .= " tb_table.id,";[m
+[32m+[m[32m                    $sql .= " (tb_table.field->>'id_menu')::int as id_parent,";[m
+[32m+[m[32m                    $sql .= " tb_table.field->>'name' as name";[m
+[32m+[m[32m                    $sql .= " from tb_table";[m
+[32m+[m[32m                    $sql .= " inner join tb_profile_table on (tb_profile_table.field->>'id_table')::int = tb_table.id";[m
+[32m+[m[32m                    $sql .= " inner join tb_profile on (tb_profile_table.field->>'id_profile')::int = tb_profile.id";[m
+[32m+[m[32m                    $sql .= " inner join tb_user_profile on (tb_user_profile.field->>'id_profile')::int = tb_profile.id";[m
+[32m+[m[32m                    $sql .= " where (tb_table.field->>'id_system')::int = 1";[m
+[32m+[m[32m                    $sql .= " and (tb_user_profile.field->>'id_user')::int = 1";[m[41m [m
+[32m+[m[32m                    $sql .= " union";[m
+[32m+[m[32m                    $sql .= " -- Menus";[m
+[32m+[m[32m                    $sql .= " select";[m[41m [m
+[32m+[m[32m                    $sql .= " (field->>'id_menu')::int as id,";[m
+[32m+[m[32m                    $sql .= " (field->>'id_parent')::int as id_parent,";[m
+[32m+[m[32m                    $sql .= " (field->>'name')::text as name";[m
+[32m+[m[32m                    $sql .= " from tb_menu";[m
+[32m+[m[32m                    $sql .= " where (field->>'id_system')::int = 1";[m
+[32m+[m[32m                    $sql .= " and (field->>'id_menu')::int in";[m[41m [m
+[32m+[m[32m                    $sql .= " (";[m
+[32m+[m[32m                        $sql .= " select";[m[41m [m
+[32m+[m[32m                        $sql .= " (field->>'id_menu')::int";[m
+[32m+[m[32m                        $sql .= " from tb_table";[m
+[32m+[m[32m                        $sql .= " where (field->>'id_system')::int = 1";[m
+[32m+[m[32m                    $sql .= " )";[m
+[32m+[m[32m                $sql .= " ) tb";[m
+[32m+[m[32m                $sql .= " order by 1";[m
+[32m+[m
+[32m+[m[32m                // Execute query[m
+[32m+[m[32m                //$rs = $db->queryJson($this->cn, $sql);[m
+[32m+[m[32m                $rs = $db->executeQuery($this->cn, $sql);[m
+[32m+[m
+[32m+[m[32m            } catch (Exception $ex) {[m
+[32m+[m
+[32m+[m[32m                // Set error[m
+[32m+[m[32m                $this->setError("QueryBuilder.getTableDef()", $ex->getMessage());[m
+[32m+[m[32m            }[m
+[32m+[m
+[32m+[m[32m            // Return data[m
+[32m+[m[32m            return $rs;[m
+[32m+[m[32m        }[m
+[32m+[m
+[32m+[m
+         /*[m
+          * End of class   [m
+          */    [m
