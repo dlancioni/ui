@@ -282,7 +282,10 @@
                 // tb_field_attribute
                 $this->execute($cn, $model->addField($this->TB_FIELD_ATTRIBUTE, "Tabela", "id_table", $int, 0, "", $yes, $yes, $this->tb("tb_table"), $this->fd("name"), ""));
                 $this->execute($cn, $model->addField($this->TB_FIELD_ATTRIBUTE, "Campo", "id_field", $int, 0, "", $yes, $yes, $this->tb("tb_field"), $this->fd("label"), ""));
-                $this->execute($cn, $model->addField($this->TB_FIELD_ATTRIBUTE, "Coluna (%)", "column_size", $int, 0, "", $yes, $yes, 0, 0, ""));
+                $this->execute($cn, $model->addField($this->TB_FIELD_ATTRIBUTE, "Coluna (%)", "column_size", $int, 0, "", $no, $no, 0, 0, ""));
+                $this->execute($cn, $model->addField($this->TB_FIELD_ATTRIBUTE, "Valor Padrão", "default_value", $int, 0, "", $no, $no, 0, 0, ""));
+                $this->execute($cn, $model->addField($this->TB_FIELD_ATTRIBUTE, "Ordem Tabela", "table_order", $int, 0, "", $no, $no, 0, 0, ""));
+                $this->execute($cn, $model->addField($this->TB_FIELD_ATTRIBUTE, "Ordem Formulário", "form_order", $int, 0, "", $no, $no, 0, 0, ""));
 
                 // tb_user_group
                 $this->execute($cn, $model->addField($this->TB_USER_GROUP, "Usuário", "id_user", $int, 0, "", $yes, $no, $this->tb("tb_user"), $this->fd("name"), ""));
@@ -352,6 +355,18 @@
                 // tb_cascade
                 $this->execute($cn, $model->addDomain("tb_field.id_table_fk", "id_field_fk; tb_field; id; label", "tb_cascade"));
                 $this->execute($cn, $model->addDomain("tb_event.id_table", "id_field; tb_field; id; label", "tb_cascade"));
+
+                // tb_hidden
+                $this->execute($cn, $model->addDomain("1", "Inclusão", "tb_hidden"));
+                $this->execute($cn, $model->addDomain("2", "Alteração", "tb_hidden"));
+                $this->execute($cn, $model->addDomain("3", "Exclusão", "tb_hidden"));
+                $this->execute($cn, $model->addDomain("4", "Sempre", "tb_hidden"));
+
+                // tb_disabled
+                $this->execute($cn, $model->addDomain("1", "Inclusão", "tb_disabled"));
+                $this->execute($cn, $model->addDomain("2", "Alteração", "tb_disabled"));
+                $this->execute($cn, $model->addDomain("3", "Exclusão", "tb_disabled"));
+                $this->execute($cn, $model->addDomain("4", "Sempre", "tb_disabled"));
                 
             } catch (Exception $ex) {
                 throw $ex;
@@ -702,7 +717,7 @@
                 $this->execute($cn, $model->addFieldSetup($this->tb("tb_table"), $this->fd("name"), 20));
                 $this->execute($cn, $model->addFieldSetup($this->tb("tb_table"), $this->fd("id_type"), 20));
                 $this->execute($cn, $model->addFieldSetup($this->tb("tb_table"), $this->fd("table_name"), 20));
-                $this->execute($cn, $model->addFieldSetup($this->tb("tb_table"), $this->fd("id_parent"), 35));
+                $this->execute($cn, $model->addFieldSetup($this->tb("tb_table"), $this->fd("id_menu"), 35));
                 // tb_domain
                 $this->execute($cn, $model->addFieldSetup($this->tb("tb_domain"), $this->fd("key"), 10));
                 $this->execute($cn, $model->addFieldSetup($this->tb("tb_domain"), $this->fd("value"), 40));
