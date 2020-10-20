@@ -133,9 +133,9 @@
 
                 // Define table name
                 $tableName = "tb_menu";
-                $this->execute($cn, $model->addMenu("Administração", 0));
-                $this->execute($cn, $model->addMenu("Controle de Acesso", 0));
-                $this->execute($cn, $model->addMenu("Cadastros", 0));
+                $this->execute($cn, $model->addMenu("Administração", 0, 1));
+                $this->execute($cn, $model->addMenu("Controle de Acesso", 0, 2));
+                $this->execute($cn, $model->addMenu("Cadastros", 0, 3));
                 
                 // Define table name
                 $tableName = "tb_table";
@@ -212,13 +212,13 @@
                 // tb_menu
                 $this->execute($cn, $model->addField($this->TB_MENU, "Nome", "name", $text, 50, "", $yes, $no, 0, 0, ""));
                 $this->execute($cn, $model->addField($this->TB_MENU, "Parent", "id_parent", $int, 0, "", $no, $no, $this->tb("tb_menu"), $this->fd("name"), ""));
+                $this->execute($cn, $model->addField($this->TB_MENU, "Ordem", "order", $int, 0, "", $yes, $yes, 0, 0, ""));
 
                 // tb_table
                 $this->execute($cn, $model->addField($this->TB_TABLE, "Nome", "name", $text, 50, "", $yes, $no, 0, 0, ""));
                 $this->execute($cn, $model->addField($this->TB_TABLE, "Tipo", "id_type", $int, 0, "", $yes, $no, $this->tb("tb_domain"), $this->fd("value"), "tb_table_type"));
                 $this->execute($cn, $model->addField($this->TB_TABLE, "Tabela", "table_name", $text, 50, "", $no, $no, 0, 0, ""));
                 $this->execute($cn, $model->addField($this->TB_TABLE, "Menu", "id_menu", $int, 0, "", $no, $no, $this->tb("tb_menu"), $this->fd("name"), ""));
-
 
                 // tb_field
                 $this->execute($cn, $model->addField($this->TB_FIELD, "Tabela", "id_table", $int, 0, "", $yes, $yes, $this->tb("tb_table"), $this->fd("name"), ""));
@@ -696,7 +696,8 @@
                 $this->execute($cn, $model->addFieldSetup($this->tb("tb_system"), $this->fd("price"), 75));                
                 // tb_menu
                 $this->execute($cn, $model->addFieldSetup($this->tb("tb_menu"), $this->fd("name"), 25));
-                $this->execute($cn, $model->addFieldSetup($this->tb("tb_menu"), $this->fd("id_parent"), 70));
+                $this->execute($cn, $model->addFieldSetup($this->tb("tb_menu"), $this->fd("id_parent"), 10));
+                $this->execute($cn, $model->addFieldSetup($this->tb("tb_menu"), $this->fd("order"), 60));
                 // tb_table
                 $this->execute($cn, $model->addFieldSetup($this->tb("tb_table"), $this->fd("name"), 20));
                 $this->execute($cn, $model->addFieldSetup($this->tb("tb_table"), $this->fd("id_type"), 20));
