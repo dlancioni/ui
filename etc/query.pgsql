@@ -31,5 +31,10 @@ select * from
 order by 1
 
 
-select json_agg(t) from (select count(*) over() as record_count,(tb_code.field->>'id_system')::int as id_system,(tb_code.field->>'id_group')::int as id_group,tb_code.id, (tb_code.field->>'comment')::text as comment, (tb_code.field->>'code')::text as code from tb_code where (tb_code.field->>'id_system')::int = 1 order by tb_code.id) t
-select json_agg(t) from (select count(*) over() as record_count,(tb_code.field->>'id_system')::int as id_system,(tb_code.field->>'id_group')::int as id_group,tb_code.id, (tb_code.field->>'comment')::text as comment, (tb_code.field->>'code')::text as code from tb_code where (tb_code.field->>'id_system')::int = 1 order by tb_code.id) t
+select * from tb_menu
+update tb_menu set id = (field->>'id_menu')::int
+
+
+ alter sequence tb_menu_id_seq restart with 100;
+ALTER SEQUENCE tb_menu_seq RESTART WITH 300;
+pg_get_serial_sequence ("")

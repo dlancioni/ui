@@ -32,7 +32,7 @@
             return $json;
         }
 
-        public function addMenu($id_menu, $name, $id_parent) {
+        public function addMenu($name, $id_parent) {
 
             // General Declaration
             $json = "";
@@ -43,7 +43,6 @@
             $json = $jsonUtil->setValue($json, "id_group", $this->groupId);
 
             // Create record        
-            $json = $jsonUtil->setValue($json, "id_menu", $id_menu);
             $json = $jsonUtil->setValue($json, "name", $name);
             $json = $jsonUtil->setValue($json, "id_parent", $id_parent);
 

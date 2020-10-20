@@ -147,12 +147,12 @@
                     
                     // Menus within transactions
                     $sql .= " select"; 
-                    $sql .= " (field->>'id_menu')::int as id,";
+                    $sql .= " tb_menu.id,";
                     $sql .= " (field->>'id_parent')::int as id_parent,";
                     $sql .= " (field->>'name')::text as name";
                     $sql .= " from tb_menu";
                     $sql .= " where (field->>'id_system')::int = ". $this->sqlBuilder->getSystem();
-                    $sql .= " and (field->>'id_menu')::int in"; 
+                    $sql .= " and tb_menu.id in"; 
                     $sql .= " (";
                         $sql .= " select"; 
                         $sql .= " (field->>'id_menu')::int";
