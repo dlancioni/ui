@@ -16,8 +16,8 @@
         private $event = 0;
 
         // Transactions
-        public $TB_MENU = 1;
-        public $TB_SYSTEM = 2;
+        public $TB_SYSTEM = 1;
+        public $TB_MENU = 2;        
         public $TB_TABLE = 3;
         public $TB_FIELD = 4;
         public $TB_DOMAIN = 5;
@@ -36,11 +36,6 @@
         public $TB_USER_PROFILE = 16;
         public $TB_GROUP = 17;
         public $TB_USER_GROUP = 18;
-
-        public $MENU_1 = 19; // Admin
-        public $MENU_2 = 20; // Controle acesso
-        public $MENU_3 = 21; // Cadastros
-
 
         // Constructor
         function __construct($systemId, $tableId, $userId, $groupId) {
