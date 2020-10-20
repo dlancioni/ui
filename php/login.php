@@ -52,7 +52,7 @@
         $sql = "";
         $sql .= " select";
         $sql .= " id";
-        $sql .= " from tb_field";
+        $sql .= " from tb_system";
         $sql .= " where (id)::text = " . "'" . $systemId . "'";
         $rs = pg_query($cn, $sql);
         if (!pg_fetch_row($rs)) {
