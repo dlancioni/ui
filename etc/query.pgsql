@@ -31,7 +31,7 @@ select * from
 order by 1
 
 
-select * from tb_menu
+select * from tb_10
 update tb_menu set id = (field->>'id_menu')::int
 
 

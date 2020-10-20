@@ -74,9 +74,11 @@
             }
 
             // Cannot touch system info
-            if ($jsonUtil->getValue($old, "id_group", true) == "1") {
-                $msg = $message->getValue("A11", $key);
-                throw new Exception($msg);
+            if ($sqlBuilder->getGroup() > 1) {
+                if ($jsonUtil->getValue($old, "id_group", true) == "1") {
+                    $msg = $message->getValue("A11", $key);
+                    throw new Exception($msg);
+                }
             }
         }
 

@@ -307,9 +307,8 @@
                 $tableName = "tb_domain";
 
                 // tb_table_type
-                $this->execute($cn, $model->addDomain(1, "Formulário", "tb_table_type"));
-                $this->execute($cn, $model->addDomain(2, "Relatório", "tb_table_type"));
-                $this->execute($cn, $model->addDomain(3, "Menu", "tb_table_type"));
+                $this->execute($cn, $model->addDomain(1, "Sistema", "tb_table_type"));
+                $this->execute($cn, $model->addDomain(2, "Usuário", "tb_table_type"));
                 // tb_bool
                 $this->execute($cn, $model->addDomain(1, "Sim", "tb_bool"));
                 $this->execute($cn, $model->addDomain(2, "Não", "tb_bool"));
