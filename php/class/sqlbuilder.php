@@ -467,7 +467,10 @@ class SqlBuilder extends Base {
 
         $sql .= " where (tb_field.field->>'id_system')::int = " . $this->getSystem();
         $sql .= " and (tb_field.field->>'id_table')::int = " . $tableId;
-        $sql .= " order by tb_field.id";                
+        $sql .= " order by ";
+        $sql .= " (tb_field.field->>'order')::int, ";
+        $sql .= " tb_field.id";
+
 
         // Return final query    
         return $sql;
