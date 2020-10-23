@@ -149,7 +149,7 @@
                     $rs = pg_query($this->cn, $sql);
                     $affectedRows = pg_affected_rows($rs);
 
-                // Copy events from TB_SYSTEM
+                // Copy events from TB_TABLE
                 } elseif ($this->sqlBuilder->getEvent() == "New") {
 
                     $filter = new Filter();
