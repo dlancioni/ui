@@ -2,7 +2,7 @@
 
     if (isset($_SESSION["_AUTH_"]) == false || $_SESSION["_AUTH_"] == 0) {
         ?>  
-
+            &nbsp;&nbsp;&nbsp;
             <div class="form-row">
                 <div class="col">
                     <input type="text" id="_SYSTEM_" name="_SYSTEM_" class="form-control" placeholder="Cód. Assinante" value="<?php echo $systemId ?>">
