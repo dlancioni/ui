@@ -19,10 +19,6 @@
     $filter = "[]"; 
     $pageOffset = 0;
 
-    // Get connection
-    $db = new Db();
-    $cn = $db->getConnection();    
-
     // Key attributes
     // $_SESSION["_SYSTEM_"] = 1;
     // $_SESSION['_TABLE_'] = 2;
@@ -56,5 +52,9 @@
     if (isset($_SESSION["_USERNAME_"])) {
         $username = $_SESSION["_USERNAME_"];
     }    
+
+    // Get connection
+    $db = new Db();
+    $cn = $db->getConnection($systemId);    
     
 ?>

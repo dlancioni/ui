@@ -24,7 +24,7 @@
         $jsonUtil = new JsonUtil();
 
         // Open connection
-        $cn = $db->getConnection();        
+        $cn = $db->getConnection($_SESSION["_SYSTEM_"]);
 
         // Get data
         $rs = $db->queryJson($cn, $sql);

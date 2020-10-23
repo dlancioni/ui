@@ -40,7 +40,7 @@
 
         // DB interface
         $db = new Db();
-        $cn = $db->getConnection();
+        $cn = $db->getConnection($_REQUEST["_SYSTEM_"]);
         $jsonUtil = new JsonUtil();        
         $sqlBuilder = new SqlBuilder($systemId, 0, 0, 0);
         $message = new Message($cn, $sqlBuilder);
@@ -50,10 +50,9 @@
          * Validate the system id
          */
         $sql = "";
-        $sql .= " select";
-        $sql .= " id";
-        $sql .= " from tb_system";
-        $sql .= " where (id)::text = " . "'" . $systemId . "'";
+        $sql .= " select schema_name from information_schema.schemata";
+        $sql .= " where schema_name = " . "'" . "system_" . $systemId . "'";
+
         $rs = pg_query($cn, $sql);
         if (!pg_fetch_row($rs)) {
             throw new Exception("Cód. Assinante não encontrado");

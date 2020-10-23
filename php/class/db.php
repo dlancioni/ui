@@ -10,7 +10,7 @@
         /* 
          * Get postgres connection
          */
-        public function getConnection() {
+        public function getConnection($systemId) {
 
             // General Declaration
             $error = "";
@@ -26,8 +26,12 @@
                     die("Connection failed: " . $error);
                 }
 
+                if (trim($systemId) != "") {
+                    pg_query($cn, "set search_path to system_$systemId");
+                }
+
             } catch (Exception $ex) {
-                $this->setError("db.getConnection()", $this->getConnection()->error);
+                $this->setError("db.getConnection()", $cn->error);
             }
             // Return connection
             return $cn;

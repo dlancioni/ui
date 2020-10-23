@@ -21,7 +21,7 @@
         /*
          * Upload files
          */
-        public function setup($id_system) {
+        public function setup($systemId) {
 
             // General Declaration
             $sql = "";
@@ -29,7 +29,7 @@
             $affectedRows = 0;
             $jsonUtil = new JsonUtil();
             $pathUtil = new PathUtil();
-            $this->systemId = $id_system;            
+            $this->systemId = $systemId;
 
             try {
 
@@ -41,6 +41,7 @@
                 $cn = $this->cn;
 
                 // System Structure
+                $this->createSchema($cn);
                 $this->createTable($cn);
                 $this->createTransaction($cn);
                 $this->createField($cn);
@@ -73,6 +74,32 @@
                 // Do nothing
             }
         }        
+
+        /*
+        * Create tables
+        */
+        public function createSchema($cn) {
+
+            $systemId = 0;
+            $schemaName = "";
+
+            try {
+
+                $systemId = $this->systemId;
+
+                // Create main schema
+                pg_query($cn, "create schema if not exists form1");
+
+                // Create schema for clientes
+                $schemaName = "system_$systemId";
+                pg_query($cn, "drop schema if exists system_$schemaName");
+                pg_query($cn, "create schema if not exists $schemaName");
+                pg_query($cn, "set search_path to $schemaName");               
+
+            } catch (Exception $ex) {
+                throw $ex;
+            }
+        }
 
         /*
         * Create tables

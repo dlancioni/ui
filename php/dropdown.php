@@ -55,7 +55,7 @@
         $jsonUtil = new JsonUtil();
 
         // Open connection
-        $cn = $db->getConnection();
+        $cn = $db->getConnection($_SESSION["_SYSTEM_"]);
 
         // Keep instance of SqlBuilder for current session
         $sqlBuilder = new SqlBuilder($_SESSION["_SYSTEM_"],
