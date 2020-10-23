@@ -254,6 +254,7 @@ class LogicForm extends Base {
         $id = "";
         $fieldId = "_id_";
         $controls = "";
+        $show = 1;
 
         // Keep value
         if (isset($data[0]["id"])) {
@@ -265,6 +266,7 @@ class LogicForm extends Base {
             case "New":
                 $id = "";
                 $disabled = "disabled";
+                $show = 0;
                 break;                
             case "Edit":
                 $disabled = "disabled";
@@ -277,9 +279,11 @@ class LogicForm extends Base {
         }
 
         // Create field group
-        $controls .= $this->element->createFieldGroup(
-            $this->element->createLabel("id", "id"), 
-                $this->element->createTextbox(0, $fieldId, $id, $placeHolder, $disabled));
+        if ($show == 1) {
+            $controls .= $this->element->createFieldGroup(
+                $this->element->createLabel("id", "id"), 
+                    $this->element->createTextbox(0, $fieldId, $id, $placeHolder, $disabled));
+        }
 
         // Just return it
         return $controls;
