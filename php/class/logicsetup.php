@@ -369,7 +369,7 @@
                 $this->execute($cn, $model->addDomain("A13", "Usuário não cadastrado ou não informado", "tb_message"));
                 $this->execute($cn, $model->addDomain("A14", "Usuário não está associado a nenhum perfil", "tb_message"));
                 $this->execute($cn, $model->addDomain("A15", "Usuário não está associado a nenhum grupo", "tb_message"));
-                $this->execute($cn, $model->addDomain("A16", "Perfil associado ao usuário não possui transações associadas", "tb_message"));
+                $this->execute($cn, $model->addDomain("A16", "Perfil do usuário não possui transações associadas", "tb_message"));
                 $this->execute($cn, $model->addDomain("A17", "Senha inválida ou não informada", "tb_message"));
                 $this->execute($cn, $model->addDomain("A18", "Autenticado com sucesso, seja bem vindo", "tb_message"));
                 

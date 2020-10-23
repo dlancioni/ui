@@ -24,9 +24,8 @@
         $db = new Db();
         $cn = $db->getConnection(""); // No schema yet
         $logicSetup = new LogicSetup($cn, $sqlBuilder);
-        //$logicSetup->setup($systemId);
-        //$logicSetup->setup(2);
-        $logicSetup->setup(3);
+        $logicSetup->setup($systemId);
+        $logicSetup->setup(2);
 
         echo "Done !!";
 
