@@ -151,7 +151,6 @@
                 $MENU_AC = 102;                
 
                 // CORE
-                $this->TB_SYSTEM = $this->execute($cn, $model->addTable("Sistemas", $TYPE_SYSTEM, "tb_system", $MENU_ADM));
                 $this->TB_MENU = $this->execute($cn, $model->addTable("Menus", $TYPE_SYSTEM, "tb_menu", $MENU_ADM));
                 $this->TB_TABLE = $this->execute($cn, $model->addTable("Transações", $TYPE_SYSTEM,  "tb_table", $MENU_ADM));
                 $this->TB_FIELD = $this->execute($cn, $model->addTable("Campos", $TYPE_SYSTEM,  "tb_field", $MENU_ADM));
@@ -205,12 +204,6 @@
                 $this->execute($cn, $model->addField($this->TB_DOMAIN, "Chave", "key", $text, 50, "", $yes, $yes, 0, 0, "", "", ++$order));
                 $this->execute($cn, $model->addField($this->TB_DOMAIN, "Valor", "value", $text, 50, "", $yes, $yes, 0, 0, "", "", ++$order));
                 $this->execute($cn, $model->addField($this->TB_DOMAIN, "Domínio", "domain", $text, 50, "", $yes, $yes, 0, 0, "", "", ++$order));
-
-                // tb_system
-                $order = 0;
-                $this->execute($cn, $model->addField($this->TB_SYSTEM, "Nome", "name", $text, 50, "", $yes, $yes, 0, 0, "", "", ++$order));
-                $this->execute($cn, $model->addField($this->TB_SYSTEM, "Expira em", "expire_date", $date, 0, "dd/mm/yyyy", $yes, $no, 0, 0, "", "", ++$order));
-                $this->execute($cn, $model->addField($this->TB_SYSTEM, "Preço", "price", $float, 0, "1.000,00", $yes, $no, 0, 0, "", "", ++$order));
 
                 // tb_menu
                 $order = 0;
@@ -726,10 +719,6 @@
                 // Define table name
                 $tableName = "tb_field_attribute";
 
-                // tb_system
-                $this->execute($cn, $model->addFieldSetup($this->tb("tb_system"), $this->fd("name"), 10));
-                $this->execute($cn, $model->addFieldSetup($this->tb("tb_system"), $this->fd("expire_date"), 10));
-                $this->execute($cn, $model->addFieldSetup($this->tb("tb_system"), $this->fd("price"), 75));                
                 // tb_menu
                 $this->execute($cn, $model->addFieldSetup($this->tb("tb_menu"), $this->fd("name"), 25));
                 $this->execute($cn, $model->addFieldSetup($this->tb("tb_menu"), $this->fd("id_parent"), 10));
