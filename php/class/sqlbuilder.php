@@ -334,16 +334,11 @@ class SqlBuilder extends Base {
 
             $tableName = $tableDef[0]["table_name"];
 
-            // TB_SYSTEM does not have id_system (!!)
-            if ($tableName != "tb_system" && $table <> 1) {
-                $sql .= " where " . $jsonUtil->condition($tableName, 
-                                                         "id_system",
-                                                         "int", 
-                                                         "=", 
-                                                         $this->getSystem());
-            } else {
-                $sql = " where 1 = 1";
-            }
+            $sql .= " where " . $jsonUtil->condition($tableName, 
+                                                    "id_system",
+                                                    "int", 
+                                                    "=", 
+                                                    $this->getSystem());
 
             // 1-system
             // 2-admin
@@ -511,9 +506,7 @@ class SqlBuilder extends Base {
 
         // Prepare condition for update and delete
         $key .= " where " . $jsonUtil->condition($tableName, "id", "int", "=", $this->getLastId());                        
-        if ($tableName != "tb_system") {
-            $key .= " and " . $jsonUtil->condition($tableName, "id_system", "int", "=", $this->getSystem());
-        }
+        $key .= " and " . $jsonUtil->condition($tableName, "id_system", "int", "=", $this->getSystem());
 
         try {
 

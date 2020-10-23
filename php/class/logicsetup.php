@@ -109,7 +109,6 @@
             try {
 
                 $table = array();
-                array_push($table, "tb_system");
                 array_push($table, "tb_menu");
                 array_push($table, "tb_table");
                 array_push($table, "tb_field");
@@ -153,10 +152,6 @@
             $model = new Model($this->systemId, $this->groupId);
             
             try {
-
-                // Define table name
-                $tableName = "tb_system";
-                $this->execute($cn, $model->addSystem("Forms", "31/12/2020", "100.00"));
 
                 // Define table name
                 $tableName = "tb_menu";

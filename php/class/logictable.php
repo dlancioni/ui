@@ -153,7 +153,7 @@
                 } elseif ($this->sqlBuilder->getEvent() == "New") {
 
                     $filter = new Filter();
-                    $filter->addCondition("tb_event", "id_table", "int", "=", $this->sqlBuilder->TB_SYSTEM);
+                    $filter->addCondition("tb_event", "id_table", "int", "=", $this->sqlBuilder->TB_TABLE);
                     $filter->addCondition("tb_event", "id_function", "int", "<>", "0");
                     $tableData = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_EVENT, $filter->create());
                     $tableDef = $this->sqlBuilder->getTableDef($this->cn, $this->sqlBuilder->TB_EVENT);
@@ -242,29 +242,22 @@
             $tableDef = "";
             $jsonUtil = new JsonUtil();
 
-            $PROFILE_ADMINISTRATOR = 1;
-            $PROFILE_USER = 2;
-
             try {
 
                 // Get structure to generate json
                 $tableDef = $this->sqlBuilder->getTableDef($this->cn, $this->sqlBuilder->TB_PROFILE_TABLE);
                 $json = $jsonUtil->getJson($tableDef);
 
-                // Grant profiles Admin and User
+                // Grant for system, admin and user
                 switch ($this->sqlBuilder->getEvent()) {
 
                     case "New":
-                        // Add new profile to ADMINISTRATOR profile
-                        $json = $jsonUtil->setValue($json, "id_profile", $PROFILE_ADMINISTRATOR);
-                        $json = $jsonUtil->setValue($json, "id_table", $tableId);
-                        $id = $this->sqlBuilder->persist($this->cn, "tb_profile_table", $json);
+                        for ($i=1; $i<=3; $i++) {
+                            $json = $jsonUtil->setValue($json, "id_profile", $i);
+                            $json = $jsonUtil->setValue($json, "id_table", $tableId);
+                            $id = $this->sqlBuilder->persist($this->cn, "tb_profile_table", $json);
+                        }
 
-                        // Add new profile to USER profile
-                        $json = $jsonUtil->setValue($json, "id_profile", $PROFILE_USER);
-                        $json = $jsonUtil->setValue($json, "id_table", $tableId);
-                        $id = $this->sqlBuilder->persist($this->cn, "tb_profile_table", $json);
-                        
                         // Finish insert flow
                         break;
 
@@ -313,12 +306,14 @@
                 switch ($this->sqlBuilder->getEvent()) {
 
                     case "New":
-                        // Add standard 7 functions (New, Edit, Delete, Confirm, Filter, Clear, Back)                        
-                        for ($i=1; $i<=7; $i++) {
-                            $json = $jsonUtil->setValue($json, "id_profile", 1);
-                            $json = $jsonUtil->setValue($json, "id_table", $tableId);
-                            $json = $jsonUtil->setValue($json, "id_function", $i);
-                            $id = $this->sqlBuilder->persist($this->cn, "tb_table_function", $json);
+                        // Add standard 7 functions (New, Edit, Delete, Confirm, Filter, Clear, Back)
+                        for ($i=1; $i<=3; $i++) {
+                            for ($j=1; $j<=7; $j++) {
+                                $json = $jsonUtil->setValue($json, "id_profile", $i);
+                                $json = $jsonUtil->setValue($json, "id_table", $tableId);
+                                $json = $jsonUtil->setValue($json, "id_function", $j);
+                                $id = $this->sqlBuilder->persist($this->cn, "tb_table_function", $json);
+                            }
                         }
                         // Finish insert flow
                         break;
