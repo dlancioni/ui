@@ -448,7 +448,12 @@ class SqlBuilder extends Base {
         $sql .= " (tb_field.field->>'id_table_fk')::int as id_fk,";
         $sql .= " (tb_table_fk.field->>'table_name')::text as table_fk,";
         $sql .= " (tb_field_fk.field->>'name')::text as field_fk,";
-        $sql .= " (tb_field.field->>'domain')::text as field_domain,";        
+        $sql .= " (tb_field.field->>'domain')::text as field_domain,";
+
+        // Field attribute
+        $sql .= " (tb_field_attribute.field->>'column_size')::text as column_size,";
+        
+
         $sql .= " case ";
         $sql .= " when (tb_field.field->>'id_type')::int = 1 then 'int'";
         $sql .= " when (tb_field.field->>'id_type')::int = 2 then 'float'";
@@ -460,16 +465,25 @@ class SqlBuilder extends Base {
         $sql .= " end data_type";  
         $sql .= " from tb_field";
 
+        // Join table
         $sql .= " inner join tb_table on (tb_field.field->>'id_table')::text = (tb_table.id)::text";
 
+        // Join field attribute
+        $sql .= " left join tb_field_attribute on";
+        $sql .= " (tb_field.field->>'id_table')::text = (tb_field_attribute.field->>'id_table')::text and";
+        $sql .= " (tb_field.id)::text = (tb_field_attribute.field->>'id_field')::text";
+
+        // Join inner table
         $sql .= " left join tb_table tb_table_fk on (tb_field.field->>'id_table_fk')::text = (tb_table_fk.id)::text";
         $sql .= " left join tb_field tb_field_fk on (tb_field.field->>'id_field_fk')::text = (tb_field_fk.id)::text";
 
+        // Base filter
         $sql .= " where (tb_field.field->>'id_system')::int = " . $this->getSystem();
         $sql .= " and (tb_field.field->>'id_table')::int = " . $tableId;
-        $sql .= " order by ";
-        $sql .= " (tb_field.field->>'order')::int, ";
-        $sql .= " tb_field.id";
+
+        // Ordering
+        //$sql .= " order by (tb_field.field->>'order')::int, tb_field.id";
+        $sql .= " order by tb_field.id";
 
 
         // Return final query    

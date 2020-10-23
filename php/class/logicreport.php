@@ -92,11 +92,6 @@ class LogicReport extends Base {
             }
             $rows .= $this->element->createTableRow($cols);
 
-            // Get columns attributes
-            $filter = new Filter();
-            $filter->add("tb_field_attribute", "id_table", $tableId);
-            $fieldAttribute = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_FIELD_ATTRIBUTE, $filter->create(), $this->sqlBuilder->QUERY_NO_PAGING);
-
             // Prepare table contents
             $cols = "";
             foreach ($data as $row) {
@@ -118,6 +113,9 @@ class LogicReport extends Base {
                     $fieldType = $col["data_type"];
                     $fk = $col["id_fk"];
 
+                    // Field attribute
+                    $columnSize = $col["column_size"];
+
                     // Get field values
                     if ($fk == 0) {
                         $fieldValue = $row[$fieldName];
@@ -135,15 +133,6 @@ class LogicReport extends Base {
                         if ($fieldValue != null) {
                             $link = $pathUtil->getVirtualPath() . $fieldValue;
                             $fieldValue = $this->element->createLink($this->element->createImage($link), $fieldValue, $link, true);
-                        }
-                    }
-
-                    // Calculate column size
-                    if (count($fieldAttribute) > 0) {
-                        foreach ($fieldAttribute as $item) {
-                            if ($fieldId == $item["id_field"]) {
-                                $columnSize = $item["column_size"];
-                            }
                         }
                     }
 
