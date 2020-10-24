@@ -116,9 +116,6 @@
 
                 // Rethrow it
                 throw $ex;
-
-            } finally {
-                // Do nothing
             }
         }
 
@@ -185,9 +182,6 @@
 
                 // Rethrow it
                 throw $ex;
-
-            } finally {
-                // do nothing
             }
         }       
 
@@ -221,9 +215,6 @@
 
                 // Rethrow it
                 throw $ex;
-
-            } finally {
-                // Do nothing
             }
         }
 
@@ -279,9 +270,6 @@
 
                 // Rethrow it
                 throw $ex;
-
-            } finally {
-                // Do nothing
             }
         }
 
@@ -335,9 +323,6 @@
 
                 // Rethrow it
                 throw $ex;
-
-            } finally {
-                // Do nothing
             }
         }
     } // End of class

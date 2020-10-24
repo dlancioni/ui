@@ -110,9 +110,6 @@
                 $this->profileId = 0;
                 $this->groupId = 0;
                 $this->message = $ex->getMessage();
-
-            } finally {
-                // Do nothing
             }
         }
 

@@ -33,12 +33,10 @@
 
         // Handle error
         throw $ex;
-
-    } finally {
-
-        // Close connection
-        if ($cn) {
-            pg_close($cn); 
-        }
     }
+
+    // Close connection
+    if ($cn) {
+        pg_close($cn); 
+    }    
 ?>

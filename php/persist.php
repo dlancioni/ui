@@ -193,14 +193,12 @@
 
         // Open transaction
         pg_query($cn, "rollback");
-
-    } finally {
-
-        // Close connection
-        if ($cn) {
-            pg_close($cn); 
-        }
     }
+
+    // Close connection
+    if ($cn) {
+        pg_close($cn); 
+    }    
 
     // Return results
     if ($sqlBuilder->getError() != "") {

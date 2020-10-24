@@ -36,7 +36,7 @@ class LogicForm extends Base {
         $rows = "";
         
         $html = "";
-        $data = [];
+        $data = "";
         $dataFk = "";
         $filter = "";
         $tableName = "";

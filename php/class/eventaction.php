@@ -52,9 +52,8 @@
             } catch (Exception $ex) {                    
                 // Error handler
                 $html = '{"status":"fail", "error":' . $ex->getMessage() . '}';
-            } finally {
+            }
 
-            }     
             // Return to main function
             return $html;
         }
@@ -81,10 +80,9 @@
 
             } catch (Exception $ex) {                    
                 // Error handler
-                $html = '{"status":"fail", "error":' . $ex->getMessage() . '}';
-            } finally {
+                $html = '{"status":"fail", "error":' . $ex->getMessage() . '}';            
+            }
 
-            }     
             // Return to main function
             return $html;
         }

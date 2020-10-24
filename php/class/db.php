@@ -16,10 +16,16 @@
             $error = "";
             $cn = "";
 
-            try {
-                // Try to connect
-                $cn = pg_connect("postgres://qqbzxiqr:EmiJvVhFJGxDEKJoV6yK9A6o2G5pkmR9@tuffi.db.elephantsql.com:5432/qqbzxiqr");               
+            /// ftp form12/David@Locaweb1
 
+            try {
+
+                // Elephant SQL
+                //$cn = pg_connect("postgres://qqbzxiqr:EmiJvVhFJGxDEKJoV6yK9A6o2G5pkmR9@tuffi.db.elephantsql.com:5432/qqbzxiqr");
+
+                // Locaweb
+                $cn = pg_connect("postgres://form1db:d4a1v21i@form1db.postgresql.dbaas.com.br:5432/form1db");
+                
                 // Handle errors
                 $error = pg_last_error($cn);
                 if ($error != "") {

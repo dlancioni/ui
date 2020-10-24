@@ -3,13 +3,13 @@
         /*
          * Used to keep a list of conditions
          */
-        private $condition = [];
+        private $condition = Array();
 
         /*
          * Main constructor
          */
         function constructor() {
-            $condition = [];
+            $condition = Array();
         }
 
         /*

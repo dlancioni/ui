@@ -81,12 +81,12 @@
 
     } catch (Exception $ex) {        
         // Log something soon
-    } finally {
-        // Close connection
-        if ($cn) {
-            pg_close($cn); 
-        }
     }
+
+    // Close connection
+    if ($cn) {
+        pg_close($cn); 
+    }    
 
     // Return results
     echo json_encode($json);

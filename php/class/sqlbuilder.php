@@ -556,9 +556,6 @@ class SqlBuilder extends Base {
             // Keep last error
             $this->setMessage("");
             $this->setError("Db.Persist()", $ex->getMessage());
-
-        } finally {
-            // Do nothing
         }
         
         // Return ID

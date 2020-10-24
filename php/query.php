@@ -36,14 +36,12 @@
 
         // No data on error
         $json = "[]";
-
-    } finally {
-
-        // Close connection
-        if ($cn) {
-            pg_close($cn); 
-        }
     }
+
+    // Close connection
+    if ($cn) {
+        pg_close($cn); 
+    }    
 
     // Return results
     echo $json;

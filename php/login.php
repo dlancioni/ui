@@ -89,14 +89,12 @@
 
         // No data on error
         $json = $message->getStatus(2, $ex->getMessage());
-
-    } finally {
-
-        // Close connection
-        if ($cn) {
-            pg_close($cn); 
-        }
     }
+
+    // Close connection
+    if ($cn) {
+        pg_close($cn); 
+    }    
 
     // Return results
     echo $json;

@@ -56,9 +56,6 @@
 
                 // Rethrow it
                 throw $ex;
-
-            } finally {
-                // Do nothing
             }
         }
 
