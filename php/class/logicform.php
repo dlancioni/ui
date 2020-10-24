@@ -8,7 +8,7 @@ class LogicForm extends Base {
     // Private members
     private $cn = 0;
     private $sqlBuilder = 0;
-    private $tableDef = "";
+    private $tableDef = array();
     private $element = "";
 
     // Constructor
@@ -56,11 +56,11 @@ class LogicForm extends Base {
         $label = "";
         $control = "";
         $controls = "";
+        $cascade = array();
 
         // Constants
         $TEXT_AREA = 6;
         $FILE = 7;
-
 
         try {
 
@@ -99,133 +99,140 @@ class LogicForm extends Base {
             $cascade = $this->sqlBuilder->executeQuery($this->cn, $this->TB_DOMAIN, $filter->create());            
 
             // Create base form
-            foreach($this->tableDef as $item) {
+            if (is_array($this->tableDef)) {
+                foreach($this->tableDef as $item) {
 
-                // Get structure
-                $cols = "";                
-                $fk = $item["id_fk"];
-                $fieldId = $item["id"];
-                $fieldLabel = $item["field_label"];
-                $fieldName = $item["field_name"];
-                $fieldType = $item["field_type"];
-                $fieldMask = $item["field_mask"];
-                $fieldMandatory = $item["field_mandatory"];
-                $fieldDomain = $item["field_domain"];
-                $datatype = $item["data_type"];
-                $fieldValue = "";
+                    // Get structure
+                    $cols = "";                
+                    $fk = $item["id_fk"];
+                    $fieldId = $item["id"];
+                    $fieldLabel = $item["field_label"];
+                    $fieldName = $item["field_name"];
+                    $fieldType = $item["field_type"];
+                    $fieldMask = $item["field_mask"];
+                    $fieldMandatory = $item["field_mandatory"];
+                    $fieldDomain = $item["field_domain"];
+                    $datatype = $item["data_type"];
+                    $fieldValue = "";
 
-                // Placeholder provide information about data type
-                if ($fieldMask != "") {
-                    $placeHolder = $fieldMask;
-                }
-
-                foreach($data as $col) {
-                    if (isset($col[$fieldName])) {
-                        $fieldValue = $col[$fieldName];
-                        break;                        
+                    // Placeholder provide information about data type
+                    if ($fieldMask != "") {
+                        $placeHolder = $fieldMask;
                     }
-                }
 
-                // Format values
-                if ($datatype == "float") {
-                    if ($fieldValue != "") {
-                        $fieldValue = number_format($fieldValue, 2, ',', '.');
+                    if (is_array($data)) {
+                        foreach($data as $col) {
+                            if (isset($col[$fieldName])) {
+                                $fieldValue = $col[$fieldName];
+                                break;                        
+                            }
+                        }
                     }
-                }
 
-                // Accumulate JS for validation
-                $js .= $this->element->createJs($fieldLabel, 
-                                                $fieldName,
-                                                $datatype, 
-                                                $fieldValue, 
-                                                $fieldMask, 
-                                                $fieldMandatory, 
-                                                $fk);
-                
-                // Add label                
-                $label = $this->element->createLabel($fieldLabel, $fieldName);
+                    // Format values
+                    if ($datatype == "float") {
+                        if ($fieldValue != "") {
+                            $fieldValue = number_format($fieldValue, 2, ',', '.');
+                        }
+                    }
 
-                // Add field (textbox or dropdown)
-                if ($fk == 0) {
+                    // Accumulate JS for validation
+                    $js .= $this->element->createJs($fieldLabel, 
+                                                    $fieldName,
+                                                    $datatype, 
+                                                    $fieldValue, 
+                                                    $fieldMask, 
+                                                    $fieldMandatory, 
+                                                    $fk);
+                    
+                    // Add label                
+                    $label = $this->element->createLabel($fieldLabel, $fieldName);
 
-                    // Append textbox or text area
-                    if ($fieldType == $TEXT_AREA) {
-                        $control = $this->element->createTextarea($fieldId, 
-                                                                  $fieldName, 
-                                                                  $fieldValue, 
-                                                                  $disabled, 
-                                                                  $this->PageEvent);
+                    // Add field (textbox or dropdown)
+                    if ($fk == 0) {
 
-                    } else if ($fieldType == $FILE) {
-                        $control = $this->element->createUpload($fieldId, 
-                                                                $fieldName, 
-                                                                $fieldValue);
+                        // Append textbox or text area
+                        if ($fieldType == $TEXT_AREA) {
+                            $control = $this->element->createTextarea($fieldId, 
+                                                                    $fieldName, 
+                                                                    $fieldValue, 
+                                                                    $disabled, 
+                                                                    $this->PageEvent);
+
+                        } else if ($fieldType == $FILE) {
+                            $control = $this->element->createUpload($fieldId, 
+                                                                    $fieldName, 
+                                                                    $fieldValue);
+                        } else {
+
+                            $control = $this->element->createTextbox($fieldId, 
+                                                                    $fieldName,
+                                                                    $fieldValue,
+                                                                    $placeHolder,
+                                                                    $disabled,
+                                                                    $this->PageEvent);
+                        }
+
                     } else {
 
-                        $control = $this->element->createTextbox($fieldId, 
-                                                                 $fieldName,
-                                                                 $fieldValue,
-                                                                 $placeHolder,
-                                                                 $disabled,
-                                                                 $this->PageEvent);
-                    }
+                        // Append dropdown
+                        if ($fk == $this->TB_DOMAIN) {
+                            $key = "key";
+                            $value = "value";
+                            $filter = new Filter();
+                            $filter->add("tb_domain", "domain", $fieldDomain);
+                        } else {                        
+                            $key = "id";
+                            $value = $item["field_fk"];
+                            $filter = new Filter();                        
+                        }
 
-                } else {
+                        // Cascade logic
+                        $function = "";
 
-                    // Append dropdown
-                    if ($fk == $this->TB_DOMAIN) {
-                        $key = "key";
-                        $value = "value";
-                        $filter = new Filter();
-                        $filter->add("tb_domain", "domain", $fieldDomain);
-                    } else {                        
-                        $key = "id";
-                        $value = $item["field_fk"];
-                        $filter = new Filter();                        
-                    }
+                        if (is_array($cascade)) {
+                            foreach ($cascade as $field) {
 
-                    // Cascade logic
-                    $function = "";
-                    foreach ($cascade as $field) {
+                                // Keep cascade configuration
+                                $kid = -1;
+                                $k = explode(".", $field["key"]);
+                                $v = explode(";", $field["value"]);
 
-                        // Keep cascade configuration
-                        $kid = -1;
-                        $k = explode(".", $field["key"]);
-                        $v = explode(";", $field["value"]);
+                                // Control dropdown on load
+                                if (trim($item["field_name"]) == trim($v[0])) {
+                                    if (isset($data[0][$k[1]])) {
+                                        $kid = $data[0][$k[1]];
+                                        $filter->add($v[1], str_replace("_fk", "", $k[1]), $kid);
+                                    }
+                                }
 
-                        // Control dropdown on load
-                        if (trim($item["field_name"]) == trim($v[0])) {
-                            if (isset($data[0][$k[1]])) {
-                                $kid = $data[0][$k[1]];
-                                $filter->add($v[1], str_replace("_fk", "", $k[1]), $kid);
+                                // Call cascade function
+                                if (trim($item["table_name"]) == trim($k[0])) {
+                                    if (trim($item["field_name"]) == trim($k[1])) {
+                                        $function = $this->element->createCascade($k, $v);
+                                    }
+                                }
                             }
                         }
 
-                        // Call cascade function
-                        if (trim($item["table_name"]) == trim($k[0])) {
-                            if (trim($item["field_name"]) == trim($k[1])) {
-                                $function = $this->element->createCascade($k, $v);
-                            }
-                        }
+                        // Get FK related data
+                        $dataFk = $this->sqlBuilder->executeQuery($this->cn, $fk, $filter->create());                        
+
+                        // Create control
+                        $control = $this->element->createDropdown($fieldId,
+                                                                $fieldName, 
+                                                                $fieldValue, 
+                                                                $dataFk, 
+                                                                $key, 
+                                                                $value, 
+                                                                $function,
+                                                                $this->PageEvent,
+                                                                $disabled);
                     }
 
-                    // Get FK related data
-                    $dataFk = $this->sqlBuilder->executeQuery($this->cn, $fk, $filter->create());                        
-
-                    // Create control
-                    $control = $this->element->createDropdown($fieldId,
-                                                              $fieldName, 
-                                                              $fieldValue, 
-                                                              $dataFk, 
-                                                              $key, 
-                                                              $value, 
-                                                              $function,
-                                                              $this->PageEvent,
-                                                              $disabled);
+                    // Add current col to rows
+                    $controls .= $this->element->createFieldGroup($label, $control);
                 }
-
-                // Add current col to rows
-                $controls .= $this->element->createFieldGroup($label, $control);
             }
 
             // Create page title

@@ -10,9 +10,9 @@
     session_start();
 
     // General Declaration
-    $systemId = "1"; 
-    $username = "system";
-    $password = "123@456";
+    $systemId = ""; 
+    $username = "";
+    $password = "";
     $tableId = 0; 
     $userId = 0;
     $groupId = 0; 

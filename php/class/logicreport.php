@@ -36,7 +36,7 @@ class LogicReport extends Base {
         $fieldName = "";
         $fieldType = "";
         $fieldValue = "";
-        $data = "";
+        $data = array();
         $filter = "";
         $checked = "";
         $radio = "";

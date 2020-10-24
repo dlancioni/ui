@@ -21,7 +21,7 @@
             $name = "";
             $filter = "";
             $element = "";
-            $permission = "";
+            $permission = array();
             $FunctionByProfileUser = 2;
 
             try {
@@ -37,13 +37,15 @@
                 $html .= "<br>";
 
                 // Create event list
-                foreach ($pageEvent as $event) {
-                    if ($event["id_function"] != 0) {
-                        foreach ($permission as $item) {
-                            if ($event["id_function"] == $item["id"]) {
-                                $name = "btn" . $event["id_table"] . $event["id"];
-                                $html .= $element->createButton($name, $event["function"], $event["event"], $event["code"]);
-                                break;
+                if (is_array($pageEvent) && is_array($permission)) {
+                    foreach ($pageEvent as $event) {
+                        if ($event["id_function"] != 0) {
+                            foreach ($permission as $item) {
+                                if ($event["id_function"] == $item["id"]) {
+                                    $name = "btn" . $event["id_table"] . $event["id"];
+                                    $html .= $element->createButton($name, $event["function"], $event["event"], $event["code"]);
+                                    break;
+                                }
                             }
                         }
                     }
