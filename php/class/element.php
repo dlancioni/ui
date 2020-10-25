@@ -595,7 +595,8 @@
 
             try {
 
-                $html .= "<div class=" . $stringUtil->dqt("form-group row w-50") . ">";
+                //$html .= "<div class=" . $stringUtil->dqt("form-group row w-75") . ">";
+                $html .= "<div class=" . $stringUtil->dqt("form-group row") . ">";
                     $html .= $label;
                     $html .= "<div class=" . $stringUtil->dqt("col-sm-10") . ">";
                     $html .= $control;
