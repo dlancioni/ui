@@ -336,6 +336,7 @@
                 $this->execute($cn, $model->addDomain(5, "Hora", "tb_field_type"));
                 $this->execute($cn, $model->addDomain(6, "Area", "tb_field_type"));
                 $this->execute($cn, $model->addDomain(7, "Binário", "tb_field_type"));
+                $this->execute($cn, $model->addDomain(8, "Senha", "tb_field_type"));
                 // tb_event
                 $this->execute($cn, $model->addDomain(1, "onLoad", "tb_event"));
                 $this->execute($cn, $model->addDomain(2, "onClick", "tb_event"));

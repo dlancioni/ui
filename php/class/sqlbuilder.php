@@ -448,7 +448,7 @@ class SqlBuilder extends Base {
         // Field attribute
         $sql .= " (tb_field_attribute.field->>'column_size')::text as column_size,";
         
-
+        // Specific data types
         $sql .= " case ";
         $sql .= " when (tb_field.field->>'id_type')::int = 1 then 'int'";
         $sql .= " when (tb_field.field->>'id_type')::int = 2 then 'float'";
@@ -457,6 +457,7 @@ class SqlBuilder extends Base {
         $sql .= " when (tb_field.field->>'id_type')::int = 5 then 'time'";
         $sql .= " when (tb_field.field->>'id_type')::int = 6 then 'text'";
         $sql .= " when (tb_field.field->>'id_type')::int = 7 then 'file'";
+        $sql .= " when (tb_field.field->>'id_type')::int = 8 then 'password'";        
         $sql .= " end data_type";  
         $sql .= " from tb_field";
 

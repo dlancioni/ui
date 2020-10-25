@@ -122,10 +122,19 @@ class LogicReport extends Base {
                     } else {
                         $fieldValue = $row[substr($fieldName, 3)];
                     }
+                    
+
+if ($fieldName == "password") {
+    echo 1;
+}                    
 
                     // Format values
-                    if ($fieldType == "float") {
-                        $fieldValue = number_format($fieldValue, 2, ',', '.');
+                    switch ($fieldType) {
+                        case "float":
+                            $fieldValue = number_format($fieldValue, 2, ',', '.');
+                            break;                            
+                        case "password":
+                            break;
                     }
 
                     // Handle downloads
