@@ -46,7 +46,7 @@ class LogicForm extends Base {
         $fieldId = "";
         $fieldLabel = "";
         $fieldName = "";
-        $fieldType = "";
+        $fieldType = 0;
         $fieldMask = "";
         $fieldMandatory = "";
         $fieldDomain = "";
@@ -61,6 +61,7 @@ class LogicForm extends Base {
         // Constants
         $TEXT_AREA = 6;
         $FILE = 7;
+        $PASSWORD = 8;
 
         try {
 
@@ -151,26 +152,23 @@ class LogicForm extends Base {
                     // Add field (textbox or dropdown)
                     if ($fk == 0) {
 
-                        // Append textbox or text area
-                        if ($fieldType == $TEXT_AREA) {
-                            $control = $this->element->createTextarea($fieldId, 
-                                                                    $fieldName, 
-                                                                    $fieldValue, 
-                                                                    $disabled, 
-                                                                    $this->PageEvent);
-
-                        } else if ($fieldType == $FILE) {
-                            $control = $this->element->createUpload($fieldId, 
-                                                                    $fieldName, 
-                                                                    $fieldValue);
-                        } else {
-
-                            $control = $this->element->createTextbox($fieldId, 
-                                                                    $fieldName,
-                                                                    $fieldValue,
-                                                                    $placeHolder,
-                                                                    $disabled,
-                                                                    $this->PageEvent);
+                        if ($fieldName == "password") {
+                            echo 1;
+                        }                    
+                        
+                        // Format values
+                        switch ($fieldType) {
+                            case $this->TYPE_TEXTAREA:
+                                $control = $this->element->createTextarea($fieldId, $fieldName, $fieldValue, $disabled, $this->PageEvent);
+                                break;
+                            case $this->TYPE_FILE:
+                                $control = $this->element->createUpload($fieldId, $fieldName, $fieldValue);
+                                break;
+                            case $this->TYPE_PASSWORD:
+                                $control = $this->element->createTextbox($fieldId, $fieldName, "******", $placeHolder, "disabled", $this->PageEvent);
+                                break;
+                            default:
+                                $control = $this->element->createTextbox($fieldId, $fieldName, $fieldValue, $placeHolder, $disabled, $this->PageEvent);
                         }
 
                     } else {

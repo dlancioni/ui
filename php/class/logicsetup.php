@@ -211,6 +211,7 @@
                 $text = 3;
                 $date = 4;
                 $textarea = 6;
+                $password = 8;
 
                 // Constants
                 $yes = 1;
@@ -286,7 +287,7 @@
                 // tb_user
                 $this->execute($cn, $model->addField($this->TB_USER, "Nome", "name", $text, 50, "", $yes, $yes, 0, 0, ""));
                 $this->execute($cn, $model->addField($this->TB_USER, "Usuário", "username", $text, 50, "", $yes, $yes, 0, 0, ""));
-                $this->execute($cn, $model->addField($this->TB_USER, "Password", "password", $text, 50, "", $yes, $yes, 0, 0, ""));
+                $this->execute($cn, $model->addField($this->TB_USER, "Password", "password", $password, 50, "", $yes, $yes, 0, 0, ""));
 
                 // tb_user_profile
                 $this->execute($cn, $model->addField($this->TB_USER_PROFILE, "Usuário", "id_user", $int, 0, "", $yes, $no, $this->tb("tb_user"), $this->fd("name"), ""));

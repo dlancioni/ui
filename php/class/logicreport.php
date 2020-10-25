@@ -34,7 +34,8 @@ class LogicReport extends Base {
         $fieldId = "";        
         $fieldLabel = "";
         $fieldName = "";
-        $fieldType = "";
+        $fieldType = 0;
+        $dataType = "";
         $fieldValue = "";
         $data = array();
         $filter = "";
@@ -110,7 +111,8 @@ class LogicReport extends Base {
                     $tableFk = $col["table_fk"];
                     $fieldFk = $col["field_fk"];
                     $fieldName = $col["field_name"];
-                    $fieldType = $col["data_type"];
+                    $fieldType = $col["field_type"];
+                    $dataType = $col["data_type"];
                     $fk = $col["id_fk"];
 
                     // Field attribute
@@ -122,23 +124,19 @@ class LogicReport extends Base {
                     } else {
                         $fieldValue = $row[substr($fieldName, 3)];
                     }
-                    
-
-if ($fieldName == "password") {
-    echo 1;
-}                    
 
                     // Format values
                     switch ($fieldType) {
-                        case "float":
+                        case $this->TYPE_FLOAT: 
                             $fieldValue = number_format($fieldValue, 2, ',', '.');
-                            break;                            
-                        case "password":
+                            break;
+                        case $this->TYPE_PASSWORD:
+                            $fieldValue = "******";
                             break;
                     }
 
-                    // Handle downloads
-                    if ($fieldType == "file") {
+                    // Handle downloads (type file)
+                    if (trim($fieldType) == "7") {
                         if ($fieldValue != null) {
                             $link = $pathUtil->getVirtualPath() . $fieldValue;
                             $fieldValue = $this->element->createLink($this->element->createImage($link), $fieldValue, $link, true);

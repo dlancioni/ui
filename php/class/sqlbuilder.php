@@ -457,7 +457,7 @@ class SqlBuilder extends Base {
         $sql .= " when (tb_field.field->>'id_type')::int = 5 then 'time'";
         $sql .= " when (tb_field.field->>'id_type')::int = 6 then 'text'";
         $sql .= " when (tb_field.field->>'id_type')::int = 7 then 'file'";
-        $sql .= " when (tb_field.field->>'id_type')::int = 8 then 'password'";        
+        $sql .= " when (tb_field.field->>'id_type')::int = 8 then 'text'";
         $sql .= " end data_type";  
         $sql .= " from tb_field";
 

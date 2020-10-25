@@ -15,6 +15,16 @@
         // Other
         private $event = 0;
 
+        // Datatypes
+        public $TYPE_INT = 1;
+        public $TYPE_FLOAT = 2;
+        public $TYPE_TEXT = 3;
+        public $TYPE_DATE = 4;
+        public $TYPE_TIME = 5;
+        public $TYPE_TEXTAREA = 6;
+        public $TYPE_FILE = 7;
+        public $TYPE_PASSWORD = 8;
+
         // Transactions
         public $TB_MENU = 1;
         public $TB_TABLE = 2;
