@@ -70,6 +70,7 @@
             // Keep sessioninfo
             $_SESSION["_AUTH_"] = $logicAuth->authenticated;
             $_SESSION['_USER_'] = $logicAuth->userId;
+            $_SESSION['_USERNAME_'] = $logicAuth->userName;
             $_SESSION['_GROUP_'] = $logicAuth->groupId;
             $_SESSION['_SYSTEM_'] = $systemId;
 
@@ -81,6 +82,7 @@
             // Can navigate but not authenticated
             $_SESSION["_AUTH_"] = 0;
             $_SESSION['_USER_'] = 0;
+            $_SESSION['_USERNAME_'] = "";
             $_SESSION['_GROUP_'] = 0;
             $_SESSION['_SYSTEM_'] = 0;
         }

@@ -4,6 +4,7 @@
         // Private members
         private $cn = 0;
         public $userId = 0;
+        public $userName = "";
         public $profileId = 0;
         public $groupId = 0;
         public $message = "";
@@ -97,6 +98,7 @@
                 // Authenticate successfuly                
                 $this->authenticated = 1;
                 $this->userId = $userId;
+                $this->userName = $username;               
                 $this->profileId = $profileId;
                 $this->groupId = $groupId;
                 $this->message = $message->getValue("A18");
@@ -106,6 +108,7 @@
                 // Fail to authenticate     
                 $this->sqlBuilder->setError("LogicAuth.authenticate()", $ex->getMessage());
                 $this->userId = 0;
+                $this->userName = "";
                 $this->authenticated = 0;
                 $this->profileId = 0;
                 $this->groupId = 0;
