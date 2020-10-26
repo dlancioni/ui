@@ -22,7 +22,7 @@
                 &nbsp;
                 <?php echo $username ?>
                 &nbsp;&nbsp;&nbsp;
-                <button class="btn btn-primary" onclick="logout()">Encerrar</button>
+                <a href="#" onclick="logout()">Encerrar</a>
             </div>
 
         <?php    

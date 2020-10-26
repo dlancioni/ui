@@ -165,10 +165,10 @@ class LogicForm extends Base {
                                 $control = $this->element->createUpload($fieldId, $fieldName, $fieldValue);
                                 break;
                             case $this->TYPE_PASSWORD:
-                                $control = $this->element->createTextbox($fieldId, $fieldName, "******", $placeHolder, "disabled", $this->PageEvent);
+                                $control = $this->element->createTextbox($fieldId, "password", $fieldName, $fieldValue, $placeHolder, $disabled, $this->PageEvent);
                                 break;
                             default:
-                                $control = $this->element->createTextbox($fieldId, $fieldName, $fieldValue, $placeHolder, $disabled, $this->PageEvent);
+                                $control = $this->element->createTextbox($fieldId, "text", $fieldName, $fieldValue, $placeHolder, $disabled, $this->PageEvent);
                         }
 
                     } else {

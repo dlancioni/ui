@@ -497,10 +497,10 @@
                 $tableName = "tb_user";
 
                 // Create User
-                $this->execute($cn, $model->addUser($this->groupId, "System", "system", "123@456"));
-                $this->execute($cn, $model->addUser($this->groupId, "Administrador", "admin", "123@456"));
-                $this->execute($cn, $model->addUser($this->public, "João", "joao", "123@456"));
-                $this->execute($cn, $model->addUser($this->public, "Maria", "maria", "123@456"));
+                $this->execute($cn, $model->addUser($this->groupId, "System", "system", "123"));
+                $this->execute($cn, $model->addUser($this->groupId, "Administrador", "admin", "123"));
+                $this->execute($cn, $model->addUser($this->public, "João", "joao", "123"));
+                $this->execute($cn, $model->addUser($this->public, "Maria", "maria", "123"));
                 
             } catch (Exception $ex) {
                 throw $ex;

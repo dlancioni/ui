@@ -53,15 +53,15 @@
         /* 
          * Create textbox
          */
-        public function createTextbox($fieldId, $name, $value, $placeholder="", $disabled=false, $fieldEvent="") {
+        public function createTextbox($fieldId, $fieldType, $fieldName, $fieldValue, $placeholder="", $disabled=false, $fieldEvent="") {
             $html = "";
             $stringUtil = new StringUtil();
             try {
                 $html .= "<input";
-                $html .= " type=" . $stringUtil->dqt("text");
-                $html .= " id=" . $stringUtil->dqt($name); 
-                $html .= " name=" . $stringUtil->dqt($name); 
-                $html .= " value=" . $stringUtil->dqt($value);
+                $html .= " type=" . $stringUtil->dqt($fieldType);
+                $html .= " id=" . $stringUtil->dqt($fieldName); 
+                $html .= " name=" . $stringUtil->dqt($fieldName); 
+                $html .= " value=" . $stringUtil->dqt($fieldValue);
                 $html .= " class=" . $stringUtil->dqt("form-control");
                 
                 if ($placeholder != "")
