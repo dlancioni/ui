@@ -287,7 +287,7 @@ class LogicForm extends Base {
         if ($show == 1) {
             $controls .= $this->element->createFieldGroup(
                 $this->element->createLabel("id", "id"), 
-                    $this->element->createTextbox(0, $fieldId, $id, $placeHolder, $disabled));
+                    $this->element->createTextbox(0, "text", $fieldId, $id, $placeHolder, $disabled));
         }
 
         // Just return it
