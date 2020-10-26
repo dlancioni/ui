@@ -106,6 +106,8 @@
             try {
 
                 $table = array();
+
+                // System 
                 array_push($table, "tb_menu");
                 array_push($table, "tb_table");
                 array_push($table, "tb_field");
@@ -123,6 +125,9 @@
                 array_push($table, "tb_user_profile");
                 array_push($table, "tb_field_attribute");
                 array_push($table, "tb_user_group");
+                
+                // User
+                array_push($table, "tb_customer");
 
                 for ($i=0; $i<=count($table)-1; $i++) {
                     $tableName = $table[$i];
@@ -160,14 +165,16 @@
                 $tableName = "tb_table";
 
                 // Count control
-                $total = 18;
+                $total = 19;
 
                 // System or User
                 $TYPE_SYSTEM = 1;
+                $TYPE_USER = 2;
 
                 // Menus
                 $MENU_ADM = 101;
-                $MENU_AC = 102;                
+                $MENU_AC = 102;
+                $MENU_CAD = 103;
 
                 // CORE
                 $this->TB_MENU = $this->execute($cn, $model->addTable("Menus", $TYPE_SYSTEM, "tb_menu", $MENU_ADM));
@@ -189,6 +196,9 @@
                 $this->TB_USER_PROFILE = $this->execute($cn, $model->addTable("Usuários x Pefil", $TYPE_SYSTEM,  "tb_user_profile", $MENU_AC));
                 $this->TB_GROUP = $this->execute($cn, $model->addTable("Grupos", $TYPE_SYSTEM, "tb_group", $MENU_AC));                
                 $this->TB_USER_GROUP = $this->execute($cn, $model->addTable("Usuários x Grupos", $TYPE_SYSTEM,  "tb_user_group", $MENU_AC));
+
+                // CLIENTES
+                $this->TB_CUSTOMER = $this->execute($cn, $model->addTable("Clientes", $TYPE_USER,  "tb_customer", $MENU_CAD));
                
             } catch (Exception $ex) {
                 throw $ex;
@@ -304,6 +314,9 @@
                 // tb_user_group
                 $this->execute($cn, $model->addField($this->TB_USER_GROUP, "Usuário", "id_user", $int, 0, "", $yes, $no, $this->tb("tb_user"), $this->fd("name"), ""));
                 $this->execute($cn, $model->addField($this->TB_USER_GROUP, "Grupo", "id_grp", $int, 0, "", $yes, $no, $this->tb("tb_group"), $this->fd("name"), ""));
+
+                // tb_customer
+                $this->execute($cn, $model->addField($this->TB_CUSTOMER, "Nome", "name", $text, 50, "", $yes, $yes, 0, 0, ""));
                 
             } catch (Exception $ex) {
                 throw $ex;
@@ -474,8 +487,6 @@
                 $this->execute($cn, $model->addGroup("Sistema"));           // 1) Change structure 2) No restrictions on view
                 $this->execute($cn, $model->addGroup("Administrador"));     // 2) No restrictions on view
                 $this->execute($cn, $model->addGroup("Público"));           // 3) Restricted on view
-                $this->execute($cn, $model->addGroup("Homens"));
-                $this->execute($cn, $model->addGroup("Mulheres"));
                 
             } catch (Exception $ex) {
                 throw $ex;
@@ -592,6 +603,7 @@
             // Profiles
             $SYSTEM = 1;
             $ADMIN = 2;
+            $PUBLIC = 3;
 
             try {
 
@@ -612,6 +624,11 @@
                 $this->execute($cn, $model->addProfileTable($ADMIN, $this->TB_USER_PROFILE));
                 $this->execute($cn, $model->addProfileTable($ADMIN, $this->TB_GROUP));
                 $this->execute($cn, $model->addProfileTable($ADMIN, $this->TB_USER_GROUP));
+
+                $this->execute($cn, $model->addProfileTable($ADMIN, $this->TB_CUSTOMER));
+
+                // PUBLIC
+                $this->execute($cn, $model->addProfileTable($PUBLIC, $this->TB_CUSTOMER));
 
             } catch (Exception $ex) {
                 throw $ex;
@@ -634,7 +651,8 @@
 
             // Profiles
             $SYSTEM = 1;
-            $ADMIN = 2;            
+            $ADMIN = 2;
+            $PUBLIC = 3;
 
             try {
 
@@ -649,11 +667,16 @@
                 }
 
                 // ADMIN has Access Control only (11 ... 17)
-                for ($i=11; $i<=17; $i++) {
+                for ($i=11; $i<=$total; $i++) {
                     for ($j=1; $j<=7; $j++) {
                         $this->execute($cn, $model->addTableFunction($ADMIN, $i, $j));
                     }
                 }
+
+                // PUBLIC
+                for ($j=1; $j<=7; $j++) {
+                    $this->execute($cn, $model->addTableFunction($PUBLIC, $this->TB_CUSTOMER, $j));
+                }                
                 
             } catch (Exception $ex) {
                 throw $ex;

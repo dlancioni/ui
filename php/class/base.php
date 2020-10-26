@@ -46,6 +46,9 @@
         public $TB_GROUP = 16;
         public $TB_USER_GROUP = 17;
 
+        // Access Control
+        public $TB_CUSTOMER = 18;
+
         // Constructor
         function __construct($systemId, $tableId, $userId, $groupId) {
             $this->setSystem($systemId);
