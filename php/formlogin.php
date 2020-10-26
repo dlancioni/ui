@@ -6,9 +6,9 @@
             <!-- Left side itens -->        
             <div class="col-12 text-right">
                 <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                <a href="#" class="" data-toggle="modal" data-target="#exampleModalCenter">
                 Entrar
-                </button>
+                </a>
             </div>
 
         <?php
