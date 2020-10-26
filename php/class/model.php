@@ -98,7 +98,7 @@
             return $json;
         }    
 
-        public function addDomain($key, $value, $domain) {
+        public function addDomain($groupId, $key, $value, $domain) {
 
             // General Declaration
             $json = "";
@@ -106,7 +106,7 @@
 
             // Create key
             $json = $jsonUtil->setValue($json, "id_system", $this->systemId);
-            $json = $jsonUtil->setValue($json, "id_group", $this->groupId);
+            $json = $jsonUtil->setValue($json, "id_group", $groupId);
 
             // Create record        
             $json = $jsonUtil->setValue($json, "key", $key);

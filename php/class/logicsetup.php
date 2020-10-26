@@ -10,7 +10,8 @@
 
         // Group info
         public $groupId = 1;
-        public $public = 2;
+        public $admin = 2;
+        public $public = 3;
 
         // Constructor
         function __construct($cn, $sqlBuilder) {
@@ -337,64 +338,106 @@
                 $tableName = "tb_domain";
 
                 // tb_table_type
-                $this->execute($cn, $model->addDomain(1, "Sistema", "tb_table_type"));
-                $this->execute($cn, $model->addDomain(2, "Usuário", "tb_table_type"));
+                $this->execute($cn, $model->addDomain($this->groupId, 1, "Sistema", "tb_table_type"));
+                $this->execute($cn, $model->addDomain($this->groupId, 2, "Usuário", "tb_table_type"));
                 // tb_bool
-                $this->execute($cn, $model->addDomain(1, "Sim", "tb_bool"));
-                $this->execute($cn, $model->addDomain(2, "Não", "tb_bool"));
+                $this->execute($cn, $model->addDomain($this->groupId, 1, "Sim", "tb_bool"));
+                $this->execute($cn, $model->addDomain($this->groupId, 2, "Não", "tb_bool"));
                 // tb_field_type
-                $this->execute($cn, $model->addDomain(1, "Inteiro", "tb_field_type"));
-                $this->execute($cn, $model->addDomain(2, "Decimal", "tb_field_type"));
-                $this->execute($cn, $model->addDomain(3, "Texto", "tb_field_type"));
-                $this->execute($cn, $model->addDomain(4, "Data", "tb_field_type"));
-                $this->execute($cn, $model->addDomain(5, "Hora", "tb_field_type"));
-                $this->execute($cn, $model->addDomain(6, "Area", "tb_field_type"));
-                $this->execute($cn, $model->addDomain(7, "Binário", "tb_field_type"));
-                $this->execute($cn, $model->addDomain(8, "Senha", "tb_field_type"));
+                $this->execute($cn, $model->addDomain($this->groupId, 1, "Inteiro", "tb_field_type"));
+                $this->execute($cn, $model->addDomain($this->groupId, 2, "Decimal", "tb_field_type"));
+                $this->execute($cn, $model->addDomain($this->groupId, 3, "Texto", "tb_field_type"));
+                $this->execute($cn, $model->addDomain($this->groupId, 4, "Data", "tb_field_type"));
+                $this->execute($cn, $model->addDomain($this->groupId, 5, "Hora", "tb_field_type"));
+                $this->execute($cn, $model->addDomain($this->groupId, 6, "Area", "tb_field_type"));
+                $this->execute($cn, $model->addDomain($this->groupId, 7, "Binário", "tb_field_type"));
+                $this->execute($cn, $model->addDomain($this->groupId, 8, "Senha", "tb_field_type"));
                 // tb_event
-                $this->execute($cn, $model->addDomain(1, "onLoad", "tb_event"));
-                $this->execute($cn, $model->addDomain(2, "onClick", "tb_event"));
-                $this->execute($cn, $model->addDomain(3, "OnChange", "tb_event"));
-                $this->execute($cn, $model->addDomain(4, "onFocus", "tb_event"));
-                $this->execute($cn, $model->addDomain(5, "onBlur", "tb_event"));
+                $this->execute($cn, $model->addDomain($this->groupId, 1, "onLoad", "tb_event"));
+                $this->execute($cn, $model->addDomain($this->groupId, 2, "onClick", "tb_event"));
+                $this->execute($cn, $model->addDomain($this->groupId, 3, "OnChange", "tb_event"));
+                $this->execute($cn, $model->addDomain($this->groupId, 4, "onFocus", "tb_event"));
+                $this->execute($cn, $model->addDomain($this->groupId, 5, "onBlur", "tb_event"));
                 // tb_target
-                $this->execute($cn, $model->addDomain(1, "Tabela", "tb_target"));
-                $this->execute($cn, $model->addDomain(2, "Formulário", "tb_target"));
+                $this->execute($cn, $model->addDomain($this->groupId, 1, "Tabela", "tb_target"));
+                $this->execute($cn, $model->addDomain($this->groupId, 2, "Formulário", "tb_target"));
                 // tb_message
-                $this->execute($cn, $model->addDomain("A1", "Campo % é obrigatório", "tb_message"));
-                $this->execute($cn, $model->addDomain("A2", "Data inválida informada no campo %", "tb_message"));
-                $this->execute($cn, $model->addDomain("A3", "Numero inválido informada no campo %", "tb_message"));
-                $this->execute($cn, $model->addDomain("A4", "Os valores para os campos % ja existem na tabela e não podem se repetir", "tb_message"));
-                $this->execute($cn, $model->addDomain("A5", "Nenhuma mudança identifica no registro, alteração não realizada", "tb_message"));
-                $this->execute($cn, $model->addDomain("A6", "Registro incluído com sucesso", "tb_message"));
-                $this->execute($cn, $model->addDomain("A7", "Registro alterado com sucesso", "tb_message"));
-                $this->execute($cn, $model->addDomain("A8", "Registro excluído com sucesso", "tb_message"));
-                $this->execute($cn, $model->addDomain("A9", "Campo Tabela FK foi selecionado, entao Campo FK é obrigatório", "tb_message"));
-                $this->execute($cn, $model->addDomain("A10", "Transação selecionada é do tipo menu, não é permitido adicionar campos", "tb_message"));
-                $this->execute($cn, $model->addDomain("A11", "Registro pertence ao grupo Sistema, não pode ser modificado ou excluído", "tb_message"));
-                $this->execute($cn, $model->addDomain("A12", "Não foi possível concluir o upload dos arquivos", "tb_message"));                
-                $this->execute($cn, $model->addDomain("A13", "Usuário não cadastrado ou não informado", "tb_message"));
-                $this->execute($cn, $model->addDomain("A14", "Usuário não está associado a nenhum perfil", "tb_message"));
-                $this->execute($cn, $model->addDomain("A15", "Usuário não está associado a nenhum grupo", "tb_message"));
-                $this->execute($cn, $model->addDomain("A16", "Perfil do usuário não possui transações associadas", "tb_message"));
-                $this->execute($cn, $model->addDomain("A17", "Senha inválida ou não informada", "tb_message"));
-                $this->execute($cn, $model->addDomain("A18", "Autenticado com sucesso, seja bem vindo", "tb_message"));
+                $this->execute($cn, $model->addDomain($this->groupId, "A1", "Campo % é obrigatório", "tb_message"));
+                $this->execute($cn, $model->addDomain($this->groupId, "A2", "Data inválida informada no campo %", "tb_message"));
+                $this->execute($cn, $model->addDomain($this->groupId, "A3", "Numero inválido informada no campo %", "tb_message"));
+                $this->execute($cn, $model->addDomain($this->groupId, "A4", "Os valores para os campos % ja existem na tabela e não podem se repetir", "tb_message"));
+                $this->execute($cn, $model->addDomain($this->groupId, "A5", "Nenhuma mudança identifica no registro, alteração não realizada", "tb_message"));
+                $this->execute($cn, $model->addDomain($this->groupId, "A6", "Registro incluído com sucesso", "tb_message"));
+                $this->execute($cn, $model->addDomain($this->groupId, "A7", "Registro alterado com sucesso", "tb_message"));
+                $this->execute($cn, $model->addDomain($this->groupId, "A8", "Registro excluído com sucesso", "tb_message"));
+                $this->execute($cn, $model->addDomain($this->groupId, "A9", "Campo Tabela FK foi selecionado, entao Campo FK é obrigatório", "tb_message"));
+                $this->execute($cn, $model->addDomain($this->groupId, "A10", "Transação selecionada é do tipo menu, não é permitido adicionar campos", "tb_message"));
+                $this->execute($cn, $model->addDomain($this->groupId, "A11", "Registro pertence ao grupo Sistema, não pode ser modificado ou excluído", "tb_message"));
+                $this->execute($cn, $model->addDomain($this->groupId, "A12", "Não foi possível concluir o upload dos arquivos", "tb_message"));                
+                $this->execute($cn, $model->addDomain($this->groupId, "A13", "Usuário não cadastrado ou não informado", "tb_message"));
+                $this->execute($cn, $model->addDomain($this->groupId, "A14", "Usuário não está associado a nenhum perfil", "tb_message"));
+                $this->execute($cn, $model->addDomain($this->groupId, "A15", "Usuário não está associado a nenhum grupo", "tb_message"));
+                $this->execute($cn, $model->addDomain($this->groupId, "A16", "Perfil do usuário não possui transações associadas", "tb_message"));
+                $this->execute($cn, $model->addDomain($this->groupId, "A17", "Senha inválida ou não informada", "tb_message"));
+                $this->execute($cn, $model->addDomain($this->groupId, "A18", "Autenticado com sucesso, seja bem vindo", "tb_message"));
                 
                 // tb_cascade
-                $this->execute($cn, $model->addDomain("tb_field.id_table_fk", "id_field_fk; tb_field; id; label", "tb_cascade"));
-                $this->execute($cn, $model->addDomain("tb_event.id_table", "id_field; tb_field; id; label", "tb_cascade"));
+                $this->execute($cn, $model->addDomain($this->groupId, "tb_field.id_table_fk", "id_field_fk; tb_field; id; label", "tb_cascade"));
+                $this->execute($cn, $model->addDomain($this->groupId, "tb_event.id_table", "id_field; tb_field; id; label", "tb_cascade"));
 
                 // tb_hidden
-                $this->execute($cn, $model->addDomain("1", "Inclusão", "tb_hidden"));
-                $this->execute($cn, $model->addDomain("2", "Alteração", "tb_hidden"));
-                $this->execute($cn, $model->addDomain("3", "Exclusão", "tb_hidden"));
-                $this->execute($cn, $model->addDomain("4", "Sempre", "tb_hidden"));
+                $this->execute($cn, $model->addDomain($this->groupId, "1", "Inclusão", "tb_hidden"));
+                $this->execute($cn, $model->addDomain($this->groupId, "2", "Alteração", "tb_hidden"));
+                $this->execute($cn, $model->addDomain($this->groupId, "3", "Exclusão", "tb_hidden"));
+                $this->execute($cn, $model->addDomain($this->groupId, "4", "Sempre", "tb_hidden"));
 
                 // tb_disabled
-                $this->execute($cn, $model->addDomain("1", "Inclusão", "tb_disabled"));
-                $this->execute($cn, $model->addDomain("2", "Alteração", "tb_disabled"));
-                $this->execute($cn, $model->addDomain("3", "Exclusão", "tb_disabled"));
-                $this->execute($cn, $model->addDomain("4", "Sempre", "tb_disabled"));
+                $this->execute($cn, $model->addDomain($this->groupId, "1", "Inclusão", "tb_disabled"));
+                $this->execute($cn, $model->addDomain($this->groupId, "2", "Alteração", "tb_disabled"));
+                $this->execute($cn, $model->addDomain($this->groupId, "3", "Exclusão", "tb_disabled"));
+                $this->execute($cn, $model->addDomain($this->groupId, "4", "Sempre", "tb_disabled"));
+
+                // person type
+                $this->execute($cn, $model->addDomain($this->public, "1", "Física", "tb_peprson_type"));
+                $this->execute($cn, $model->addDomain($this->public, "2", "Jurídica", "tb_peprson_type"));
+
+                // client type
+                $this->execute($cn, $model->addDomain($this->public, "1", "Cliente", "tb_client_type"));
+                $this->execute($cn, $model->addDomain($this->public, "2", "Prospect", "tb_client_type"));
+
+                // address type
+                $this->execute($cn, $model->addDomain($this->public, "1", "Residencial", "tb_address_type"));
+                $this->execute($cn, $model->addDomain($this->public, "2", "Comercial", "tb_address_type"));
+
+                // States
+                $this->execute($cn, $model->addDomain($this->public, "1", "AC", "tb_state"));
+                $this->execute($cn, $model->addDomain($this->public, "2", "AL", "tb_state"));
+                $this->execute($cn, $model->addDomain($this->public, "3", "AP", "tb_state"));
+                $this->execute($cn, $model->addDomain($this->public, "4", "AM", "tb_state"));
+                $this->execute($cn, $model->addDomain($this->public, "5", "BA", "tb_state"));
+                $this->execute($cn, $model->addDomain($this->public, "6", "CE", "tb_state"));
+                $this->execute($cn, $model->addDomain($this->public, "7", "ES", "tb_state"));
+                $this->execute($cn, $model->addDomain($this->public, "8", "GO", "tb_state"));
+                $this->execute($cn, $model->addDomain($this->public, "9", "MA", "tb_state"));
+                $this->execute($cn, $model->addDomain($this->public, "10", "MT", "tb_state"));
+                $this->execute($cn, $model->addDomain($this->public, "11", "MS", "tb_state"));
+                $this->execute($cn, $model->addDomain($this->public, "12", "MG", "tb_state"));
+                $this->execute($cn, $model->addDomain($this->public, "13", "PA", "tb_state"));
+                $this->execute($cn, $model->addDomain($this->public, "14", "PB", "tb_state"));
+                $this->execute($cn, $model->addDomain($this->public, "15", "PR", "tb_state"));
+                $this->execute($cn, $model->addDomain($this->public, "16", "PE", "tb_state"));
+                $this->execute($cn, $model->addDomain($this->public, "17", "PI", "tb_state"));
+                $this->execute($cn, $model->addDomain($this->public, "18", "RJ", "tb_state"));
+                $this->execute($cn, $model->addDomain($this->public, "19", "RN", "tb_state"));
+                $this->execute($cn, $model->addDomain($this->public, "20", "RS", "tb_state"));
+                $this->execute($cn, $model->addDomain($this->public, "21", "RO", "tb_state"));
+                $this->execute($cn, $model->addDomain($this->public, "22", "SC", "tb_state"));
+                $this->execute($cn, $model->addDomain($this->public, "23", "SP", "tb_state"));
+                $this->execute($cn, $model->addDomain($this->public, "24", "SE", "tb_state"));
+                $this->execute($cn, $model->addDomain($this->public, "25", "TO", "tb_state"));
+                $this->execute($cn, $model->addDomain($this->public, "26", "DF", "tb_state"));
+
+
                 
             } catch (Exception $ex) {
                 throw $ex;
