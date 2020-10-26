@@ -398,8 +398,8 @@
                 $this->execute($cn, $model->addDomain($this->groupId, "4", "Sempre", "tb_disabled"));
 
                 // person type
-                $this->execute($cn, $model->addDomain($this->public, "1", "Física", "tb_peprson_type"));
-                $this->execute($cn, $model->addDomain($this->public, "2", "Jurídica", "tb_peprson_type"));
+                $this->execute($cn, $model->addDomain($this->public, "1", "Física", "tb_person_type"));
+                $this->execute($cn, $model->addDomain($this->public, "2", "Jurídica", "tb_person_type"));
 
                 // client type
                 $this->execute($cn, $model->addDomain($this->public, "1", "Cliente", "tb_client_type"));

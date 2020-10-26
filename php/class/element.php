@@ -373,7 +373,7 @@
 
                         // Calculate things to display
                         if ($totalPages > $limit) {
-                            $totalPages = $totalPages - $limit;
+                            //$totalPages = $totalPages - $limit;
                         }
     
                         // Create links
