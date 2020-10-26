@@ -16,6 +16,7 @@ async function login() {
     let info = await execute('login.php', formData);
     info = JSON.parse(info);
     alert(info.message);
+    submit();
 }
 
 /*
