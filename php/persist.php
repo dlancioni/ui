@@ -43,9 +43,17 @@
                                      $_SESSION["_USER_"],
                                      $_SESSION["_GROUP_"]);
 
-        $sqlBuilder->setLastId($_SESSION["_ID_"]);
-        $sqlBuilder->setEvent($_SESSION["_EVENT_"]);
-        $tableId = $_SESSION["_TABLE_"];        
+        if (isset($_SESSION["_ID_"])) {
+            $sqlBuilder->setLastId($_SESSION["_ID_"]);
+        } else {
+            $sqlBuilder->setLastId("0");            
+        }
+        if (isset($_SESSION["_EVENT_"])) {
+            $sqlBuilder->setEvent($_SESSION["_EVENT_"]);
+        }
+        if (isset($_SESSION["_TABLE_"])) {
+            $tableId = $_SESSION["_TABLE_"];   
+        }     
 
         // Object instances
         $jsonUtil = new JsonUtil();
