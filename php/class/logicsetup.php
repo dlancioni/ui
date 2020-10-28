@@ -130,6 +130,7 @@
                 // User
                 array_push($table, "tb_customer");
                 array_push($table, "tb_address");
+                array_push($table, "tb_contact");
 
                 for ($i=0; $i<=count($table)-1; $i++) {
                     $tableName = $table[$i];
@@ -202,6 +203,7 @@
                 // CLIENTES
                 $this->TB_CUSTOMER = $this->execute($cn, $model->addTable("Clientes", $TYPE_USER,  "tb_customer", $MENU_CAD));
                 $this->TB_ADDRESS = $this->execute($cn, $model->addTable("Endereços", $TYPE_USER,  "tb_address", $MENU_CAD));
+                $this->TB_CONTACT = $this->execute($cn, $model->addTable("Contatos", $TYPE_USER,  "tb_contact", $MENU_CAD));
                
             } catch (Exception $ex) {
                 throw $ex;
@@ -320,17 +322,22 @@
 
                 // tb_customer
                 $this->execute($cn, $model->addField($this->TB_CUSTOMER, "Nome", "name", $text, 50, "", $yes, $yes, 0, 0, ""));
-                $this->execute($cn, $model->addField($this->TB_CUSTOMER, "Tipo de Pessoa", "person_type", $text, 50, "", $yes, $no, $this->tb("tb_domain"), $this->fd("value"), "tb_person_type"));
+                $this->execute($cn, $model->addField($this->TB_CUSTOMER, "Tipo de Pessoa", "person_type", $int, 0, "", $yes, $yes, $this->tb("tb_domain"), $this->fd("value"), "tb_person_type"));
                 $this->execute($cn, $model->addField($this->TB_CUSTOMER, "Tipo de Cliente", "client_type", $text, 50, "", $yes, $no, $this->tb("tb_domain"), $this->fd("value"), "tb_client_type"));
 
                 // tb_address                
-                $this->execute($cn, $model->addField($this->TB_ADDRESS, "Cliente", "id_client", $int, 0, "", $yes, $no, $this->tb("tb_customer"), $this->fd("name"), ""));                
-                $this->execute($cn, $model->addField($this->TB_ADDRESS, "Tipo de Endereço", "address_type", $text, 200, "", $yes, $no, $this->tb("tb_domain"), $this->fd("value"), "tb_address_type"));
+                $this->execute($cn, $model->addField($this->TB_ADDRESS, "Cliente", "id_client", $int, 0, "", $yes, $yes, $this->tb("tb_customer"), $this->fd("name"), ""));
+                $this->execute($cn, $model->addField($this->TB_ADDRESS, "Tipo de Endereço", "address_type", $int, 0, "", $yes, $no, $this->tb("tb_domain"), $this->fd("value"), "tb_address_type"));
                 $this->execute($cn, $model->addField($this->TB_ADDRESS, "Logradouro", "street", $text, 200, "", $yes, $no, 0, 0, ""));
                 $this->execute($cn, $model->addField($this->TB_ADDRESS, "Numero", "number", $text, 10, "", $yes, $no, 0, 0, ""));
                 $this->execute($cn, $model->addField($this->TB_ADDRESS, "Complemento", "extra", $text, 10, "", $no, $no, 0, 0, ""));
                 $this->execute($cn, $model->addField($this->TB_ADDRESS, "Estado", "state", $text, 10, "", $yes, $no, $this->tb("tb_domain"), $this->fd("value"), "tb_state"));
                 $this->execute($cn, $model->addField($this->TB_ADDRESS, "Cidade", "city", $text, 200, "", $yes, $no, 0, 0, ""));
+
+                // tb_contact
+                $this->execute($cn, $model->addField($this->TB_CONTACT, "Tipo", "contact_type", $int, 0, "", $yes, $yes, $this->tb("tb_domain"), $this->fd("value"), "tb_contact_type"));
+                $this->execute($cn, $model->addField($this->TB_CONTACT, "Valor", "value", $text, 50, "", $yes, $yes, 0, 0, ""));
+                $this->execute($cn, $model->addField($this->TB_CONTACT, "Nota", "description", $text, 50, "", $no, $no, 0, 0, ""));
                 
             } catch (Exception $ex) {
                 throw $ex;
@@ -421,6 +428,10 @@
                 // address type
                 $this->execute($cn, $model->addDomain($this->public, "1", "Residencial", "tb_address_type"));
                 $this->execute($cn, $model->addDomain($this->public, "2", "Comercial", "tb_address_type"));
+
+                // contact type
+                $this->execute($cn, $model->addDomain($this->public, "1", "Email", "tb_contact_type"));
+                $this->execute($cn, $model->addDomain($this->public, "2", "Telefone", "tb_contact_type"));
 
                 // States
                 $this->execute($cn, $model->addDomain($this->public, "1", "AC", "tb_state"));
@@ -681,10 +692,12 @@
 
                 $this->execute($cn, $model->addProfileTable($ADMIN, $this->TB_CUSTOMER));
                 $this->execute($cn, $model->addProfileTable($ADMIN, $this->TB_ADDRESS));
+                $this->execute($cn, $model->addProfileTable($ADMIN, $this->TB_CONTACT));
 
                 // PUBLIC
                 $this->execute($cn, $model->addProfileTable($PUBLIC, $this->TB_CUSTOMER));
                 $this->execute($cn, $model->addProfileTable($PUBLIC, $this->TB_ADDRESS));
+                $this->execute($cn, $model->addProfileTable($PUBLIC, $this->TB_CONTACT));
 
             } catch (Exception $ex) {
                 throw $ex;
@@ -733,6 +746,7 @@
                 for ($j=1; $j<=7; $j++) {
                     $this->execute($cn, $model->addTableFunction($PUBLIC, $this->TB_CUSTOMER, $j));
                     $this->execute($cn, $model->addTableFunction($PUBLIC, $this->TB_ADDRESS, $j));
+                    $this->execute($cn, $model->addTableFunction($PUBLIC, $this->TB_CONTACT, $j));
                 }                
                 
             } catch (Exception $ex) {

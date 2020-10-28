@@ -49,6 +49,7 @@
         // Access Control
         public $TB_CUSTOMER = 18;
         public $TB_ADDRESS = 19;
+        public $TB_CONTACT = 20;
 
         // Constructor
         function __construct($systemId, $tableId, $userId, $groupId) {
