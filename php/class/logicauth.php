@@ -9,6 +9,7 @@
         public $groupId = 0;
         public $message = "";
         public $authenticated = 0;
+        public $menu = "";
 
         // Constructor
         function __construct($cn, $sqlBuilder) {
@@ -35,6 +36,7 @@
             $jsonUtil = new JsonUtil();
             $pathUtil = new PathUtil();
             $message = new Message($this->cn, $this->sqlBuilder);
+            $logicMenu = new LogicMenu($this->cn, $this->sqlBuilder);
 
             try {
 
@@ -95,6 +97,9 @@
                     throw new Exception($msg);
                 }
 
+                // Create application menu based on user profile
+                $logicMenu->createMenu($systemId, $userId);
+
                 // Authenticate successfuly                
                 $this->authenticated = 1;
                 $this->userId = $userId;
@@ -102,6 +107,7 @@
                 $this->profileId = $profileId;
                 $this->groupId = $groupId;
                 $this->message = $message->getValue("A18");
+                $this->menu = $logicMenu->html;
 
             } catch (Exception $ex) {
 
@@ -113,6 +119,7 @@
                 $this->profileId = 0;
                 $this->groupId = 0;
                 $this->message = $ex->getMessage();
+                $this->menu = "";
             }
         }
 

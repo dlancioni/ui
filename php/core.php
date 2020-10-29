@@ -11,8 +11,6 @@
     $eventAction = "";
     $pageEvent = "";
     $element = "";    
-    $menu = "";
-    $logicMenu = "";
     $onLoadFunctions = "";
     
     try {
@@ -31,14 +29,6 @@
         $filter->add("tb_event", "id_target", $format);
         $filter->add("tb_event", "id_table", $tableId);
         $pageEvent = $sqlBuilder->executeQuery($cn, $sqlBuilder->TB_EVENT, $filter->create(), $sqlBuilder->QUERY_NO_PAGING);
-
-        // If usre is authenticated, create main menu
-        if (isset($_SESSION["_AUTH_"])) {
-            if ($_SESSION["_AUTH_"] == 1) {
-                $logicMenu->createMenu($systemId, $userId);
-                $menu = $logicMenu->html;
-            }
-        }
 
         // Create table or form
         if ($tableId > 0) {

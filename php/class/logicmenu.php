@@ -24,7 +24,7 @@
             try {
 
                 // Get transactions applying access control
-                $rs = $this->getData();
+                $rs = $this->getData($systemId, $userId);
 
                 // Data to treeview
                 $tree = $this->prepareTree($rs);
@@ -118,7 +118,7 @@
         /*
         * Get table definition
         */
-        private function getData() {
+        private function getData($systemId, $userId) {
 
             // General declaration    
             $rs = "";
@@ -140,8 +140,8 @@
                     $sql .= " inner join tb_profile_table on (tb_profile_table.field->>'id_table')::int = tb_table.id";
                     $sql .= " inner join tb_profile on (tb_profile_table.field->>'id_profile')::int = tb_profile.id";
                     $sql .= " inner join tb_user_profile on (tb_user_profile.field->>'id_profile')::int = tb_profile.id";
-                    $sql .= " where (tb_table.field->>'id_system')::int = " . $this->sqlBuilder->getSystem();
-                    $sql .= " and (tb_user_profile.field->>'id_user')::int = " . $this->sqlBuilder->getUser();
+                    $sql .= " where (tb_table.field->>'id_system')::int = " . $systemId;
+                    $sql .= " and (tb_user_profile.field->>'id_user')::int = " . $userId;
 
                     $sql .= " union";
                     

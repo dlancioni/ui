@@ -12,7 +12,11 @@
     <!-- Menu -->
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">       
-            <?php echo $menu; ?>
+            <?php 
+            if (isset($_SESSION["_MENU_"])) {
+                echo $_SESSION["_MENU_"]; 
+            }
+            ?>
         </ul>
     </div>
 
