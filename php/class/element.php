@@ -572,8 +572,8 @@
             try {
 
                 $html .= "<img src=" . $stringUtil->dqt($path);
-                $html .= " width=" . $stringUtil->dqt("100");
-                $html .= " heigth=" . $stringUtil->dqt("100");
+                $html .= " width=" . $stringUtil->dqt("20");
+                $html .= " heigth=" . $stringUtil->dqt("20");
                 $html .= ">";
 
             } catch (Exception $ex) {

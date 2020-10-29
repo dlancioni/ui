@@ -131,6 +131,9 @@
                 array_push($table, "tb_customer");
                 array_push($table, "tb_address");
                 array_push($table, "tb_contact");
+                array_push($table, "tb_activity");
+                array_push($table, "tb_relationship");
+                array_push($table, "tb_file");
 
                 for ($i=0; $i<=count($table)-1; $i++) {
                     $tableName = $table[$i];
@@ -168,7 +171,7 @@
                 $tableName = "tb_table";
 
                 // Count control
-                $total = 20;
+                $total = 23;
 
                 // System or User
                 $TYPE_SYSTEM = 1;
@@ -204,6 +207,9 @@
                 $this->TB_CUSTOMER = $this->execute($cn, $model->addTable("Clientes", $TYPE_USER,  "tb_customer", $MENU_CAD));
                 $this->TB_ADDRESS = $this->execute($cn, $model->addTable("Endereços", $TYPE_USER,  "tb_address", $MENU_CAD));
                 $this->TB_CONTACT = $this->execute($cn, $model->addTable("Contatos", $TYPE_USER,  "tb_contact", $MENU_CAD));
+                $this->TB_ACTIVITY = $this->execute($cn, $model->addTable("Atividades", $TYPE_USER,  "tb_activity", $MENU_CAD));
+                $this->TB_RELATIONSHIP = $this->execute($cn, $model->addTable("Relacionamento", $TYPE_USER,  "tb_relationship", $MENU_CAD));
+                $this->TB_FILE = $this->execute($cn, $model->addTable("Arquivos", $TYPE_USER,  "tb_file", $MENU_CAD));
                
             } catch (Exception $ex) {
                 throw $ex;
@@ -332,13 +338,29 @@
                 $this->execute($cn, $model->addField($this->TB_ADDRESS, "Numero", "number", $text, 10, "", $yes, $no, 0, 0, ""));
                 $this->execute($cn, $model->addField($this->TB_ADDRESS, "Complemento", "extra", $text, 10, "", $no, $no, 0, 0, ""));
                 $this->execute($cn, $model->addField($this->TB_ADDRESS, "Estado", "state", $text, 10, "", $yes, $no, $this->tb("tb_domain"), $this->fd("value"), "tb_state"));
-                $this->execute($cn, $model->addField($this->TB_ADDRESS, "Cidade", "city", $text, 200, "", $yes, $no, 0, 0, ""));
+                $this->execute($cn, $model->addField($this->TB_ADDRESS, "Cidade", "city", $text, 500, "", $yes, $no, 0, 0, ""));
+                $this->execute($cn, $model->addField($this->TB_ADDRESS, "Bairro", "neighborhood", $text, 500, "", $no, $no, 0, 0, ""));
 
                 // tb_contact
+                $this->execute($cn, $model->addField($this->TB_CONTACT, "Cliente", "id_client", $int, 0, "", $yes, $yes, $this->tb("tb_customer"), $this->fd("name"), ""));
                 $this->execute($cn, $model->addField($this->TB_CONTACT, "Tipo", "contact_type", $int, 0, "", $yes, $yes, $this->tb("tb_domain"), $this->fd("value"), "tb_contact_type"));
                 $this->execute($cn, $model->addField($this->TB_CONTACT, "Valor", "value", $text, 50, "", $yes, $yes, 0, 0, ""));
                 $this->execute($cn, $model->addField($this->TB_CONTACT, "Nota", "description", $text, 50, "", $no, $no, 0, 0, ""));
                 
+                // tb_activity
+                $this->execute($cn, $model->addField($this->TB_ACTIVITY, "Descrição", "description", $text, 50, "", $yes, $yes, 0, 0, ""));
+
+                // tb_relationship
+                $this->execute($cn, $model->addField($this->TB_RELATIONSHIP, "Cliente", "id_client", $int, 0, "", $yes, $yes, $this->tb("tb_customer"), $this->fd("name"), ""));
+                $this->execute($cn, $model->addField($this->TB_RELATIONSHIP, "Atividade", "id_activity", $int, 0, "", $yes, $yes, $this->tb("tb_activity"), $this->fd("description"), ""));
+                $this->execute($cn, $model->addField($this->TB_RELATIONSHIP, "Comentário", "file", $this->TYPE_TEXTAREA, 10000, "", $yes, $yes, 0, 0, ""));
+                
+                // tb_file
+                $this->execute($cn, $model->addField($this->TB_FILE, "Cliente", "id_client", $int, 0, "", $yes, $yes, $this->tb("tb_customer"), $this->fd("name"), ""));
+                $this->execute($cn, $model->addField($this->TB_FILE, "Nome", "file_name", $text, 50, "", $yes, $yes, 0, 0, ""));
+                $this->execute($cn, $model->addField($this->TB_FILE, "Descrição", "description", $text, 100, "", $yes, $yes, 0, 0, ""));
+                $this->execute($cn, $model->addField($this->TB_FILE, "Arquivo", "file", $this->TYPE_FILE, 0, "", $yes, $yes, 0, 0, ""));
+
             } catch (Exception $ex) {
                 throw $ex;
             }
@@ -693,11 +715,17 @@
                 $this->execute($cn, $model->addProfileTable($ADMIN, $this->TB_CUSTOMER));
                 $this->execute($cn, $model->addProfileTable($ADMIN, $this->TB_ADDRESS));
                 $this->execute($cn, $model->addProfileTable($ADMIN, $this->TB_CONTACT));
+                $this->execute($cn, $model->addProfileTable($ADMIN, $this->TB_ACTIVITY));
+                $this->execute($cn, $model->addProfileTable($ADMIN, $this->TB_RELATIONSHIP));
+                $this->execute($cn, $model->addProfileTable($ADMIN, $this->TB_FILE));
 
                 // PUBLIC
                 $this->execute($cn, $model->addProfileTable($PUBLIC, $this->TB_CUSTOMER));
                 $this->execute($cn, $model->addProfileTable($PUBLIC, $this->TB_ADDRESS));
                 $this->execute($cn, $model->addProfileTable($PUBLIC, $this->TB_CONTACT));
+                $this->execute($cn, $model->addProfileTable($PUBLIC, $this->TB_ACTIVITY));
+                $this->execute($cn, $model->addProfileTable($PUBLIC, $this->TB_RELATIONSHIP));
+                $this->execute($cn, $model->addProfileTable($PUBLIC, $this->TB_FILE));
 
             } catch (Exception $ex) {
                 throw $ex;
@@ -747,6 +775,10 @@
                     $this->execute($cn, $model->addTableFunction($PUBLIC, $this->TB_CUSTOMER, $j));
                     $this->execute($cn, $model->addTableFunction($PUBLIC, $this->TB_ADDRESS, $j));
                     $this->execute($cn, $model->addTableFunction($PUBLIC, $this->TB_CONTACT, $j));
+
+                    $this->execute($cn, $model->addTableFunction($PUBLIC, $this->TB_ACTIVITY, $j));
+                    $this->execute($cn, $model->addTableFunction($PUBLIC, $this->TB_RELATIONSHIP, $j));
+                    $this->execute($cn, $model->addTableFunction($PUBLIC, $this->TB_FILE, $j));
                 }                
                 
             } catch (Exception $ex) {

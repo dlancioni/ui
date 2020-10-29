@@ -50,6 +50,9 @@
         public $TB_CUSTOMER = 18;
         public $TB_ADDRESS = 19;
         public $TB_CONTACT = 20;
+        public $TB_ACTIVITY = 21;
+        public $TB_RELATIONSHIP = 22;
+        public $TB_FILE = 23;
 
         // Constructor
         function __construct($systemId, $tableId, $userId, $groupId) {

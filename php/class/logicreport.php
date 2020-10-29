@@ -133,14 +133,12 @@ class LogicReport extends Base {
                         case $this->TYPE_PASSWORD:
                             $fieldValue = "******";
                             break;
-                    }
-
-                    // Handle downloads (type file)
-                    if (trim($fieldType) == "7") {
-                        if ($fieldValue != null) {
-                            $link = $pathUtil->getVirtualPath() . $fieldValue;
-                            $fieldValue = $this->element->createLink($this->element->createImage($link), $fieldValue, $link, true);
-                        }
+                        case $this->TYPE_FILE:
+                            if ($fieldValue != null) {
+                                $link = $pathUtil->getVirtualPath() . $fieldValue;
+                                $fieldValue = $this->element->createLink($this->element->createImage($link), $fieldValue, $link, true);
+                            }
+                            break;
                     }
 
                     // Print it
