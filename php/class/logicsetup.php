@@ -327,7 +327,7 @@
 
                 // tb_address                
                 $this->execute($cn, $model->addField($this->TB_ADDRESS, "Cliente", "id_client", $int, 0, "", $yes, $yes, $this->tb("tb_customer"), $this->fd("name"), ""));
-                $this->execute($cn, $model->addField($this->TB_ADDRESS, "Tipo de Endereço", "address_type", $int, 0, "", $yes, $no, $this->tb("tb_domain"), $this->fd("value"), "tb_address_type"));
+                $this->execute($cn, $model->addField($this->TB_ADDRESS, "Tipo de Endereço", "address_type", $int, 0, "", $yes, $yes, $this->tb("tb_domain"), $this->fd("value"), "tb_address_type"));
                 $this->execute($cn, $model->addField($this->TB_ADDRESS, "Logradouro", "street", $text, 200, "", $yes, $no, 0, 0, ""));
                 $this->execute($cn, $model->addField($this->TB_ADDRESS, "Numero", "number", $text, 10, "", $yes, $no, 0, 0, ""));
                 $this->execute($cn, $model->addField($this->TB_ADDRESS, "Complemento", "extra", $text, 10, "", $no, $no, 0, 0, ""));

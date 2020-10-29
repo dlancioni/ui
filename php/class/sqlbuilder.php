@@ -363,18 +363,40 @@ class SqlBuilder extends Base {
     private function getCondition($filter) {
 
         $sql = "";
+        $tableName = "";
+        $fieldName = "";
+        $fieldType = "";
+        $fieldOperator = "";
+        $fieldValue = "";
+        $fieldMask = "";
         $jsonUtil = new JsonUtil();
 
         try {
             if (trim($filter) != "") {
                 $filter = json_decode($filter, true);
                 foreach ($filter as $item) {
-                    $sql .= " and " . $jsonUtil->condition($item['table'], 
-                                                           $item['field'], 
-                                                           $item['type'],   
-                                                           $item['operator'], 
-                                                           $item['value'], 
-                                                           $item['mask']);
+
+                    // Get values
+                    $tableName = $item["table"];
+                    $fieldName = $item["field"];
+                    $fieldType = $item["type"];
+                    $fieldOperator = $item["operator"];
+                    $fieldValue = $item["value"];
+                    $fieldMask = $item["mask"];
+
+                    // Text must use like
+                    if ($fieldType == "text") {
+                            $fieldOperator = "like";
+                            $fieldValue = "%" . $fieldValue . "%";
+                    }
+
+                    // Create condition
+                    $sql .= " and " . $jsonUtil->condition($tableName, 
+                                                           $fieldName, 
+                                                           $fieldType,
+                                                           $fieldOperator, 
+                                                           $fieldValue, 
+                                                           $fieldMask);
                 }
             }
         } catch (Exception $ex) {

@@ -192,8 +192,10 @@
             
             // General Declaration
             $condition = "";
+
             // Base field            
             $condition .= $this->field($table, $field, $type, $mask);
+
             // Operator
             if (trim($operator) == "") {
                 $operator = "=";
@@ -201,6 +203,7 @@
                 $operator = trim($operator);
             }
             $condition .= " " . $operator . " ";
+            
             // Handle quotes
             switch ($type) {
                 case "int":
@@ -209,7 +212,7 @@
                     break;
                 default:
                     // Set dbqt
-                    $value = $this->sqt($value);                                    
+                    $value = $this->sqt($value);
             }
 
             // Set value
