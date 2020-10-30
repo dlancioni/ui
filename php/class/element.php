@@ -571,7 +571,8 @@
 
             try {
 
-                $html .= "<img src=" . $stringUtil->dqt($path);
+                //$html .= "<img src=" . $stringUtil->dqt($path);
+                $html .= "<img src='img/icon.png'";
                 $html .= " width=" . $stringUtil->dqt("20");
                 $html .= " heigth=" . $stringUtil->dqt("20");
                 $html .= ">";
