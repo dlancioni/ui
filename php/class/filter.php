@@ -4,12 +4,14 @@
          * Used to keep a list of conditions
          */
         private $condition = Array();
+        private $operatorForTextComparison = "";
 
         /*
          * Main constructor
          */
-        function constructor() {
+        function __construct($operatorForTextComparison="=") {
             $condition = Array();
+            $this->operatorForTextComparison = $operatorForTextComparison;
         }
 
         /*
@@ -20,7 +22,9 @@
             // General Declaration
             $tableName = "";
             $fieldName = "";
+            $fieldType = "";
             $fieldValue = "";
+            $fieldOperator = "";
             $fieldId = "_id_"; // See createId() on form
 
             // Create filter
@@ -43,16 +47,29 @@
 
                 // Get key fields
                 $fieldName = $item["field_name"];
+                $fieldType = $item["data_type"];
+                $fieldOperator = "=";
+
                 if (isset($formData[$fieldName])) {
                     $fieldValue = $formData[$fieldName];
                 }                
+
+                // Use like or = for text comparison
+                if ($fieldType == "text") {
+                    if ($this->operatorForTextComparison == "like") {
+                        $fieldOperator = "like";
+                        $fieldValue = "%" . $fieldValue . "%";
+                    } else {
+                        $fieldOperator = "=";                        
+                    }
+                }
 
                 // Add condition
                 if (trim($fieldValue) != "" && trim($fieldValue) != "0") {
                     $this->addCondition($item["table_name"], 
                                         $item["field_name"], 
                                         $item["data_type"], 
-                                        "=",
+                                        $fieldOperator,
                                         $fieldValue,
                                         $item["field_mask"]);
                 }
@@ -66,6 +83,7 @@
         function add($tableName, $fieldName, $fieldValue) {
 
             // General declaration
+            $fieldOperator = "";
             $fieldType = "int";
             $jsonUtil = new JsonUtil();
 
@@ -74,12 +92,24 @@
                 $fieldType = "text";
             }
 
+            $fieldOperator = "=";
+
+            // Use like or = for text comparison
+            if ($fieldType == "text") {
+                if ($this->operatorForTextComparison == "like") {
+                    $fieldOperator = "like";
+                    $fieldValue = "%" . $fieldValue . "%";
+                } else {
+                    $fieldOperator = "=";                        
+                }
+            }
+
             // Create criteria
             $json = "";
             $json = $jsonUtil->setValue($json, "table", $tableName);
             $json = $jsonUtil->setValue($json, "field", $fieldName);
             $json = $jsonUtil->setValue($json, "type", $fieldType);
-            $json = $jsonUtil->setValue($json, "operator", "=");
+            $json = $jsonUtil->setValue($json, "operator", $fieldOperator);
             $json = $jsonUtil->setValue($json, "value", $fieldValue);
             $json = $jsonUtil->setValue($json, "mask", "");
 
@@ -92,6 +122,17 @@
          */        
         function addCondition($tableName="", $fieldName="", $fieldType="", $fieldOperator="", $fieldValue="", $fieldMask="") {
             $jsonUtil = new JsonUtil();
+
+            // Use like or = for text comparison
+            if ($fieldType == "text") {
+                if ($this->operatorForTextComparison == "like") {
+                    $fieldOperator = "like";
+                    $fieldValue = "%" . $fieldValue . "%";
+                } else {
+                    $fieldOperator = "=";                        
+                }
+            }
+
             $json = "";
             $json = $jsonUtil->setValue($json, "table", $tableName);
             $json = $jsonUtil->setValue($json, "field", $fieldName);

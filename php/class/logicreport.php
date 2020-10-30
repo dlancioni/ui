@@ -66,7 +66,7 @@ class LogicReport extends Base {
             }
 
             // Get data
-            $filter = new Filter();
+            $filter = new Filter("like");
             if ($this->Event == "Filter") {
                 $filter->setFilter($this->tableDef, $this->formData);
                 $_SESSION["_FILTER_"][$tableId] = array($this->formData);

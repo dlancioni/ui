@@ -384,12 +384,6 @@ class SqlBuilder extends Base {
                     $fieldValue = $item["value"];
                     $fieldMask = $item["mask"];
 
-                    // Text must use like
-                    if ($fieldType == "text") {
-                            $fieldOperator = "like";
-                            $fieldValue = $fieldValue;
-                    }
-
                     // Create condition
                     if ($fieldType != "file") {
                         $sql .= " and " . $jsonUtil->condition($tableName, 
