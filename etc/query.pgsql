@@ -11,4 +11,4 @@ order by tb_field.id limit 15) t
 
 
 
-select * from system_1.tb_domain
+select * from system_1.tb_file

@@ -387,16 +387,18 @@ class SqlBuilder extends Base {
                     // Text must use like
                     if ($fieldType == "text") {
                             $fieldOperator = "like";
-                            $fieldValue = "%" . $fieldValue . "%";
+                            $fieldValue = $fieldValue;
                     }
 
                     // Create condition
-                    $sql .= " and " . $jsonUtil->condition($tableName, 
-                                                           $fieldName, 
-                                                           $fieldType,
-                                                           $fieldOperator, 
-                                                           $fieldValue, 
-                                                           $fieldMask);
+                    if ($fieldType != "file") {
+                        $sql .= " and " . $jsonUtil->condition($tableName, 
+                                                               $fieldName, 
+                                                               $fieldType,
+                                                               $fieldOperator, 
+                                                               $fieldValue, 
+                                                               $fieldMask);
+                    }
                 }
             }
         } catch (Exception $ex) {

@@ -351,15 +351,15 @@
                 $this->execute($cn, $model->addField($this->TB_ACTIVITY, "Descrição", "description", $text, 50, "", $yes, $yes, 0, 0, ""));
 
                 // tb_relationship
-                $this->execute($cn, $model->addField($this->TB_RELATIONSHIP, "Cliente", "id_client", $int, 0, "", $yes, $yes, $this->tb("tb_customer"), $this->fd("name"), ""));
-                $this->execute($cn, $model->addField($this->TB_RELATIONSHIP, "Atividade", "id_activity", $int, 0, "", $yes, $yes, $this->tb("tb_activity"), $this->fd("description"), ""));
-                $this->execute($cn, $model->addField($this->TB_RELATIONSHIP, "Comentário", "file", $this->TYPE_TEXTAREA, 10000, "", $yes, $yes, 0, 0, ""));
+                $this->execute($cn, $model->addField($this->TB_RELATIONSHIP, "Cliente", "id_client", $int, 0, "", $yes, $no, $this->tb("tb_customer"), $this->fd("name"), ""));
+                $this->execute($cn, $model->addField($this->TB_RELATIONSHIP, "Atividade", "id_activity", $int, 0, "", $yes, $no, $this->tb("tb_activity"), $this->fd("description"), ""));
+                $this->execute($cn, $model->addField($this->TB_RELATIONSHIP, "Comentário", "file", $this->TYPE_TEXTAREA, 10000, "", $yes, $no, 0, 0, ""));
                 
                 // tb_file
-                $this->execute($cn, $model->addField($this->TB_FILE, "Cliente", "id_client", $int, 0, "", $yes, $yes, $this->tb("tb_customer"), $this->fd("name"), ""));
-                $this->execute($cn, $model->addField($this->TB_FILE, "Nome", "file_name", $text, 50, "", $yes, $yes, 0, 0, ""));
-                $this->execute($cn, $model->addField($this->TB_FILE, "Descrição", "description", $text, 100, "", $yes, $yes, 0, 0, ""));
-                $this->execute($cn, $model->addField($this->TB_FILE, "Arquivo", "file", $this->TYPE_FILE, 0, "", $yes, $yes, 0, 0, ""));
+                $this->execute($cn, $model->addField($this->TB_FILE, "Cliente", "id_client", $int, 0, "", $yes, $no, $this->tb("tb_customer"), $this->fd("name"), ""));
+                $this->execute($cn, $model->addField($this->TB_FILE, "Nome", "file_name", $text, 50, "", $yes, $no, 0, 0, ""));
+                $this->execute($cn, $model->addField($this->TB_FILE, "Descrição", "description", $text, 100, "", $yes, $no, 0, 0, ""));
+                $this->execute($cn, $model->addField($this->TB_FILE, "Arquivo", "file", $this->TYPE_FILE, 0, "", $no, $no, 0, 0, ""));
 
             } catch (Exception $ex) {
                 throw $ex;

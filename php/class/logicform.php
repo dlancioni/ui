@@ -104,7 +104,7 @@ class LogicForm extends Base {
                 foreach($this->tableDef as $item) {
 
                     // Get structure
-                    $cols = "";                
+                    $cols = "";
                     $fk = $item["id_fk"];
                     $fieldId = $item["id"];
                     $fieldLabel = $item["field_label"];
