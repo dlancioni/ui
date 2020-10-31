@@ -141,7 +141,7 @@
                 if ($this->sqlBuilder->getEvent() == "Delete") {
                     
                     $sql .= " delete from tb_event";
-                    $sql .= " where " . $jsonUtil->condition("tb_event", "id_system", "int", "=", $this->sqlBuilder->getSystem());
+                    $sql .= " where " . $jsonUtil->condition("tb_event", "id_system", "text", "=", $this->sqlBuilder->getSystem());
                     $sql .= " and " . $jsonUtil->condition("tb_event", "id_table", "int", "=", $tableId);
                     $rs = pg_query($this->cn, $sql);
                     $affectedRows = pg_affected_rows($rs);
@@ -202,7 +202,7 @@
                 // Delete related events
                 if ($this->sqlBuilder->getEvent() == "Delete") {
                     $sql .= " delete from tb_field";
-                    $sql .= " where " . $jsonUtil->condition("tb_field", "id_system", "int", "=", $this->sqlBuilder->getSystem());
+                    $sql .= " where " . $jsonUtil->condition("tb_field", "id_system", "text", "=", $this->sqlBuilder->getSystem());
                     $sql .= " and " . $jsonUtil->condition("tb_field", "id_table", "int", "=", $tableId);
                     $rs = pg_query($this->cn, $sql);
                     $affectedRows = pg_affected_rows($rs);
@@ -256,7 +256,7 @@
                         // Remove transaction from Profile x Transaction
                         $sql = "";
                         $sql .= " delete from tb_profile_table";
-                        $sql .= " where " . $jsonUtil->condition("tb_profile_table", "id_system", "int", "=", $this->sqlBuilder->getSystem());
+                        $sql .= " where " . $jsonUtil->condition("tb_profile_table", "id_system", "text", "=", $this->sqlBuilder->getSystem());
                         $sql .= " and " . $jsonUtil->condition("tb_profile_table", "id_table", "int", "=", $tableId);
                         $rs = pg_query($this->cn, $sql);
                         $affectedRows = pg_affected_rows($rs);
@@ -310,7 +310,7 @@
                         // Remove transaction from Transaction x Function
                         $sql = "";
                         $sql .= " delete from tb_table_function";
-                        $sql .= " where " . $jsonUtil->condition("tb_table_function", "id_system", "int", "=", $this->sqlBuilder->getSystem());
+                        $sql .= " where " . $jsonUtil->condition("tb_table_function", "id_system", "text", "=", $this->sqlBuilder->getSystem());
                         $sql .= " and " . $jsonUtil->condition("tb_table_function", "id_table", "int", "=", $tableId);
                         $rs = pg_query($this->cn, $sql);
                         $affectedRows = pg_affected_rows($rs);

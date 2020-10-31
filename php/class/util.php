@@ -211,6 +211,8 @@
                     // Numeric, do nothing
                     break;
                 default:
+                    // Avoid duplication
+                    $value = str_replace("'", "", $value);
                     // Set dbqt
                     $value = $this->sqt($value);
             }

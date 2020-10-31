@@ -31,6 +31,7 @@
             $jsonUtil = new JsonUtil();
             $pathUtil = new PathUtil();
             $this->systemId = $systemId;
+            $this->setSystem($systemId);
 
             try {
 
@@ -83,16 +84,12 @@
 
             try {
 
-                $systemId = $this->systemId;
-
-                // Create main schema
-                pg_query($cn, "create schema if not exists form1");
-
                 // Create schema for clientes
-                $schemaName = "system_$systemId";
-                pg_query($cn, "drop schema if exists system_$schemaName");
+                $schemaName = $this->systemId;
+
+                pg_query($cn, "drop schema if exists $schemaName cascade");
                 pg_query($cn, "create schema if not exists $schemaName");
-                pg_query($cn, "set search_path to $schemaName");               
+                pg_query($cn, "set search_path to $schemaName");
 
             } catch (Exception $ex) {
                 throw $ex;
@@ -930,7 +927,7 @@
                 $sql .= " select";
                 $sql .= " tb_table.id";
                 $sql .= " from tb_table";
-                $sql .= " where (tb_table.field->>'id_system')::int = " . $this->systemId;
+                $sql .= " where (tb_table.field->>'id_system')::text = " . $this->getSystem();
                 $sql .= " and (tb_table.field->>'name')::text = " . "'" . $tableName . "'";
                 
                 $rs = pg_query($this->cn, $sql);
@@ -961,7 +958,7 @@
                 $sql .= " select";
                 $sql .= " tb_field.id";
                 $sql .= " from tb_field";
-                $sql .= " where (tb_field.field->>'id_system')::int = " . $this->systemId;
+                $sql .= " where (tb_field.field->>'id_system')::text = " . $this->getSystem();
                 $sql .= " and (tb_field.field->>'id_table')::int = " . $this->tableId;
                 $sql .= " and tb_field.field->>'name' = " . "'" . $fieldName . "'";
                 

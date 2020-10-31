@@ -99,7 +99,7 @@
                         if (intval($id) != 0) {
                             $sql = "";
                             $sql .= " delete from tb_table_function";
-                            $sql .= " where " . $jsonUtil->condition("tb_table_function", "id_system", "int", "=", $this->sqlBuilder->getSystem());
+                            $sql .= " where " . $jsonUtil->condition("tb_table_function", "id_system", "text", "=", $this->sqlBuilder->getSystem());
                             $sql .= " and " . $jsonUtil->condition("tb_table_function", "id_table", "int", "=", $tableId);
                             $sql .= " and " . $jsonUtil->condition("tb_table_function", "id_function", "int", "=", $id);
                             $rs = pg_query($this->cn, $sql);

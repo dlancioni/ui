@@ -64,7 +64,7 @@
 
         // Current session
         public function getSystem() {
-            return $this->systemId;
+            return "'" . trim($this->systemId) . "'";
         }
         public function setSystem($systemId) {
             $this->systemId = $systemId;

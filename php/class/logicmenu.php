@@ -140,7 +140,7 @@
                     $sql .= " inner join tb_profile_table on (tb_profile_table.field->>'id_table')::int = tb_table.id";
                     $sql .= " inner join tb_profile on (tb_profile_table.field->>'id_profile')::int = tb_profile.id";
                     $sql .= " inner join tb_user_profile on (tb_user_profile.field->>'id_profile')::int = tb_profile.id";
-                    $sql .= " where (tb_table.field->>'id_system')::int = " . $systemId;
+                    $sql .= " where (tb_table.field->>'id_system')::text = " . "'" . $systemId . "'";
                     $sql .= " and (tb_user_profile.field->>'id_user')::int = " . $userId;
 
                     $sql .= " union";
@@ -151,13 +151,13 @@
                     $sql .= " (field->>'id_parent')::int as id_parent,";
                     $sql .= " (field->>'name')::text as name";
                     $sql .= " from tb_menu";
-                    $sql .= " where (field->>'id_system')::int = ". $this->sqlBuilder->getSystem();
+                    $sql .= " where (field->>'id_system')::text = " . "'" . $systemId . "'";
                     $sql .= " and tb_menu.id in"; 
                     $sql .= " (";
                         $sql .= " select"; 
                         $sql .= " (field->>'id_menu')::int";
                         $sql .= " from tb_table";
-                        $sql .= " where (field->>'id_system')::int = ". $this->sqlBuilder->getSystem(); 
+                        $sql .= " where (field->>'id_system')::text = " . "'" . $systemId . "'";
                     $sql .= " )";
                 $sql .= " ) tb";
                 $sql .= " order by 1";

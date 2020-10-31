@@ -51,7 +51,7 @@
          */
         $sql = "";
         $sql .= " select schema_name from information_schema.schemata";
-        $sql .= " where schema_name = " . "'" . "system_" . $systemId . "'";
+        $sql .= " where schema_name = " . "'" . trim($systemId) . "'";
 
         $rs = pg_query($cn, $sql);
         if (!pg_fetch_row($rs)) {

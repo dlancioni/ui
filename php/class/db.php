@@ -30,7 +30,7 @@
                 }
 
                 if (trim($systemId) != "") {
-                    pg_query($cn, "set search_path to system_$systemId");
+                    pg_query($cn, "set search_path to $systemId");
                 }
 
             } catch (Exception $ex) {

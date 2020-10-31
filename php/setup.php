@@ -12,7 +12,7 @@
     $jsonUtil = "";
     $sqlBuilder = "";
     $total = 0;
-    $systemId = 1;
+    $systemId = "forms";
     
     // Core code
     try {
@@ -25,7 +25,6 @@
         $cn = $db->getConnection(""); // No schema yet
         $logicSetup = new LogicSetup($cn, $sqlBuilder);
         $logicSetup->setup($systemId);
-        $logicSetup->setup(2);
 
         echo "Done !!";
 

@@ -229,7 +229,7 @@ class SqlBuilder extends Base {
             $sql .= "count(*) over() as record_count,";
 
             // System fields
-            $sql .= $jsonUtil->select($tableName, "id_system", "int", "id_system") . ",";
+            $sql .= $jsonUtil->select($tableName, "id_system", "text", "id_system") . ",";
             $sql .= $jsonUtil->select($tableName, "id_group", "int", "id_group") . ",";
 
             // Base ID            
@@ -336,7 +336,7 @@ class SqlBuilder extends Base {
 
             $sql .= " where " . $jsonUtil->condition($tableName, 
                                                     "id_system",
-                                                    "int", 
+                                                    "text", 
                                                     "=", 
                                                     $this->getSystem());
 
@@ -450,7 +450,7 @@ class SqlBuilder extends Base {
         $sql .= " tb_field.id,";
 
         // tb_table
-        $sql .= " (tb_field.field->>'id_system')::int as id_system,";
+        $sql .= " (tb_field.field->>'id_system')::text as id_system,";
         $sql .= " (tb_table.field->>'name')::text as table_name,";
         $sql .= " (tb_table.field->>'title')::text as title,";
 
@@ -496,7 +496,7 @@ class SqlBuilder extends Base {
         $sql .= " left join tb_field tb_field_fk on (tb_field.field->>'id_field_fk')::text = (tb_field_fk.id)::text";
 
         // Base filter
-        $sql .= " where (tb_field.field->>'id_system')::int = " . $this->getSystem();
+        $sql .= " where (tb_field.field->>'id_system')::text = " . $this->getSystem();
         $sql .= " and (tb_field.field->>'id_table')::int = " . $tableId;
 
         // Ordering
@@ -527,14 +527,15 @@ class SqlBuilder extends Base {
         $affectedRows = "";
         $event = $this->getEvent();
         $jsonUtil = new jsonUtil();
+        $systemId = str_replace("'", "", $this->getSystem());
 
         // Make sure id_system is set
-        $record = $jsonUtil->setValue($record, "id_system", $this->getSystem());
+        $record = $jsonUtil->setValue($record, "id_system", $systemId);
         $record = $jsonUtil->setValue($record, "id_group", $this->getGroup());
 
         // Prepare condition for update and delete
         $key .= " where " . $jsonUtil->condition($tableName, "id", "int", "=", $this->getLastId());                        
-        $key .= " and " . $jsonUtil->condition($tableName, "id_system", "int", "=", $this->getSystem());
+        $key .= " and " . $jsonUtil->condition($tableName, "id_system", "text", "=", $this->getSystem());
 
         try {
 
@@ -611,7 +612,7 @@ class SqlBuilder extends Base {
             $sql .= " select ";
             $sql .= $jsonUtil->field("tb_user_group", "id_grp", "int");
             $sql .= " from tb_user_group";
-            $sql .= " where " . $jsonUtil->field("tb_user_group", "id_system", "int") . " = " . $this->getSystem();
+            $sql .= " where " . $jsonUtil->field("tb_user_group", "id_system", "text") . " = " . $this->getSystem();
             $sql .= " and " . $jsonUtil->field("tb_user_group", "id_user", "int") . " = " . $userId;
 
         } catch (Exception $ex) {
