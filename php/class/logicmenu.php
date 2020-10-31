@@ -135,7 +135,7 @@
                     $sql .= " select";
                     $sql .= " tb_table.id,";
                     $sql .= " (tb_table.field->>'id_menu')::int as id_parent,";
-                    $sql .= " tb_table.field->>'name' as name";
+                    $sql .= " tb_table.field->>'title' as name";
                     $sql .= " from tb_table";
                     $sql .= " inner join tb_profile_table on (tb_profile_table.field->>'id_table')::int = tb_table.id";
                     $sql .= " inner join tb_profile on (tb_profile_table.field->>'id_profile')::int = tb_profile.id";

@@ -320,7 +320,7 @@
                 $filter = new Filter();
                 $filter->add("tb_table", "id", $tableId);
                 $data = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_TABLE, $filter->create(), $this->sqlBuilder->QUERY_NO_PAGING);
-                $pageTitle = $data[0]["name"];  
+                $pageTitle = $data[0]["title"];  
                 
                 switch ($event) {
                     case "New":

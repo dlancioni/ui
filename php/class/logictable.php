@@ -72,12 +72,12 @@
                 // Figure out table name   
                 if ($old != "{}") {
                     $json = json_decode($old);
-                    $tableOld = $json->{'table_name'};
+                    $tableOld = $json->{'name'};
                 }
 
                 if ($new != "{}") {
                     $json = json_decode($new);
-                    $tableNew = $json->{'table_name'};
+                    $tableNew = $json->{'name'};
                 }
 
                 // Take action on tables according to current event

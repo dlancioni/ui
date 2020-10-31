@@ -35,7 +35,7 @@ class SqlBuilder extends Base {
             $sql = "select json_agg(t) from (" . $query . ") t";
 
             // Log file
-            $file = fopen("c:\\temp\\log.txt", "w") or die("Unable to open file!");
+            $file = fopen("c:\\temp\\query.txt", "w") or die("Unable to open file!");
             fwrite($file, $sql);
             fclose($file);
 
@@ -448,9 +448,13 @@ class SqlBuilder extends Base {
         $sql = "";
         $sql .= " select";
         $sql .= " tb_field.id,";
+
+        // tb_table
         $sql .= " (tb_field.field->>'id_system')::int as id_system,";
-        $sql .= " (tb_table.field->>'table_name')::text as table_name,";
-        $sql .= " (tb_table.field->>'name')::text as name,";
+        $sql .= " (tb_table.field->>'name')::text as table_name,";
+        $sql .= " (tb_table.field->>'title')::text as title,";
+
+        // tb_field        
         $sql .= " (tb_field.field->>'label')::text as field_label,";
         $sql .= " (tb_field.field->>'name')::text as field_name,";
         $sql .= " (tb_field.field->>'id_type')::int as field_type,";
@@ -458,12 +462,12 @@ class SqlBuilder extends Base {
         $sql .= " (tb_field.field->>'mask')::text as field_mask,";
         $sql .= " (tb_field.field->>'id_mandatory')::int as field_mandatory,";
         $sql .= " (tb_field.field->>'id_unique')::int as field_unique,";
-        $sql .= " (tb_field.field->>'id_table_fk')::int as id_fk,";
-        $sql .= " (tb_table_fk.field->>'table_name')::text as table_fk,";
+        $sql .= " (tb_field.field->>'id_table_fk')::int as id_fk,";        
+        $sql .= " (tb_table_fk.field->>'name')::text as table_fk,";
         $sql .= " (tb_field_fk.field->>'name')::text as field_fk,";
         $sql .= " (tb_field.field->>'domain')::text as field_domain,";
 
-        // Field attribute
+        // tb_field_attribute
         $sql .= " (tb_field_attribute.field->>'column_size')::text as column_size,";
         
         // Specific data types
@@ -498,6 +502,11 @@ class SqlBuilder extends Base {
         // Ordering
         //$sql .= " order by (tb_field.field->>'order')::int, tb_field.id";
         $sql .= " order by tb_field.id";
+
+            // Log file
+            $file = fopen("c:\\temp\\catalog.txt", "w") or die("Unable to open file!");
+            fwrite($file, $sql);
+            fclose($file);
 
 
         // Return final query    
