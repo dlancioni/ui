@@ -58,7 +58,7 @@
                 if ($fieldType == "text") {
                     if ($this->operatorForTextComparison == "like") {
                         $fieldOperator = "like";
-                        $fieldValue = "%" . $fieldValue . "%";
+                        $fieldValue = $this->prepareValueForLike($fieldValue);
                     } else {
                         $fieldOperator = "=";                        
                     }
@@ -98,7 +98,7 @@
             if ($fieldType == "text") {
                 if ($this->operatorForTextComparison == "like") {
                     $fieldOperator = "like";
-                    $fieldValue = "%" . $fieldValue . "%";
+                    $fieldValue = $this->prepareValueForLike($fieldValue);
                 } else {
                     $fieldOperator = "=";                        
                 }
@@ -127,7 +127,7 @@
             if ($fieldType == "text") {
                 if ($this->operatorForTextComparison == "like") {
                     $fieldOperator = "like";
-                    $fieldValue = "%" . $fieldValue . "%";
+                    $fieldValue = $this->prepareValueForLike($fieldValue);
                 } else {
                     $fieldOperator = "=";                        
                 }
@@ -155,5 +155,18 @@
             $output = str_replace(",]", "]", $output);
             return $output;
         }
+
+        function prepareValueForLike($value) {
+
+            if (trim($value) != "") {
+                // Avoid duplication
+                $value = str_replace("%", "", $value);
+                // Add like signal
+                $value = "%" . $value . "%";
+            }
+
+            return $value;
+        }
+
     }
 ?>    

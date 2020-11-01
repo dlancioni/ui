@@ -264,6 +264,7 @@
                 $this->execute($cn, $model->addField($this->TB_FIELD, "Tabela FK", "id_table_fk", $int, 0, "", $no, $no, $this->tb("tb_table"), $this->fd("title"), ""));
                 $this->execute($cn, $model->addField($this->TB_FIELD, "Campo FK", "id_field_fk", $int, 0, "", $no, $no, $this->tb("tb_field"), $this->fd("label"), ""));
                 $this->execute($cn, $model->addField($this->TB_FIELD, "Domínio", "domain", $text, 50, "", $no, $no, 0, 0, ""));
+                $this->execute($cn, $model->addField($this->TB_FIELD, "Config. Avançado", "advanced_setup", $textarea, 1000, "", $no, $no, 0, 0, ""));
                 
                 // tb_function
                 $this->execute($cn, $model->addField($this->TB_FUNCTION, "Nome", "name", $text, 50, "", $yes, $yes, 0, 0, ""));
@@ -350,7 +351,7 @@
                 // tb_relationship
                 $this->execute($cn, $model->addField($this->TB_RELATIONSHIP, "Cliente", "id_client", $int, 0, "", $yes, $no, $this->tb("tb_customer"), $this->fd("name"), ""));
                 $this->execute($cn, $model->addField($this->TB_RELATIONSHIP, "Atividade", "id_activity", $int, 0, "", $yes, $no, $this->tb("tb_activity"), $this->fd("description"), ""));
-                $this->execute($cn, $model->addField($this->TB_RELATIONSHIP, "Comentário", "file", $this->TYPE_TEXTAREA, 10000, "", $yes, $no, 0, 0, ""));
+                $this->execute($cn, $model->addField($this->TB_RELATIONSHIP, "Comentário", "comment", $this->TYPE_TEXTAREA, 10000, "", $yes, $no, 0, 0, ""));
                 
                 // tb_file
                 $this->execute($cn, $model->addField($this->TB_FILE, "Cliente", "id_client", $int, 0, "", $yes, $no, $this->tb("tb_customer"), $this->fd("name"), ""));

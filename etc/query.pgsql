@@ -15,4 +15,4 @@ where field->>'id_table' = '2' order by id
  where (tb_field.field->>'id_system')::int = 1 and (tb_field.field->>'id_table')::int = 2 order by tb_field.id
 
 
- select * from system_forms.tb_table
+ select * from forms.tb_relationship
