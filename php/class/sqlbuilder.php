@@ -466,9 +466,7 @@ class SqlBuilder extends Base {
         $sql .= " (tb_table_fk.field->>'name')::text as table_fk,";
         $sql .= " (tb_field_fk.field->>'name')::text as field_fk,";
         $sql .= " (tb_field.field->>'domain')::text as field_domain,";
-
-        // tb_field_attribute
-        $sql .= " (tb_field_attribute.field->>'column_size')::text as column_size,";
+        $sql .= " (tb_field.field->>'setup')::text as setup,";
         
         // Specific data types
         $sql .= " case ";
@@ -485,11 +483,6 @@ class SqlBuilder extends Base {
 
         // Join table
         $sql .= " inner join tb_table on (tb_field.field->>'id_table')::text = (tb_table.id)::text";
-
-        // Join field attribute
-        $sql .= " left join tb_field_attribute on";
-        $sql .= " (tb_field.field->>'id_table')::text = (tb_field_attribute.field->>'id_table')::text and";
-        $sql .= " (tb_field.id)::text = (tb_field_attribute.field->>'id_field')::text";
 
         // Join inner table
         $sql .= " left join tb_table tb_table_fk on (tb_field.field->>'id_table_fk')::text = (tb_table_fk.id)::text";

@@ -53,7 +53,6 @@
                 $this->createGroup($cn);
                 $this->createCode($cn);
                 $this->createView($cn);
-                $this->createFieldSetup($cn);
 
                 // Access control
                 $this->createUser($cn);
@@ -121,7 +120,6 @@
                 array_push($table, "tb_table_function");
                 array_push($table, "tb_user");
                 array_push($table, "tb_user_profile");
-                array_push($table, "tb_field_attribute");
                 array_push($table, "tb_user_group");
                 
                 // User
@@ -189,7 +187,6 @@
                 $this->TB_CODE = $this->execute($cn, $model->addTable("tb_code", "Programação", $TYPE_SYSTEM, $MENU_ADM));
                 $this->TB_VIEW = $this->execute($cn, $model->addTable("tb_view","Visão", $TYPE_SYSTEM,  $MENU_ADM));
                 $this->TB_VIEW_FIELD = $this->execute($cn, $model->addTable("tb_view_field", "Visão x Campos", $TYPE_SYSTEM, $MENU_ADM));
-                $this->TB_FIELD_ATTRIBUTE = $this->execute($cn, $model->addTable("tb_field_attribute", "Atributos de Campos", $TYPE_SYSTEM, $MENU_ADM));
 
                 // ACCESS CONTROL
                 $this->TB_PROFILE = $this->execute($cn, $model->addTable("tb_profile", "Perfil", $TYPE_SYSTEM, $MENU_AC));
@@ -237,20 +234,20 @@
                 $tableName = "tb_field";
 
                 // tb_domain
-                $this->execute($cn, $model->addField($this->TB_DOMAIN, "Chave", "key", $text, 50, "", $yes, $yes, 0, 0, ""));
-                $this->execute($cn, $model->addField($this->TB_DOMAIN, "Valor", "value", $text, 50, "", $yes, $yes, 0, 0, ""));
-                $this->execute($cn, $model->addField($this->TB_DOMAIN, "Domínio", "domain", $text, 50, "", $yes, $yes, 0, 0, ""));
+                $this->execute($cn, $model->addField($this->TB_DOMAIN, "Chave", "key", $text, 50, "", $yes, $yes, 0, 0, "", '{"size":10}'));
+                $this->execute($cn, $model->addField($this->TB_DOMAIN, "Valor", "value", $text, 50, "", $yes, $yes, 0, 0, "", '{"size":40}'));
+                $this->execute($cn, $model->addField($this->TB_DOMAIN, "Domínio", "domain", $text, 50, "", $yes, $yes, 0, 0, "", '{"size":45}'));
 
                 // tb_menu                
-                $this->execute($cn, $model->addField($this->TB_MENU, "Nome", "name", $text, 50, "", $yes, $no, 0, 0, ""));
-                $this->execute($cn, $model->addField($this->TB_MENU, "Parent", "id_parent", $int, 0, "", $no, $no, $this->tb("tb_menu"), $this->fd("name"), ""));
-                $this->execute($cn, $model->addField($this->TB_MENU, "Ordem", "order", $int, 0, "", $yes, $yes, 0, 0, ""));
+                $this->execute($cn, $model->addField($this->TB_MENU, "Nome", "name", $text, 50, "", $yes, $no, 0, 0, "", '{"size":25}'));
+                $this->execute($cn, $model->addField($this->TB_MENU, "Parent", "id_parent", $int, 0, "", $no, $no, $this->tb("tb_menu"), $this->fd("name"), "", '{"size":10}'));
+                $this->execute($cn, $model->addField($this->TB_MENU, "Ordem", "order", $int, 0, "", $yes, $yes, 0, 0, "", '{"size":60}'));
 
                 // tb_table                
-                $this->execute($cn, $model->addField($this->TB_TABLE, "Nome", "name", $text, 50, "", $yes, $yes, 0, 0, ""));
-                $this->execute($cn, $model->addField($this->TB_TABLE, "Titulo", "title", $text, 50, "", $yes, $no, 0, 0, ""));
-                $this->execute($cn, $model->addField($this->TB_TABLE, "Tipo", "id_type", $int, 0, "", $yes, $no, $this->tb("tb_domain"), $this->fd("value"), "tb_table_type"));
-                $this->execute($cn, $model->addField($this->TB_TABLE, "Menu", "id_menu", $int, 0, "", $yes, $no, $this->tb("tb_menu"), $this->fd("name"), ""));
+                $this->execute($cn, $model->addField($this->TB_TABLE, "Nome", "name", $text, 50, "", $yes, $yes, 0, 0, '{"size":20}'));
+                $this->execute($cn, $model->addField($this->TB_TABLE, "Titulo", "title", $text, 50, "", $yes, $no, 0, 0, '{"size":20}'));
+                $this->execute($cn, $model->addField($this->TB_TABLE, "Tipo", "id_type", $int, 0, "", $yes, $no, $this->tb("tb_domain"), $this->fd("value"), "tb_table_type", '{"size":20}'));
+                $this->execute($cn, $model->addField($this->TB_TABLE, "Menu", "id_menu", $int, 0, "", $yes, $no, $this->tb("tb_menu"), $this->fd("name"), "", '{"size":35}'));
 
                 // tb_field
                 $this->execute($cn, $model->addField($this->TB_FIELD, "Tabela", "id_table", $int, 0, "", $yes, $yes, $this->tb("tb_table"), $this->fd("title"), ""));
@@ -264,10 +261,10 @@
                 $this->execute($cn, $model->addField($this->TB_FIELD, "Tabela FK", "id_table_fk", $int, 0, "", $no, $no, $this->tb("tb_table"), $this->fd("title"), ""));
                 $this->execute($cn, $model->addField($this->TB_FIELD, "Campo FK", "id_field_fk", $int, 0, "", $no, $no, $this->tb("tb_field"), $this->fd("label"), ""));
                 $this->execute($cn, $model->addField($this->TB_FIELD, "Domínio", "domain", $text, 50, "", $no, $no, 0, 0, ""));
-                $this->execute($cn, $model->addField($this->TB_FIELD, "Config. Avançado", "advanced_setup", $textarea, 1000, "", $no, $no, 0, 0, ""));
+                $this->execute($cn, $model->addField($this->TB_FIELD, "Configurações", "setup", $textarea, 1000, "", $no, $no, 0, 0, ""));
                 
                 // tb_function
-                $this->execute($cn, $model->addField($this->TB_FUNCTION, "Nome", "name", $text, 50, "", $yes, $yes, 0, 0, ""));
+                $this->execute($cn, $model->addField($this->TB_FUNCTION, "Nome", "name", $text, 50, "", $yes, $yes, 0, 0, "", '{"size":95}'));
 
                 // tb_event
                 $this->execute($cn, $model->addField($this->TB_EVENT, "Tabela", "id_table", $int, 0, "", $yes, $yes, $this->tb("tb_table"), $this->fd("title"), ""));
@@ -282,21 +279,21 @@
                 $this->execute($cn, $model->addField($this->TB_CODE, "Código", "code", $textarea, 10000, "", $yes, $yes, 0, 0, ""));
 
                 // tb_group
-                $this->execute($cn, $model->addField($this->TB_GROUP, "Nome", "name", $text, 50, "", $yes, $yes, 0, 0, ""));
+                $this->execute($cn, $model->addField($this->TB_GROUP, "Nome", "name", $text, 50, "", $yes, $yes, 0, 0, "", '{"size":95}'));
 
                 // tb_view
                 $this->execute($cn, $model->addField($this->TB_VIEW, "Nome", "name", $text, 50, "", $yes, $yes, 0, 0, ""));
                 $this->execute($cn, $model->addField($this->TB_VIEW, "SQL", "sql", $textarea, 10000, "", $yes, $yes, 0, 0, ""));
 
                 // tb_view_field
-                $this->execute($cn, $model->addField($this->TB_VIEW_FIELD, "Nome", "name", $text, 50, "", $yes, $yes, 0, 0, ""));
+                $this->execute($cn, $model->addField($this->TB_VIEW_FIELD, "Nome", "name", $text, 50, "", $yes, $yes, 0, 0, "", '{"size":95}'));
 
                 // tb_profile                
-                $this->execute($cn, $model->addField($this->TB_PROFILE, "Nome", "name", $text, 50, "", $yes, $yes, 0, 0, ""));
+                $this->execute($cn, $model->addField($this->TB_PROFILE, "Nome", "name", $text, 50, "", $yes, $yes, 0, 0, "", '{"size":95}'));
 
                 // tb_profile_table
-                $this->execute($cn, $model->addField($this->TB_PROFILE_TABLE, "Perfil", "id_profile", $int, 0, "", $yes, $yes, $this->tb("tb_profile"), $this->fd("name"), ""));
-                $this->execute($cn, $model->addField($this->TB_PROFILE_TABLE, "Transação", "id_table", $int, 0, "", $yes, $yes, $this->tb("tb_table"), $this->fd("title"), ""));
+                $this->execute($cn, $model->addField($this->TB_PROFILE_TABLE, "Perfil", "id_profile", $int, 0, "", $yes, $yes, $this->tb("tb_profile"), $this->fd("name"), "", '{"size":10}'));
+                $this->execute($cn, $model->addField($this->TB_PROFILE_TABLE, "Transação", "id_table", $int, 0, "", $yes, $yes, $this->tb("tb_table"), $this->fd("title"), "", '{"size":85}'));
 
                 // tb_table_function
                 $this->execute($cn, $model->addField($this->TB_TABLE_FUNCTION, "Perfil", "id_profile", $int, 0, "", $yes, $yes, $this->tb("tb_profile"), $this->fd("name"), ""));
@@ -309,25 +306,17 @@
                 $this->execute($cn, $model->addField($this->TB_USER, "Password", "password", $password, 50, "", $yes, $yes, 0, 0, ""));
 
                 // tb_user_profile
-                $this->execute($cn, $model->addField($this->TB_USER_PROFILE, "Usuário", "id_user", $int, 0, "", $yes, $no, $this->tb("tb_user"), $this->fd("name"), ""));
-                $this->execute($cn, $model->addField($this->TB_USER_PROFILE, "Perfil", "id_profile", $int, 0, "", $yes, $no, $this->tb("tb_profile"), $this->fd("name"), ""));
-
-                // tb_field_attribute
-                $this->execute($cn, $model->addField($this->TB_FIELD_ATTRIBUTE, "Tabela", "id_table", $int, 0, "", $yes, $yes, $this->tb("tb_table"), $this->fd("title"), ""));
-                $this->execute($cn, $model->addField($this->TB_FIELD_ATTRIBUTE, "Campo", "id_field", $int, 0, "", $yes, $yes, $this->tb("tb_field"), $this->fd("label"), ""));
-                $this->execute($cn, $model->addField($this->TB_FIELD_ATTRIBUTE, "Coluna (%)", "column_size", $int, 0, "", $no, $no, 0, 0, ""));
-                $this->execute($cn, $model->addField($this->TB_FIELD_ATTRIBUTE, "Valor Padrão", "default_value", $int, 0, "", $no, $no, 0, 0, ""));
-                $this->execute($cn, $model->addField($this->TB_FIELD_ATTRIBUTE, "Ordem Tabela", "table_order", $int, 0, "", $no, $no, 0, 0, ""));
-                $this->execute($cn, $model->addField($this->TB_FIELD_ATTRIBUTE, "Ordem Formulário", "form_order", $int, 0, "", $no, $no, 0, 0, ""));
+                $this->execute($cn, $model->addField($this->TB_USER_PROFILE, "Usuário", "id_user", $int, 0, "", $yes, $no, $this->tb("tb_user"), $this->fd("name"), "", '{"size":10}'));
+                $this->execute($cn, $model->addField($this->TB_USER_PROFILE, "Perfil", "id_profile", $int, 0, "", $yes, $no, $this->tb("tb_profile"), $this->fd("name"), "", '{"size":85}'));
 
                 // tb_user_group
-                $this->execute($cn, $model->addField($this->TB_USER_GROUP, "Usuário", "id_user", $int, 0, "", $yes, $no, $this->tb("tb_user"), $this->fd("name"), ""));
-                $this->execute($cn, $model->addField($this->TB_USER_GROUP, "Grupo", "id_grp", $int, 0, "", $yes, $no, $this->tb("tb_group"), $this->fd("name"), ""));
+                $this->execute($cn, $model->addField($this->TB_USER_GROUP, "Usuário", "id_user", $int, 0, "", $yes, $no, $this->tb("tb_user"), $this->fd("name"), "", '{"size":10}'));
+                $this->execute($cn, $model->addField($this->TB_USER_GROUP, "Grupo", "id_grp", $int, 0, "", $yes, $no, $this->tb("tb_group"), $this->fd("name"), "", '{"size":85}'));
 
                 // tb_customer
-                $this->execute($cn, $model->addField($this->TB_CUSTOMER, "Nome", "name", $text, 50, "", $yes, $yes, 0, 0, ""));
-                $this->execute($cn, $model->addField($this->TB_CUSTOMER, "Tipo de Pessoa", "person_type", $int, 0, "", $yes, $yes, $this->tb("tb_domain"), $this->fd("value"), "tb_person_type"));
-                $this->execute($cn, $model->addField($this->TB_CUSTOMER, "Tipo de Cliente", "client_type", $text, 50, "", $yes, $no, $this->tb("tb_domain"), $this->fd("value"), "tb_client_type"));
+                $this->execute($cn, $model->addField($this->TB_CUSTOMER, "Nome", "name", $text, 50, "", $yes, $yes, 0, 0, "", '{"size":10}'));
+                $this->execute($cn, $model->addField($this->TB_CUSTOMER, "Tipo de Pessoa", "person_type", $int, 0, "", $yes, $yes, $this->tb("tb_domain"), $this->fd("value"), "tb_person_type", "", '{"size":10}'));
+                $this->execute($cn, $model->addField($this->TB_CUSTOMER, "Tipo de Cliente", "client_type", $text, 50, "", $yes, $no, $this->tb("tb_domain"), $this->fd("value"), "tb_client_type", "", '{"size":75}'));
 
                 // tb_address                
                 $this->execute($cn, $model->addField($this->TB_ADDRESS, "Cliente", "id_client", $int, 0, "", $yes, $yes, $this->tb("tb_customer"), $this->fd("name"), ""));
@@ -346,12 +335,12 @@
                 $this->execute($cn, $model->addField($this->TB_CONTACT, "Nota", "description", $text, 50, "", $no, $no, 0, 0, ""));
                 
                 // tb_activity
-                $this->execute($cn, $model->addField($this->TB_ACTIVITY, "Descrição", "description", $text, 50, "", $yes, $yes, 0, 0, ""));
+                $this->execute($cn, $model->addField($this->TB_ACTIVITY, "Descrição", "description", $text, 50, "", $yes, $yes, 0, 0, '{"size":95}'));
 
                 // tb_relationship
-                $this->execute($cn, $model->addField($this->TB_RELATIONSHIP, "Cliente", "id_client", $int, 0, "", $yes, $no, $this->tb("tb_customer"), $this->fd("name"), ""));
-                $this->execute($cn, $model->addField($this->TB_RELATIONSHIP, "Atividade", "id_activity", $int, 0, "", $yes, $no, $this->tb("tb_activity"), $this->fd("description"), ""));
-                $this->execute($cn, $model->addField($this->TB_RELATIONSHIP, "Comentário", "comment", $this->TYPE_TEXTAREA, 10000, "", $yes, $no, 0, 0, ""));
+                $this->execute($cn, $model->addField($this->TB_RELATIONSHIP, "Cliente", "id_client", $int, 0, "", $yes, $no, $this->tb("tb_customer"), $this->fd("name"), "", '{"size":10}'));
+                $this->execute($cn, $model->addField($this->TB_RELATIONSHIP, "Atividade", "id_activity", $int, 0, "", $yes, $no, $this->tb("tb_activity"), $this->fd("description"), "", '{"size":10}'));
+                $this->execute($cn, $model->addField($this->TB_RELATIONSHIP, "Comentário", "comment", $this->TYPE_TEXTAREA, 10000, "", $yes, $no, 0, 0, "", '{"size":75}'));
                 
                 // tb_file
                 $this->execute($cn, $model->addField($this->TB_FILE, "Cliente", "id_client", $int, 0, "", $yes, $no, $this->tb("tb_customer"), $this->fd("name"), ""));
@@ -825,61 +814,6 @@
                 // View to transaction
                 $this->execute($cn, $model->addView("TransactionByProfileUser", "select distinct tb_table.id, tb_table.field->>''id_parent'' as id_parent, tb_table.field->>''name'' as name, tb_table.field->>''table_name'' as table_name from tb_table inner join tb_profile_table on (tb_profile_table.field->>''id_table'')::int = tb_table.id inner join tb_profile on (tb_profile_table.field->>''id_profile'')::int = tb_profile.id inner join tb_user_profile on (tb_user_profile.field->>''id_profile'')::int = tb_profile.id where (tb_table.field->>''id_system'')::int = p1 and (tb_user_profile.field->>''id_user'')::int = p2 order by tb_table.id"));
                 $this->execute($cn, $model->addView("FunctionByProfileUser", "select distinct tb_user_profile.field->>''id_profile'' id_profile, tb_function.id, tb_function.field->>''name'' as name from tb_user_profile inner join tb_table_function on (tb_table_function.field->>''id_profile'')::int = (tb_user_profile.field->>''id_profile'')::int inner join tb_function on (tb_table_function.field->>''id_function'')::int = tb_function.id where (tb_table_function.field->>''id_table'')::int = p1 and (tb_user_profile.field->>''id_user'')::int = p2 order by tb_function.id"));
-                
-            } catch (Exception $ex) {
-                throw $ex;
-            }
-        }
-
-        /*
-         * Create field setup
-         */
-        private function createFieldSetup($cn) {
-
-            global $tableName;
-            $model = new Model($this->systemId, $this->groupId);
-
-            try {
-
-                // Define table name
-                $tableName = "tb_field_attribute";
-
-                // tb_menu
-                $this->execute($cn, $model->addFieldSetup($this->tb("tb_menu"), $this->fd("name"), 25));
-                $this->execute($cn, $model->addFieldSetup($this->tb("tb_menu"), $this->fd("id_parent"), 10));
-                $this->execute($cn, $model->addFieldSetup($this->tb("tb_menu"), $this->fd("order"), 60));
-                // tb_table
-                $this->execute($cn, $model->addFieldSetup($this->tb("tb_table"), $this->fd("name"), 20));
-                $this->execute($cn, $model->addFieldSetup($this->tb("tb_table"), $this->fd("title"), 20));
-                $this->execute($cn, $model->addFieldSetup($this->tb("tb_table"), $this->fd("id_type"), 20));
-                $this->execute($cn, $model->addFieldSetup($this->tb("tb_table"), $this->fd("id_menu"), 35));
-                // tb_domain
-                $this->execute($cn, $model->addFieldSetup($this->tb("tb_domain"), $this->fd("key"), 10));
-                $this->execute($cn, $model->addFieldSetup($this->tb("tb_domain"), $this->fd("value"), 40));
-                $this->execute($cn, $model->addFieldSetup($this->tb("tb_domain"), $this->fd("domain"), 45));
-                // tb_function
-                $this->execute($cn, $model->addFieldSetup($this->tb("tb_function"), $this->fd("name"), 95));
-                // tb_group
-                $this->execute($cn, $model->addFieldSetup($this->tb("tb_group"), $this->fd("name"), 95));
-                // tb_profile
-                $this->execute($cn, $model->addFieldSetup($this->tb("tb_profile"), $this->fd("name"), 95));
-                // tb_profile_transaction
-                $this->execute($cn, $model->addFieldSetup($this->tb("tb_profile_table"), $this->fd("id_profile"), 10));
-                $this->execute($cn, $model->addFieldSetup($this->tb("tb_profile_table"), $this->fd("id_table"), 85));
-                // tb_transaction_function
-                $this->execute($cn, $model->addFieldSetup($this->tb("tb_table_function"), $this->fd("id_profile"), 10));
-                $this->execute($cn, $model->addFieldSetup($this->tb("tb_table_function"), $this->fd("id_table"), 10));
-                $this->execute($cn, $model->addFieldSetup($this->tb("tb_table_function"), $this->fd("id_function"), 75));
-                // tb_user
-                $this->execute($cn, $model->addFieldSetup($this->tb("tb_user"), $this->fd("name"), 10));
-                $this->execute($cn, $model->addFieldSetup($this->tb("tb_user"), $this->fd("username"), 10));
-                $this->execute($cn, $model->addFieldSetup($this->tb("tb_user"), $this->fd("password"), 75));
-                // tb_user_profile
-                $this->execute($cn, $model->addFieldSetup($this->tb("tb_user_profile"), $this->fd("id_user"), 10));
-                $this->execute($cn, $model->addFieldSetup($this->tb("tb_user_profile"), $this->fd("id_profile"), 85));
-                // tb_user_group
-                $this->execute($cn, $model->addFieldSetup($this->tb("tb_user_group"), $this->fd("id_user"), 10));
-                $this->execute($cn, $model->addFieldSetup($this->tb("tb_user_group"), $this->fd("id_grp"), 85));
                 
             } catch (Exception $ex) {
                 throw $ex;

@@ -15,4 +15,6 @@ where field->>'id_table' = '2' order by id
  where (tb_field.field->>'id_system')::int = 1 and (tb_field.field->>'id_table')::int = 2 order by tb_field.id
 
 
- select * from forms.tb_relationship
+ select * from forms.tb_field where field->>'id_table' = '2'
+
+ 	{"id":4,"mask":"","name":"name","size":50,"label":"Nome","domain":"","id_type":3,"id_group":1,"id_table":1,"id_system":"forms","id_unique":2,"id_field_fk":0,"id_table_fk":0,"id_mandatory":1,"record_count":1,"advanced_setup":"{\"column_size\":\"20\"}"}

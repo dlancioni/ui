@@ -114,9 +114,10 @@ class LogicReport extends Base {
                     $fieldType = $col["field_type"];
                     $dataType = $col["data_type"];
                     $fk = $col["id_fk"];
+                    $fieldAttribute = $col["setup"];
 
                     // Field attribute
-                    $columnSize = $col["column_size"];
+                    $columnSize = $jsonUtil->getValue($fieldAttribute, "size");
 
                     // Get field values
                     if ($fk == 0) {

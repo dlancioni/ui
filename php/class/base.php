@@ -35,24 +35,23 @@
         public $TB_CODE = 7;
         public $TB_VIEW = 8;
         public $TB_VIEW_FIELD = 9;
-        public $TB_FIELD_ATTRIBUTE = 10;
 
         // Access Control
-        public $TB_PROFILE = 11;
-        public $TB_PROFILE_TABLE = 12;
-        public $TB_TABLE_FUNCTION = 13;
-        public $TB_USER = 14;
-        public $TB_USER_PROFILE = 15;
-        public $TB_GROUP = 16;
-        public $TB_USER_GROUP = 17;
+        public $TB_PROFILE = 10;
+        public $TB_PROFILE_TABLE = 11;
+        public $TB_TABLE_FUNCTION = 12;
+        public $TB_USER = 13;
+        public $TB_USER_PROFILE = 14;
+        public $TB_GROUP = 15;
+        public $TB_USER_GROUP = 16;
 
         // Access Control
-        public $TB_CUSTOMER = 18;
-        public $TB_ADDRESS = 19;
-        public $TB_CONTACT = 20;
-        public $TB_ACTIVITY = 21;
-        public $TB_RELATIONSHIP = 22;
-        public $TB_FILE = 23;
+        public $TB_CUSTOMER = 17;
+        public $TB_ADDRESS = 18;
+        public $TB_CONTACT = 19;
+        public $TB_ACTIVITY = 20;
+        public $TB_RELATIONSHIP = 21;
+        public $TB_FILE = 22;
 
         // Constructor
         function __construct($systemId, $tableId, $userId, $groupId) {
