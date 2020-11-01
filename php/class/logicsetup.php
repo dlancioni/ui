@@ -244,8 +244,8 @@
                 $this->execute($cn, $model->addField($this->TB_MENU, "Ordem", "order", $int, 0, "", $yes, $yes, 0, 0, "", '{"size":60}'));
 
                 // tb_table                
-                $this->execute($cn, $model->addField($this->TB_TABLE, "Nome", "name", $text, 50, "", $yes, $yes, 0, 0, '{"size":20}'));
-                $this->execute($cn, $model->addField($this->TB_TABLE, "Titulo", "title", $text, 50, "", $yes, $no, 0, 0, '{"size":20}'));
+                $this->execute($cn, $model->addField($this->TB_TABLE, "Nome", "name", $text, 50, "", $yes, $yes, 0, 0, "", '{"size":20}'));
+                $this->execute($cn, $model->addField($this->TB_TABLE, "Titulo", "title", $text, 50, "", $yes, $no, 0, 0, "", '{"size":20}'));
                 $this->execute($cn, $model->addField($this->TB_TABLE, "Tipo", "id_type", $int, 0, "", $yes, $no, $this->tb("tb_domain"), $this->fd("value"), "tb_table_type", '{"size":20}'));
                 $this->execute($cn, $model->addField($this->TB_TABLE, "Menu", "id_menu", $int, 0, "", $yes, $no, $this->tb("tb_menu"), $this->fd("name"), "", '{"size":35}'));
 
@@ -315,8 +315,8 @@
 
                 // tb_customer
                 $this->execute($cn, $model->addField($this->TB_CUSTOMER, "Nome", "name", $text, 50, "", $yes, $yes, 0, 0, "", '{"size":10}'));
-                $this->execute($cn, $model->addField($this->TB_CUSTOMER, "Tipo de Pessoa", "person_type", $int, 0, "", $yes, $yes, $this->tb("tb_domain"), $this->fd("value"), "tb_person_type", "", '{"size":10}'));
-                $this->execute($cn, $model->addField($this->TB_CUSTOMER, "Tipo de Cliente", "client_type", $text, 50, "", $yes, $no, $this->tb("tb_domain"), $this->fd("value"), "tb_client_type", "", '{"size":75}'));
+                $this->execute($cn, $model->addField($this->TB_CUSTOMER, "Tipo de Pessoa", "person_type", $int, 0, "", $yes, $yes, $this->tb("tb_domain"), $this->fd("value"), "tb_person_type", ""));
+                $this->execute($cn, $model->addField($this->TB_CUSTOMER, "Tipo de Cliente", "client_type", $text, 50, "", $yes, $no, $this->tb("tb_domain"), $this->fd("value"), "tb_client_type", ""));
 
                 // tb_address                
                 $this->execute($cn, $model->addField($this->TB_ADDRESS, "Cliente", "id_client", $int, 0, "", $yes, $yes, $this->tb("tb_customer"), $this->fd("name"), ""));
@@ -335,12 +335,12 @@
                 $this->execute($cn, $model->addField($this->TB_CONTACT, "Nota", "description", $text, 50, "", $no, $no, 0, 0, ""));
                 
                 // tb_activity
-                $this->execute($cn, $model->addField($this->TB_ACTIVITY, "Descrição", "description", $text, 50, "", $yes, $yes, 0, 0, '{"size":95}'));
+                $this->execute($cn, $model->addField($this->TB_ACTIVITY, "Descrição", "description", $text, 50, "", $yes, $yes, 0, 0, ""));
 
                 // tb_relationship
-                $this->execute($cn, $model->addField($this->TB_RELATIONSHIP, "Cliente", "id_client", $int, 0, "", $yes, $no, $this->tb("tb_customer"), $this->fd("name"), "", '{"size":10}'));
-                $this->execute($cn, $model->addField($this->TB_RELATIONSHIP, "Atividade", "id_activity", $int, 0, "", $yes, $no, $this->tb("tb_activity"), $this->fd("description"), "", '{"size":10}'));
-                $this->execute($cn, $model->addField($this->TB_RELATIONSHIP, "Comentário", "comment", $this->TYPE_TEXTAREA, 10000, "", $yes, $no, 0, 0, "", '{"size":75}'));
+                $this->execute($cn, $model->addField($this->TB_RELATIONSHIP, "Cliente", "id_client", $int, 0, "", $yes, $no, $this->tb("tb_customer"), $this->fd("name"), ""));
+                $this->execute($cn, $model->addField($this->TB_RELATIONSHIP, "Atividade", "id_activity", $int, 0, "", $yes, $no, $this->tb("tb_activity"), $this->fd("description"), ""));
+                $this->execute($cn, $model->addField($this->TB_RELATIONSHIP, "Comentário", "comment", $this->TYPE_TEXTAREA, 10000, "", $yes, $no, 0, 0, ""));
                 
                 // tb_file
                 $this->execute($cn, $model->addField($this->TB_FILE, "Cliente", "id_client", $int, 0, "", $yes, $no, $this->tb("tb_customer"), $this->fd("name"), ""));
