@@ -56,6 +56,7 @@ class LogicForm extends Base {
         $control = "";
         $controls = "";
         $cascade = array();
+        $pageTitle = "";
 
         $inputType = "";
         $jsonUtil = "";
@@ -75,6 +76,9 @@ class LogicForm extends Base {
             // Get table structure
             $this->tableDef = $this->sqlBuilder->getTableDef($this->cn, $tableId);
             if (count($this->tableDef) > 0) {
+
+                // Keep page title
+                $pageTitle = $this->tableDef[0]["title"];
                 
                 // Do not query database
                 if ($this->Event == "Filter") {
@@ -231,7 +235,7 @@ class LogicForm extends Base {
             }
 
             // Create page title
-            $html .= $this->element->createPageTitle($tableId, $this->Event);
+            $html .= $this->element->createPageTitle($pageTitle);
 
             // Finalize form
             $html .= $this->element->createForm("form1", $controls);

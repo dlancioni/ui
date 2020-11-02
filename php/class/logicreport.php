@@ -49,6 +49,7 @@ class LogicReport extends Base {
         $columnSize = "";
         $fieldAttribute = "";
         $inputType = "";
+        $pageTitle = "";
 
         try {
 
@@ -61,8 +62,8 @@ class LogicReport extends Base {
 
             // Get table structure
             $this->tableDef = $this->sqlBuilder->getTableDef($this->cn, $tableId);
-            if (count($this->tableDef) == 0) {
-
+            if (count($this->tableDef) > 0) {
+                $pageTitle = $this->tableDef[0]["title"];
             }
 
             // Get data
@@ -165,7 +166,7 @@ class LogicReport extends Base {
             }
 
             // Create page title
-            $html .= $this->element->createPageTitle($tableId);
+            $html .= $this->element->createPageTitle($pageTitle);
 
             // Create final table
             $html .= $this->element->createTable($rows);

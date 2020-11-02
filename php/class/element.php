@@ -309,43 +309,11 @@
         /* 
          * Create page title
          */
-        public function createPageTitle($tableId, $event="") {
+        public function createPageTitle($pageTitle) {
 
-            // General declartion 
             $html = "";
-            $pageTitle = "";
-            $stringUtil = new StringUtil();
-
-            try {
-                $filter = new Filter();
-                $filter->add("tb_table", "id", $tableId);
-                $data = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_TABLE, $filter->create(), $this->sqlBuilder->QUERY_NO_PAGING);
-                $pageTitle = $data[0]["title"];  
-                
-                switch ($event) {
-                    case "New":
-                        $html .= "<h3><i class='fa fa-sticky-note-o' style='font-size:20px;'></i> $pageTitle</h3>";
-                        break;
-                    case "Edit":
-                        $html .= "<h3><i class='fa fa-pencil-square-o' style='font-size:20px;'></i> $pageTitle</h3>";
-                        break;
-                    case "Delete":
-                        $html .= "<h3><i class='fa fa-remove' style='font-size:20px;'></i> $pageTitle</h3>";
-                        break;
-                    case "Filter":
-                        $html .= "<h3><i class='fa fa-filter' style='font-size:20px;'></i> $pageTitle</h3>";
-                        break;
-                    default:    
-                        $html .= "<h3>$pageTitle</h3>";
-                }
-                
-                $html .= "<br>";
-
-
-            } catch (Exception $ex) {
-                throw $ex;
-            }
-            
+            $html .= "<h3>$pageTitle</h3>";
+            $html .= "<br>";
             return $html;
         }      
 
