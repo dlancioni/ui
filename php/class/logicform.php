@@ -58,10 +58,9 @@ class LogicForm extends Base {
         $controls = "";
         $cascade = array();
 
-        // Constants
-        $TEXT_AREA = 6;
-        $FILE = 7;
-        $PASSWORD = 8;
+        $inputType = "";
+        $jsonUtil = "";
+        $jsonUtil = new jsonUtil();
 
         try {
 
@@ -115,6 +114,10 @@ class LogicForm extends Base {
                     $fieldDomain = $item["field_domain"];
                     $datatype = $item["data_type"];
                     $fieldValue = "";
+                    $fieldAttribute = $item["setup"];
+
+                    // Input type
+                    $inputType = $jsonUtil->getValue($fieldAttribute, "type");
 
                     // Placeholder provide information about data type
                     if ($fieldMask != "") {
@@ -151,20 +154,16 @@ class LogicForm extends Base {
 
                     // Add field (textbox or dropdown)
                     if ($fk == 0) {
-
-                        if ($fieldName == "password") {
-                            echo 1;
-                        }                    
                         
                         // Format values
-                        switch ($fieldType) {
-                            case $this->TYPE_TEXTAREA:
+                        switch ($inputType) {
+                            case $this->INPUT_TEXTAREA:
                                 $control = $this->element->createTextarea($fieldId, $fieldName, $fieldValue, $disabled, $this->PageEvent);
                                 break;
-                            case $this->TYPE_FILE:
+                            case $this->INPUT_FILE:
                                 $control = $this->element->createUpload($fieldId, $fieldName, $fieldValue);
                                 break;
-                            case $this->TYPE_PASSWORD:
+                            case $this->INPUT_PASSWORD:
                                 $control = $this->element->createTextbox($fieldId, "password", $fieldName, $fieldValue, $placeHolder, $disabled, $this->PageEvent);
                                 break;
                             default:

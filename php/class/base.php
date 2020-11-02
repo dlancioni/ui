@@ -21,9 +21,13 @@
         public $TYPE_TEXT = 3;
         public $TYPE_DATE = 4;
         public $TYPE_TIME = 5;
-        public $TYPE_TEXTAREA = 6;
-        public $TYPE_FILE = 7;
-        public $TYPE_PASSWORD = 8;
+        public $TYPE_BINARY = 6;
+
+        // HTML control
+        public $INPUT_TEXT = "text";
+        public $INPUT_TEXTAREA = "textarea";
+        public $INPUT_FILE = "file";
+        public $INPUT_PASSWORD = "password";
 
         // Transactions
         public $TB_MENU = 1;

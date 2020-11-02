@@ -49,6 +49,7 @@ class LogicReport extends Base {
         $link = "";
         $columnSize = "";
         $fieldAttribute = "";
+        $inputType = "";
 
         try {
 
@@ -119,6 +120,9 @@ class LogicReport extends Base {
                     // Field attribute
                     $columnSize = $jsonUtil->getValue($fieldAttribute, "size");
 
+                    // Input type
+                    $inputType = $jsonUtil->getValue($fieldAttribute, "type");                    
+
                     // Get field values
                     if ($fk == 0) {
                         $fieldValue = $row[$fieldName];
@@ -126,21 +130,34 @@ class LogicReport extends Base {
                         $fieldValue = $row[substr($fieldName, 3)];
                     }
 
-                    // Format values
+                    // Handle field type (datatype)
                     switch ($fieldType) {
                         case $this->TYPE_FLOAT: 
                             $fieldValue = number_format($fieldValue, 2, ',', '.');
                             break;
-                        case $this->TYPE_PASSWORD:
+                        default:    
+                    }
+
+                    // Handle field element (html control)
+                    switch ($inputType) {
+
+                        case $this->INPUT_PASSWORD:
                             $fieldValue = "******";
                             break;
-                        case $this->TYPE_FILE:
+
+                        case $this->INPUT_FILE:
                             if ($fieldValue != null) {
                                 $link = $pathUtil->getVirtualPath() . $fieldValue;
                                 $fieldValue = $this->element->createLink($this->element->createImage($link), $fieldValue, $link, true);
                             }
                             break;
+
+                        default:
                     }
+
+
+
+
 
                     // Print it
                     $cols .= $this->element->createTableCol($fieldValue, $columnSize);
