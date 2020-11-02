@@ -35,7 +35,6 @@ class LogicReport extends Base {
         $fieldLabel = "";
         $fieldName = "";
         $fieldType = 0;
-        $dataType = "";
         $fieldValue = "";
         $data = array();
         $filter = "";
@@ -113,7 +112,6 @@ class LogicReport extends Base {
                     $fieldFk = $col["field_fk"];
                     $fieldName = $col["field_name"];
                     $fieldType = $col["field_type"];
-                    $dataType = $col["data_type"];
                     $fk = $col["id_fk"];
                     $fieldAttribute = $col["setup"];
 

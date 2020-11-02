@@ -16,12 +16,12 @@
         private $event = 0;
 
         // Datatypes
-        public $TYPE_INT = 1;
-        public $TYPE_FLOAT = 2;
-        public $TYPE_TEXT = 3;
-        public $TYPE_DATE = 4;
-        public $TYPE_TIME = 5;
-        public $TYPE_BINARY = 6;
+        public $TYPE_INT = "int";
+        public $TYPE_FLOAT = "float";
+        public $TYPE_TEXT = "text";
+        public $TYPE_DATE = "date";
+        public $TYPE_TIME = "time";
+        public $TYPE_BINARY = "binary";
 
         // HTML control
         public $INPUT_TEXT = "text";

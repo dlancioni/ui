@@ -101,7 +101,7 @@
 
             // Read base fields
             $fieldName = $item["field_name"];
-            $fieldType = $item["data_type"];
+            $fieldType = $item["field_type"];
 
             // Get form info
             if (isset($_REQUEST[$fieldName])) {
@@ -129,7 +129,7 @@
             foreach ($tableDef as $item) {
                 $fieldLabel = $item["field_label"];
                 $fieldName = $item["field_name"];
-                $fieldType = $item["data_type"];
+                $fieldType = $item["field_type"];
                 $fieldUnique = $item["field_unique"];
                 $fieldValue = $jsonUtil->getValue($new, $fieldName);   
                 if ($jsonUtil->getValue($old, $fieldName, true) != 

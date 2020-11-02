@@ -42,8 +42,8 @@
 
                 // Validate the username
                 $filter = new Filter();
-                $filter->addCondition("tb_user", "id_system", "text", "=", $systemId);
-                $filter->addCondition("tb_user", "username", "text", "=", $username);
+                $filter->addCondition("tb_user", "id_system", $this->TYPE_TEXT, "=", $systemId);
+                $filter->addCondition("tb_user", "username", $this->TYPE_TEXT, "=", $username);
                 $data = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_USER, $filter->create(), $this->sqlBuilder->QUERY_NO_JOIN);
                 if (count($data) <= 0) {
                     $msg = $message->getValue("A13");
@@ -54,8 +54,8 @@
 
                 // Validate the profile
                 $filter = new Filter();
-                $filter->addCondition("tb_user_profile", "id_system", "text", "=", $systemId);
-                $filter->addCondition("tb_user_profile", "id_user", "int", "=", $userId);
+                $filter->addCondition("tb_user_profile", "id_system", $this->TYPE_TEXT, "=", $systemId);
+                $filter->addCondition("tb_user_profile", "id_user", $this->TYPE_INT, "=", $userId);
                 $data = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_USER_PROFILE, $filter->create(), $this->sqlBuilder->QUERY_NO_JOIN);
                 if (count($data) <= 0) {
                     $msg = $message->getValue("A14");
@@ -66,8 +66,8 @@
 
                 // Validate the group
                 $filter = new Filter();
-                $filter->addCondition("tb_user_group", "id_system", "text", "=", $systemId);
-                $filter->addCondition("tb_user_group", "id_user", "int", "=", $userId);
+                $filter->addCondition("tb_user_group", "id_system", $this->TYPE_TEXT, "=", $systemId);
+                $filter->addCondition("tb_user_group", "id_user", $this->TYPE_INT, "=", $userId);
                 $data = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_USER_GROUP, $filter->create(), $this->sqlBuilder->QUERY_NO_JOIN);
                 if (count($data) <= 0) {
                     $msg = $message->getValue("A15");
@@ -78,8 +78,8 @@
 
                 // Validate if profile has transactions
                 $filter = new Filter();
-                $filter->addCondition("tb_profile_table", "id_system", "text", "=", $systemId);
-                $filter->addCondition("tb_profile_table", "id_profile", "int", "=", $profileId);
+                $filter->addCondition("tb_profile_table", "id_system", $this->TYPE_TEXT, "=", $systemId);
+                $filter->addCondition("tb_profile_table", "id_profile", $this->TYPE_INT, "=", $profileId);
                 $data = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_PROFILE_TABLE, $filter->create(), $this->sqlBuilder->QUERY_NO_JOIN);
                 if (count($data) <= 0) {
                     $msg = $message->getValue("A16");
@@ -88,9 +88,9 @@
 
                 // Authenticate the password
                 $filter = new Filter();
-                $filter->addCondition("tb_user", "id_system", "text", "=", $systemId);
-                $filter->addCondition("tb_user", "username", "text", "=", $username);
-                $filter->addCondition("tb_user", "password", "text", "=", $password);
+                $filter->addCondition("tb_user", "id_system", $this->TYPE_TEXT, "=", $systemId);
+                $filter->addCondition("tb_user", "username", $this->TYPE_TEXT, "=", $username);
+                $filter->addCondition("tb_user", "password", $this->TYPE_TEXT, "=", $password);
                 $data = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_USER, $filter->create(), $this->sqlBuilder->QUERY_NO_JOIN);
                 if (count($data) <= 0) {
                     $msg = $message->getValue("A17");

@@ -14,7 +14,6 @@ class SqlBuilder extends Base {
     public $PageSize = 0;
     public $PageOffset = 0;
 
-
     /* 
      * Query and return json
      */
@@ -229,8 +228,8 @@ class SqlBuilder extends Base {
             $sql .= "count(*) over() as record_count,";
 
             // System fields
-            $sql .= $jsonUtil->select($tableName, "id_system", "text", "id_system") . ",";
-            $sql .= $jsonUtil->select($tableName, "id_group", "int", "id_group") . ",";
+            $sql .= $jsonUtil->select($tableName, "id_system", $this->TYPE_TEXT, "id_system") . ",";
+            $sql .= $jsonUtil->select($tableName, "id_group", $this->TYPE_INT, "id_group") . ",";
 
             // Base ID            
             $sql .= trim($tableDef[0]["table_name"]) . ".id";
@@ -242,7 +241,7 @@ class SqlBuilder extends Base {
                 $sql .= ", ";
                 $tableName = $row["table_name"];
                 $fieldName = $row["field_name"];
-                $fieldType = $row["data_type"];
+                $fieldType = $row["field_type"];
                 $fieldDomain = $row["field_domain"];
                 $tableFk = $row["table_fk"];
                 $fieldFk = $row["field_fk"];
@@ -261,7 +260,7 @@ class SqlBuilder extends Base {
                         $fieldAlias = substr($fieldName, 3);
                         $tableName = $fieldDomain . "_" . $fieldName;
                         $fieldName = "value";
-                        $fieldType = "text";
+                        $fieldType = $this->TYPE_TEXT;
                         $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias);
                     } else {
                         $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias);
@@ -269,7 +268,7 @@ class SqlBuilder extends Base {
                         $fieldAlias = substr($fieldName, 3);
                         $tableName = $tableFk . "_" . $fieldName;
                         $fieldName = $fieldFk;
-                        $fieldType = "text";
+                        $fieldType = $this->TYPE_TEXT;
                         $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias);
                     }
                 }
@@ -336,7 +335,7 @@ class SqlBuilder extends Base {
 
             $sql .= " where " . $jsonUtil->condition($tableName, 
                                                     "id_system",
-                                                    "text", 
+                                                    $this->TYPE_TEXT, 
                                                     "=", 
                                                     $this->getSystem());
 
@@ -344,7 +343,7 @@ class SqlBuilder extends Base {
             // 2-admin
             // No restriction to view data for both groups
             if ($this->getGroup() > 2) {
-                $sql .= " and " . $jsonUtil->field($tableName, "id_group", "int");
+                $sql .= " and " . $jsonUtil->field($tableName, "id_group", $this->TYPE_INT);
                 $sql .= " in ";
                 $sql .= " (";
                 $sql .= $this->getSqlGroupIdByUser($this->getUser());
@@ -457,7 +456,7 @@ class SqlBuilder extends Base {
         // tb_field        
         $sql .= " (tb_field.field->>'label')::text as field_label,";
         $sql .= " (tb_field.field->>'name')::text as field_name,";
-        $sql .= " (tb_field.field->>'id_type')::int as field_type,";
+        $sql .= " (tb_field.field->>'id_type')::text as field_type,";
         $sql .= " (tb_field.field->>'size')::int as field_size,";
         $sql .= " (tb_field.field->>'mask')::text as field_mask,";
         $sql .= " (tb_field.field->>'id_mandatory')::int as field_mandatory,";
@@ -466,19 +465,8 @@ class SqlBuilder extends Base {
         $sql .= " (tb_table_fk.field->>'name')::text as table_fk,";
         $sql .= " (tb_field_fk.field->>'name')::text as field_fk,";
         $sql .= " (tb_field.field->>'domain')::text as field_domain,";
-        $sql .= " (tb_field.field->>'setup')::text as setup,";
+        $sql .= " (tb_field.field->>'setup')::text as setup";
         
-        // Specific data types
-        $sql .= " case ";
-        $sql .= " when (tb_field.field->>'id_type')::int = 1 then 'int'";
-        $sql .= " when (tb_field.field->>'id_type')::int = 2 then 'float'";
-        $sql .= " when (tb_field.field->>'id_type')::int = 3 then 'text'";
-        $sql .= " when (tb_field.field->>'id_type')::int = 4 then 'date'";
-        $sql .= " when (tb_field.field->>'id_type')::int = 5 then 'time'";
-        $sql .= " when (tb_field.field->>'id_type')::int = 6 then 'text'";
-        $sql .= " when (tb_field.field->>'id_type')::int = 7 then 'file'";
-        $sql .= " when (tb_field.field->>'id_type')::int = 8 then 'text'";
-        $sql .= " end data_type";  
         $sql .= " from tb_field";
 
         // Join table
@@ -496,13 +484,7 @@ class SqlBuilder extends Base {
         //$sql .= " order by (tb_field.field->>'order')::int, tb_field.id";
         $sql .= " order by tb_field.id";
 
-            // Log file
-            $file = fopen("c:\\temp\\catalog.txt", "w") or die("Unable to open file!");
-            fwrite($file, $sql);
-            fclose($file);
-
-
-        // Return final query    
+        // Return final query
         return $sql;
     }
 
@@ -527,8 +509,8 @@ class SqlBuilder extends Base {
         $record = $jsonUtil->setValue($record, "id_group", $this->getGroup());
 
         // Prepare condition for update and delete
-        $key .= " where " . $jsonUtil->condition($tableName, "id", "int", "=", $this->getLastId());                        
-        $key .= " and " . $jsonUtil->condition($tableName, "id_system", "text", "=", $this->getSystem());
+        $key .= " where " . $jsonUtil->condition($tableName, "id", $this->TYPE_INT, "=", $this->getLastId());                        
+        $key .= " and " . $jsonUtil->condition($tableName, "id_system", $this->TYPE_TEXT, "=", $this->getSystem());
 
         try {
 
@@ -603,10 +585,10 @@ class SqlBuilder extends Base {
 
             // Groups users are mapped
             $sql .= " select ";
-            $sql .= $jsonUtil->field("tb_user_group", "id_grp", "int");
+            $sql .= $jsonUtil->field("tb_user_group", "id_grp", $this->TYPE_INT);
             $sql .= " from tb_user_group";
-            $sql .= " where " . $jsonUtil->field("tb_user_group", "id_system", "text") . " = " . $this->getSystem();
-            $sql .= " and " . $jsonUtil->field("tb_user_group", "id_user", "int") . " = " . $userId;
+            $sql .= " where " . $jsonUtil->field("tb_user_group", "id_system", $this->TYPE_TEXT) . " = " . $this->getSystem();
+            $sql .= " and " . $jsonUtil->field("tb_user_group", "id_user", $this->TYPE_INT) . " = " . $userId;
 
         } catch (Exception $ex) {
             $this->setError("QueryBuilder.getSqlGroupIdByUser()", $ex->getMessage());

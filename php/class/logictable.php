@@ -141,8 +141,8 @@
                 if ($this->sqlBuilder->getEvent() == "Delete") {
                     
                     $sql .= " delete from tb_event";
-                    $sql .= " where " . $jsonUtil->condition("tb_event", "id_system", "text", "=", $this->sqlBuilder->getSystem());
-                    $sql .= " and " . $jsonUtil->condition("tb_event", "id_table", "int", "=", $tableId);
+                    $sql .= " where " . $jsonUtil->condition("tb_event", "id_system", $this->TYPE_TEXT, "=", $this->sqlBuilder->getSystem());
+                    $sql .= " and " . $jsonUtil->condition("tb_event", "id_table", $this->TYPE_INT, "=", $tableId);
                     $rs = pg_query($this->cn, $sql);
                     $affectedRows = pg_affected_rows($rs);
 
@@ -150,8 +150,8 @@
                 } elseif ($this->sqlBuilder->getEvent() == "New") {
 
                     $filter = new Filter();
-                    $filter->addCondition("tb_event", "id_table", "int", "=", $this->sqlBuilder->TB_TABLE);
-                    $filter->addCondition("tb_event", "id_function", "int", "<>", "0");
+                    $filter->addCondition("tb_event", "id_table", $this->TYPE_INT, "=", $this->sqlBuilder->TB_TABLE);
+                    $filter->addCondition("tb_event", "id_function", $this->TYPE_INT, "<>", "0");
                     $tableData = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_EVENT, $filter->create());
                     $tableDef = $this->sqlBuilder->getTableDef($this->cn, $this->sqlBuilder->TB_EVENT);
 
@@ -202,8 +202,8 @@
                 // Delete related events
                 if ($this->sqlBuilder->getEvent() == "Delete") {
                     $sql .= " delete from tb_field";
-                    $sql .= " where " . $jsonUtil->condition("tb_field", "id_system", "text", "=", $this->sqlBuilder->getSystem());
-                    $sql .= " and " . $jsonUtil->condition("tb_field", "id_table", "int", "=", $tableId);
+                    $sql .= " where " . $jsonUtil->condition("tb_field", "id_system", $this->TYPE_TEXT, "=", $this->sqlBuilder->getSystem());
+                    $sql .= " and " . $jsonUtil->condition("tb_field", "id_table", $this->TYPE_INT, "=", $tableId);
                     $rs = pg_query($this->cn, $sql);
                     $affectedRows = pg_affected_rows($rs);
                 }    
@@ -256,8 +256,8 @@
                         // Remove transaction from Profile x Transaction
                         $sql = "";
                         $sql .= " delete from tb_profile_table";
-                        $sql .= " where " . $jsonUtil->condition("tb_profile_table", "id_system", "text", "=", $this->sqlBuilder->getSystem());
-                        $sql .= " and " . $jsonUtil->condition("tb_profile_table", "id_table", "int", "=", $tableId);
+                        $sql .= " where " . $jsonUtil->condition("tb_profile_table", "id_system", $this->TYPE_TEXT, "=", $this->sqlBuilder->getSystem());
+                        $sql .= " and " . $jsonUtil->condition("tb_profile_table", "id_table", $this->TYPE_INT, "=", $tableId);
                         $rs = pg_query($this->cn, $sql);
                         $affectedRows = pg_affected_rows($rs);
                         break;                    
@@ -310,8 +310,8 @@
                         // Remove transaction from Transaction x Function
                         $sql = "";
                         $sql .= " delete from tb_table_function";
-                        $sql .= " where " . $jsonUtil->condition("tb_table_function", "id_system", "text", "=", $this->sqlBuilder->getSystem());
-                        $sql .= " and " . $jsonUtil->condition("tb_table_function", "id_table", "int", "=", $tableId);
+                        $sql .= " where " . $jsonUtil->condition("tb_table_function", "id_system", $this->TYPE_TEXT, "=", $this->sqlBuilder->getSystem());
+                        $sql .= " and " . $jsonUtil->condition("tb_table_function", "id_table", $this->TYPE_INT, "=", $tableId);
                         $rs = pg_query($this->cn, $sql);
                         $affectedRows = pg_affected_rows($rs);
                 }

@@ -47,7 +47,7 @@
 
                 // Get key fields
                 $fieldName = $item["field_name"];
-                $fieldType = $item["data_type"];
+                $fieldType = $item["field_type"];
                 $fieldOperator = "=";
 
                 if (isset($formData[$fieldName])) {
@@ -68,7 +68,7 @@
                 if (trim($fieldValue) != "" && trim($fieldValue) != "0") {
                     $this->addCondition($item["table_name"], 
                                         $item["field_name"], 
-                                        $item["data_type"], 
+                                        $item["field_type"], 
                                         $fieldOperator,
                                         $fieldValue,
                                         $item["field_mask"]);
@@ -158,7 +158,7 @@
 
         function prepareValueForLike($value) {
 
-            if (trim($value) != "") {
+            if (trim($value) != "" && trim($value) != "0") {
                 // Avoid duplication
                 $value = str_replace("%", "", $value);
                 // Add like signal

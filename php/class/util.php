@@ -97,7 +97,7 @@
             $json = "";
             $value = "";
             foreach ($tableDef as $item) {
-                switch ($item["data_type"]) {
+                switch ($item["field_type"]) {
                     case "int":
                     case "float":
                         $value = 0;

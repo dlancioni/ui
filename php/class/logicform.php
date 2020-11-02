@@ -51,7 +51,6 @@ class LogicForm extends Base {
         $fieldMandatory = "";
         $fieldDomain = "";
         $fieldValue = "";
-        $datatype = "";
 
         $label = "";
         $control = "";
@@ -112,7 +111,6 @@ class LogicForm extends Base {
                     $fieldMask = $item["field_mask"];
                     $fieldMandatory = $item["field_mandatory"];
                     $fieldDomain = $item["field_domain"];
-                    $datatype = $item["data_type"];
                     $fieldValue = "";
                     $fieldAttribute = $item["setup"];
 
@@ -134,7 +132,7 @@ class LogicForm extends Base {
                     }
 
                     // Format values
-                    if ($datatype == "float") {
+                    if ($fieldType == "float") {
                         if ($fieldValue != "") {
                             $fieldValue = number_format($fieldValue, 2, ',', '.');
                         }
@@ -143,7 +141,7 @@ class LogicForm extends Base {
                     // Accumulate JS for validation
                     $js .= $this->element->createJs($fieldLabel, 
                                                     $fieldName,
-                                                    $datatype, 
+                                                    $fieldType, 
                                                     $fieldValue, 
                                                     $fieldMask, 
                                                     $fieldMandatory, 

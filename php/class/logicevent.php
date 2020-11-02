@@ -99,9 +99,9 @@
                         if (intval($id) != 0) {
                             $sql = "";
                             $sql .= " delete from tb_table_function";
-                            $sql .= " where " . $jsonUtil->condition("tb_table_function", "id_system", "text", "=", $this->sqlBuilder->getSystem());
-                            $sql .= " and " . $jsonUtil->condition("tb_table_function", "id_table", "int", "=", $tableId);
-                            $sql .= " and " . $jsonUtil->condition("tb_table_function", "id_function", "int", "=", $id);
+                            $sql .= " where " . $jsonUtil->condition("tb_table_function", "id_system", $this->TYPE_TEXT, "=", $this->sqlBuilder->getSystem());
+                            $sql .= " and " . $jsonUtil->condition("tb_table_function", "id_table", $this->TYPE_INT, "=", $tableId);
+                            $sql .= " and " . $jsonUtil->condition("tb_table_function", "id_function", $this->TYPE_INT, "=", $id);
                             $rs = pg_query($this->cn, $sql);
                             $affectedRows = pg_affected_rows($rs);
                         }
