@@ -8,7 +8,7 @@
             <!-- Left side itens -->        
             <div class="col-12 text-right">
                 <!-- Button trigger modal -->
-                <a href="#" class="" data-toggle="modal" data-target="#modalForgetPassword">Esqueci a senha</a>
+                <a href="#" class="" data-toggle="modal" data-target="#modalForgetPassword">Esqueci senha</a>
                 &nbsp;&nbsp;&nbsp;
                 <a href="#" class="" data-toggle="modal" data-target="#modalLogin">Entrar</a>                
             </div>
