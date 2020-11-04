@@ -17,7 +17,7 @@ class SqlBuilder extends Base {
     /* 
      * Query and return json
      */
-    public function executeQuery($cn, $table="", $filter="[]", $queryType=1) {
+    public function executeQuery($cn, $table="", $filter="[]", $queryType=1, $tableDef="") {
 
         // General Declaration
         $rs = "";
@@ -28,7 +28,7 @@ class SqlBuilder extends Base {
         try {
 
             // Get query
-            $query = $this->prepareQuery($cn, $table, $filter, $queryType);
+            $query = $this->prepareQuery($cn, $table, $filter, $queryType, $tableDef);
 
             // Transform results to json
             $sql = "select json_agg(t) from (" . $query . ") t";
@@ -123,6 +123,7 @@ class SqlBuilder extends Base {
      * Get table definition
      */
     public function getTableDef($cn, $tableId) {
+        
         // General declaration    
         $sql = "";
         $rs = "";
@@ -148,53 +149,59 @@ class SqlBuilder extends Base {
     /*
      * Return query based on mapping
      */
-    private function prepareQuery($cn, $tableId, $filter, $queryType) {
+    private function prepareQuery($cn, $tableId, $filter, $queryType, $tableDef) {
 
         // General Declaration
         $sql = "";
-        $tableDef = "";
 
         try {
+
             // Handle table as parameter
             if ($tableId != "") {
-                if (is_numeric($tableId)) {
-                    $this->setTable(intval($tableId));
-                }
+                $this->setTable(intval($tableId));
             }
+
             // Get table structure
-            $tableDef = $this->getTableDef($cn, $tableId);
+            if ($tableDef == "") {
+                $tableDef = $this->getTableDef($cn, $tableId);
+            }
 
-            if (count($tableDef) > 0) {
+            // Prepare query
+            if (is_array($tableDef)) {
 
-                // Get field list
-                $sql .= $this->getFieldList($tableDef, $queryType);
+                if (count($tableDef) > 0) {
 
-                // Get from
-                $sql .= $this->getFrom($tableDef);
+                    // Get field list
+                    $sql .= $this->getFieldList($tableDef, $queryType);
 
-                // Get join
-                if ($queryType != $this->QUERY_NO_JOIN) {
-                    $sql .= $this->getJoin($tableDef);
-                }
+                    // Get from
+                    $sql .= $this->getFrom($tableDef);
 
-                // Get where
-                $sql .= $this->getWhere($tableDef, $tableId);
+                    // Get join
+                    if ($queryType != $this->QUERY_NO_JOIN) {
+                        $sql .= $this->getJoin($tableDef);
+                    }
 
-                // Get condition
-                $sql .= $this->getCondition($filter);
+                    // Get where
+                    $sql .= $this->getWhere($tableDef, $tableId);
 
-                // Get ordering
-                $sql .= $this->getOrderBy($tableDef);
+                    // Get condition
+                    $sql .= $this->getCondition($filter);
 
-                // Paging control
-                if ($queryType != $this->QUERY_NO_PAGING) {
-                    $sql .= $this->getPaging($tableDef);
+                    // Get ordering
+                    $sql .= $this->getOrderBy($tableDef);
+
+                    // Paging control
+                    if ($queryType != $this->QUERY_NO_PAGING) {
+                        $sql .= $this->getPaging($tableDef);
+                    }
                 }
             }
 
         } catch (Exception $ex) {
             $this->setError("QueryBuilder.query()", $ex->getMessage());
         }
+
         // Return sql
          return $sql;
     }
