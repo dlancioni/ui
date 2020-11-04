@@ -19,15 +19,6 @@
     $filter = "[]"; 
     $pageOffset = 0;
 
-    // Key attributes
-    // $_SESSION["_SYSTEM_"] = 1;
-    // $_SESSION['_TABLE_'] = 2;
-    // $_SESSION['_USER_'] = 1;
-    // $_SESSION['_GROUP_'] = 2;
-    // $_SESSION['_ID_'] = 0;
-    // $_SESSION["_FILTER_"] = [];
-    // $_SESSION["_AUTH_"] = "";    
-
     // Solution allow multiple systems
     if (isset($_SESSION["_SYSTEM_"])) {
         $systemId = $_SESSION["_SYSTEM_"];

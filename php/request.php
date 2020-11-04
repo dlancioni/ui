@@ -11,10 +11,6 @@
     */
 
     // Session related variables
-    if (isset($_REQUEST["_TABLE_"])) {
-        $tableId = $_REQUEST["_TABLE_"];
-        $_SESSION['_TABLE_'] = $tableId;
-    }
     if (isset($_REQUEST["_FORMAT_"])) {
         $format = $_REQUEST["_FORMAT_"];
         $_SESSION['_FORMAT_'] = $format;
@@ -33,4 +29,17 @@
     if (isset($_REQUEST["_PAGING_"])) {
         $pageOffset = $_REQUEST["_PAGING_"];
     }
+
+    if (isset($_REQUEST["_TABLE_"])) {
+        if ($_REQUEST["_TABLE_"] != "0") {
+            if ($_SESSION['_TABLE_'] != $_REQUEST["_TABLE_"]) {
+                $tableId = $_REQUEST["_TABLE_"];
+                $_SESSION['_TABLE_'] = $tableId;
+                echo "sessao mudou";
+            } else {
+                echo "igual";                
+            }
+        }
+    }
+
 ?>
