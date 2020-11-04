@@ -4,11 +4,11 @@ class LogicForm extends Base {
     // Public members
     public $Event = "";
     public $PageEvent = "";
+    public $tableDef = "";    
 
     // Private members
     private $cn = 0;
     private $sqlBuilder = 0;
-    private $tableDef = array();
     private $element = "";
 
     // Constructor

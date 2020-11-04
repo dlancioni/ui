@@ -26,11 +26,13 @@
                 $logicReport = new LogicReport($cn, $sqlBuilder, $_REQUEST);
                 $logicReport->Event = $event;
                 $logicReport->PageEvent = $pageEvent;
+                $logicReport->tableDef = $tableDef;
                 $html .= $logicReport->createReport($tableId, $pageOffset);
             } else {
                 $logicForm = new LogicForm($cn, $sqlBuilder);
                 $logicForm->Event = $event;
                 $logicForm->PageEvent = $pageEvent;
+                $logicForm->tableDef = $tableDef;
                 $html .= $logicForm->createForm($tableId, $id);
             }
 

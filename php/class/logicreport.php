@@ -4,11 +4,11 @@ class LogicReport extends Base {
     // Public members
     public $PageEvent = "";
     public $Event = "";   
+    public $tableDef = "";
 
     // Private members
     private $cn = 0;
     private $sqlBuilder = 0;
-    private $tableDef = "";
     private $element = "";    
     public $formData = "";
 
@@ -61,7 +61,7 @@ class LogicReport extends Base {
             $this->element = new HTMLElement($this->cn, $this->sqlBuilder);
 
             // Get table structure
-            $this->tableDef = $this->sqlBuilder->getTableDef($this->cn, $tableId);
+            //$this->tableDef = $this->sqlBuilder->getTableDef($this->cn, $tableId);
             if (count($this->tableDef) > 0) {
                 $pageTitle = $this->tableDef[0]["title"];
             }

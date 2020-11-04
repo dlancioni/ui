@@ -76,6 +76,7 @@
             $_SESSION["_MENU_"] = $logicAuth->menu;
             $_SESSION['_TABLE_'] = "0";
             $_SESSION['_PAGE_EVENT_'] = "";
+            $_SESSION['_TABLEDEF_'] = "";
 
         } else {
 
