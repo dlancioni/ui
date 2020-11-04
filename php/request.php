@@ -35,11 +35,17 @@
             if ($_SESSION['_TABLE_'] != $_REQUEST["_TABLE_"]) {
                 $tableId = $_REQUEST["_TABLE_"];
                 $_SESSION['_TABLE_'] = $tableId;
-                echo "sessao mudou";
+               
+                // Get events
+                $filter = new Filter();
+                $filter->add("tb_event", "id_table", $tableId);
+                $_SESSION["_PAGE_EVENT_"] = $sqlBuilder->executeQuery($cn, $sqlBuilder->TB_EVENT, $filter->create(), $sqlBuilder->QUERY_NO_PAGING);                
+
             } else {
-                echo "igual";                
+      
             }
         }
     }
+    $tableId = $_SESSION['_TABLE_'];
 
 ?>

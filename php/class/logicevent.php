@@ -68,7 +68,7 @@
             try {
 
                 // Get structure to generate json
-                $tableDef = $this->sqlBuilder->getTableDef($this->cn, $this->sqlBuilder->TB_TRANSACTION_FUNCTION);
+                $tableDef = $this->sqlBuilder->getTableDef($this->cn, $this->sqlBuilder->TB_TABLE_FUNCTION);
                 $json = $jsonUtil->getJson($tableDef);
 
                 // Grant profiles Admin and User

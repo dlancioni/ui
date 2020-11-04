@@ -219,14 +219,14 @@ class LogicForm extends Base {
 
                         // Create control
                         $control = $this->element->createDropdown($fieldId,
-                                                                $fieldName, 
-                                                                $fieldValue, 
-                                                                $dataFk, 
-                                                                $key, 
-                                                                $value, 
-                                                                $function,
-                                                                $this->PageEvent,
-                                                                $disabled);
+                                                                  $fieldName, 
+                                                                  $fieldValue, 
+                                                                  $dataFk, 
+                                                                  $key, 
+                                                                  $value, 
+                                                                  $function,
+                                                                  $this->PageEvent,
+                                                                  $disabled);
                     }
 
                     // Add current col to rows

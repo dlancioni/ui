@@ -14,7 +14,7 @@
         /* 
         * Get event list and isolate function calls related to buttons
         */
-        function createButton($pageEvent) {
+        function createButton($pageEvent, $format) {
 
             // General declaration
             $html = "";
@@ -39,21 +39,22 @@
                 // Create event list
                 if (is_array($pageEvent) && is_array($permission)) {
                     foreach ($pageEvent as $event) {
-                        if ($event["id_function"] != 0) {
-                            foreach ($permission as $item) {
-                                if ($event["id_function"] == $item["id"]) {
-                                    $name = "btn" . $event["id_table"] . $event["id"];
-                                    $html .= $element->createButton($name, $event["function"], $event["event"], $event["code"]);
-                                    break;
+                        if ($event["id_target"] == $format) {
+                            if ($event["id_function"] != 0) {
+                                foreach ($permission as $item) {
+                                    if ($event["id_function"] == $item["id"]) {
+                                        $name = "btn" . $event["id_table"] . $event["id"];
+                                        $html .= $element->createButton($name, $event["function"], $event["event"], $event["code"]);
+                                        break;
+                                    }
                                 }
                             }
-                        }
+                        }                        
                     }
                 }
 
             } catch (Exception $ex) {                    
-                // Error handler
-                $html = '{"status":"fail", "error":' . $ex->getMessage() . '}';
+                throw $ex;
             }
 
             // Return to main function

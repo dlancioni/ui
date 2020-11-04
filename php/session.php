@@ -16,8 +16,11 @@
     $tableId = 0; 
     $userId = 0;
     $groupId = 0; 
-    $filter = "[]"; 
+    $filter = "[]";
     $pageOffset = 0;
+    $eventAction = "";
+    $element = "";
+    $pageEvent = "";
 
     // Solution allow multiple systems
     if (isset($_SESSION["_SYSTEM_"])) {
@@ -42,10 +45,22 @@
     // Current group
     if (isset($_SESSION["_USERNAME_"])) {
         $username = $_SESSION["_USERNAME_"];
+    }
+
+    // Current group
+    if (isset($_SESSION["_PAGE_EVENT_"])) {
+        $pageEvent = $_SESSION["_PAGE_EVENT_"];
     }    
+
 
     // Get connection
     $db = new Db();
     $cn = $db->getConnection($systemId);    
+
+    // Get main components
+    $sqlBuilder = new SqlBuilder($systemId, $tableId, $userId, $groupId);
+    $eventAction = new EventAction($cn, $sqlBuilder);
+    $logicMenu = new LogicMenu($cn, $sqlBuilder);
+    $element = new HTMLElement($cn, $sqlBuilder);    
     
 ?>

@@ -375,15 +375,18 @@
             // Bind events related to current field
             foreach ($fieldEvent as $item) {
 
-                // Figure out same field
-                if ($fieldId == $item["id_field"]) {
-                    $event = $item["event"] . "=" . $stringUtil->dqt($item["code"]) . " ";
-                } else {
-                    $event = "";
-                }
+                if (trim($item["id_target"]) == "2") {
 
-                // Bind field
-                ($event != "") ? $html .= " " . $event : "";
+                    // Figure out same field
+                    if ($fieldId == $item["id_field"]) {
+                        $event = $item["event"] . "=" . $stringUtil->dqt($item["code"]) . " ";
+                    } else {
+                        $event = "";
+                    }
+
+                    // Bind field
+                    ($event != "") ? $html .= " " . $event : "";
+                }
             }
             
             // Return event list

@@ -65,8 +65,8 @@
 
         // Figure out table id/name
         $filter = new Filter();
-        $filter->add("tb_table", "table_name", $tableName);
-        $data = $sqlBuilder->executeQuery($cn, 2, $filter->create());
+        $filter->add("tb_table", "name", $tableName);
+        $data = $sqlBuilder->executeQuery($cn, $sqlBuilder->TB_TABLE, $filter->create());
         foreach ($data as $item) {
             $tableId = $data[0]["id"];
         }                                     
@@ -80,7 +80,7 @@
         }
 
     } catch (Exception $ex) {        
-        // Log something soon
+        throw $ex;
     }
 
     // Close connection

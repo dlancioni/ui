@@ -260,10 +260,10 @@
 
                 // tb_event
                 $this->execute($cn, $model->addField($this->TB_EVENT, "Tabela", "id_table", $this->TYPE_INT, 0, "", $yes, $yes, $this->tb("tb_table"), $this->fd("title"), ""));
-                $this->execute($cn, $model->addField($this->TB_EVENT, "Campo", "id_field", $this->TYPE_INT, 0, "", $yes, $yes, $this->tb("tb_field"), $this->fd("label"), ""));
+                $this->execute($cn, $model->addField($this->TB_EVENT, "Campo", "id_field", $this->TYPE_INT, 0, "", $no, $yes, $this->tb("tb_field"), $this->fd("label"), ""));
                 $this->execute($cn, $model->addField($this->TB_EVENT, "Tela", "id_target", $this->TYPE_INT, 0, "", $yes, $yes, $this->tb("tb_domain"), $this->fd("value"), "tb_target"));
-                $this->execute($cn, $model->addField($this->TB_EVENT, "Ação", "id_function", $this->TYPE_INT, 0, "", $yes, $yes, $this->tb("tb_function"), $this->fd("name"), ""));
-                $this->execute($cn, $model->addField($this->TB_EVENT, "Evento", "id_event", $this->TYPE_INT, 0, "", $yes, $yes, $this->tb("tb_domain"), $this->fd("value"), "tb_event"));
+                $this->execute($cn, $model->addField($this->TB_EVENT, "Ação", "id_function", $this->TYPE_INT, 0, "", $no, $yes, $this->tb("tb_function"), $this->fd("name"), ""));
+                $this->execute($cn, $model->addField($this->TB_EVENT, "Evento", "id_event", $this->TYPE_INT, 0, "", $no, $yes, $this->tb("tb_domain"), $this->fd("value"), "tb_event"));
                 $this->execute($cn, $model->addField($this->TB_EVENT, "Código", "code", $this->TYPE_TEXT, 10000, "", $yes, $yes, 0, 0, "", '{"type":"textarea"}'));
 
                 // tb_code
