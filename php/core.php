@@ -30,7 +30,7 @@
             } else {
                 $logicForm = new LogicForm($cn, $sqlBuilder);
                 $logicForm->Event = $event;
-                $logicForm->PageEvent = $pageEvent;                
+                $logicForm->PageEvent = $pageEvent;
                 $html .= $logicForm->createForm($tableId, $id);
             }
 

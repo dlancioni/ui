@@ -47,12 +47,6 @@
         $username = $_SESSION["_USERNAME_"];
     }
 
-    // Current group
-    if (isset($_SESSION["_PAGE_EVENT_"])) {
-        $pageEvent = $_SESSION["_PAGE_EVENT_"];
-    }    
-
-
     // Get connection
     $db = new Db();
     $cn = $db->getConnection($systemId);    

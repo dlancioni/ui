@@ -46,6 +46,13 @@
             }
         }
     }
-    $tableId = $_SESSION['_TABLE_'];
+
+    if (isset($_SESSION["_PAGE_EVENT_"])) {
+        $pageEvent = $_SESSION["_PAGE_EVENT_"];
+    }
+
+    if (isset($_SESSION["_TABLE_"])) {
+        $tableId = $_SESSION['_TABLE_'];
+    }
 
 ?>
