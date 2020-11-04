@@ -64,7 +64,7 @@
         /* 
         * Get event list and isolate function calls related to buttons
         */
-        function createFormLoad($pageEvent) {
+        function createFormLoad($pageEvent, $format) {
 
             // General declaration
             $html = "";
@@ -75,15 +75,16 @@
 
                 // Create event list
                 foreach ($pageEvent as $item) {
-
-                    if ($item["id_event"] == 1) {
-                        $html .= $item["code"];
+                    if ($item["id_target"] == $format) {
+                        if ($item["id_event"] == 1) {
+                            $html .= $item["code"];
+                        }
                     }
                 }
 
             } catch (Exception $ex) {                    
                 // Error handler
-                $html = '{"status":"fail", "error":' . $ex->getMessage() . '}';            
+                throw $ex;
             }
 
             // Return to main function

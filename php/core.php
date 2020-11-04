@@ -42,7 +42,7 @@
             $html .= $eventAction->createJS();
 
             // Create form/load events
-            $onLoadFunctions = $eventAction->createFormLoad($pageEvent);
+            $onLoadFunctions = $eventAction->createFormLoad($pageEvent, $format);
         }
 
     } catch (Exception $ex) {        
