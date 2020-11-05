@@ -28,12 +28,15 @@
             try {
 
                 // Validate TableFK without field - it causes system crash
-                if ($jsonUtil->getValue($new, "id_table_fk") != "0") {
-                    if ($jsonUtil->getValue($new, "id_field_fk") == "0") {
-                        $msg = $message->getValue("A9");
-                        throw new Exception($msg);
+                if ($this->sqlBuilder->getTable() == $this->sqlBuilder->TB_FIELD) {
+                    if ($jsonUtil->getValue($new, "id_table_fk") != "0") {
+                        if ($jsonUtil->getValue($new, "id_field_fk") == "0") {
+                            $msg = $message->getValue("A9");
+                            throw new Exception($msg);
+                        }
                     }
                 }
+
 
             } catch (Exception $ex) {
 
