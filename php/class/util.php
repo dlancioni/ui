@@ -1,5 +1,14 @@
 <?php
 
+    class LogUtil {
+
+        public function log($fileName, $contents) {
+            $file = fopen("$fileName.txt", "w") or die("Unable to open file!");
+            fwrite($file, $contents);
+            fclose($file);            
+        }
+    }
+
     class PathUtil {
 
         /*

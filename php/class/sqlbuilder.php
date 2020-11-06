@@ -14,6 +14,11 @@ class SqlBuilder extends Base {
     public $PageSize = 0;
     public $PageOffset = 0;
 
+    /*
+     * Logging
+     */    
+    public $lastQuery = "";
+
     /* 
      * Query and return json
      */
@@ -34,9 +39,7 @@ class SqlBuilder extends Base {
             $sql = "select json_agg(t) from (" . $query . ") t";
 
             // Log file
-            $file = fopen("c:\\temp\\query.txt", "w") or die("Unable to open file!");
-            fwrite($file, $sql);
-            fclose($file);
+            $this->lastQuery = $sql;
 
             // Execute query
             $rs = pg_query($cn, $sql);
@@ -48,7 +51,7 @@ class SqlBuilder extends Base {
                 break;
             }
         } catch (exception $ex) {                
-            $this->setError("db.queryJson()", pg_last_error($cn));
+            $this->setError("sqlbuilder.queryJson()", $ex->getMessage());
         }
 
         // Handle empty json

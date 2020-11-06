@@ -80,6 +80,12 @@ class LogicReport extends Base {
             $this->sqlBuilder->PageSize = $PAGE_SIZE;
             $this->sqlBuilder->PageOffset = $pageOffset;
             $data = $this->sqlBuilder->executeQuery($this->cn, $tableId, $filter->create(), 1, $this->tableDef);
+
+            if ($this->sqlBuilder->getError() != "") {
+                $this->setError("LogicReport.createReport()", $this->sqlBuilder->getError());
+                return;
+            }
+
             if ($data) {
                 $recordCount = $data[0]["record_count"];
             }

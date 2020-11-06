@@ -37,9 +37,13 @@
         </div>
 
         <!-- Middle center -->        
-        <div id="center1" class="col-sm-11">
+        <div id="center1" class="col-sm-10">
             <?php echo $html;?>
         </div>    
+
+        <!-- Left side -->
+        <div id="right1" class="col-sm-1">
+        </div>        
 
     </div>
 </div>

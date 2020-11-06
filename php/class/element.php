@@ -582,7 +582,17 @@
             return $html;            
         }        
 
+        public function getAlert($header, $message) {
 
+            $html = "<br>";
+            $html .= "<div class='alert alert-danger' role='alert'>";
+            $html .= "<p>$header</p>";
+            $html .= "<hr>";
+            $html .= "<p class='mb-0'>$message</p>";
+            $html .= "</div>";
+
+            return $html;
+        }
 
     // End of class
     }

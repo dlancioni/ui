@@ -8,6 +8,7 @@
     $format = 1;
     $html = "";
     $onLoadFunctions = "";
+    $error = "";
     
     try {
         
@@ -27,23 +28,33 @@
                 $logicReport->PageEvent = $pageEvent;
                 $logicReport->tableDef = $tableDef;
                 $html .= $logicReport->createReport($tableId, $pageOffset);
+                $error = $logicReport->getError();                
             } else {
                 $logicForm = new LogicForm($cn, $sqlBuilder);
                 $logicForm->action = $action;
                 $logicForm->PageEvent = $pageEvent;
                 $logicForm->tableDef = $tableDef;
                 $html .= $logicForm->createForm($tableId, $id);
+                $error = $logicForm->getError();
             }
 
-            // Add buttons to form
-            $sqlBuilder->setTable($tableId);            
-            $html .= $eventAction->createButton($pageEvent, $format);
+            if ($error != "") {
 
-            // Add global functions (js code)
-            $html .= $eventAction->createJS();
+                // Alert the final error
+                $html = $element->getAlert("Erro de processamento", $error);
 
-            // Create form/load events
-            $onLoadFunctions = $eventAction->createFormLoad($pageEvent, $format);
+            } else {
+
+                // Add buttons to form
+                $sqlBuilder->setTable($tableId);            
+                $html .= $eventAction->createButton($pageEvent, $format);
+
+                // Add global functions (js code)
+                $html .= $eventAction->createJS();
+
+                // Create form/load events
+                $onLoadFunctions = $eventAction->createFormLoad($pageEvent, $format);
+            }
         }
 
     } catch (Exception $ex) {        
