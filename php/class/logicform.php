@@ -2,7 +2,7 @@
 class LogicForm extends Base {
 
     // Public members
-    public $Event = "";
+    public $action = "";
     public $PageEvent = "";
     public $tableDef = "";    
 
@@ -65,11 +65,11 @@ class LogicForm extends Base {
         try {
 
             // Handle events
-            if ($this->Event == "Delete") {
+            if ($this->action == "Delete") {
                 $disabled = "disabled";
             }
 
-            if ($this->Event == "Filter") {
+            if ($this->action == "Filter") {
                 $id = 0;
             }
 
@@ -80,7 +80,7 @@ class LogicForm extends Base {
                 $pageTitle = $this->tableDef[0]["title"];
                 
                 // Do not query database
-                if ($this->Event == "Filter") {
+                if ($this->action == "Filter") {
                     if (isset($_SESSION["_FILTER_"][$tableId])) {
                         $data = $_SESSION["_FILTER_"][$tableId];
                     }                    
@@ -91,7 +91,7 @@ class LogicForm extends Base {
                     $data = $this->sqlBuilder->executeQuery($this->cn, $tableId, $filter->create());
                 }
 
-                // Create field Id (rules according to event)
+                // Create field Id (rules according to action)
                 $controls .= $this->createId($data, $placeHolder, $disabled);
             }
 
@@ -267,7 +267,7 @@ class LogicForm extends Base {
         }
 
         // Control access
-        switch ($this->Event) {
+        switch ($this->action) {
             case "New":
                 $id = "";
                 $disabled = "disabled";

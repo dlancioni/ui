@@ -21,6 +21,7 @@
     $eventAction = "";
     $element = "";
     $pageEvent = "";
+    $action = "";
 
     // Solution allow multiple systems
     if (isset($_SESSION["_SYSTEM_"])) {

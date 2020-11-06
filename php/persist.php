@@ -21,7 +21,7 @@
     $jsonUtil = "";
     $unique = "";    
     $tableId = 0;
-    $event = "";
+    $action = "";
     $fieldName = "";       
     $fieldType = "";
     $sqlBuilder = "";    
@@ -48,8 +48,8 @@
         } else {
             $sqlBuilder->setLastId("0");            
         }
-        if (isset($_SESSION["_EVENT_"])) {
-            $sqlBuilder->setEvent($_SESSION["_EVENT_"]);
+        if (isset($_SESSION["_ACTION_"])) {
+            $sqlBuilder->setEvent($_SESSION["_ACTION_"]);
         }
         if (isset($_SESSION["_TABLE_"])) {
             $tableId = $_SESSION["_TABLE_"];   
@@ -65,11 +65,11 @@
         $tableDef = $sqlBuilder->getTableDef($cn, $tableId);
         if ($tableDef) {
             $tableName = $tableDef[0]["table_name"];
-            $event = $_SESSION["_EVENT_"];            
+            $action = $_SESSION["_ACTION_"];
         }
 
         // Rules for update/delete
-        if ($event == "Edit" || $event == "Delete") {
+        if ($action == "Edit" || $action == "Delete") {
 
             // Get existing record
             $filter = new Filter();
@@ -124,7 +124,7 @@
         }
 
         // Validate unique fields (when changed)
-        if ($event == "New" || $event == "Edit") {
+        if ($action == "New" || $action == "Edit") {
             $filter = new Filter();
             foreach ($tableDef as $item) {
                 $fieldLabel = $item["field_label"];

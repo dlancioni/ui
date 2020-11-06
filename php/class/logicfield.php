@@ -37,10 +37,7 @@
                     }
                 }
 
-
             } catch (Exception $ex) {
-
-                // Rethrow error only
                 throw $ex;
             }
         }

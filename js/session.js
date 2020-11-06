@@ -15,11 +15,11 @@ function setFormat(value) {
     return field("_FORMAT_").value = value;
 }
 
-function getEvent() {
-    return field("_EVENT_").value;
+function getAction() {
+    return field("_ACTION_").value;
 }
 function setEvent(value) {
-    return field("_EVENT_").value = value;
+    return field("_ACTION_").value = value;
 }
 
 function getPaging() {

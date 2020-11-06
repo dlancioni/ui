@@ -83,7 +83,7 @@
                 // Take action on tables according to current event
                 if (trim($json->{'id_type'}) != "3") {
 
-                    switch ($this->sqlBuilder->getEvent()) {
+                    switch ($this->sqlBuilder->getAction()) {
                         
                         // Create it
                         case "New":                        
@@ -138,7 +138,7 @@
             try {
 
                 // Delete related events
-                if ($this->sqlBuilder->getEvent() == "Delete") {
+                if ($this->sqlBuilder->getAction() == "Delete") {
                     
                     $sql .= " delete from tb_event";
                     $sql .= " where " . $jsonUtil->condition("tb_event", "id_system", $this->TYPE_TEXT, "=", $this->sqlBuilder->getSystem());
@@ -147,7 +147,7 @@
                     $affectedRows = pg_affected_rows($rs);
 
                 // Copy events from TB_TABLE
-                } elseif ($this->sqlBuilder->getEvent() == "New") {
+                } elseif ($this->sqlBuilder->getAction() == "New") {
 
                     $filter = new Filter();
                     $filter->addCondition("tb_event", "id_table", $this->TYPE_INT, "=", $this->sqlBuilder->TB_TABLE);
@@ -200,7 +200,7 @@
             try {
 
                 // Delete related events
-                if ($this->sqlBuilder->getEvent() == "Delete") {
+                if ($this->sqlBuilder->getAction() == "Delete") {
                     $sql .= " delete from tb_field";
                     $sql .= " where " . $jsonUtil->condition("tb_field", "id_system", $this->TYPE_TEXT, "=", $this->sqlBuilder->getSystem());
                     $sql .= " and " . $jsonUtil->condition("tb_field", "id_table", $this->TYPE_INT, "=", $tableId);
@@ -240,7 +240,7 @@
                 $json = $jsonUtil->getJson($tableDef);
 
                 // Grant for system, admin and user
-                switch ($this->sqlBuilder->getEvent()) {
+                switch ($this->sqlBuilder->getAction()) {
 
                     case "New":
                         for ($i=1; $i<=3; $i++) {
@@ -291,7 +291,7 @@
                 $json = $jsonUtil->getJson($tableDef);
 
                 // Grant profiles Admin and User
-                switch ($this->sqlBuilder->getEvent()) {
+                switch ($this->sqlBuilder->getAction()) {
 
                     case "New":
                         // Add standard 7 functions (New, Edit, Delete, Confirm, Filter, Clear, Back)

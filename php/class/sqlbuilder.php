@@ -507,7 +507,7 @@ class SqlBuilder extends Base {
         $msg = "";
         $message = "";
         $affectedRows = "";
-        $event = $this->getEvent();
+        $action = $this->getAction();
         $jsonUtil = new jsonUtil();
         $systemId = str_replace("'", "", $this->getSystem());
 
@@ -522,7 +522,7 @@ class SqlBuilder extends Base {
         try {
 
             // Prepare string
-            switch ($event) {
+            switch ($action) {
 
                 case "New":
                     $sql = "insert into $tableName (field) values ('$record') returning id";

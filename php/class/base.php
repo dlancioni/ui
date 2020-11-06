@@ -13,7 +13,7 @@
         private $lastId = 0;
 
         // Other
-        private $event = 0;
+        private $action = "";
 
         // Datatypes
         public $TYPE_INT = "int";
@@ -117,12 +117,12 @@
             return $this->lastId;
         }
 
-        // Event
-        public function getEvent() {
-            return $this->event;
+        // Action (new, edit, etc)
+        public function getAction() {
+            return $this->action;
         }
-        public function setEvent($event) {
-            $this->event = $event;
+        public function setEvent($action) {
+            $this->action = $action;
         }        
 
     }

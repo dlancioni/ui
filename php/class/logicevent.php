@@ -72,7 +72,7 @@
                 $json = $jsonUtil->getJson($tableDef);
 
                 // Grant profiles Admin and User
-                switch ($this->sqlBuilder->getEvent()) {
+                switch ($this->sqlBuilder->getAction()) {
 
                     case "New":
 

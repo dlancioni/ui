@@ -3,13 +3,13 @@
  * Functions used in system events 
  */
 async function confirm() {
-    if (getEvent() == "Filter") {
+    if (getAction() == "Filter") {
         setPaging(0);
-        go(getTable(), 1, getEvent());
+        go(getTable(), 1, getAction());
     } else {
         if (validateForm()) {
             await persist(getFormData()).then(alert);
-            if (getEvent() == "Delete") {
+            if (getAction() == "Delete") {
                 reportBack();
             }
         }

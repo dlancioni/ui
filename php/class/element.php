@@ -71,7 +71,7 @@
                     $html .= " disabled";
 
                 if ($fieldEvent)    
-                    $html .= $this->getEvent($fieldId, $fieldEvent);
+                    $html .= $this->getAction($fieldId, $fieldEvent);
 
                 $html .= ">";
 
@@ -97,7 +97,7 @@
                 $html .= " " . $disabled;
 
                 if ($fieldEvent)
-                    $html .= $this->getEvent($fieldId, $fieldEvent);
+                    $html .= $this->getAction($fieldId, $fieldEvent);
 
                 $html .= ">";
                 $html .= $value;
@@ -119,7 +119,7 @@
             $key = "";
             $value = "";
             $selected = "";
-            $event = "";
+            $action = "";
             $stringUtil = new StringUtil();
 
             try {
@@ -134,7 +134,7 @@
                     $html .= $function;
 
                 if ($fieldEvent)
-                    $html .= $this->getEvent($fieldId, $fieldEvent);
+                    $html .= $this->getAction($fieldId, $fieldEvent);
                     
                 $html .= " " . $disabled;
                 $html .= ">";
@@ -179,7 +179,7 @@
         /* 
          * Create button
          */
-        public function createButton($name, $value, $event, $code) {
+        public function createButton($name, $value, $action, $code) {
             $html = "";
             $stringUtil = new StringUtil();
             try {
@@ -187,7 +187,7 @@
                 $html .= " type=" . $stringUtil->dqt("button"); 
                 $html .= " name=" . $stringUtil->dqt($name); 
                 $html .= " value=" . $stringUtil->dqt($value); 
-                $html .= " " . $event . "=" . $stringUtil->dqt($code);
+                $html .= " " . $action . "=" . $stringUtil->dqt($code);
                 $html .= " class=" . $stringUtil->dqt("btn btn-primary");                 
                 $html .= ">";
                 $html .= "&nbsp;";
@@ -200,7 +200,7 @@
         /* 
          * Create radio
          */
-        public function createRadio($name, $value, $checked="", $event="") {
+        public function createRadio($name, $value, $checked="", $action="") {
             $html = "";
             $stringUtil = new StringUtil();
             try {
@@ -209,7 +209,7 @@
                 $html .= " name=" . $stringUtil->dqt($name); 
                 $html .= " value=" . $stringUtil->dqt($value);                 
                 $html .= " " . $checked; 
-                $html .= " " . $stringUtil->dqt($event); 
+                $html .= " " . $stringUtil->dqt($action); 
                 $html .= ">";
             } catch (Exception $ex) {
                 throw $ex;
@@ -366,7 +366,7 @@
         /* 
          * Get events to bind on fields (textbox, dropdown, etc)
          */
-        private function getEvent($fieldId, $fieldEvent) {
+        private function getAction($fieldId, $fieldEvent) {
 
             // General declaration
             $html = "";
@@ -379,13 +379,13 @@
 
                     // Figure out same field
                     if ($fieldId == $item["id_field"]) {
-                        $event = $item["event"] . "=" . $stringUtil->dqt($item["code"]) . " ";
+                        $action = $item["event"] . "=" . $stringUtil->dqt($item["code"]) . " ";
                     } else {
-                        $event = "";
+                        $action = "";
                     }
 
                     // Bind field
-                    ($event != "") ? $html .= " " . $event : "";
+                    ($action != "") ? $html .= " " . $action : "";
                 }
             }
             

@@ -3,7 +3,7 @@ class LogicReport extends Base {
 
     // Public members
     public $PageEvent = "";
-    public $Event = "";   
+    public $action = "";   
     public $tableDef = "";
 
     // Private members
@@ -67,7 +67,7 @@ class LogicReport extends Base {
 
             // Get data
             $filter = new Filter("like");
-            if ($this->Event == "Filter") {
+            if ($this->action == "Filter") {
                 $filter->setFilter($this->tableDef, $this->formData);
                 $_SESSION["_FILTER_"][$tableId] = array($this->formData);
             } else {

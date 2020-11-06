@@ -15,13 +15,13 @@
         $format = $_REQUEST["_FORMAT_"];
         $_SESSION['_FORMAT_'] = $format;
     }
-    if (isset($_REQUEST["_EVENT_"])) {
-        $event = $_REQUEST["_EVENT_"];
-        $_SESSION['_EVENT_'] = $event;
+    if (isset($_REQUEST["_ACTION_"])) {
+        $action = $_REQUEST["_ACTION_"];
+        $_SESSION['_ACTION_'] = $action;
     }
     if (isset($_REQUEST["selection"])) {
         $id = intval($_REQUEST['selection']);
-        if ($event == "filter") {
+        if ($action == "filter") {
             $id = 0;
         }
         $_SESSION['_ID_'] = $id;
@@ -39,7 +39,7 @@
                 // Get events
                 $filter = new Filter();
                 $filter->add("tb_event", "id_table", $tableId);
-                $_SESSION["_PAGE_EVENT_"] = $sqlBuilder->executeQuery($cn, $sqlBuilder->TB_EVENT, $filter->create(), $sqlBuilder->QUERY_NO_PAGING);
+                $_SESSION["_PAGE_ACTION_"] = $sqlBuilder->executeQuery($cn, $sqlBuilder->TB_EVENT, $filter->create(), $sqlBuilder->QUERY_NO_PAGING);
 
                 // Get table def
                 $_SESSION['_TABLEDEF_'] = $sqlBuilder->getTableDef($cn, $tableId);     
@@ -47,8 +47,8 @@
         }
     }
 
-    if (isset($_SESSION["_PAGE_EVENT_"])) {
-        $pageEvent = $_SESSION["_PAGE_EVENT_"];
+    if (isset($_SESSION["_PAGE_ACTION_"])) {
+        $pageEvent = $_SESSION["_PAGE_ACTION_"];
     }
 
     if (isset($_SESSION["_TABLE_"])) {

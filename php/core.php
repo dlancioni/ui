@@ -7,7 +7,6 @@
     $tableId = 0;  
     $format = 1;
     $html = "";
-    $event = "";
     $onLoadFunctions = "";
     
     try {
@@ -24,13 +23,13 @@
             // Create page or form
             if ($format == 1) {
                 $logicReport = new LogicReport($cn, $sqlBuilder, $_REQUEST);
-                $logicReport->Event = $event;
+                $logicReport->action = $action;
                 $logicReport->PageEvent = $pageEvent;
                 $logicReport->tableDef = $tableDef;
                 $html .= $logicReport->createReport($tableId, $pageOffset);
             } else {
                 $logicForm = new LogicForm($cn, $sqlBuilder);
-                $logicForm->Event = $event;
+                $logicForm->action = $action;
                 $logicForm->PageEvent = $pageEvent;
                 $logicForm->tableDef = $tableDef;
                 $html .= $logicForm->createForm($tableId, $id);
