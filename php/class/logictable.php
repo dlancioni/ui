@@ -37,9 +37,6 @@
                 // Create, rename or delete table
                 $this->table($old, $new);
 
-                // Create or delete events
-                $this->event($id);
-
                 // Delete fields
                 $this->field($id);
 
@@ -118,73 +115,6 @@
                 throw $ex;
             }
         }
-
-        /*
-         * Create crud buttons for new table
-         */
-        private function event($tableId) {
-
-            // General Declaration
-            $rs = "";
-            $json = "";            
-            $sql = "";
-            $html = "";
-            $tableDef = "";
-            $fieldName = "";
-            $fieldValue = "";            
-            $affectedRows = "";
-            $jsonUtil = new JsonUtil();
-
-            try {
-
-                // Delete related events
-                if ($this->sqlBuilder->getAction() == "Delete") {
-                    
-                    $sql .= " delete from tb_event";
-                    $sql .= " where " . $jsonUtil->condition("tb_event", "id_system", $this->TYPE_TEXT, "=", $this->sqlBuilder->getSystem());
-                    $sql .= " and " . $jsonUtil->condition("tb_event", "id_table", $this->TYPE_INT, "=", $tableId);
-                    $rs = pg_query($this->cn, $sql);
-                    $affectedRows = pg_affected_rows($rs);
-
-                // Copy events from TB_TABLE
-                } elseif ($this->sqlBuilder->getAction() == "New") {
-
-                    $filter = new Filter();
-                    $filter->addCondition("tb_event", "id_table", $this->TYPE_INT, "=", $this->sqlBuilder->TB_TABLE);
-                    $filter->addCondition("tb_event", "id_function", $this->TYPE_INT, "<>", "0");
-                    $tableData = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_EVENT, $filter->create());
-                    $tableDef = $this->sqlBuilder->getTableDef($this->cn, $this->sqlBuilder->TB_EVENT);
-
-                    // Create main menu
-                    foreach ($tableData as $row) {
-                        foreach ($tableDef as $col) {
-
-                            // Get keys
-                            $fieldName = $col["field_name"];
-                            $fieldValue = $row[$fieldName];
-
-                            // Set new table target
-                            if ($fieldName == "id_table") {
-                                $fieldValue = $tableId;
-                            }
-                            $json = $jsonUtil->setValue($json, $fieldName, $fieldValue);
-                        }
-
-                        $id = $this->sqlBuilder->persist($this->cn, "tb_event", $json);
-                        $json = "";
-                    }                    
-                }
-
-            } catch (Exception $ex) {
-
-                // Keep source and error                
-                $this->sqlBuilder->setError("TableLogic.event()", $ex->getMessage());
-
-                // Rethrow it
-                throw $ex;
-            }
-        }       
-
 
         /*
          * Delete fields
