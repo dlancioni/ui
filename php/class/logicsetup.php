@@ -370,7 +370,7 @@
                 $this->execute($cn, $model->addDomain($this->groupId, $this->TYPE_TEXT, "Texto", "tb_field_type"));
                 $this->execute($cn, $model->addDomain($this->groupId, $this->TYPE_DATE, "Data", "tb_field_type"));
                 $this->execute($cn, $model->addDomain($this->groupId, $this->TYPE_TIME, "Hora", "tb_field_type"));
-                $this->execute($cn, $model->addDomain($this->groupId, $this->TYPE_BINARY, "Area", "tb_field_type"));
+                $this->execute($cn, $model->addDomain($this->groupId, $this->TYPE_BINARY, "Binario", "tb_field_type"));
                 // tb_event
                 $this->execute($cn, $model->addDomain($this->groupId, 1, "onLoad", "tb_event"));
                 $this->execute($cn, $model->addDomain($this->groupId, 2, "onClick", "tb_event"));

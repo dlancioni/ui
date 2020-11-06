@@ -47,14 +47,57 @@
          */
         public function after($id, $old, $new) {
 
+            $tableId = 0;
+            $tableName = "";
+            $fieldName = "";
+            $fieldNameOld = "";
+            $jsonUtil = new JsonUtil();
+
             try {
 
+                // Keep field atributes
+                $tableId = $jsonUtil->getValue($new, "id_table");
+                $tableName = $this->getTableName($tableId);
+                $fieldName = $jsonUtil->getValue($new, "name");
+
+                // Binary info cannot be stored in json, need dedicated column
+                if ($jsonUtil->getValue($new, "id_type") == $this->TYPE_BINARY) {
+
+                    // Affect table according to the event
+                    switch ($this->sqlBuilder->getAction()) {
+
+                        case "New":
+                            $sql = "alter table $tableName add $fieldName bytea";
+                            pg_query($this->cn, $sql);
+                            break;
+                        case "Edit":
+                            $fieldNameOld = $jsonUtil->getValue($old, "name");
+                            $sql = "alter table $tableName rename column $fieldNameOld to $fieldName";
+                            pg_query($this->cn, $sql);
+                            break;
+                        case "Delete":
+                            $sql = "alter table $tableName drop column $fieldName";
+                            pg_query($this->cn, $sql);
+                            break;
+                    }
+                }
 
             } catch (Exception $ex) {
-
-                // Rethrow error only
                 throw $ex;
             }
+        }
+
+        private function getTableName($tableId) {
+
+            $tableName = "";
+            $filter = new Filter();
+            $filter->add("tb_table", "id", $tableId);
+            $data = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_TABLE, $filter->create());
+            foreach ($data as $item) {
+                $tableName = $data[0]["name"];
+                break;
+            }
+            return $tableName;                
         }
 
 
