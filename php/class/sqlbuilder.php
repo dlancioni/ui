@@ -501,10 +501,9 @@ class SqlBuilder extends Base {
     /* 
      * Persist data
      */        
-    public function persist($cn, $tableName, $record, $file, $tableDef) {
+    public function persist($cn, $tableName, $record) {
         
         // General declaration
-        $id = 0;
         $key = "";
         $sql = "";
         $rs = "";
@@ -556,22 +555,6 @@ class SqlBuilder extends Base {
             // Get inserted ID
             while ($row = pg_fetch_array($rs)) {
                 $this->setLastId($row['id']);
-                $id = $this->getLastId();                
-            }
-
-            // Save files sent to upload
-            foreach($tableDef as $item) {
-
-                // Read base fields
-                $sql = "";
-                $fieldName = $item["field_name"];
-
-                if (isset($file[$fieldName])) {
-                    if (trim($file[$fieldName]["tmp_name"]) != "") {
-                        $fieldValue = bin2hex(file_get_contents($file[$fieldName]["tmp_name"]));
-                        pg_query("update $tableName set $fieldName = decode('{$fieldValue}' , 'hex') where id = $id;");
-                    }
-                }
             }
 
             // Get final message
