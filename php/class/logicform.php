@@ -135,7 +135,7 @@ class LogicForm extends Base {
                     }
 
                     // Format values
-                    if ($fieldType == "float") {
+                    if ($fieldType == $this->TYPE_FLOAT) {
                         if ($fieldValue != "") {
                             $fieldValue = number_format($fieldValue, 2, ',', '.');
                         }
@@ -228,8 +228,14 @@ class LogicForm extends Base {
                                                                   $disabled);
                     }
 
-                    // Add current col to rows
-                    $controls .= $this->element->createFieldGroup($label, $control);
+                    // Cannot filter on binary fields
+                    if ($this->action == "Filter") {
+                        if ($fieldType != $this->TYPE_BINARY) {
+                            $controls .= $this->element->createFieldGroup($label, $control);
+                        }
+                    } else {
+                        $controls .= $this->element->createFieldGroup($label, $control);                        
+                    }
                 }
             }
 

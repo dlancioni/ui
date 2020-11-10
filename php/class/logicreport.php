@@ -140,7 +140,6 @@ class LogicReport extends Base {
                             $fieldValue = number_format($fieldValue, 2, ',', '.');
                             break;
                         case $this->TYPE_BINARY: 
-                            file_put_contents('C:\temp\doc1.pdf', base64_decode($fieldValue));
                             break;                            
                         default:    
                     }
