@@ -93,7 +93,7 @@
         // Handle files
         if (count($_FILES) > 0) {
             $logicUpload = new LogicUpload($cn, $sqlBuilder);
-            $logicUpload->uploadFiles($_FILES);
+            // $logicUpload->uploadFiles($_FILES);
         }
         
         // Read form
@@ -182,7 +182,7 @@
                 $logic->before($old, $new);
 
             // Persist info
-            $id = $sqlBuilder->persist($cn, $tableName, $new);
+            $id = $sqlBuilder->persist($cn, $tableName, $new, $_FILES, $tableDef);
 
             // After insert logic
             if ($logic)

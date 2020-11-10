@@ -76,7 +76,7 @@
                             pg_query($this->cn, $sql);
                             break;
                         case "Delete":
-                            $sql = "alter table $tableName drop column $fieldName";
+                            $sql = "alter table $tableName drop column if exists $fieldName";
                             pg_query($this->cn, $sql);
                             break;
                     }
