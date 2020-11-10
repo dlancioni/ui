@@ -72,8 +72,10 @@
                             break;
                         case "Edit":
                             $fieldNameOld = $jsonUtil->getValue($old, "name");
-                            $sql = "alter table $tableName rename column $fieldNameOld to $fieldName";
-                            pg_query($this->cn, $sql);
+                            if ($fieldNameOld != $fieldName) {
+                                $sql = "alter table $tableName rename column $fieldNameOld to $fieldName";
+                                pg_query($this->cn, $sql);
+                            }
                             break;
                         case "Delete":
                             $sql = "alter table $tableName drop column if exists $fieldName";

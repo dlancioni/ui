@@ -565,11 +565,12 @@ class SqlBuilder extends Base {
                 // Read base fields
                 $sql = "";
                 $fieldName = $item["field_name"];
-                $fieldType = $item["field_type"];
 
                 if (isset($file[$fieldName])) {
-                    $fieldValue = bin2hex(file_get_contents($file[$fieldName]["tmp_name"]));
-                    pg_query("update $tableName set $fieldName = decode('{$fieldValue}' , 'hex') where id = $id;");
+                    if (trim($file[$fieldName]["tmp_name"]) != "") {
+                        $fieldValue = bin2hex(file_get_contents($file[$fieldName]["tmp_name"]));
+                        pg_query("update $tableName set $fieldName = decode('{$fieldValue}' , 'hex') where id = $id;");
+                    }
                 }
             }
 
