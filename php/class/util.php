@@ -186,7 +186,7 @@
             $output = "";
             
             // Avoid conversion on select field
-            if ($type == "date" || $type == "file") {
+            if ($type == "date" || $type == "binary") {
                 $type = "text";
             }
 
