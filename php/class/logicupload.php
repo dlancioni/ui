@@ -8,7 +8,6 @@
         private $tempFile = "";
         private $fileSize = "";
         private $fileExtension = "";
-        private $destination = "C:\\Users\\david\\xampp\\htdocs\\ui\\php\\files\\";
         private $message = "";
 
         // Constructor
