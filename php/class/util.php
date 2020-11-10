@@ -168,8 +168,11 @@
             if (trim($field) == "id") {
                 $output = $table . "." . $field;
             } else {
+
                 if ($type == "date") {
                     $output = "to_date(" . $table . ".field" . '->>' . $this->sqt($field) . ", " . $this->sqt($mask) . ")";
+                } else if ($type == "binary") {
+                    $output = "encode($table.$field, 'base64')";
                 } else {
                     $output = "(" . $table . ".field" . '->>' . $this->sqt($field) . ")::" . $type;
                 }
@@ -186,7 +189,7 @@
             $output = "";
             
             // Avoid conversion on select field
-            if ($type == "date" || $type == "binary") {
+            if ($type == "date") {
                 $type = "text";
             }
 
