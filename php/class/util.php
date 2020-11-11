@@ -227,12 +227,15 @@
             switch ($type) {
                 case "int":
                 case "float":
-                    // Numeric, do nothing
+                    $value = str_replace(".", "", $value);
+                    $value = str_replace(",", ".", $value);
+                    break;
+                case "date":
+                    $value = $this->sqt($value);
                     break;
                 default:
                     // Avoid duplication
                     $value = str_replace("'", "", $value);
-                    // Set dbqt
                     $value = $this->sqt($value);
             }
 

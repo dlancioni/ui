@@ -108,6 +108,8 @@ class LogicForm extends Base {
                     // Get structure
                     $cols = "";
                     $defaultValue = "";
+                    $fieldMask = "";
+                    $placeHolder = "";
 
                     $fk = $item["id_fk"];
                     $fieldId = $item["id"];

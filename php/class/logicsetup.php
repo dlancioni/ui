@@ -356,8 +356,8 @@
                 $seq = 0;
                 $this->execute($cn, $model->addField($this->TB_RELATIONSHIP, "Cliente", "id_client", $this->TYPE_INT, 0, "", $yes, $no, $this->tb("tb_customer"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
                 $this->execute($cn, $model->addField($this->TB_RELATIONSHIP, "Atividade", "id_activity", $this->TYPE_INT, 0, "", $yes, $no, $this->tb("tb_activity"), $this->fd("description"), "", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_RELATIONSHIP, "Data", "date_event", $this->TYPE_DATE, 0, "dd/mm/yyyy", $no, $no, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_RELATIONSHIP, "Custo", "cost_event", $this->TYPE_FLOAT, 0, "", $no, $no, 0, 0, "", "0,00", $this->INPUT_TEXTBOX, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_RELATIONSHIP, "Data", "date", $this->TYPE_DATE, 0, "dd/mm/yyyy", $no, $no, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_RELATIONSHIP, "Custo", "cost", $this->TYPE_FLOAT, 0, "", $no, $no, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
                 $this->execute($cn, $model->addField($this->TB_RELATIONSHIP, "Comentário", "comment", $this->TYPE_TEXT, 10000, "", $yes, $no, 0, 0, "", "", $this->INPUT_TEXTAREA, ++$seq));
                 
                 // tb_file
