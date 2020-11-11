@@ -48,7 +48,7 @@ class LogicReport extends Base {
         $link = "";
         $columnSize = "";
         $fieldAttribute = "";
-        $inputType = "";
+        $control = "";
         $pageTitle = "";
 
         try {
@@ -119,13 +119,11 @@ class LogicReport extends Base {
                     $fieldName = $col["field_name"];
                     $fieldType = $col["field_type"];
                     $fk = $col["id_fk"];
-                    $fieldAttribute = $col["setup"];
+                    $control = $col["id_control"];
 
                     // Field attribute
-                    $columnSize = $jsonUtil->getValue($fieldAttribute, "size");
+                    $columnSize = 0;
 
-                    // Input type
-                    $inputType = $jsonUtil->getValue($fieldAttribute, "type");                    
 
                     // Get field values
                     if ($fk == 0) {
@@ -145,7 +143,7 @@ class LogicReport extends Base {
                     }
 
                     // Handle field element (html control)
-                    switch ($inputType) {
+                    switch ($control) {
 
                         case $this->INPUT_PASSWORD:
                             $fieldValue = "******";
@@ -160,10 +158,6 @@ class LogicReport extends Base {
 
                         default:
                     }
-
-
-
-
 
                     // Print it
                     $cols .= $this->element->createTableCol($fieldValue, $columnSize);

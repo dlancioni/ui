@@ -58,7 +58,7 @@ class LogicForm extends Base {
         $cascade = array();
         $pageTitle = "";
 
-        $inputType = "";
+        $control = "";
         $jsonUtil = "";
         $jsonUtil = new jsonUtil();
 
@@ -115,10 +115,9 @@ class LogicForm extends Base {
                     $fieldMandatory = $item["field_mandatory"];
                     $fieldDomain = $item["field_domain"];
                     $fieldValue = "";
-                    $fieldAttribute = $item["setup"];
 
                     // Input type
-                    $inputType = $jsonUtil->getValue($fieldAttribute, "type");
+                    $control = $item["id_control"];
 
                     // Placeholder provide information about data type
                     if ($fieldMask != "") {
@@ -157,7 +156,7 @@ class LogicForm extends Base {
                     if ($fk == 0) {
                         
                         // Format values
-                        switch ($inputType) {
+                        switch ($control) {
                             case $this->INPUT_TEXTAREA:
                                 $control = $this->element->createTextarea($fieldId, $fieldName, $fieldValue, $disabled, $this->PageEvent);
                                 break;

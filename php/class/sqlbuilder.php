@@ -477,7 +477,7 @@ class SqlBuilder extends Base {
         $sql .= " (tb_field.field->>'domain')::text as field_domain,";
         $sql .= " (tb_field.field->>'default_value')::text as default_value,";
         $sql .= " (tb_field.field->>'ordenation')::text as ordenation,";
-        $sql .= " (tb_field.field->>'setup')::text as setup";
+        $sql .= " (tb_field.field->>'id_control')::text as id_control";
         
         $sql .= " from tb_field";
 

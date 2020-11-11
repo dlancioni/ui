@@ -24,10 +24,12 @@
         public $TYPE_BINARY = "binary";
 
         // HTML control
-        public $INPUT_TEXT = "text";
-        public $INPUT_TEXTAREA = "textarea";
-        public $INPUT_FILE = "file";
-        public $INPUT_PASSWORD = "password";
+        public $INPUT_TEXTBOX = 1;
+        public $INPUT_DROPDOWN = 2;
+        public $INPUT_TEXTAREA = 3;
+        public $INPUT_FILE = 4;
+        public $INPUT_HIDDEN = 5;
+        public $INPUT_PASSWORD = 6;
 
         // Transactions
         public $TB_MENU = 1;

@@ -71,7 +71,7 @@
             return $json;
         }
 
-        public function addField($id_table, $label, $name, $id_type, $size, $mask, $id_mandatory, $id_unique, $id_table_fk, $id_field_fk, $domain, $setup, $default_value, $id_control, $ordenation) {
+        public function addField($id_table, $label, $name, $id_type, $size, $mask, $id_mandatory, $id_unique, $id_table_fk, $id_field_fk, $domain, $default_value, $id_control, $ordenation) {
 
             // General Declaration
             $json = "";
@@ -93,7 +93,6 @@
             $json = $jsonUtil->setValue($json, "id_table_fk", $id_table_fk);
             $json = $jsonUtil->setValue($json, "id_field_fk", $id_field_fk);
             $json = $jsonUtil->setValue($json, "domain", $domain);
-            $json = $jsonUtil->setValue($json, "setup", $setup);
             $json = $jsonUtil->setValue($json, "default_value", $default_value);
             $json = $jsonUtil->setValue($json, "id_control", $id_control);
             $json = $jsonUtil->setValue($json, "ordenation", $ordenation);
