@@ -1,0 +1,25 @@
+Pendentes
+
+	Criar submenu
+	Criar view e solucao para apresentar graficos
+	Testar tipos data e valor
+
+	Configurar php.ini para enviar email
+	Criar tela para alterar senha
+	Criar tela para registrar cliente
+
+	Organizar pasta de uploads fora do projeto
+    Todas a classes devem extender Base
+	Revisar tratamento erros na chamada de sql, etc
+	Colocar schema nas queries
+
+Em andamento
+	Crair tela "esqueci a senha" 
+
+Finalizados
+	Deixar na memoria por transacao, listar todas e filtrar form ou report na apresentacao
+	ExecuteQuery nao chamar getTableDef toda hora
+	Renomear getEvent() to getAction()
+	Nao mostrar campo binary nas consultas
+	Ordenar campos por configuracao
+	Criar campo hidden
