@@ -51,6 +51,7 @@ class LogicForm extends Base {
         $fieldMandatory = "";
         $fieldDomain = "";
         $fieldValue = "";
+        $defaultValue = "";
 
         $label = "";
         $control = "";
@@ -106,6 +107,8 @@ class LogicForm extends Base {
 
                     // Get structure
                     $cols = "";
+                    $defaultValue = "";
+
                     $fk = $item["id_fk"];
                     $fieldId = $item["id"];
                     $fieldLabel = $item["field_label"];
@@ -114,9 +117,8 @@ class LogicForm extends Base {
                     $fieldMask = $item["field_mask"];
                     $fieldMandatory = $item["field_mandatory"];
                     $fieldDomain = $item["field_domain"];
+                    $defaultValue = $item["default_value"];                    
                     $fieldValue = "";
-
-                    // Input type
                     $control = $item["id_control"];
 
                     // Placeholder provide information about data type
@@ -131,6 +133,11 @@ class LogicForm extends Base {
                                 break;                        
                             }
                         }
+                    }
+
+                    // Apply default value
+                    if (trim($fieldValue) == "" ) {
+                        $fieldValue = trim($defaultValue);
                     }
 
                     // Format values
@@ -152,6 +159,12 @@ class LogicForm extends Base {
                     // Add label                
                     $label = $this->element->createLabel($fieldLabel, $fieldName);
 
+                    // No label for hidden field
+                    if ($control == $this->INPUT_HIDDEN) {
+                        $label = "";
+                    }
+
+
                     // Add field (textbox or dropdown)
                     if ($fk == 0) {
                         
@@ -166,6 +179,9 @@ class LogicForm extends Base {
                             case $this->INPUT_PASSWORD:
                                 $control = $this->element->createTextbox($fieldId, "password", $fieldName, $fieldValue, $placeHolder, $disabled, $this->PageEvent);
                                 break;
+                            case $this->INPUT_HIDDEN:
+                                $control = $this->element->createTextbox($fieldId, "hidden", $fieldName, $fieldValue, $placeHolder, $disabled, $this->PageEvent);
+                                break;                                
                             default:
                                 $control = $this->element->createTextbox($fieldId, "text", $fieldName, $fieldValue, $placeHolder, $disabled, $this->PageEvent);
                         }
