@@ -475,6 +475,8 @@ class SqlBuilder extends Base {
         $sql .= " (tb_table_fk.field->>'name')::text as table_fk,";
         $sql .= " (tb_field_fk.field->>'name')::text as field_fk,";
         $sql .= " (tb_field.field->>'domain')::text as field_domain,";
+        $sql .= " (tb_field.field->>'default_value')::text as default_value,";
+        $sql .= " (tb_field.field->>'ordenation')::text as ordenation,";
         $sql .= " (tb_field.field->>'setup')::text as setup";
         
         $sql .= " from tb_field";
@@ -491,8 +493,7 @@ class SqlBuilder extends Base {
         $sql .= " and (tb_field.field->>'id_table')::int = " . $tableId;
 
         // Ordering
-        //$sql .= " order by (tb_field.field->>'order')::int, tb_field.id";
-        $sql .= " order by tb_field.id";
+        $sql .= " order by (tb_field.field->>'ordenation')::int";
 
         // Return final query
         return $sql;
