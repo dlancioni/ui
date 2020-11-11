@@ -19,7 +19,16 @@
             $path = "";
 
             try {
-                $path = "/ui/php/files/";
+
+                // Get slash position
+                $pos = strpos(realpath('.'), "\\");
+
+                if ($pos > 0) {
+                    $path = "/ui/php/files/"; // Windows
+                } else {
+                    $path = "/php/files/"; // Linux
+                }
+
             } catch (Exception $ex) {
                 throw $ex;
             }
