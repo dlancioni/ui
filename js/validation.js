@@ -22,7 +22,13 @@ function validateMandatory(fieldName, fk, message) {
  * Validate dates
  */
 function validateDate(fieldName, mask, message="") {
+
+    if (field(fieldName).value == "") {
+        return true;
+    }
+
     let dt = moment(field(fieldName).value, mask.toUpperCase(), true);
+
     if (dt.isValid()) {
         return true;
     } else {

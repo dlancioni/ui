@@ -158,7 +158,8 @@ class LogicForm extends Base {
                                                     $fieldValue, 
                                                     $fieldMask, 
                                                     $fieldMandatory, 
-                                                    $fk);
+                                                    $fk, 
+                                                    $this->action);
                     
                     // Add label                
                     $label = $this->element->createLabel($fieldLabel, $fieldName);

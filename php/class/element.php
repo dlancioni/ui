@@ -421,7 +421,7 @@
        /*
         * Javascript generation
         */
-        public function createJs($fieldLabel, $fieldName, $fieldType, $fieldValue, $fieldMask, $fieldMandatory, $fk) {
+        public function createJs($fieldLabel, $fieldName, $fieldType, $fieldValue, $fieldMask, $fieldMandatory, $fk, $action) {
 
             // General declaration
             $js = "";
@@ -434,11 +434,13 @@
             $fieldMask = $stringUtil->dqt($fieldMask);
 
             // Validate mandatory fields
-            $msg = $message->getValue("A1", $fieldLabel);
-            if ($fieldMandatory == 1) {                
-                $js .= "if (!validateMandatory($fieldName, $fk, $msg)) {";
-                $js .= "return false;";
-                $js .= "} ";
+            if ($action != "Filter") {
+                $msg = $message->getValue("A1", $fieldLabel);
+                if ($fieldMandatory == 1) {                
+                    $js .= "if (!validateMandatory($fieldName, $fk, $msg)) {";
+                    $js .= "return false;";
+                    $js .= "} ";
+                }
             }
 
             // Validate data type date
