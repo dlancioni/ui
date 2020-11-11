@@ -143,6 +143,8 @@ class LogicForm extends Base {
                     // Format values
                     if ($fieldType == $this->TYPE_FLOAT) {
                         if ($fieldValue != "") {
+                            $fieldValue = str_replace(".", "", $fieldValue);
+                            $fieldValue = str_replace(",", ".", $fieldValue);
                             $fieldValue = number_format($fieldValue, 2, ',', '.');
                         }
                     }
@@ -265,7 +267,7 @@ class LogicForm extends Base {
 
 
         } catch (Exception $ex) {
-            $html = '{"status":"fail", "error":' . $ex->getMessage() . '}';
+            $this->setError("LogicForm.createForm()", $ex->getMessage());
         }
 
         // Return form

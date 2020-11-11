@@ -181,7 +181,7 @@ class LogicReport extends Base {
             $html .= "<br><br>";
 
         } catch (Exception $ex) {
-            throw $ex;
+            $this->setError("LogicReport.createReport()", $ex->getMessage());
         }
 
         // Return report        

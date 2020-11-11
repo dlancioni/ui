@@ -27,6 +27,15 @@
 
             try {
 
+                // Validate date fields missing mask
+                if ($jsonUtil->getValue($new, "id_type") == $this->sqlBuilder->TYPE_DATE) {
+                    if (trim($jsonUtil->getValue($new, "mask")) == "") {
+                        $msg = $message->getValue("A10");
+                        $msg = str_replace("%", $jsonUtil->getValue($new, "label"), $msg);
+                        throw new Exception($msg);
+                    }
+                }
+
                 // Validate TableFK without field - it causes system crash
                 if ($this->sqlBuilder->getTable() == $this->sqlBuilder->TB_FIELD) {
                     if ($jsonUtil->getValue($new, "id_table_fk") != "0") {
