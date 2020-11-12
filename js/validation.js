@@ -45,7 +45,7 @@ function validateDate(fieldName, mask, message="") {
  */
 function validateNumeric(fieldName, message="") {
 
-    if (isNumeric(field(fieldName).value)) {
+    if (isNumeric(field(fieldName).value)) {    
         return true;
     } else {
         if (message != "") {
@@ -60,6 +60,13 @@ function validateNumeric(fieldName, message="") {
  * Check if native value is numeric
  */
 function isNumeric(value) {
-    value = valueOf(value);    
-    return !isNaN(parseFloat(value)) && isFinite(value);
+
+    value = value.replace(".", "");
+    value = value.replace(",", "");
+
+    if (isNaN(value)) {
+        return false;
+    } else  {
+        return true;
+    }
 }
