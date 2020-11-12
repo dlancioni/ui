@@ -69,8 +69,14 @@
         * Make number in english (remove , or .)
         */        
         function valueOf($value) {
+
             $value = str_replace(".", "", $value);
             $value = str_replace(",", ".", $value);
+
+            if (trim($value) == "") {
+                $value = "0.00";
+            }
+
             return $value;
         }
     }
@@ -211,6 +217,7 @@
             
             // General Declaration
             $condition = "";
+            $numberUtil = new NumberUtil();
 
             // Base field            
             $condition .= $this->field($table, $field, $type, $mask);
@@ -227,8 +234,7 @@
             switch ($type) {
                 case "int":
                 case "float":
-                    $value = str_replace(".", "", $value);
-                    $value = str_replace(",", ".", $value);
+                    $value = $numberUtil->valueOf($value);
                     break;
                 case "date":
                     $value = $this->sqt($value);

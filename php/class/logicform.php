@@ -62,6 +62,7 @@ class LogicForm extends Base {
         $control = "";
         $jsonUtil = "";
         $jsonUtil = new jsonUtil();
+        $numberUtil = new NumberUtil();
 
         try {
 
@@ -145,8 +146,7 @@ class LogicForm extends Base {
                     // Format values
                     if ($fieldType == $this->TYPE_FLOAT) {
                         if ($fieldValue != "") {
-                            $fieldValue = str_replace(".", "", $fieldValue);
-                            $fieldValue = str_replace(",", ".", $fieldValue);
+                            $fieldValue = $numberUtil->valueOf($fieldValue);
                             $fieldValue = number_format($fieldValue, 2, ',', '.');
                         }
                     }

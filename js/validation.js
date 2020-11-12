@@ -44,15 +44,16 @@ function validateDate(fieldName, mask, message="") {
  * Validate numerics
  */
 function validateNumeric(fieldName, message="") {
+
     if (isNumeric(field(fieldName).value)) {
         return true;
     } else {
         if (message != "") {
             alert(message);
             field(fieldName).focus();
+            return false;    
         }
-        return false;
-    }
+    }   
 }
 
 /*
