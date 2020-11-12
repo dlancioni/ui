@@ -7,5 +7,5 @@ include "php/core.php";
 
 <?php 
 $mail = new Mail();
-$mail->send2("dlancioni@gmail.com", "First test", "classe enviando email");
+$mail->send("dlancioni@gmail.com", "First test", "classe enviando email");
 ?>
