@@ -11,6 +11,7 @@
     include "class/element.php";
     include "class/eventaction.php";    
     include "class/model.php";
+    include "class/mail.php";
     
     include "class/logicmenu.php";
     include "class/logictable.php";
