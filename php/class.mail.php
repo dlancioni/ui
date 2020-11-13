@@ -12,21 +12,15 @@
             // General declaration
             $os = new OS();
             $stringUtil = new StringUtil();
+            $lb = $stringUtil->lb();
 
             try {
-
+                
                 // Do not send mail on windows yet
                 if ($os->getOs() == $os->WINDOWS) {
                     return true;
                 }
-
-                $lb = $stringUtil->lb();                
-                if (PATH_SEPARATOR == ":") {
-                    $lb = "\r\n";
-                } else {
-                    $lb = "\n";
-                }
-                
+               
                 $headers = "MIME-Version: 1.1" . $lb;
                 $headers .= "Content-type: text/plain; charset=iso-8859-1" . $lb;
                 $headers .= "From: form1@form1.com.br" . $lb;

@@ -136,7 +136,7 @@
             $subject = "";
             $body = "";
             $db = new Db();
-            $mail = new Mail();            
+            $mail = new Mail();
             $stringUtil = new StringUtil();
             $message = new Message();
 
@@ -174,13 +174,13 @@
                 $body .= "Usuário: " . $username . $stringUtil->lb();
                 $body .= "Senha: " . $password . $stringUtil->lb();                
 
+                // Send mail
+                $mail->send($email, $subject, $body);
+
                 // Close connection
                 if ($cn) {
                     pg_close($cn); 
-                }                
-
-                // Send mail
-                $mail.send($email, $subject, $body);
+                }               
 
             } catch (Exception $ex) {
 
@@ -278,11 +278,6 @@
                 }
 
                 throw $ex;
-            }
-            
-            // Close connection
-            if ($cn) {
-                pg_close($cn); 
             }
         }
 

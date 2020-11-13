@@ -10,3 +10,4 @@ create table home.tb_client (
 );
 select * from home.tb_client;
 
+select schema_name from information_schema.schemata where upper(schema_name) = upper('S20201')

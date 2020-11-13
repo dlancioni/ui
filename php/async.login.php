@@ -18,7 +18,7 @@
     $username = "";
     $password = "";
     $email = "";
-    $stringUtil = new StringUtil();    
+    $stringUtil = new StringUtil();
     
     // Core code
     try {
@@ -65,7 +65,7 @@
             */
             $sql = "";
             $sql .= " select schema_name from information_schema.schemata";
-            $sql .= " where schema_name = " . "'" . trim($systemId) . "'";
+            $sql .= " where upper(schema_name) = " . "'" . trim(strtoupper($systemId)) . "'";
 
             $rs = pg_query($cn, $sql);
             if (!pg_fetch_row($rs)) {
