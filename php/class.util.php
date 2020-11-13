@@ -100,7 +100,16 @@
          * Line break
          */
         function lb() {
-            return "\n";
+
+            $lb = "";
+
+            if (PATH_SEPARATOR ==":") {
+                $lb = "\r\n";
+            } else {
+                $lb = "\n";
+            }
+
+            return $lb;
         }
 
         /*

@@ -8,7 +8,7 @@
             <!-- Left side itens -->        
             <div class="col-12 text-right">
                 <!-- Button trigger modal -->
-                <a href="#" class="" data-toggle="modal" data-target="#modalForgetPassword">Esqueci senha</a>
+                <a href="#" class="" data-toggle="modal" data-target="#modalForgetPassword">Esqueci a senha</a>
                 &nbsp;&nbsp;&nbsp;
                 <a href="#" class="" data-toggle="modal" data-target="#modalLogin">Entrar</a>                
             </div>
@@ -78,12 +78,13 @@
             <!-- Body -->
             <div class="modal-body">
                 <div class="form-group">
+                    <input type="text" id="code" name="code" class="form-control" placeholder="Informe seu cód. Assinante" value="">
                     <input type="email" id="email" name="email" class="form-control" placeholder="Informe seu e-mail" value="">
                 </div>
             </div>
             <!-- Footer -->
             <div class="modal-footer">
-              <button type="button" class="btn btn-primary" onclick="login()" data-dismiss="modal">Ok</button>
+              <button type="button" class="btn btn-primary" onclick="forgetPassword(document.getElementById('code').value, document.getElementById('email').value)" data-dismiss="modal">Ok</button>
             </div>
         </div>
     </div>

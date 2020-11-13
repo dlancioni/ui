@@ -46,3 +46,22 @@ async function logout() {
     submit();
 
 }
+
+/*
+ * forgetPassword
+ */
+async function forgetPassword(code, email) {
+    
+    let formData = new FormData();
+
+    // Set commands to end session
+    formData.append('_SYSTEM_', code);
+    formData.append('_EMAIL_', email);
+    
+    let info = await execute('async.login.php', formData);
+    info = JSON.parse(info);
+    
+    if (info.status > 1) {
+        alert(info.message);
+    }
+}

@@ -19,7 +19,7 @@
         }
 
         /*
-         * Upload files
+         * Authenticate user
          */
         public function authenticate($systemId, $username, $password) {
 
@@ -122,6 +122,68 @@
                 $this->menu = "";
             }
         }
+
+        /*
+         * Forget password
+         */
+        public function forgetPassword($systemId, $email) {
+
+            // General Declaration
+            $msg = "";
+            $data = "";
+            $filter = "";
+            $userId = 0;
+            $username = "";
+            $password = "";
+            $subject = "";
+            $body = "";
+            $mail = new Mail();            
+            $stringUtil = new StringUtil();
+            $message = new Message($this->cn, $this->sqlBuilder);
+
+            try {
+
+                // Validate email
+                if (!$mail->validateEmail($email)) {
+                    $msg = $message->getValue("A19");
+                    $msg = str_replace("%", $email, $msg);
+                    throw new Exception($msg);
+                }
+
+                // Retrieve credentials
+                $filter = new Filter();
+                $filter->addCondition("tb_user", "id_system", $this->TYPE_TEXT, "=", $systemId);
+                $filter->addCondition("tb_user", "username", $this->TYPE_TEXT, "=", $username);
+                $data = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_USER, $filter->create(), $this->sqlBuilder->QUERY_NO_JOIN);
+
+                if (count($data) <= 0) {
+                    $msg = $message->getValue("A13");
+                    throw new Exception($msg);
+                }
+
+                // Retrieve credentials
+                $userId = $data[0]["id"];
+                $username = $data[0]["username"];
+                $password =  $data[0]["password"];
+
+                // Prepare mail body
+                $subject = "Forms [Recuperar senha]";
+                $body = "";
+                $body .= "Cód. Acesso: " . $systemId . $stringUtil->lb();
+                $body .= "Usuário: " . $username . $stringUtil->lb();
+                $body .= "Senha: " . $password . $stringUtil->lb();                
+
+                // Send mail
+                $mail.send($email, $subject, $body);
+
+            } catch (Exception $ex) {
+
+                // Fail to authenticate     
+                $this->sqlBuilder->setError("LogicAuth.forgetPassword()", $ex->getMessage());
+            }
+        }
+
+
 
     } // End of class
 ?>
