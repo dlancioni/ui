@@ -73,14 +73,14 @@ async function register(name, email) {
     
     let formData = new FormData();
 
-    // Set commands to end session
+    // Set data to be registered
     formData.append('_NAME_', name);
     formData.append('_EMAIL_', email);
     
+    // Register it
     let info = await execute('async.register.php', formData);
     info = JSON.parse(info);
     
-    if (info.status > 1) {
-        alert(info.message);
-    }
+    // Alert user
+    alert(info.message);
 }

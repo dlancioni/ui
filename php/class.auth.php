@@ -12,7 +12,7 @@
         public $menu = "";
 
         // Constructor
-        function __construct($cn, $sqlBuilder) {
+        function __construct($cn="", $sqlBuilder="") {
             $this->cn = $cn;
             $this->sqlBuilder = $sqlBuilder;
             
@@ -197,7 +197,7 @@
             $affectedRows = 0;
             $expireDate = "20201231";
             $jsonUtil = new JsonUtil();
-            $db = new Db();            
+            $db = new Db();
 
             try {
 
@@ -235,12 +235,19 @@
                 $sql = "update home.tb_client set id_system = '$systemId' where id = $id";
                 $rs = pg_query($cn, $sql);
 
-
             } catch (Exception $ex) {
 
-                // Fail to authenticate     
-                print $ex->getMessage();
+                // Close connection
+                if ($cn) {
+                    pg_close($cn); 
+                }                
 
+                throw $ex;
+            }
+            
+            // Close connection
+            if ($cn) {
+                pg_close($cn); 
             }
         }
 
