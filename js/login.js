@@ -50,20 +50,19 @@ async function logout() {
 /*
  * forgetPassword
  */
-async function forgetPassword(code, email) {
+async function retrieveCredential(email) {
     
     let formData = new FormData();
 
-    // Set commands to end session
-    formData.append('_SYSTEM_', code);
+    // Email to retrieve account
     formData.append('_EMAIL_', email);
     
+    // Just retrieve it
     let info = await execute('async.login.php', formData);
     info = JSON.parse(info);
     
-    if (info.status > 1) {
-        alert(info.message);
-    }
+    // Report the user
+    alert(info.message);
 }
 
 /*

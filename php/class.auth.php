@@ -135,19 +135,34 @@
             $password = "";
             $subject = "";
             $body = "";
-            $db = new Db();
             $mail = new Mail();
             $stringUtil = new StringUtil();
             $message = new Message();
+            $lb = $stringUtil->lb();
 
             try {
 
                 // Get connection (no schema)
-                $cn = $db->getConnection($systemId);
+                $cn = $this->cn;
+                $this->setError("", "");
+
+                // Retrieve credentials
+                if (trim($systemId) == "") {                    
+                    $sql = "";
+                    $sql .= " select" . $lb;
+                    $sql .= " id_system" . $lb;
+                    $sql .= " from home.tb_client" . $lb;
+                    $sql .= " where email = '$email'" . $lb;
+                    $rs = pg_query($cn, $sql);
+                    while ($row = pg_fetch_row($rs)) {
+                        $systemId = $row[0];
+                        break;
+                    }
+                }
 
                 // Validate email
                 if (!$mail->validateEmail($email)) {
-                    $msg = $message->getValue("A19");
+                    $msg = "O email informado é inválido: %";
                     $msg = str_replace("%", $email, $msg);
                     throw new Exception($msg);
                 }
@@ -177,19 +192,8 @@
                 // Send mail
                 $mail->send($email, $subject, $body);
 
-                // Close connection
-                if ($cn) {
-                    pg_close($cn); 
-                }               
-
             } catch (Exception $ex) {
-
-                $this->sqlBuilder->setError("LogicAuth.forgetPassword()", $ex->getMessage());
-
-                // Close connection
-                if ($cn) {
-                    pg_close($cn); 
-                }
+                $this->setError("LogicAuth.retrieveCredential()", $ex->getMessage());
             }
         }
 
@@ -208,14 +212,14 @@
             $affectedRows = 0;
             $expireDate = "20201231";
 
-            $db = new Db();
+
             $jsonUtil = new JsonUtil();
 
 
             try {
 
                 // Get connection (no schema)
-                $cn = $db->getConnection("home");
+                $cn = $this->cn;
 
                 // Start transaction
                 pg_query($cn, "begin");
@@ -259,11 +263,6 @@
                 // Commit transaction
                 pg_query($cn, "commit");
 
-                // Close connection
-                if ($cn) {
-                    pg_close($cn); 
-                }
-
                 // Send credentials to new user
                 $this->retrieveCredential($systemId, $email);
 
@@ -272,12 +271,9 @@
                 // Rollback transaction
                 pg_query($cn, "rollback");                
 
-                // Close connection
-                if ($cn) {
-                    pg_close($cn); 
-                }
+                // Keep error message
+                $this->setError("LogicAuth.retrieveCredential()", $ex->getMessage());                
 
-                throw $ex;
             }
         }
 

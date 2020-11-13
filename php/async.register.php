@@ -9,12 +9,20 @@
     $name = "";
     $email = "";
     $msg = "";
-    $stringUtil = new StringUtil();
-    $logicAuth = new LogicAuth();
-    $message = new Message();  
+    $db = "";
+    $stringUtil = "";
+    $logicAuth = "";
+    $message = "";
     
     // Core code
     try {
+
+        // Create instances
+        $db = new Db();
+        $message = new Message();
+        $stringUtil = new StringUtil();
+        $cn = $db->getConnection("");
+        $logicAuth = new LogicAuth($cn);
 
         // Authentication related variables
         if (isset($_REQUEST["_NAME_"])) {
@@ -28,17 +36,23 @@
         // Create new user
         $logicAuth->register($name, $email);
 
-        // Success, good news to user
-        $msg = "Cadastro efetuado com sucesso, em breve você receberá um email com as instruções de acesso";
-
-        // No data on error
-        $json = $message->getStatus(1, $msg);        
+        // Handle return
+        if ($logicAuth->getError() == "") {
+            $msg = "Cadastro efetuado com sucesso, em breve você receberá um email com as instruções de acesso";
+            $json = $message->getStatus(1, $msg);
+        } else {
+            $msg = "Não foi possível efetivar o cadastro, tente novamente mais tarde";
+            $json = $message->getStatus(1, $msg);            
+        }
 
     } catch (Exception $ex) {
-
-        // No data on error
         $json = $message->getStatus(2, $ex->getMessage());
     }
+
+    // Close connection
+    if ($cn) {
+        pg_close($cn); 
+    }    
 
     // Return results
     echo $json;

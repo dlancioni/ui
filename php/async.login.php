@@ -11,6 +11,7 @@
     $cn = "";
     $sql = "";
     $json = "";
+    $msg = "";
     $jsonUtil = "";
 
     // Sign in info
@@ -56,7 +57,16 @@
         if (trim($email) != "") {
 
             // Authenticate user
-            $logicAuth->forgetPassword($systemId, $email);
+            $logicAuth->retrieveCredential($systemId, $email);
+
+            // No data on error
+            if ($logicAuth->getError() == "") {
+                $msg .= "Solicitacao executada com sucesso, ";
+                $msg .= "em breve você receberá um email com as instruções para acesso.";
+                $json = $message->getStatus(1, $msg);
+            } else {
+                $json = $message->getStatus(2, $logicAuth->getError());
+            }
 
         } else {
 
@@ -116,7 +126,7 @@
     // Close connection
     if ($cn) {
         pg_close($cn); 
-    }    
+    }
 
     // Return results
     echo $json;

@@ -10,7 +10,7 @@
                 <!-- Button trigger modal -->
                 <a href="#" class="" data-toggle="modal" data-target="#modalRegister">Cadastre-se</a>
                 &nbsp;&nbsp;&nbsp;
-                <a href="#" class="" data-toggle="modal" data-target="#modalForgetPassword">Esqueci a senha</a>
+                <a href="#" class="" data-toggle="modal" data-target="#modalRetrieveCredential">Esqueci a senha</a>
                 &nbsp;&nbsp;&nbsp;
                 <a href="#" class="" data-toggle="modal" data-target="#modalLogin">Entrar</a>
             </div>
@@ -52,7 +52,7 @@
                 <div class="form-group">
                     <input type="text" id="name" name="name" class="form-control" placeholder="Informe seu nome" value="">
                     <br>
-                    <input type="email" id="email" name="email" class="form-control" placeholder="Informe seu e-mail" value="">
+                    <input type="text" id="email" name="email" class="form-control" placeholder="Informe seu e-mail" value="">
                 </div>
             </div>
             <!-- Footer -->
@@ -63,15 +63,15 @@
     </div>
 </div>
 
-
-
-<!-- Forget password -->
-<div class="modal fade" id="modalForgetPassword" tabindex="-1" role="dialog">
+<!-- Retrieve password -->
+<div class="modal fade" id="modalRetrieveCredential" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <!-- Header -->
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Informe email onde a senha será enviada</h5>
+                <h5 class="modal-title" id="exampleModalLongTitle">
+                    Cadastre-se e recebe os dados de acesso em seu e-mail
+                </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
@@ -79,12 +79,12 @@
             <!-- Body -->
             <div class="modal-body">
                 <div class="form-group">
-                    <input type="email" id="email" name="email" class="form-control" placeholder="Informe seu e-mail" value="">
+                    <input type="text" id="mail" name="mail" class="form-control" placeholder="Informe seu e-mail" value="">
                 </div>
             </div>
             <!-- Footer -->
             <div class="modal-footer">
-              <button type="button" class="btn btn-primary" onclick="forgetPassword(document.getElementById('code').value, document.getElementById('email').value)" data-dismiss="modal">Ok</button>
+              <button type="button" class="btn btn-primary" onclick="retrieveCredential(document.getElementById('mail').value)" data-dismiss="modal">Ok</button>
             </div>
         </div>
     </div>
