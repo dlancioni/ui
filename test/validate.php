@@ -2,16 +2,13 @@
 
 
 function validateEmail($email) {
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        return false;
-    }
-    return true;
+    return filter_var($email, FILTER_VALIDATE_EMAIL);
 }
 
 
 
 
-if (validateEmail("")) {
+if (validateEmail("david@lancioni.net")) {
     echo "true";
 } else {
     echo "false";
