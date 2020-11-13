@@ -25,6 +25,7 @@
         public function setup($systemId) {
 
             // General Declaration
+            $cn = "";
             $sql = "";
             $rs = "";
             $affectedRows = 0;
@@ -34,10 +35,6 @@
             $this->setSystem($systemId);
 
             try {
-
-                // DB interface
-                $db = new Db();       
-                $jsonUtil = new JsonUtil();
 
                 // Open connection
                 $cn = $this->cn;

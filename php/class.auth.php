@@ -126,22 +126,24 @@
         /*
          * Forget password
          */
-        public function forgetPassword($systemId, $email) {
+        public function retrieveCredential($systemId, $email) {
 
             // General Declaration
             $msg = "";
-            $data = "";
-            $filter = "";
             $userId = 0;
-            $username = "";
+            $username = "joao";
             $password = "";
             $subject = "";
             $body = "";
+            $db = new Db();
             $mail = new Mail();            
             $stringUtil = new StringUtil();
-            $message = new Message($this->cn, $this->sqlBuilder);
+            $message = new Message();
 
             try {
+
+                // Get connection (no schema)
+                $cn = $db->getConnection($systemId);
 
                 // Validate email
                 if (!$mail->validateEmail($email)) {
@@ -151,20 +153,19 @@
                 }
 
                 // Retrieve credentials
-                $filter = new Filter();
-                $filter->addCondition("tb_user", "id_system", $this->TYPE_TEXT, "=", $systemId);
-                $filter->addCondition("tb_user", "username", $this->TYPE_TEXT, "=", $username);
-                $data = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_USER, $filter->create(), $this->sqlBuilder->QUERY_NO_JOIN);
+                $sql = "";
+                $sql .= "select" . $stringUtil->lb();
+                $sql .= "field->>'username' as username," . $stringUtil->lb();
+                $sql .= "field->>'password' as password" . $stringUtil->lb();
+                $sql .= "from S20201.tb_user" . $stringUtil->lb();
+                $sql .= "where field->>'id_system' = '$systemId'" . $stringUtil->lb();
+                $sql .= "and field->>'username' = '$username'" . $stringUtil->lb();
+                $rs = pg_query($cn, $sql);
 
-                if (count($data) <= 0) {
-                    $msg = $message->getValue("A13");
-                    throw new Exception($msg);
+                while ($row = pg_fetch_row($rs)) {
+                    $username = $row[0];
+                    $password =  $row[1];
                 }
-
-                // Retrieve credentials
-                $userId = $data[0]["id"];
-                $username = $data[0]["username"];
-                $password =  $data[0]["password"];
 
                 // Prepare mail body
                 $subject = "Forms [Recuperar senha]";
@@ -173,13 +174,22 @@
                 $body .= "Usuário: " . $username . $stringUtil->lb();
                 $body .= "Senha: " . $password . $stringUtil->lb();                
 
+                // Close connection
+                if ($cn) {
+                    pg_close($cn); 
+                }                
+
                 // Send mail
                 $mail.send($email, $subject, $body);
 
             } catch (Exception $ex) {
 
-                // Fail to authenticate     
                 $this->sqlBuilder->setError("LogicAuth.forgetPassword()", $ex->getMessage());
+
+                // Close connection
+                if ($cn) {
+                    pg_close($cn); 
+                }
             }
         }
 
@@ -193,16 +203,22 @@
             $rs = "";
             $cn = "";
             $sql = "";            
+            $logicSetup = "";
             $systemId = "";
             $affectedRows = 0;
             $expireDate = "20201231";
-            $jsonUtil = new JsonUtil();
+
             $db = new Db();
+            $jsonUtil = new JsonUtil();
+
 
             try {
 
                 // Get connection (no schema)
                 $cn = $db->getConnection("home");
+
+                // Start transaction
+                pg_query($cn, "begin");
 
                 // Validate the system id
                 $sql = "";
@@ -231,16 +247,35 @@
                 }
 
                 // Insert new client
-                $systemId = date("Y") . $id;
+                $systemId = "S" . date("Y") . $id;
                 $sql = "update home.tb_client set id_system = '$systemId' where id = $id";
                 $rs = pg_query($cn, $sql);
 
-            } catch (Exception $ex) {
+                // Keep instance of SqlBuilder for current session
+                $sqlBuilder = new SqlBuilder($systemId, 0, 0, 0);
+                $logicSetup = new LogicSetup($cn, $sqlBuilder);
+                $logicSetup->setup($systemId);
+
+                // Commit transaction
+                pg_query($cn, "commit");
 
                 // Close connection
                 if ($cn) {
                     pg_close($cn); 
-                }                
+                }
+
+                // Send credentials to new user
+                $this->retrieveCredential($systemId, $email);
+
+            } catch (Exception $ex) {
+
+                // Rollback transaction
+                pg_query($cn, "rollback");                
+
+                // Close connection
+                if ($cn) {
+                    pg_close($cn); 
+                }
 
                 throw $ex;
             }

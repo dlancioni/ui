@@ -1,5 +1,21 @@
 <?php
 
+    class OS {
+
+        public $WINDOWS = "Windows";
+        public $LINUX = "Linux";
+
+        function getOS() {
+            $os = "";
+            if (PATH_SEPARATOR ==":") {
+                $os = "Linux";
+            } else {
+                $os = "Windows";
+            }
+            return $os;
+        }        
+    }
+
     class LogUtil {
 
         public function log($fileName, $contents) {

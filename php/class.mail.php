@@ -9,8 +9,18 @@
          */
         public function send($to, $subject, $body) {
 
+            // General declaration
+            $os = new OS();
+            $stringUtil = new StringUtil();
+
             try {
 
+                // Do not send mail on windows yet
+                if ($os->getOs() == $os->WINDOWS) {
+                    return true;
+                }
+
+                $lb = $stringUtil->lb();                
                 if (PATH_SEPARATOR == ":") {
                     $lb = "\r\n";
                 } else {
@@ -26,7 +36,6 @@
 
             } catch (exception $ex) {
                 $this->setError("mail.send()", $ex->getMessage());
-                echo "erro";
             }
         }
 
