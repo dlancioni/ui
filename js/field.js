@@ -52,7 +52,7 @@ async function cascade(fieldTarget, fieldName, fieldValue, tableName, id, ds) {
 
     let url = "";
     let data = "";
-    let page = 'dropdown.php';
+    let page = 'async.dropdown.php';
     let formData = new FormData();
     let dropdown = document.getElementById(fieldTarget);
     let option = document.createElement("option");

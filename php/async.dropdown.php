@@ -3,9 +3,9 @@
     session_start();
 
     // Include classes
-    include "include.php";
+    include "page.include.php";
 
-    // http://localhost/ui/php/dropdown.php?source=id_table&target=id_field&value=1
+    // http://localhost/ui/php/async_dropdown.php?source=id_table&target=id_field&value=1
 
     // General declaration
     $db = "";

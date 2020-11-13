@@ -13,7 +13,7 @@ async function login() {
     formData.append('_USERNAME_', username);
     formData.append('_PASSWORD_', password);
     
-    let info = await execute('login.php', formData);
+    let info = await execute('async.login.php', formData);
     info = JSON.parse(info);
     
     if (info.status > 1) {
@@ -29,7 +29,7 @@ async function login() {
 async function logout() {
     
     // General Declaration
-    let page = 'eval.php';
+    let page = 'async.eval.php';
     let formData = new FormData();
 
     // Set commands to end session

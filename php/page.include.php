@@ -1,6 +1,6 @@
 <?php
     // Regular code
-    include "exception.php";
+    include "page.exception.php";
     
     // Include classes
     include "class.base.php";

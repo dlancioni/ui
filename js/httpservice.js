@@ -4,7 +4,7 @@ async function persist(formData) {
 
     try {
         // Submit it        
-        let response = await fetch('./php/persist.php', {
+        let response = await fetch('./php/async.persist.php', {
             method: 'POST',
             body: formData
         });
