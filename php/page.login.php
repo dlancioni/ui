@@ -57,7 +57,7 @@
             </div>
             <!-- Footer -->
             <div class="modal-footer">
-              <button type="button" class="btn btn-primary" onclick="forgetPassword(document.getElementById('code').value, document.getElementById('email').value)" data-dismiss="modal">Ok</button>
+              <button type="button" class="btn btn-primary" onclick="register(document.getElementById('name').value, document.getElementById('email').value)" data-dismiss="modal">Ok</button>
             </div>
         </div>
     </div>

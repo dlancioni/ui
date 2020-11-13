@@ -551,7 +551,7 @@ class SqlBuilder extends Base {
             }
 
             // Keep rows affected
-            $affectedRows = pg_affected_rows($rs);                
+            $affectedRows = pg_affected_rows($rs);
 
             // Get inserted ID
             while ($row = pg_fetch_array($rs)) {

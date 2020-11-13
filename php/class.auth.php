@@ -183,6 +183,66 @@
             }
         }
 
+        /*
+         * Register new user
+         */
+        public function register($name, $email) {
+
+            // General Declaration
+            $id = 0;
+            $rs = "";
+            $cn = "";
+            $sql = "";            
+            $systemId = "";
+            $affectedRows = 0;
+            $expireDate = "20201231";
+            $jsonUtil = new JsonUtil();
+            $db = new Db();            
+
+            try {
+
+                // Get connection (no schema)
+                $cn = $db->getConnection("home");
+
+                // Validate the system id
+                $sql = "";
+                $sql .= " select";
+                $sql .= " email";
+                $sql .= " from home.tb_client";
+                $sql .= " where email = " . "'" . trim($email) . "'";
+                $rs = pg_query($cn, $sql);
+                if (pg_fetch_row($rs)) {
+                    throw new Exception("Email já cadastrado");
+                }
+
+                // Insert new client
+                $sql = "insert into home.tb_client (name, email, expire_date, id_system) values ('$name', '$email', '$expireDate', '') returning id";
+                $rs = pg_query($cn, $sql);
+                if (!$rs) {
+                    throw new Exception(pg_last_error($cn));
+                }
+
+                // Keep rows affected
+                $affectedRows = pg_affected_rows($rs);
+
+                // Get inserted ID
+                while ($row = pg_fetch_array($rs)) {
+                    $id = $row['id'];
+                }
+
+                // Insert new client
+                $systemId = date("Y") . $id;
+                $sql = "update home.tb_client set id_system = '$systemId' where id = $id";
+                $rs = pg_query($cn, $sql);
+
+
+            } catch (Exception $ex) {
+
+                // Fail to authenticate     
+                print $ex->getMessage();
+
+            }
+        }
 
 
     } // End of class

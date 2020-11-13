@@ -65,3 +65,22 @@ async function forgetPassword(code, email) {
         alert(info.message);
     }
 }
+
+/*
+ * Register new user
+ */
+async function register(name, email) {
+    
+    let formData = new FormData();
+
+    // Set commands to end session
+    formData.append('_NAME_', name);
+    formData.append('_EMAIL_', email);
+    
+    let info = await execute('async.register.php', formData);
+    info = JSON.parse(info);
+    
+    if (info.status > 1) {
+        alert(info.message);
+    }
+}

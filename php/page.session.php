@@ -50,7 +50,7 @@
 
     // Get connection
     $db = new Db();
-    $cn = $db->getConnection($systemId);    
+    $cn = $db->getConnection($systemId);
 
     // Get main components
     $sqlBuilder = new SqlBuilder($systemId, $tableId, $userId, $groupId);
