@@ -6,7 +6,6 @@
     include "page.include.php";
 
     // General declaration
-    $rs = "";
     $db = "";
     $cn = "";
     $sql = "";
@@ -39,10 +38,6 @@
             $password = $stringUtil->RemoveSpecialChar($_REQUEST["_PASSWORD_"]);
         }
 
-        if (isset($_REQUEST["_EMAIL_"])) {
-            $email = $stringUtil->RemoveSpecialChar($_REQUEST["_EMAIL_"]);
-        }        
-
         // DB interface
         $db = new Db();
         $cn = $db->getConnection($systemId);
@@ -51,71 +46,39 @@
         $message = new Message($cn, $sqlBuilder);
         $logicAuth = new LogicAuth($cn, $sqlBuilder);
 
-        /*
-         * Email informed means forget password
-         */
-        if (trim($email) != "") {
+        // Authenticate user
+        $logicAuth->authenticate($systemId, $username, $password);
 
-            // Authenticate user
-            $logicAuth->retrieveCredential($systemId, $email);
+        // Handle results
+        if ($logicAuth->authenticated == 1) {
 
-            // No data on error
-            if ($logicAuth->getError() == "") {
-                $msg .= "Solicitacao executada com sucesso, ";
-                $msg .= "em breve você receberá um email com as instruções para acesso.";
-                $json = $message->getStatus(1, $msg);
-            } else {
-                $json = $message->getStatus(2, $logicAuth->getError());
-            }
+            // Success
+            $json = $message->getStatus(1, $logicAuth->message);
+
+            // Keep sessioninfo
+            $_SESSION["_AUTH_"] = $logicAuth->authenticated;
+            $_SESSION["_USER_"] = $logicAuth->userId;
+            $_SESSION["_USERNAME_"] = $logicAuth->userName;
+            $_SESSION["_GROUP_"] = $logicAuth->groupId;
+            $_SESSION["_SYSTEM_"] = $systemId;
+            $_SESSION["_MENU_"] = $logicAuth->menu;
+            $_SESSION['_TABLE_'] = "0";
+            $_SESSION['_PAGE_ACTION_'] = "";
+            $_SESSION['_TABLEDEF_'] = "";
 
         } else {
 
-            /*
-            * Validate the system id
-            */
-            $sql = "";
-            $sql .= " select schema_name from information_schema.schemata";
-            $sql .= " where upper(schema_name) = " . "'" . trim(strtoupper($systemId)) . "'";
+            // Fail
+            $json = $message->getStatus(2, $logicAuth->message);
 
-            $rs = pg_query($cn, $sql);
-            if (!pg_fetch_row($rs)) {
-                throw new Exception("Cód. Assinante não encontrado");
-            }
-
-            // Authenticate user
-            $logicAuth->authenticate($systemId, $username, $password);
-
-            // Handle results
-            if ($logicAuth->authenticated == 1) {
-
-                // Success
-                $json = $message->getStatus(1, $logicAuth->message);
-
-                // Keep sessioninfo
-                $_SESSION["_AUTH_"] = $logicAuth->authenticated;
-                $_SESSION["_USER_"] = $logicAuth->userId;
-                $_SESSION["_USERNAME_"] = $logicAuth->userName;
-                $_SESSION["_GROUP_"] = $logicAuth->groupId;
-                $_SESSION["_SYSTEM_"] = $systemId;
-                $_SESSION["_MENU_"] = $logicAuth->menu;
-                $_SESSION['_TABLE_'] = "0";
-                $_SESSION['_PAGE_ACTION_'] = "";
-                $_SESSION['_TABLEDEF_'] = "";
-
-            } else {
-
-                // Fail
-                $json = $message->getStatus(2, $logicAuth->message);
-
-                // Can navigate but not authenticated
-                $_SESSION["_AUTH_"] = 0;
-                $_SESSION["_USER_"] = 0;
-                $_SESSION["_USERNAME_"] = "";
-                $_SESSION["_GROUP_"] = 0;
-                $_SESSION["_SYSTEM_"] = 0;
-                $_SESSION["_MENU_"] = "";
-            }
-        } 
+            // Can navigate but not authenticated
+            $_SESSION["_AUTH_"] = 0;
+            $_SESSION["_USER_"] = 0;
+            $_SESSION["_USERNAME_"] = "";
+            $_SESSION["_GROUP_"] = 0;
+            $_SESSION["_SYSTEM_"] = 0;
+            $_SESSION["_MENU_"] = "";
+        }
 
     } catch (Exception $ex) {
 

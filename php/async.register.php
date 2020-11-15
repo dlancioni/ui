@@ -41,7 +41,7 @@
             $msg = "Cadastro efetuado com sucesso, em breve você receberá um email com as instruções de acesso";
             $json = $message->getStatus(1, $msg);
         } else {
-            $msg = "Não foi possível efetivar o cadastro, tente novamente mais tarde";
+            $msg = $logicAuth->getError();
             $json = $message->getStatus(1, $msg);            
         }
 

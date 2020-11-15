@@ -58,7 +58,7 @@ async function retrieveCredential(email) {
     formData.append('_EMAIL_', email);
     
     // Just retrieve it
-    let info = await execute('async.login.php', formData);
+    let info = await execute('async.retrieve.mail.php', formData);
     info = JSON.parse(info);
     
     // Report the user

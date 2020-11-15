@@ -40,6 +40,17 @@
 
             try {
 
+               /*
+                * Validate the system id
+                */
+                $sql = "";
+                $sql .= " select schema_name from information_schema.schemata";
+                $sql .= " where upper(schema_name) = " . "'" . trim(strtoupper($systemId)) . "'";
+                $rs = pg_query($this->cn, $sql);
+                if (!pg_fetch_row($rs)) {
+                    throw new Exception("Cód. Assinante não encontrado");
+                }
+
                 // Validate the username
                 $filter = new Filter();
                 $filter->addCondition("tb_user", "id_system", $this->TYPE_TEXT, "=", $systemId);
@@ -146,6 +157,12 @@
                 $cn = $this->cn;
                 $this->setError("", "");
 
+                // Validate email
+                if (!$mail->validateEmail($email)) {
+                    $msg .= "Por favor informe um e-mail válido";
+                    throw new Exception($msg);
+                }
+
                 // Retrieve credentials
                 if (trim($systemId) == "") {                    
                     $sql = "";
@@ -158,13 +175,6 @@
                         $systemId = $row[0];
                         break;
                     }
-                }
-
-                // Validate email
-                if (!$mail->validateEmail($email)) {
-                    $msg = "O email informado é inválido: %";
-                    $msg = str_replace("%", $email, $msg);
-                    throw new Exception($msg);
                 }
 
                 // Retrieve credentials
@@ -206,13 +216,15 @@
             $id = 0;
             $rs = "";
             $cn = "";
-            $sql = "";            
-            $logicSetup = "";
+            $sql = "";
+            $msg = "";
+            $date = "";
+
             $systemId = "";
+            $logicSetup = "";            
             $affectedRows = 0;
-            $expireDate = "20201231";
-
-
+            $expireDate = "";
+            $mail = new Mail();
             $jsonUtil = new JsonUtil();
 
 
@@ -224,6 +236,18 @@
                 // Start transaction
                 pg_query($cn, "begin");
 
+                // Validate name
+                if (trim($name) == "") {
+                    $msg = "O campo nome é obrigatório";
+                    throw new Exception($msg);
+                }
+
+                // Validate email
+                if (!$mail->validateEmail($email)) {
+                    $msg .= "Por favor informe um e-mail válido";
+                    throw new Exception($msg);
+                }
+
                 // Validate the system id
                 $sql = "";
                 $sql .= " select";
@@ -234,6 +258,11 @@
                 if (pg_fetch_row($rs)) {
                     throw new Exception("Email já cadastrado");
                 }
+
+                // Calculate expire date
+                $date = new DateTime();
+                $date->add(new DateInterval('P3M'));
+                $expireDate = $date->format('Y-m-d');
 
                 // Insert new client
                 $sql = "insert into home.tb_client (name, email, expire_date, id_system) values ('$name', '$email', '$expireDate', '') returning id";
