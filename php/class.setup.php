@@ -17,7 +17,7 @@
         function __construct($cn, $sqlBuilder) {
             $this->cn = $cn;
             $this->sqlBuilder = $sqlBuilder;
-        }        
+        }
 
         /*
          * Upload files
@@ -229,6 +229,11 @@
                 $this->execute($cn, $model->addField($this->TB_DOMAIN, "Valor", "value", $this->TYPE_TEXT, 50, "", $yes, $yes, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
                 $this->execute($cn, $model->addField($this->TB_DOMAIN, "Domínio", "domain", $this->TYPE_TEXT, 50, "", $yes, $yes, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
 
+                // tb_view
+                $seq = 0;
+                $this->execute($cn, $model->addField($this->TB_VIEW, "Nome", "name", $this->TYPE_TEXT, 50, "", $yes, $yes, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_VIEW, "SQL", "sql", $this->TYPE_TEXT, 10000, "", $yes, $yes, 0, 0, "", "", $this->INPUT_TEXTAREA, ++$seq));
+
                 // tb_menu
                 $seq = 0;
                 $this->execute($cn, $model->addField($this->TB_MENU, "Nome", "name", $this->TYPE_TEXT, 50, "", $yes, $no, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
@@ -241,6 +246,7 @@
                 $this->execute($cn, $model->addField($this->TB_TABLE, "Titulo", "title", $this->TYPE_TEXT, 50, "", $yes, $no, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
                 $this->execute($cn, $model->addField($this->TB_TABLE, "Tipo", "id_type", $this->TYPE_INT, 0, "", $yes, $no, $this->tb("tb_domain"), $this->fd("value"), "tb_table_type", "", $this->INPUT_DROPDOWN, ++$seq));
                 $this->execute($cn, $model->addField($this->TB_TABLE, "Menu", "id_menu", $this->TYPE_INT, 0, "", $yes, $no, $this->tb("tb_menu"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_TABLE, "View", "id_view", $this->TYPE_INT, 0, "", $yes, $no, $this->tb("tb_view"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
 
                 // tb_field
                 $seq = 0;
@@ -280,11 +286,6 @@
                 // tb_group
                 $seq = 0;
                 $this->execute($cn, $model->addField($this->TB_GROUP, "Nome", "name", $this->TYPE_TEXT, 50, "", $yes, $yes, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
-
-                // tb_view
-                $seq = 0;
-                $this->execute($cn, $model->addField($this->TB_VIEW, "Nome", "name", $this->TYPE_TEXT, 50, "", $yes, $yes, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_VIEW, "SQL", "sql", $this->TYPE_TEXT, 10000, "", $yes, $yes, 0, 0, "", "", $this->INPUT_TEXTAREA, ++$seq));
 
                 // tb_view_field
                 $seq = 0;
@@ -858,7 +859,7 @@
                 
                 // Get inserted ID
                 while ($row = pg_fetch_array($rs)) {
-                    $id = $row['id'];
+                   $id = $row['id'];
                 }
 
             } catch (Exception $ex) {
