@@ -46,7 +46,6 @@
             } else {
 
                 // Add buttons to form
-                $sqlBuilder->setTable($tableId);            
                 $html .= $eventAction->createButton($pageEvent, $format);
 
                 // Add global functions (js code)

@@ -51,6 +51,7 @@ class LogicReport extends Base {
         $control = "";
         $pageTitle = "";
         $tableDef = "";
+        $viewId = 0;
 
         try {
 
@@ -68,6 +69,11 @@ class LogicReport extends Base {
                 $pageTitle = $tableDef[0]["title"];
             }
 
+            // Handle view
+            if (trim($tableDef[0]["id_view"]) != "") {
+                $viewId = trim($tableDef[0]["id_view"]);
+            }
+
             // Get data
             $filter = new Filter("like");
             if ($this->action == "Filter") {
@@ -82,7 +88,13 @@ class LogicReport extends Base {
             // Paging
             $this->sqlBuilder->PageSize = $PAGE_SIZE;
             $this->sqlBuilder->PageOffset = $pageOffset;
-            $data = $this->sqlBuilder->executeQuery($this->cn, $tableId, $filter->create(), 1, $tableDef);
+
+            if ($viewId > 0) {
+                $data = $this->sqlBuilder->executeView($this->cn, $viewId, $filter->create());
+            } else {
+                $data = $this->sqlBuilder->executeQuery($this->cn, $tableId, $filter->create(), 1, $tableDef);
+            }
+
 
             if ($this->sqlBuilder->getError() != "") {
                 $this->setError("LogicReport.createReport()", $this->sqlBuilder->getError());
@@ -90,17 +102,13 @@ class LogicReport extends Base {
             }
 
             if ($data) {
-                $recordCount = $data[0]["record_count"];
+                if (isset($data[0]["record_count"])) {
+                    $recordCount = $data[0]["record_count"];
+                }
             }
 
-            // Render html table
-            $cols = $this->element->createTableHeader("");
-            $cols .= $this->element->createTableHeader("Id");
-            foreach ($tableDef as $item) {
-                $fieldLabel = $item["field_label"];
-                $cols .= $this->element->createTableHeader($fieldLabel);
-            }
-            $rows .= $this->element->createTableRow($cols);
+            // Create header
+            $rows .= $this->createTableHeader($viewId, $data);
 
             // Prepare table contents
             $cols = "";
@@ -116,6 +124,7 @@ class LogicReport extends Base {
                 foreach ($tableDef as $col) {
 
                     // Keep info
+                    $columnSize = 0;                    
                     $fieldId = $col["id"];
                     $tableFk = $col["table_fk"];
                     $fieldFk = $col["field_fk"];
@@ -124,46 +133,43 @@ class LogicReport extends Base {
                     $fk = $col["id_fk"];
                     $control = $col["id_control"];
 
-                    // Field attribute
-                    $columnSize = 0;
+                    if ($fk != 0) {
+                        $fieldName = substr($fieldName, 3);
+                    }
 
+                    // Prepare grid
+                    if (isset($row[$fieldName])) {
 
-                    // Get field values
-                    if ($fk == 0) {
+                        // Get field value
                         $fieldValue = $row[$fieldName];
-                    } else {
-                        $fieldValue = $row[substr($fieldName, 3)];
+
+                        // Handle field type (datatype)
+                        switch ($fieldType) {
+                            case $this->TYPE_FLOAT: 
+                                $fieldValue = number_format($fieldValue, 2, ',', '.');
+                                break;
+                            case $this->TYPE_BINARY: 
+                                break;
+                            default:    
+                        }
+
+                        // Handle field element (html control)
+                        switch ($control) {
+                            case $this->INPUT_PASSWORD:
+                                $fieldValue = "******";
+                                break;
+                            case $this->INPUT_FILE:
+                                if ($fieldValue != null) {
+                                    $link = $pathUtil->getVirtualPath() . $fieldValue;
+                                    $fieldValue = $this->element->createLink($this->element->createImage($link), $fieldValue, $link, true);
+                                }
+                                break;
+                            default:
+                        }
+
+                        // Print it
+                        $cols .= $this->element->createTableCol($fieldValue, $columnSize);
                     }
-
-                    // Handle field type (datatype)
-                    switch ($fieldType) {
-                        case $this->TYPE_FLOAT: 
-                            $fieldValue = number_format($fieldValue, 2, ',', '.');
-                            break;
-                        case $this->TYPE_BINARY: 
-                            break;                            
-                        default:    
-                    }
-
-                    // Handle field element (html control)
-                    switch ($control) {
-
-                        case $this->INPUT_PASSWORD:
-                            $fieldValue = "******";
-                            break;
-
-                        case $this->INPUT_FILE:
-                            if ($fieldValue != null) {
-                                $link = $pathUtil->getVirtualPath() . $fieldValue;
-                                $fieldValue = $this->element->createLink($this->element->createImage($link), $fieldValue, $link, true);
-                            }
-                            break;
-
-                        default:
-                    }
-
-                    // Print it
-                    $cols .= $this->element->createTableCol($fieldValue, $columnSize);
                 }
 
                 $rows .= $this->element->createTableRow($cols);
@@ -190,5 +196,49 @@ class LogicReport extends Base {
         // Return report        
         return $html;
     }
+
+
+    /*
+     * Create table header
+     */
+    private function createTableHeader($viewId, $data) {
+
+        // General Declaration
+        $cols = "";
+        $fieldName = "";
+        $fieldLabel = "";
+        $tableDef = $this->tableDef;
+
+        // Create checkbox columns
+        $cols = $this->element->createTableHeader("");
+        $cols .= $this->element->createTableHeader("Id");
+
+        // Create header
+        foreach ($tableDef as $item) {
+
+            $fieldName = $item["field_name"];
+            $fieldLabel = $item["field_label"];
+
+            // For view, fields may does not exists in data            
+            if ($viewId > 0) {
+                foreach ($data as $row) {
+                    if (!isset($row[$fieldName])) {
+                        $fieldLabel = "";
+                        break;
+                    }
+                }
+            }
+
+            // Add columns where both def and data exists
+            if ($fieldLabel != "") {
+                $cols .= $this->element->createTableHeader($fieldLabel);
+            }
+        }
+
+        return $this->element->createTableRow($cols);
+    }
+
+
+
 }
 ?>
