@@ -50,6 +50,7 @@ class LogicReport extends Base {
         $fieldAttribute = "";
         $control = "";
         $pageTitle = "";
+        $tableDef = "";
 
         try {
 
@@ -59,27 +60,29 @@ class LogicReport extends Base {
             $pathUtil = new PathUtil();            
             $message = new Message($this->cn, $this->sqlBuilder);            
             $this->element = new HTMLElement($this->cn, $this->sqlBuilder);
+            $tableDef = $this->tableDef;
+            $formData = $this->formData;
 
             // Get table structure
-            if (count($this->tableDef) > 0) {
-                $pageTitle = $this->tableDef[0]["title"];
+            if (count($tableDef) > 0) {
+                $pageTitle = $tableDef[0]["title"];
             }
 
             // Get data
             $filter = new Filter("like");
             if ($this->action == "Filter") {
-                $filter->setFilter($this->tableDef, $this->formData);
-                $_SESSION["_FILTER_"][$tableId] = array($this->formData);
+                $filter->setFilter($tableDef, $formData);
+                $_SESSION["_FILTER_"][$tableId] = array($formData);
             } else {
                 if (isset($_SESSION["_FILTER_"][$tableId])) {
-                    $filter->setFilter($this->tableDef, $_SESSION["_FILTER_"][$tableId][0]);
+                    $filter->setFilter($tableDef, $_SESSION["_FILTER_"][$tableId][0]);
                 }
             }
 
             // Paging
             $this->sqlBuilder->PageSize = $PAGE_SIZE;
             $this->sqlBuilder->PageOffset = $pageOffset;
-            $data = $this->sqlBuilder->executeQuery($this->cn, $tableId, $filter->create(), 1, $this->tableDef);
+            $data = $this->sqlBuilder->executeQuery($this->cn, $tableId, $filter->create(), 1, $tableDef);
 
             if ($this->sqlBuilder->getError() != "") {
                 $this->setError("LogicReport.createReport()", $this->sqlBuilder->getError());
@@ -93,7 +96,7 @@ class LogicReport extends Base {
             // Render html table
             $cols = $this->element->createTableHeader("");
             $cols .= $this->element->createTableHeader("Id");
-            foreach ($this->tableDef as $item) {
+            foreach ($tableDef as $item) {
                 $fieldLabel = $item["field_label"];
                 $cols .= $this->element->createTableHeader($fieldLabel);
             }
@@ -110,7 +113,7 @@ class LogicReport extends Base {
                 $cols .= $this->element->createTableCol($row["id"]);
 
                 // Create data contents                
-                foreach ($this->tableDef as $col) {
+                foreach ($tableDef as $col) {
 
                     // Keep info
                     $fieldId = $col["id"];
