@@ -19,6 +19,11 @@ class SqlBuilder extends Base {
      */    
     public $lastQuery = "";
 
+    /*
+     * Line break
+     */    
+    public $lb = "";    
+
     /* 
      * Query and return json
      */
@@ -29,8 +34,13 @@ class SqlBuilder extends Base {
         $json = "";
         $query = "";
         $sql = "";
+        $stringUtil = new StringUtil();
 
         try {
+
+
+            // Keep separator
+            $this->lb = $stringUtil->lb();
 
             // Get query
             $query = $this->prepareQuery($cn, $table, $filter, $queryType, $tableDef);
@@ -216,6 +226,7 @@ class SqlBuilder extends Base {
 
         // General Declaration
         $sql = "";
+        $lb = "";
         $fk = "";
         $count = 0;        
         $tableName = "";
@@ -226,23 +237,27 @@ class SqlBuilder extends Base {
         $tableFk = "";
         $jsonUtil = new JsonUtil();        
 
+
         try {
+
+            // Keep separator
+            $lb = $this->lb;
 
             // Table name
             $tableName = trim($tableDef[0]["table_name"]);
 
             // Get id            
-            $sql .= "select ";
+            $sql .= "select " . $lb;
 
             // Count over pagination
-            $sql .= "count(*) over() as record_count,";
+            $sql .= "count(*) over() as record_count," . $lb;
 
             // System fields
-            $sql .= $jsonUtil->select($tableName, "id_system", $this->TYPE_TEXT, "id_system") . ",";
-            $sql .= $jsonUtil->select($tableName, "id_group", $this->TYPE_INT, "id_group") . ",";
+            $sql .= $jsonUtil->select($tableName, "id_system", $this->TYPE_TEXT, "id_system") . "," . $lb;
+            $sql .= $jsonUtil->select($tableName, "id_group", $this->TYPE_INT, "id_group") . "," . $lb;
 
             // Base ID            
-            $sql .= trim($tableDef[0]["table_name"]) . ".id";
+            $sql .= trim($tableDef[0]["table_name"]) . ".id" . $lb;
 
             // Field list
             foreach ($tableDef as $row) {
@@ -260,26 +275,26 @@ class SqlBuilder extends Base {
 
                 // Create dropdown
                 if ($queryType == $this->QUERY_NO_JOIN) {
-                    $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias);
+                    $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias) . $lb;
                 } else {
                     if ($fk == 0) {
-                        $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias);
+                        $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias) . $lb;
                     } else if ($fk == $this->TB_DOMAIN) {
-                        $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias);
+                        $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias) . $lb;
                         $sql .= ", ";
                         $fieldAlias = substr($fieldName, 3);
                         $tableName = $fieldDomain . "_" . $fieldName;
                         $fieldName = "value";
                         $fieldType = $this->TYPE_TEXT;
-                        $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias);
+                        $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias) . $lb;
                     } else {
-                        $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias);
+                        $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias) . $lb;
                         $sql .= ", ";
                         $fieldAlias = substr($fieldName, 3);
                         $tableName = $tableFk . "_" . $fieldName;
                         $fieldName = $fieldFk;
                         $fieldType = $this->TYPE_TEXT;
-                        $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias);
+                        $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias) . $lb;
                     }
                 }
             }
@@ -296,9 +311,10 @@ class SqlBuilder extends Base {
 
         $sql = "";
         $jsonUtil = new JsonUtil();
+        $lb = $this->lb;
 
         try {
-            $sql .= " from " . $tableDef[0]["table_name"];
+            $sql .= " from " . $tableDef[0]["table_name"] . $lb;
         } catch (Exception $ex) {
             $this->setError("QueryBuilder.getFrom()", $ex->getMessage());
         }
@@ -313,6 +329,7 @@ class SqlBuilder extends Base {
         // General declaration
         $sql = "";
         $jsonUtil = new JsonUtil();
+        $lb = $this->lb;
 
         try {
 
@@ -322,6 +339,7 @@ class SqlBuilder extends Base {
                                             $row["field_name"], 
                                             $row["table_fk"], 
                                             $row["field_domain"]);
+                    $sql .= $lb;                        
                 }
             }
         } catch (Exception $ex) {
@@ -338,6 +356,7 @@ class SqlBuilder extends Base {
         $sql = "";
         $tableName = "";
         $jsonUtil = new JsonUtil();
+        $lb = $this->lb;
 
         try {
 
@@ -348,6 +367,7 @@ class SqlBuilder extends Base {
                                                     $this->TYPE_TEXT, 
                                                     "=", 
                                                     $this->getSystem());
+            $sql .= $lb;
 
             // 1-system
             // 2-admin
@@ -358,6 +378,7 @@ class SqlBuilder extends Base {
                 $sql .= " (";
                 $sql .= $this->getSqlGroupIdByUser($this->getUser());
                 $sql .= ") ";
+                $sql .= $lb;
             }
 
         } catch (Exception $ex) {
@@ -379,6 +400,7 @@ class SqlBuilder extends Base {
         $fieldValue = "";
         $fieldMask = "";
         $jsonUtil = new JsonUtil();
+        $lb = $this->lb;
 
         try {
             if (trim($filter) != "") {
@@ -401,6 +423,7 @@ class SqlBuilder extends Base {
                                                                $fieldOperator, 
                                                                $fieldValue, 
                                                                $fieldMask);
+                    $sql .= $lb;                                                               
                     }
                 }
             }
@@ -417,9 +440,12 @@ class SqlBuilder extends Base {
     private function getOrderBy($tableDef) {
 
         $sql = "";
+        $lb = $this->lb;
+                
 
         try {
             $sql = " order by " . trim($tableDef[0]["table_name"]) . ".id";
+            $sql .= $lb;
         } catch (Exception $ex) {
             $this->setError("QueryBuilder.getOrderBy()", $ex->getMessage());
         }
@@ -432,17 +458,18 @@ class SqlBuilder extends Base {
     private function getPaging($tableDef) {
 
         $sql = "";
+        $lb = $this->lb;
 
         try {
 
             // Page size
             if ($this->PageSize > 0) {
-                $sql .= " limit $this->PageSize";
+                $sql .= " limit $this->PageSize" . $lb;
             }
 
             // Page Offset
             if ($this->PageOffset > 0) {
-                $sql .= " offset $this->PageOffset";
+                $sql .= " offset $this->PageOffset". $lb;
             }
 
         } catch (Exception $ex) {
@@ -454,46 +481,48 @@ class SqlBuilder extends Base {
 
     private function getSqlTableDef($tableId) {
         
-        $sql = "";
-        $sql .= " select";
-        $sql .= " tb_field.id,";
+        $lb = $this->lb;
+
+        $sql = "" . $lb;
+        $sql .= " select" . $lb;
+        $sql .= " tb_field.id," . $lb;
 
         // tb_table
-        $sql .= " (tb_field.field->>'id_system')::text as id_system,";
-        $sql .= " (tb_table.field->>'name')::text as table_name,";
-        $sql .= " (tb_table.field->>'title')::text as title,";
+        $sql .= " (tb_field.field->>'id_system')::text as id_system," . $lb;
+        $sql .= " (tb_table.field->>'name')::text as table_name," . $lb;
+        $sql .= " (tb_table.field->>'title')::text as title," . $lb;
 
         // tb_field        
-        $sql .= " (tb_field.field->>'label')::text as field_label,";
-        $sql .= " (tb_field.field->>'name')::text as field_name,";
-        $sql .= " (tb_field.field->>'id_type')::text as field_type,";
-        $sql .= " (tb_field.field->>'size')::int as field_size,";
-        $sql .= " (tb_field.field->>'mask')::text as field_mask,";
-        $sql .= " (tb_field.field->>'id_mandatory')::int as field_mandatory,";
-        $sql .= " (tb_field.field->>'id_unique')::int as field_unique,";
-        $sql .= " (tb_field.field->>'id_table_fk')::int as id_fk,";        
-        $sql .= " (tb_table_fk.field->>'name')::text as table_fk,";
-        $sql .= " (tb_field_fk.field->>'name')::text as field_fk,";
-        $sql .= " (tb_field.field->>'domain')::text as field_domain,";
-        $sql .= " (tb_field.field->>'default_value')::text as default_value,";
-        $sql .= " (tb_field.field->>'ordenation')::text as ordenation,";
-        $sql .= " (tb_field.field->>'id_control')::text as id_control";
+        $sql .= " (tb_field.field->>'label')::text as field_label," . $lb;
+        $sql .= " (tb_field.field->>'name')::text as field_name," . $lb;
+        $sql .= " (tb_field.field->>'id_type')::text as field_type," . $lb;
+        $sql .= " (tb_field.field->>'size')::int as field_size," . $lb;
+        $sql .= " (tb_field.field->>'mask')::text as field_mask," . $lb;
+        $sql .= " (tb_field.field->>'id_mandatory')::int as field_mandatory," . $lb;
+        $sql .= " (tb_field.field->>'id_unique')::int as field_unique," . $lb;
+        $sql .= " (tb_field.field->>'id_table_fk')::int as id_fk," . $lb;
+        $sql .= " (tb_table_fk.field->>'name')::text as table_fk," . $lb;
+        $sql .= " (tb_field_fk.field->>'name')::text as field_fk," . $lb;
+        $sql .= " (tb_field.field->>'domain')::text as field_domain," . $lb;
+        $sql .= " (tb_field.field->>'default_value')::text as default_value," . $lb;
+        $sql .= " (tb_field.field->>'ordenation')::text as ordenation," . $lb;
+        $sql .= " (tb_field.field->>'id_control')::text as id_control" . $lb;
         
-        $sql .= " from tb_field";
+        $sql .= " from tb_field" . $lb;
 
         // Join table
-        $sql .= " inner join tb_table on (tb_field.field->>'id_table')::text = (tb_table.id)::text";
+        $sql .= " inner join tb_table on (tb_field.field->>'id_table')::text = (tb_table.id)::text" . $lb;
 
         // Join inner table
-        $sql .= " left join tb_table tb_table_fk on (tb_field.field->>'id_table_fk')::text = (tb_table_fk.id)::text";
-        $sql .= " left join tb_field tb_field_fk on (tb_field.field->>'id_field_fk')::text = (tb_field_fk.id)::text";
+        $sql .= " left join tb_table tb_table_fk on (tb_field.field->>'id_table_fk')::text = (tb_table_fk.id)::text" . $lb;
+        $sql .= " left join tb_field tb_field_fk on (tb_field.field->>'id_field_fk')::text = (tb_field_fk.id)::text" . $lb;
 
         // Base filter
-        $sql .= " where (tb_field.field->>'id_system')::text = " . $this->getSystem();
-        $sql .= " and (tb_field.field->>'id_table')::int = " . $tableId;
+        $sql .= " where (tb_field.field->>'id_system')::text = " . $this->getSystem() . $lb;
+        $sql .= " and (tb_field.field->>'id_table')::int = " . $tableId . $lb;
 
         // Ordering
-        $sql .= " order by (tb_field.field->>'ordenation')::int, tb_field.id";
+        $sql .= " order by (tb_field.field->>'ordenation')::int, tb_field.id" . $lb;
 
         // Return final query
         return $sql;
