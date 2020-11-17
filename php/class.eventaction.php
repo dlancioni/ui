@@ -29,14 +29,10 @@
                 $element = new HTMLElement($this->cn, $this->sqlBuilder);
 
                 // Get access control
-                $filter = new Filter();
-                $filter->add("tb_table", "id_table", $this->sqlBuilder->getTable());
-                $filter->add("tb_user_profile", "id_user", $this->sqlBuilder->getUser());
-                $permission = $this->sqlBuilder->executeView($this->cn, $FunctionByProfileUser, $filter->create());
-
-                $html .= "<br>";
+                $permission = $this->getFunctionByProfileUser($this->sqlBuilder->getTable(), $this->sqlBuilder->getUser());
 
                 // Create event list
+                $html .= "<br>";                
                 if (is_array($pageEvent) && is_array($permission)) {
                     foreach ($pageEvent as $event) {
                         if ($event["id_target"] == $format) {
@@ -116,6 +112,49 @@
             // Return to main function
             return $js;
         }
+
+
+       /*
+        * Get table function by profile user
+        */
+        private function getFunctionByProfileUser($tableId, $userId) {
+
+            // General declaration    
+            $rs = "";
+            $sql = "";
+            $db = new Db();
+            $stringUtil = new StringUtil();
+
+            try {
+
+                // Get separator
+                $lb = $stringUtil->lb();
+
+                // Query menus and modules
+                $sql .= " select distinct" . $lb; 
+                $sql .= " tb_user_profile.field->>'id_profile' id_profile," . $lb; 
+                $sql .= " tb_function.id," . $lb; 
+                $sql .= " tb_function.field->>'name' as name" . $lb; 
+                $sql .= " from tb_user_profile" . $lb; 
+                $sql .= " inner join tb_table_function on (tb_table_function.field->>'id_profile')::int = (tb_user_profile.field->>'id_profile')::int" . $lb; 
+                $sql .= " inner join tb_function on (tb_table_function.field->>'id_function')::int = tb_function.id" . $lb; 
+                $sql .= " where (tb_table_function.field->>'id_table')::int = " . $tableId . $lb;
+                $sql .= " and (tb_user_profile.field->>'id_user')::int = " . $userId . $lb;
+                $sql .= " order by tb_function.id" . $lb;
+
+                // Execute query
+                $rs = $db->queryJson($this->cn, $sql);
+
+            } catch (Exception $ex) {
+
+                // Set error
+                $this->setError("QueryBuilder.getFunctionByProfileUser()", $ex->getMessage());
+            }
+
+            // Return data
+            return $rs;
+        }
+
 
     // End of class
     }    

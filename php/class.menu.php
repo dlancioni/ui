@@ -115,7 +115,7 @@
             $this->html .= $html;         
         }
 
-        /*
+       /*
         * Get table definition
         */
         private function getData($systemId, $userId) {

@@ -116,10 +116,12 @@ class LogicReport extends Base {
             foreach ($data as $row) {
 
                 // Create radio for selection
-                $cols == "" ? $checked = "checked" : $checked = "";
-                $radio = $this->element->createRadio("selection", $row["id"], $checked);
-                $cols = $this->element->createTableCol($radio);
-                $cols .= $this->element->createTableCol($row["id"]);
+                if (isset($row["id"])) {
+                    $cols == "" ? $checked = "checked" : $checked = "";
+                    $radio = $this->element->createRadio("selection", $row["id"], $checked);
+                    $cols = $this->element->createTableCol($radio);
+                    $cols .= $this->element->createTableCol($row["id"]);
+                }
 
                 // Create data contents                
                 foreach ($tableDef as $col) {
@@ -198,7 +200,6 @@ class LogicReport extends Base {
         return $html;
     }
 
-
     /*
      * Create table header
      */
@@ -211,8 +212,10 @@ class LogicReport extends Base {
         $tableDef = $this->tableDef;
 
         // Create checkbox columns
-        $cols = $this->element->createTableHeader("");
-        $cols .= $this->element->createTableHeader("Id");
+        if (isset($data[0]["id"]) || count($data) == 0) {
+            $cols = $this->element->createTableHeader("");
+            $cols .= $this->element->createTableHeader("Id");
+        }
 
         // Create header
         foreach ($tableDef as $item) {

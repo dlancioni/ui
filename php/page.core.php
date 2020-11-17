@@ -38,12 +38,16 @@
                 $error = $logicForm->getError();
             }
 
+            // Handle error
             if ($error != "") {
 
                 // Alert the final error
                 $html = $element->getAlert("Erro de processamento", $error);
 
             } else {
+
+                // Back to main table
+                $sqlBuilder->setTable($tableId);
 
                 // Add buttons to form
                 $html .= $eventAction->createButton($pageEvent, $format);
