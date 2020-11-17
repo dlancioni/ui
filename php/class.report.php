@@ -95,12 +95,13 @@ class LogicReport extends Base {
                 $data = $this->sqlBuilder->executeQuery($this->cn, $tableId, $filter->create(), 1, $tableDef);
             }
 
-
+            // Error handling    
             if ($this->sqlBuilder->getError() != "") {
                 $this->setError("LogicReport.createReport()", $this->sqlBuilder->getError());
                 return;
             }
 
+            // Handle count
             if ($data) {
                 if (isset($data[0]["record_count"])) {
                     $recordCount = $data[0]["record_count"];
