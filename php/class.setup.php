@@ -229,11 +229,6 @@
                 $this->execute($cn, $model->addField($this->TB_DOMAIN, "Valor", "value", $this->TYPE_TEXT, 50, "", $yes, $yes, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
                 $this->execute($cn, $model->addField($this->TB_DOMAIN, "Domínio", "domain", $this->TYPE_TEXT, 50, "", $yes, $yes, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
 
-                // tb_view
-                $seq = 0;
-                $this->execute($cn, $model->addField($this->TB_VIEW, "Nome", "name", $this->TYPE_TEXT, 50, "", $yes, $yes, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_VIEW, "SQL", "sql", $this->TYPE_TEXT, 10000, "", $yes, $yes, 0, 0, "", "", $this->INPUT_TEXTAREA, ++$seq));
-
                 // tb_menu
                 $seq = 0;
                 $this->execute($cn, $model->addField($this->TB_MENU, "Nome", "name", $this->TYPE_TEXT, 50, "", $yes, $no, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
@@ -264,7 +259,21 @@
                 $this->execute($cn, $model->addField($this->TB_FIELD, "Valor Padrão", "default_value", $this->TYPE_TEXT, 50, "", $no, $no, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
                 $this->execute($cn, $model->addField($this->TB_FIELD, "Controle", "id_control", $this->TYPE_INT, 0, "", $yes, $no, $this->tb("tb_domain"), $this->fd("value"), "tb_control", "", $this->INPUT_DROPDOWN, ++$seq));
                 $this->execute($cn, $model->addField($this->TB_FIELD, "Ordenação", "ordenation", $this->TYPE_INT, 0, "", $yes, $no, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
-                
+
+                // tb_view
+                $seq = 0;
+                $this->execute($cn, $model->addField($this->TB_VIEW, "Nome", "name", $this->TYPE_TEXT, 50, "", $yes, $yes, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_VIEW, "SQL", "sql", $this->TYPE_TEXT, 10000, "", $yes, $yes, 0, 0, "", "", $this->INPUT_TEXTAREA, ++$seq));
+
+                // tb_view_field
+                $seq = 0;
+                $this->execute($cn, $model->addField($this->TB_VIEW_FIELD, "Comando", "id_command", $this->TYPE_INT, 0, "", $yes, $no, $this->tb("tb_domain"), $this->fd("value"), "tb_command", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_VIEW_FIELD, "Tabela", "id_table", $this->TYPE_INT, 0, "", $yes, $no, $this->tb("tb_table"), $this->fd("title"), "", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_VIEW_FIELD, "Campo", "id_field", $this->TYPE_INT, 0, "", $yes, $no, $this->tb("tb_field"), $this->fd("label"), "", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_VIEW_FIELD, "Operador", "id_operator", $this->TYPE_INT, 0, "", $no, $no, $this->tb("tb_domain"), $this->fd("value"), "tb_operator", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_VIEW_FIELD, "Valor", "value", $this->TYPE_TEXT, 500, "", $no, $no, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_VIEW_FIELD, "Ordenação", "ordenation", $this->TYPE_INT, 0, "", $no, $no, 0, 0, "", "0", $this->INPUT_TEXTBOX, ++$seq));
+
                 // tb_function
                 $seq = 0;
                 $this->execute($cn, $model->addField($this->TB_FUNCTION, "Nome", "name", $this->TYPE_TEXT, 50, "", $yes, $yes, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
@@ -287,16 +296,7 @@
                 $seq = 0;
                 $this->execute($cn, $model->addField($this->TB_GROUP, "Nome", "name", $this->TYPE_TEXT, 50, "", $yes, $yes, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
 
-                // tb_view_field
-                $seq = 0;
-                $this->execute($cn, $model->addField($this->TB_VIEW_FIELD, "Comando", "id_command", $this->TYPE_INT, 0, "", $yes, $no, $this->tb("tb_domain"), $this->fd("value"), "tb_command", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_VIEW_FIELD, "Tabela", "id_table", $this->TYPE_INT, 0, "", $yes, $no, $this->tb("tb_table"), $this->fd("title"), "", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_VIEW_FIELD, "Campo", "id_field", $this->TYPE_INT, 0, "", $no, $no, $this->tb("tb_field"), $this->fd("label"), "", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_VIEW_FIELD, "Operador", "id_operator", $this->TYPE_INT, 0, "", $no, $no, $this->tb("tb_domain"), $this->fd("value"), "tb_operator", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_VIEW_FIELD, "Valor", "value", $this->TYPE_TEXT, 500, "", $yes, $no, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_VIEW_FIELD, "Ordenação", "ordenation", $this->TYPE_INT, 0, "", $no, $no, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
-
-                // tb_profile                
+                // tb_profile
                 $seq = 0;
                 $this->execute($cn, $model->addField($this->TB_PROFILE, "Nome", "name", $this->TYPE_TEXT, 50, "", $yes, $yes, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
 
@@ -433,6 +433,7 @@
                 // tb_cascade
                 $this->execute($cn, $model->addDomain($this->groupId, "tb_field.id_table_fk", "id_field_fk; tb_field; id; label", "tb_cascade"));
                 $this->execute($cn, $model->addDomain($this->groupId, "tb_event.id_table", "id_field; tb_field; id; label", "tb_cascade"));
+                $this->execute($cn, $model->addDomain($this->groupId, "tb_view_field.id_table", "id_field; tb_field; id; label", "tb_cascade"));
 
                 // tb_control
                 $this->execute($cn, $model->addDomain($this->groupId, 1, "Textbox", "tb_control"));
@@ -452,12 +453,12 @@
                 $this->execute($cn, $model->addDomain($this->groupId, "7", "Ordenação", "tb_command"));
 
                 // tb_operator
-                $this->execute($cn, $model->addDomain($this->groupId, "=", "Igual", "tb_operator"));
-                $this->execute($cn, $model->addDomain($this->groupId, "<>", "Diferente", "tb_operator"));
-                $this->execute($cn, $model->addDomain($this->groupId, ">", "Maior", "tb_operator"));
-                $this->execute($cn, $model->addDomain($this->groupId, ">=", "Maior igual", "tb_operator"));
-                $this->execute($cn, $model->addDomain($this->groupId, "<", "Menor", "tb_operator"));
-                $this->execute($cn, $model->addDomain($this->groupId, "<=", "Menor igual", "tb_operator"));
+                $this->execute($cn, $model->addDomain($this->groupId, "1", "Igual", "tb_operator"));
+                $this->execute($cn, $model->addDomain($this->groupId, "2", "Diferente", "tb_operator"));
+                $this->execute($cn, $model->addDomain($this->groupId, "3", "Maior", "tb_operator"));
+                $this->execute($cn, $model->addDomain($this->groupId, "4", "Maior igual", "tb_operator"));
+                $this->execute($cn, $model->addDomain($this->groupId, "5", "Menor", "tb_operator"));
+                $this->execute($cn, $model->addDomain($this->groupId, "6", "Menor igual", "tb_operator"));
 
                 // person type
                 $this->execute($cn, $model->addDomain($this->public, "1", "Física", "tb_person_type"));

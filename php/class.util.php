@@ -19,13 +19,39 @@
     class LogUtil {
 
         public function log($fileName, $contents) {
-            $file = fopen("$fileName.txt", "w") or die("Unable to open file!");
+            $pathUtil = new PathUtil();
+            $fileName = $pathUtil->getLogPath($fileName);
+            $file = fopen($fileName, "w") or die("Unable to open file!");
             fwrite($file, $contents);
-            fclose($file);            
+            fclose($file);
         }
     }
 
     class PathUtil {
+
+
+        /*
+         * Get virtual file path
+         */
+        public function getLogPath($fileName) {
+
+            $path = "";
+            $os = new OS();
+
+            try {
+
+                if ($os->getOS() == $os->WINDOWS) {
+                    $path = realpath('.') . "\\php\\log\\" . $fileName; // Windows
+                } else {
+                    $path = realpath('.') . "/php/log/" . $fileName; // Linux
+                }
+
+            } catch (Exception $ex) {
+                throw $ex;
+            }
+
+            return $path;
+        }
 
         /*
          * Get virtual file path
@@ -33,16 +59,14 @@
         public function getVirtualPath() {
 
             $path = "";
+            $os = new OS();
 
             try {
 
-                // Get slash position
-                $pos = strpos(realpath('.'), "\\");
-
-                if ($pos > 0) {
-                    $path = "/ui/php/files/"; // Windows
+                if ($os->getOS() == $os->WINDOWS) {
+                    $path = "/ui/php/files/";
                 } else {
-                    $path = "/php/files/"; // Linux
+                    $path = "/php/files/";
                 }
 
             } catch (Exception $ex) {
@@ -58,17 +82,14 @@
         public function getUploadPath() {
 
             $path = "";
-            $pos = 0;
+            $os = new OS();
 
             try {
 
-                // Get slash position
-                $pos = strpos(realpath('.'), "\\");
-
-                if ($pos > 0) {
-                    $path = realpath('.') . "\\files\\"; // Windows
+                if ($os->getOS() == $os->WINDOWS) {
+                    $path = realpath('.') . "\\files\\";
                 } else {
-                    $path = realpath('.') . "/files/"; // Linux
+                    $path = realpath('.') . "/files/";
                 }
 
             } catch (Exception $ex) {

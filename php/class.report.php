@@ -52,10 +52,12 @@ class LogicReport extends Base {
         $pageTitle = "";
         $tableDef = "";
         $viewId = 0;
+        $logUtil = "";
 
         try {
 
             // Create object instances
+            $logUtil = new LogUtil();
             $numberUtil = new NumberUtil();
             $jsonUtil = new jsonUtil();
             $pathUtil = new PathUtil();            
@@ -94,6 +96,7 @@ class LogicReport extends Base {
             } else {
                 $data = $this->sqlBuilder->executeQuery($this->cn, $tableId, $filter->create(), 1, $tableDef);
             }
+            $logUtil->log("query.pgsql", $this->sqlBuilder->lastQuery);
 
             // Error handling    
             if ($this->sqlBuilder->getError() != "") {
