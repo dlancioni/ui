@@ -437,17 +437,20 @@
                 $this->execute($cn, $model->addDomain($this->groupId, 5, "Hidden", "tb_control"));
                 $this->execute($cn, $model->addDomain($this->groupId, 6, "Password", "tb_control"));
 
-                // tb_hidden
-                $this->execute($cn, $model->addDomain($this->groupId, "1", "Inclusão", "tb_hidden"));
-                $this->execute($cn, $model->addDomain($this->groupId, "2", "Alteração", "tb_hidden"));
-                $this->execute($cn, $model->addDomain($this->groupId, "3", "Exclusão", "tb_hidden"));
-                $this->execute($cn, $model->addDomain($this->groupId, "4", "Sempre", "tb_hidden"));
+                // tb_selection
+                $this->execute($cn, $model->addDomain($this->groupId, "1", "Campo", "tb_selection"));
+                $this->execute($cn, $model->addDomain($this->groupId, "2", "Somatória", "tb_selection"));
+                $this->execute($cn, $model->addDomain($this->groupId, "3", "Máximo", "tb_selection"));
+                $this->execute($cn, $model->addDomain($this->groupId, "4", "Mínimo", "tb_selection"));
+                $this->execute($cn, $model->addDomain($this->groupId, "5", "Média", "tb_selection"));
 
-                // tb_disabled
-                $this->execute($cn, $model->addDomain($this->groupId, "1", "Inclusão", "tb_disabled"));
-                $this->execute($cn, $model->addDomain($this->groupId, "2", "Alteração", "tb_disabled"));
-                $this->execute($cn, $model->addDomain($this->groupId, "3", "Exclusão", "tb_disabled"));
-                $this->execute($cn, $model->addDomain($this->groupId, "4", "Sempre", "tb_disabled"));
+                // tb_operator
+                $this->execute($cn, $model->addDomain($this->groupId, "=", "Igual", "tb_operator"));
+                $this->execute($cn, $model->addDomain($this->groupId, "<>", "Diferente", "tb_operator"));
+                $this->execute($cn, $model->addDomain($this->groupId, ">", "Maior", "tb_operator"));
+                $this->execute($cn, $model->addDomain($this->groupId, ">=", "Maior igual", "tb_operator"));
+                $this->execute($cn, $model->addDomain($this->groupId, "<", "Menor", "tb_operator"));
+                $this->execute($cn, $model->addDomain($this->groupId, "<=", "Menor igual", "tb_operator"));
 
                 // person type
                 $this->execute($cn, $model->addDomain($this->public, "1", "Física", "tb_person_type"));
