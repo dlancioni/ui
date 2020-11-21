@@ -481,34 +481,17 @@ class SqlBuilder extends Base {
 
     private function getSqlTableDef($tableId) {
         
+        // General declaration
+        $sql = "";
         $lb = $this->lb;
 
-        $sql = "" . $lb;
+        // Prepare query on table
         $sql .= " select" . $lb;
-        $sql .= " tb_field.id," . $lb;
 
-        // tb_table
-        $sql .= " (tb_field.field->>'id_system')::text as id_system," . $lb;
-        $sql .= " (tb_table.field->>'name')::text as table_name," . $lb;
-        $sql .= " (tb_table.field->>'title')::text as title," . $lb;
-        $sql .= " (tb_table.field->>'id_view')::text as id_view," . $lb;
+        // Field list
+        $sql .= $this->getSqlFieldList();
 
-        // tb_field        
-        $sql .= " (tb_field.field->>'label')::text as field_label," . $lb;
-        $sql .= " (tb_field.field->>'name')::text as field_name," . $lb;
-        $sql .= " (tb_field.field->>'id_type')::text as field_type," . $lb;
-        $sql .= " (tb_field.field->>'size')::int as field_size," . $lb;
-        $sql .= " (tb_field.field->>'mask')::text as field_mask," . $lb;
-        $sql .= " (tb_field.field->>'id_mandatory')::int as field_mandatory," . $lb;
-        $sql .= " (tb_field.field->>'id_unique')::int as field_unique," . $lb;
-        $sql .= " (tb_field.field->>'id_table_fk')::int as id_fk," . $lb;
-        $sql .= " (tb_table_fk.field->>'name')::text as table_fk," . $lb;
-        $sql .= " (tb_field_fk.field->>'name')::text as field_fk," . $lb;
-        $sql .= " (tb_field.field->>'domain')::text as field_domain," . $lb;
-        $sql .= " (tb_field.field->>'default_value')::text as default_value," . $lb;
-        $sql .= " (tb_field.field->>'ordenation')::text as ordenation," . $lb;
-        $sql .= " (tb_field.field->>'id_control')::text as id_control" . $lb;
-        
+        // Base table
         $sql .= " from tb_field" . $lb;
 
         // Join table
@@ -528,6 +511,50 @@ class SqlBuilder extends Base {
         // Return final query
         return $sql;
     }
+
+
+    private function getSqlViewDef($tableId) {
+        
+        // General declaration
+        $sql = "";
+        $lb = $this->lb;
+
+        // Prepare query on table
+        $sql .= " select" . $lb;
+
+        // Field list
+        $sql .= $this->getSqlFieldList();
+
+        // Base table
+        $sql .= " from tb_view" . $lb;
+
+        // View x Fields
+        $sql .= " inner join tb_view_field on (tb_view_field.field->>'id_view')::text = (tb_view.id)::text" . $lb;
+
+        // Join fields
+        $sql .= " inner join tb_field on (tb_view_field.field->>'id_field')::text = (tb_field.id)::text" . $lb;
+
+        // Join table
+        $sql .= " inner join tb_table on (tb_field.field->>'id_table')::text = (tb_table.id)::text" . $lb;
+
+        // Base filter
+        $sql .= " where (tb_field.field->>'id_system')::text = " . $this->getSystem() . $lb;
+
+        // Join inner table
+        $sql .= " left join tb_table tb_table_fk on (tb_field.field->>'id_table_fk')::text = (tb_table_fk.id)::text" . $lb;
+        $sql .= " left join tb_field tb_field_fk on (tb_field.field->>'id_field_fk')::text = (tb_field_fk.id)::text" . $lb;        
+
+        // Filter view
+        $sql .= " and tb_view.id = " . $viewId . $lb;
+
+        // Ordering
+        $sql .= " tb_view_field.id" . $lb;
+
+        // Return final query
+        return $sql;
+    }
+
+
 
     /* 
      * Persist data
@@ -635,6 +662,41 @@ class SqlBuilder extends Base {
             $this->setError("QueryBuilder.getSqlGroupIdByUser()", $ex->getMessage());
         }
         
+        return $sql;
+    }
+
+
+    private function getSqlFieldList() {
+
+        // General declaration
+        $lb = $this->lb;
+
+        // Id
+        $sql .= " tb_field.id," . $lb;
+
+        // tb_table
+        $sql .= " (tb_field.field->>'id_system')::text as id_system," . $lb;
+        $sql .= " (tb_table.field->>'name')::text as table_name," . $lb;
+        $sql .= " (tb_table.field->>'title')::text as title," . $lb;
+        $sql .= " (tb_table.field->>'id_view')::text as id_view," . $lb;
+
+        // tb_field        
+        $sql .= " (tb_field.field->>'label')::text as field_label," . $lb;
+        $sql .= " (tb_field.field->>'name')::text as field_name," . $lb;
+        $sql .= " (tb_field.field->>'id_type')::text as field_type," . $lb;
+        $sql .= " (tb_field.field->>'size')::int as field_size," . $lb;
+        $sql .= " (tb_field.field->>'mask')::text as field_mask," . $lb;
+        $sql .= " (tb_field.field->>'id_mandatory')::int as field_mandatory," . $lb;
+        $sql .= " (tb_field.field->>'id_unique')::int as field_unique," . $lb;
+        $sql .= " (tb_field.field->>'id_table_fk')::int as id_fk," . $lb;
+        $sql .= " (tb_table_fk.field->>'name')::text as table_fk," . $lb;
+        $sql .= " (tb_field_fk.field->>'name')::text as field_fk," . $lb;
+        $sql .= " (tb_field.field->>'domain')::text as field_domain," . $lb;
+        $sql .= " (tb_field.field->>'default_value')::text as default_value," . $lb;
+        $sql .= " (tb_field.field->>'ordenation')::text as ordenation," . $lb;
+        $sql .= " (tb_field.field->>'id_control')::text as id_control" . $lb;
+
+        // Return it
         return $sql;
     }
 

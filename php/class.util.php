@@ -316,7 +316,7 @@
                 
             } else {
                 $alias = $domain . "_" . $field1;
-                $join .= " inner join " . $table2 . " " . $alias . " on ";
+                $join .= " left join " . $table2 . " " . $alias . " on ";
                 $join .= $this->field($table1, $field1, "text") . " = " . $this->field($alias, "key", "text");
                 $join .= " and " . $this->condition($alias, "domain", "text", " = ", $domain);
             }
