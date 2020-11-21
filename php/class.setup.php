@@ -235,6 +235,11 @@
                 $this->execute($cn, $model->addField($this->TB_MENU, "Parent", "id_parent", $this->TYPE_INT, 0, "", $no, $no, $this->tb("tb_menu"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
                 $this->execute($cn, $model->addField($this->TB_MENU, "Ordem", "order", $this->TYPE_INT, 0, "", $yes, $yes, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
 
+                // tb_view
+                $seq = 0;
+                $this->execute($cn, $model->addField($this->TB_VIEW, "Nome", "name", $this->TYPE_TEXT, 50, "", $yes, $yes, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_VIEW, "SQL", "sql", $this->TYPE_TEXT, 10000, "", $yes, $yes, 0, 0, "", "", $this->INPUT_TEXTAREA, ++$seq));
+
                 // tb_table
                 $seq = 0;
                 $this->execute($cn, $model->addField($this->TB_TABLE, "Nome", "name", $this->TYPE_TEXT, 50, "", $yes, $yes, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
@@ -259,11 +264,6 @@
                 $this->execute($cn, $model->addField($this->TB_FIELD, "Valor Padrão", "default_value", $this->TYPE_TEXT, 50, "", $no, $no, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
                 $this->execute($cn, $model->addField($this->TB_FIELD, "Controle", "id_control", $this->TYPE_INT, 0, "", $yes, $no, $this->tb("tb_domain"), $this->fd("value"), "tb_control", "", $this->INPUT_DROPDOWN, ++$seq));
                 $this->execute($cn, $model->addField($this->TB_FIELD, "Ordenação", "ordenation", $this->TYPE_INT, 0, "", $yes, $no, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
-
-                // tb_view
-                $seq = 0;
-                $this->execute($cn, $model->addField($this->TB_VIEW, "Nome", "name", $this->TYPE_TEXT, 50, "", $yes, $yes, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_VIEW, "SQL", "sql", $this->TYPE_TEXT, 10000, "", $yes, $yes, 0, 0, "", "", $this->INPUT_TEXTAREA, ++$seq));
 
                 // tb_view_field
                 $seq = 0;

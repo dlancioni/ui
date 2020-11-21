@@ -87,15 +87,10 @@ class LogicReport extends Base {
                 }
             }
 
-            // Paging
+            // Main query
             $this->sqlBuilder->PageSize = $PAGE_SIZE;
             $this->sqlBuilder->PageOffset = $pageOffset;
-
-            if ($viewId > 0) {
-                $data = $this->sqlBuilder->executeView($this->cn, $viewId, $filter->create());
-            } else {
-                $data = $this->sqlBuilder->executeQuery($this->cn, $tableId, $filter->create(), 1, $tableDef);
-            }
+            $data = $this->sqlBuilder->executeQuery($this->cn, $tableId, $viewId, $filter->create(), 1, $tableDef);
             $logUtil->log("query.pgsql", $this->sqlBuilder->lastQuery);
 
             // Error handling    

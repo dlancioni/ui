@@ -39,10 +39,10 @@
                 // Get events
                 $filter = new Filter();
                 $filter->add("tb_event", "id_table", $tableId);
-                $_SESSION["_PAGE_ACTION_"] = $sqlBuilder->executeQuery($cn, $sqlBuilder->TB_EVENT, $filter->create(), $sqlBuilder->QUERY_NO_PAGING);
+                $_SESSION["_PAGE_ACTION_"] = $sqlBuilder->executeQuery($cn, $sqlBuilder->TB_EVENT, "", $filter->create(), $sqlBuilder->QUERY_NO_PAGING);
 
                 // Get table def
-                $_SESSION['_TABLEDEF_'] = $sqlBuilder->getTableDef($cn, $tableId);     
+                $_SESSION['_TABLEDEF_'] = $sqlBuilder->getTableDef($cn, $tableId, "");
             }
         }
     }

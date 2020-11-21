@@ -27,7 +27,7 @@ class SqlBuilder extends Base {
     /* 
      * Query and return json
      */
-    public function executeQuery($cn, $table="", $filter="[]", $queryType=1, $tableDef="") {
+    public function executeQuery($cn, $tableId="", $viewId="", $filter="[]", $queryType=1, $tableDef="") {
 
         // General Declaration
         $rs = "";
@@ -38,12 +38,11 @@ class SqlBuilder extends Base {
 
         try {
 
-
             // Keep separator
             $this->lb = $stringUtil->lb();
 
             // Get query
-            $query = $this->prepareQuery($cn, $table, $filter, $queryType, $tableDef);
+            $query = $this->prepareQuery($cn, $tableId, $viewId, $filter, $queryType, $tableDef);
 
             // Transform results to json
             $sql = "select json_agg(t) from (" . $query . ") t";
@@ -73,85 +72,33 @@ class SqlBuilder extends Base {
         return json_decode($json, true);
     }
 
-    /* 
-     * Query and return json
-     */
-    public function executeView($cn, $viewId="", $filter="[]", $queryType=1) {
-
-        // General Declaration
-        $i = 0;
-        $old = "";
-        $new = "";
-        $rs = "";
-        $json = "";
-        $query = "";
-        $sql = "";
-
-        try {
-
-            // Get existing record
-            $filterView = new Filter();
-            $filterView->add("tb_view", "id", $viewId);
-            $rs = $this->executeQuery($cn, $this->TB_VIEW, $filterView->create(), $this->QUERY_NO_PAGING);
-            if (count($rs) > 0) {
-                $query = $rs[0]["sql"];
-            }
-
-            // Apply parameters
-            $filter = json_decode($filter, true);
-            foreach ($filter as $item) {
-                $i ++;
-                $old = "p" . $i;
-                $new = $item['value'];                
-                $query = str_replace($old, $new, $query);
-            }
-
-            // Transform results to json
-            $sql = "select json_agg(t) from (" . $query . ") t";
-
-            // Execute query
-            $rs = pg_query($cn, $sql);
-            $this->setError("", "");
-
-            // Return data
-            while ($row = pg_fetch_row($rs)) {
-                $json = $row[0];
-                break;
-            }
-        } catch (exception $ex) {                
-            $this->setError("db.queryJson()", pg_last_error($cn));
-            echo $ex->getMessage();
-        }
-
-        // Handle empty json
-        if (!$json) {
-            $json = "[]";
-        }
-
-        // Return rs as json
-        return json_decode($json, true);
-    }
-
     /*
      * Get table definition
      */
-    public function getTableDef($cn, $tableId) {
+    public function getTableDef($cn, $tableId, $viewId) {
         
         // General declaration    
         $sql = "";
         $rs = "";
         $db = new Db();
+        $logUtil = new LogUtil();        
 
         try {
+
             // Get table structure and related information
-            $sql = $this->getSqlTableDef($tableId);
+            if ($viewId != "") {
+                $sql = $this->getSqlViewDef($viewId);
+            } else {
+                $sql = $this->getSqlTableDef($tableId);
+            }
+
+            // Keep last query
+            $this->lastQuery = $sql;
 
             // Execute query
             $rs = $db->queryJson($cn, $sql);
 
         } catch (Exception $ex) {
-
-            // Set error
             $this->setError("QueryBuilder.getTableDef()", $ex->getMessage());
         }
 
@@ -162,7 +109,7 @@ class SqlBuilder extends Base {
     /*
      * Return query based on mapping
      */
-    private function prepareQuery($cn, $tableId, $filter, $queryType, $tableDef) {
+    private function prepareQuery($cn, $tableId, $viewId, $filter, $queryType, $tableDef) {
 
         // General Declaration
         $sql = "";
@@ -175,8 +122,18 @@ class SqlBuilder extends Base {
             }
 
             // Get table structure
-            if ($tableDef == "") {
-                $tableDef = $this->getTableDef($cn, $tableId);
+            if ($viewId != "") {
+                $tableDef = $this->getTableDef($cn, "", $viewId);
+            } else {
+                if ($tableDef == "") {
+                    $tableDef = $this->getTableDef($cn, $tableId, "");
+                }
+            }
+
+            // Error handler
+            if ($this->getError() != "") {
+                $this->setError("SqlBuilder.getTableDef", $this->getError());
+                throw new Exception($this->getError());
             }
 
             // Prepare query
@@ -513,7 +470,7 @@ class SqlBuilder extends Base {
     }
 
 
-    private function getSqlViewDef($tableId) {
+    private function getSqlViewDef($viewId) {
         
         // General declaration
         $sql = "";
@@ -537,18 +494,18 @@ class SqlBuilder extends Base {
         // Join table
         $sql .= " inner join tb_table on (tb_field.field->>'id_table')::text = (tb_table.id)::text" . $lb;
 
-        // Base filter
-        $sql .= " where (tb_field.field->>'id_system')::text = " . $this->getSystem() . $lb;
-
         // Join inner table
         $sql .= " left join tb_table tb_table_fk on (tb_field.field->>'id_table_fk')::text = (tb_table_fk.id)::text" . $lb;
         $sql .= " left join tb_field tb_field_fk on (tb_field.field->>'id_field_fk')::text = (tb_field_fk.id)::text" . $lb;        
+
+        // Base filter
+        $sql .= " where (tb_field.field->>'id_system')::text = " . $this->getSystem() . $lb;
 
         // Filter view
         $sql .= " and tb_view.id = " . $viewId . $lb;
 
         // Ordering
-        $sql .= " tb_view_field.id" . $lb;
+        $sql .= " order by tb_view_field.id" . $lb;
 
         // Return final query
         return $sql;
@@ -669,6 +626,7 @@ class SqlBuilder extends Base {
     private function getSqlFieldList() {
 
         // General declaration
+        $sql = "";
         $lb = $this->lb;
 
         // Id

@@ -32,6 +32,7 @@
             $userId = 0;
             $profileId = 0;
             $groupId = 0;
+            $viewId = "";
             $affectedRows = 0;
             $jsonUtil = new JsonUtil();
             $pathUtil = new PathUtil();
@@ -55,7 +56,7 @@
                 $filter = new Filter();
                 $filter->addCondition("tb_user", "id_system", $this->TYPE_TEXT, "=", $systemId);
                 $filter->addCondition("tb_user", "username", $this->TYPE_TEXT, "=", $username);
-                $data = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_USER, $filter->create(), $this->sqlBuilder->QUERY_NO_JOIN);
+                $data = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_USER, $viewId, $filter->create(), $this->sqlBuilder->QUERY_NO_JOIN);
                 if (count($data) <= 0) {
                     $msg = $message->getValue("A13");
                     throw new Exception($msg);
@@ -67,7 +68,7 @@
                 $filter = new Filter();
                 $filter->addCondition("tb_user_profile", "id_system", $this->TYPE_TEXT, "=", $systemId);
                 $filter->addCondition("tb_user_profile", "id_user", $this->TYPE_INT, "=", $userId);
-                $data = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_USER_PROFILE, $filter->create(), $this->sqlBuilder->QUERY_NO_JOIN);
+                $data = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_USER_PROFILE, $viewId, $filter->create(), $this->sqlBuilder->QUERY_NO_JOIN);
                 if (count($data) <= 0) {
                     $msg = $message->getValue("A14");
                     throw new Exception($msg);
@@ -79,7 +80,7 @@
                 $filter = new Filter();
                 $filter->addCondition("tb_user_group", "id_system", $this->TYPE_TEXT, "=", $systemId);
                 $filter->addCondition("tb_user_group", "id_user", $this->TYPE_INT, "=", $userId);
-                $data = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_USER_GROUP, $filter->create(), $this->sqlBuilder->QUERY_NO_JOIN);
+                $data = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_USER_GROUP, $viewId, $filter->create(), $this->sqlBuilder->QUERY_NO_JOIN);
                 if (count($data) <= 0) {
                     $msg = $message->getValue("A15");
                     throw new Exception($msg);
@@ -91,7 +92,7 @@
                 $filter = new Filter();
                 $filter->addCondition("tb_profile_table", "id_system", $this->TYPE_TEXT, "=", $systemId);
                 $filter->addCondition("tb_profile_table", "id_profile", $this->TYPE_INT, "=", $profileId);
-                $data = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_PROFILE_TABLE, $filter->create(), $this->sqlBuilder->QUERY_NO_JOIN);
+                $data = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_PROFILE_TABLE, $viewId, $filter->create(), $this->sqlBuilder->QUERY_NO_JOIN);
                 if (count($data) <= 0) {
                     $msg = $message->getValue("A16");
                     throw new Exception($msg);
@@ -102,7 +103,7 @@
                 $filter->addCondition("tb_user", "id_system", $this->TYPE_TEXT, "=", $systemId);
                 $filter->addCondition("tb_user", "username", $this->TYPE_TEXT, "=", $username);
                 $filter->addCondition("tb_user", "password", $this->TYPE_TEXT, "=", $password);
-                $data = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_USER, $filter->create(), $this->sqlBuilder->QUERY_NO_JOIN);
+                $data = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_USER, $viewId, $filter->create(), $this->sqlBuilder->QUERY_NO_JOIN);
                 if (count($data) <= 0) {
                     $msg = $message->getValue("A17");
                     throw new Exception($msg);

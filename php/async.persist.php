@@ -15,6 +15,7 @@
     $new = "{}";    
     $key = "";       
     $logic = "";
+    $viewId = "";
     $message = "";
     $tableDef = "";
     $tableName = "";
@@ -29,6 +30,7 @@
     $fieldLabel = "";    
     $changed = false;
     $file = "";
+    $viewId = "";
 
     // Core code
     try {
@@ -62,7 +64,7 @@
         $message = new Message($cn, $sqlBuilder);
 
         // Get table structure
-        $tableDef = $sqlBuilder->getTableDef($cn, $tableId);
+        $tableDef = $sqlBuilder->getTableDef($cn, $tableId, $viewId);
         if ($tableDef) {
             $tableName = $tableDef[0]["table_name"];
             $action = $_SESSION["_ACTION_"];
@@ -74,7 +76,7 @@
             // Get existing record
             $filter = new Filter();
             $filter->add($tableName, "id", $sqlBuilder->getLastId());
-            $data = $sqlBuilder->executeQuery($cn, $tableId, $filter->create(), $sqlBuilder->QUERY_NO_JOIN);
+            $data = $sqlBuilder->executeQuery($cn, $tableId, $viewId, $filter->create(), $sqlBuilder->QUERY_NO_JOIN);
             if (count($data) > 0) {
                 $old = json_encode($data[0]);
                 $old = $stringUtil->RemoveSpecialChar($old);
@@ -150,7 +152,7 @@
 
             // Check if values already exists
             if ($filter->create() != "[]") {
-                $data = $sqlBuilder->executeQuery($cn, $tableId, $filter->create(), $sqlBuilder->QUERY_NO_JOIN);
+                $data = $sqlBuilder->executeQuery($cn, $tableId, $viewId, $filter->create(), $sqlBuilder->QUERY_NO_JOIN);
                 if (count($data) > 0) {
                     $key =  rtrim($key, ", ");
                     $msg = $message->getValue("A4", $key);

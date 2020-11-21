@@ -26,7 +26,7 @@ class LogicForm extends Base {
         // General Declaration
         $k = "";
         $v = "";
-        $kid = 0;                        
+        $kid = 0;
         $function = "";
 
         $js = "";
@@ -43,6 +43,7 @@ class LogicForm extends Base {
         $disabled = "";
         $placeHolder = "";
 
+        $viewId = "";
         $fieldId = "";
         $fieldLabel = "";
         $fieldName = "";
@@ -90,7 +91,7 @@ class LogicForm extends Base {
                     // Get data
                     $filter = new Filter();
                     $filter->add($this->tableDef[0]["table_name"], "id", $id);
-                    $data = $this->sqlBuilder->executeQuery($this->cn, $tableId, $filter->create());
+                    $data = $this->sqlBuilder->executeQuery($this->cn, $tableId, $viewId, $filter->create());
                 }
 
                 // Create field Id (rules according to action)
@@ -100,7 +101,7 @@ class LogicForm extends Base {
             // Keep cascade info for current transaction
             $filter = new Filter();
             $filter->add("tb_domain", "domain", "tb_cascade");
-            $cascade = $this->sqlBuilder->executeQuery($this->cn, $this->TB_DOMAIN, $filter->create());            
+            $cascade = $this->sqlBuilder->executeQuery($this->cn, $this->TB_DOMAIN, $viewId, $filter->create());            
 
             // Create base form
             if (is_array($this->tableDef)) {
@@ -234,7 +235,7 @@ class LogicForm extends Base {
                         }
 
                         // Get FK related data
-                        $dataFk = $this->sqlBuilder->executeQuery($this->cn, $fk, $filter->create());                        
+                        $dataFk = $this->sqlBuilder->executeQuery($this->cn, $fk, $viewId, $filter->create());
 
                         // Create control
                         $control = $this->element->createDropdown($fieldId,

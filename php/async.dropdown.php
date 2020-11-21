@@ -13,8 +13,9 @@
     $id = "";
     $ds = "";    
     $key = "";
-    $value = "";
+    $value = "";    
     $json = [];
+    $viewId = "";    
     $data = "{}";
     $jsonUtil = "";
     $sqlBuilder = "";    
@@ -66,7 +67,7 @@
         // Figure out table id/name
         $filter = new Filter();
         $filter->add("tb_table", "name", $tableName);
-        $data = $sqlBuilder->executeQuery($cn, $sqlBuilder->TB_TABLE, $filter->create());
+        $data = $sqlBuilder->executeQuery($cn, $sqlBuilder->TB_TABLE, $viewId, $filter->create());
         foreach ($data as $item) {
             $tableId = $data[0]["id"];
         }                                     
@@ -74,7 +75,7 @@
         // Query data using table figured out in previous step                                  
         $filter = new Filter();
         $filter->add($tableName, $fieldName, $fieldValue);
-        $data = $sqlBuilder->executeQuery($cn, $tableId, $filter->create());
+        $data = $sqlBuilder->executeQuery($cn, $tableId, $viewId, $filter->create());
         foreach ($data as $item) {
             array_push($json, array('key'=>$item[$id], 'value'=>$item[$ds]));
         }

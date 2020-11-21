@@ -362,6 +362,7 @@
             // General Declaration            
             $html = "";
             $message = "";
+            $viewId = "";
             $stringUtil = new StringUtil();
 
             try {
@@ -370,7 +371,7 @@
                 $filter = new Filter();
                 $filter->addCondition("tb_domain", "key", "text", "=", $code);
                 $filter->addCondition("tb_domain", "domain", "text", "=", "tb_message");
-                $data = $this->sqlBuilder->executeQuery($this->cn, $this->TB_DOMAIN, $filter->create());
+                $data = $this->sqlBuilder->executeQuery($this->cn, $this->TB_DOMAIN, $viewId, $filter->create());
 
                 // Create main menu
                 foreach ($data as $row) {
