@@ -183,18 +183,18 @@ class SqlBuilder extends Base {
     private function getFieldList($tableDef, $queryType) {
 
         // General Declaration
-        $sql = "";
         $lb = "";
         $fk = "";
-        $count = 0;        
+        $sql = "";        
+        $count = 0;
         $tableName = "";
         $fieldName = "";
         $fieldType = "";
         $fieldDomain = "";
         $fieldAlias = "";
         $tableFk = "";
-        $jsonUtil = new JsonUtil();        
-
+        $command = "";
+        $jsonUtil = new JsonUtil();
 
         try {
 
@@ -231,12 +231,17 @@ class SqlBuilder extends Base {
                 $fk = $row["id_fk"];
                 $fieldAlias = "";
 
+                // For views
+                if (isset($row["id_command"])) {
+                    $command = $row["id_command"];
+                }
+
                 // Create dropdown
                 if ($queryType == $this->QUERY_NO_JOIN) {
                     $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias) . $lb;
                 } else {
                     if ($fk == 0) {
-                        $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias) . $lb;
+                        $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias, $command) . $lb;
                     } else if ($fk == $this->TB_DOMAIN) {
                         $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias) . $lb;
                         $sql .= ", ";

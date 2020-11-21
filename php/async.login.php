@@ -65,6 +65,7 @@
             $_SESSION['_TABLE_'] = "0";
             $_SESSION['_PAGE_ACTION_'] = "";
             $_SESSION['_TABLEDEF_'] = "";
+            $_SESSION['_VIEWDEF_'] = "";
 
         } else {
 

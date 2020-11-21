@@ -49,6 +49,10 @@
                     $viewId = trim($_SESSION['_TABLEDEF_'][0]["id_view"]);
                     $_SESSION["_VIEW_"] = $viewId;
                     $_SESSION['_VIEWDEF_'] = $sqlBuilder->getTableDef($cn, "", $viewId);
+                } else {
+                    $viewId = "";
+                    $_SESSION["_VIEW_"] = $viewId;
+                    $_SESSION['_VIEWDEF_'] = "";
                 }
             }
         }

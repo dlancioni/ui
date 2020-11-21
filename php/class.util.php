@@ -243,16 +243,53 @@
         /*
          * Select field
          */
-        public function select($table, $field, $type, $alias="") {
+        public function select($table, $field, $type, $alias="", $command="1") {
 
+            // General declaration
+            $SELECTION = 1;
+            $COUNT = 2;
+            $SUM = 3;
+            $MAX = 4;
+            $MIN = 5;
+            $AVG = 6;
+
+            $a = "";
+            $b = "";
             $output = "";
-            
+
             // Avoid conversion on select field
             if ($type == "date" || $type == "binary") {
                 $type = "text";
             }
 
-            $output = $this->field($table, $field, $type) . " as " . (trim($alias) == "" ? $field : $alias);
+            // Define aggregation
+            switch (trim($command)) {
+                case $COUNT:
+                    $a = "count(";
+                    $b = ")";
+                    break;
+                case $SUM:
+                    $a = "sum(";
+                    $b = ")";
+                    break;
+                case $MAX:
+                    $a = "max(";
+                    $b = ")";
+                    break;
+                case $MIN:
+                    $a = "min(";
+                    $b = ")";
+                    break;
+                case $AVG:
+                    $a = "avg(";
+                    $b = ")";
+                    break;
+            }
+
+            // Prepare field
+            $output = $a . $this->field($table, $field, $type) . $b . " as " . (trim($alias) == "" ? $field : $alias);
+
+            // Just return it
             return $output;
         }
 
