@@ -27,7 +27,8 @@
                 $logicReport->action = $action;
                 $logicReport->PageEvent = $pageEvent;
                 $logicReport->tableDef = $tableDef;
-                $html .= $logicReport->createReport($tableId, $pageOffset);
+                $logicReport->viewDef = $viewDef;
+                $html .= $logicReport->createReport($tableId, $viewId, $pageOffset);
                 $error = $logicReport->getError();                
             } else {
                 $logicForm = new LogicForm($cn, $sqlBuilder);

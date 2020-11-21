@@ -5,6 +5,7 @@ class LogicReport extends Base {
     public $PageEvent = "";
     public $action = "";   
     public $tableDef = "";
+    public $viewDef = "";    
 
     // Private members
     private $cn = 0;
@@ -23,7 +24,7 @@ class LogicReport extends Base {
     /* 
     * Create a table
     */
-    function createReport($tableId, $pageOffset) {
+    function createReport($tableId, $viewId, $pageOffset) {
 
         // General Declaration
         $html = "";
@@ -51,7 +52,6 @@ class LogicReport extends Base {
         $control = "";
         $pageTitle = "";
         $tableDef = "";
-        $viewId = 0;
         $logUtil = "";
 
         try {
@@ -63,17 +63,18 @@ class LogicReport extends Base {
             $pathUtil = new PathUtil();            
             $message = new Message($this->cn, $this->sqlBuilder);            
             $this->element = new HTMLElement($this->cn, $this->sqlBuilder);
-            $tableDef = $this->tableDef;
             $formData = $this->formData;
+
+            // Handle structures
+            if ($viewId != "") {
+                $tableDef = $this->viewDef;
+            } else {
+                $tableDef = $this->tableDef;                
+            }
 
             // Get table structure
             if (count($tableDef) > 0) {
                 $pageTitle = $tableDef[0]["title"];
-            }
-
-            // Handle view
-            if (trim($tableDef[0]["id_view"]) != "") {
-                $viewId = trim($tableDef[0]["id_view"]);
             }
 
             // Get data
@@ -107,7 +108,7 @@ class LogicReport extends Base {
             }
 
             // Create header
-            $rows .= $this->createTableHeader($viewId, $data);
+            $rows .= $this->createTableHeader($viewId, $data, $tableDef);
 
             // Prepare table contents
             $cols = "";
@@ -201,13 +202,12 @@ class LogicReport extends Base {
     /*
      * Create table header
      */
-    private function createTableHeader($viewId, $data) {
+    private function createTableHeader($viewId, $data, $tableDef) {
 
         // General Declaration
         $cols = "";
         $fieldName = "";
         $fieldLabel = "";
-        $tableDef = $this->tableDef;
 
         // Create checkbox columns
         if (isset($data[0]["id"]) || count($data) == 0) {

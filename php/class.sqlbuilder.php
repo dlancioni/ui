@@ -59,6 +59,7 @@ class SqlBuilder extends Base {
                 $json = $row[0];
                 break;
             }
+
         } catch (exception $ex) {                
             $this->setError("sqlbuilder.queryJson()", $ex->getMessage());
         }
@@ -446,7 +447,7 @@ class SqlBuilder extends Base {
         $sql .= " select" . $lb;
 
         // Field list
-        $sql .= $this->getSqlFieldList();
+        $sql .= $this->getSqlFieldList("T");
 
         // Base table
         $sql .= " from tb_field" . $lb;
@@ -480,7 +481,7 @@ class SqlBuilder extends Base {
         $sql .= " select" . $lb;
 
         // Field list
-        $sql .= $this->getSqlFieldList();
+        $sql .= $this->getSqlFieldList("V");
 
         // Base table
         $sql .= " from tb_view" . $lb;
@@ -623,7 +624,7 @@ class SqlBuilder extends Base {
     }
 
 
-    private function getSqlFieldList() {
+    private function getSqlFieldList($type) {
 
         // General declaration
         $sql = "";
@@ -631,6 +632,11 @@ class SqlBuilder extends Base {
 
         // Id
         $sql .= " tb_field.id," . $lb;
+
+        // View must return command
+        if ($type == "V") {
+            $sql .= " (tb_view_field.field->>'id_command')::text as id_command," . $lb;            
+        }        
 
         // tb_table
         $sql .= " (tb_field.field->>'id_system')::text as id_system," . $lb;

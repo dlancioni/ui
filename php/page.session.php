@@ -13,6 +13,7 @@
     $systemId = ""; 
     $username = "";
     $password = "";
+    $viewId = "";
     $tableId = 0; 
     $userId = 0;
     $groupId = 0; 
@@ -28,9 +29,14 @@
         $systemId = $_SESSION["_SYSTEM_"];
     }
 
-    // Current module
+    // Current table
     if (isset($_SESSION["_TABLE_"])) {
         $tableId = $_SESSION["_TABLE_"];
+    }
+
+    // Current view
+    if (isset($_SESSION["_VIEW_"])) {
+        $viewId = $_SESSION["_VIEW_"];
     }
 
     // Current user

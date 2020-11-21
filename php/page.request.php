@@ -43,20 +43,37 @@
 
                 // Get table def
                 $_SESSION['_TABLEDEF_'] = $sqlBuilder->getTableDef($cn, $tableId, "");
+
+                // Handle view
+                if (trim($_SESSION['_TABLEDEF_'][0]["id_view"]) != "") {
+                    $viewId = trim($_SESSION['_TABLEDEF_'][0]["id_view"]);
+                    $_SESSION["_VIEW_"] = $viewId;
+                    $_SESSION['_VIEWDEF_'] = $sqlBuilder->getTableDef($cn, "", $viewId);
+                }
             }
         }
     }
 
+    // Current controls (buttons)
     if (isset($_SESSION["_PAGE_ACTION_"])) {
         $pageEvent = $_SESSION["_PAGE_ACTION_"];
     }
 
+    // Current table
     if (isset($_SESSION["_TABLE_"])) {
         $tableId = $_SESSION['_TABLE_'];
     }
-
     if (isset($_SESSION["_TABLEDEF_"])) {
         $tableDef = $_SESSION['_TABLEDEF_'];
-    }   
+    }
+
+    // Current view
+    if (isset($_SESSION["_VIEW_"])) {
+        $viewId = $_SESSION['_VIEW_'];
+    }
+    if (isset($_SESSION["_VIEWDEF_"])) {
+        $viewDef = $_SESSION['_VIEWDEF_'];
+    }    
+
 
 ?>
