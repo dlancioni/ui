@@ -159,6 +159,7 @@
             $rs = "";
             $json = "";
             $record = "";
+            $viewId = "";
             $affectedRows = 0;
             $tableDef = "";
             $jsonUtil = new JsonUtil();
@@ -166,7 +167,7 @@
             try {
 
                 // Get structure to generate json
-                $tableDef = $this->sqlBuilder->getTableDef($this->cn, $this->sqlBuilder->TB_PROFILE_TABLE);
+                $tableDef = $this->sqlBuilder->getTableDef($this->cn, $this->sqlBuilder->TB_PROFILE_TABLE, $viewId);
                 $json = $jsonUtil->getJson($tableDef);
 
                 // Grant for system, admin and user
@@ -212,12 +213,13 @@
             $record = "";
             $affectedRows = 0;
             $tableDef = "";
+            $viewId = "";
             $jsonUtil = new JsonUtil();
 
             try {
 
                 // Get structure to generate json
-                $tableDef = $this->sqlBuilder->getTableDef($this->cn, $this->sqlBuilder->TB_TABLE_FUNCTION);
+                $tableDef = $this->sqlBuilder->getTableDef($this->cn, $this->sqlBuilder->TB_TABLE_FUNCTION, $viewId);
                 $json = $jsonUtil->getJson($tableDef);
 
                 // Grant profiles Admin and User
