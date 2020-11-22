@@ -135,6 +135,14 @@ class LogicReport extends Base {
                     $fk = $col["id_fk"];
                     $control = $col["id_control"];
 
+                    // Handle field name on views
+                    if (isset($col["field_label_view"])) {
+                        if (trim($col["field_label_view"]) != "") {
+                            $fieldName = trim($col["field_label_view"]);
+                        }
+                    }
+
+                    // Handle field name on joins
                     if ($fk != 0) {
                         $fieldName = substr($fieldName, 3);
                     }
@@ -171,6 +179,8 @@ class LogicReport extends Base {
 
                         // Print it
                         $cols .= $this->element->createTableCol($fieldValue, $columnSize);
+                    } else {
+                        $cols .= $this->element->createTableCol("", $columnSize);
                     }
                 }
 
@@ -223,6 +233,12 @@ class LogicReport extends Base {
 
             // For view, fields may does not exists in data            
             if ($viewId > 0) {
+
+                if (trim($item["field_label_view"]) != "") {
+                    $fieldName = $item["field_label_view"];
+                    $fieldLabel = $fieldName;
+                }
+
                 foreach ($data as $row) {
                     if (!isset($row[$fieldName])) {
                         $fieldLabel = "";

@@ -256,6 +256,7 @@
             $a = "";
             $b = "";
             $output = "";
+            $stringUtil = new StringUtil();
 
             // Avoid conversion on select field
             if ($type == "date" || $type == "binary") {
@@ -288,7 +289,11 @@
 
             // Prepare field
             $output = $a . $this->field($table, $field, $type) . $b;
+            
             if ($alias != "NO_ALIAS") {
+                if (trim($alias) != "") {
+                    $alias = $stringUtil->dqt($alias);
+                }
                 $output .= " as " . (trim($alias) == "" ? $field : $alias);
             }
 

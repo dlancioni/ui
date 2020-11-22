@@ -230,7 +230,6 @@ class SqlBuilder extends Base {
                 $sql .= $jsonUtil->select($tableName, "id_group", $this->TYPE_INT, "id_group") . $lb;
             } else {
                 $sql .= "count(*) over() as record_count," . $lb;
-                // $sql .= $jsonUtil->select($tableName, "id_system", $this->TYPE_TEXT, "id_system") . "," . $lb;
                 $sql .= $jsonUtil->select($tableName, "id_group", $this->TYPE_INT, "id_group") . "," . $lb;
                 $sql .= $tableName . ".id" . $lb;
             }
@@ -253,6 +252,13 @@ class SqlBuilder extends Base {
                 if (isset($row["id_command"])) {
                     $command = $row["id_command"];
                 }
+
+                // Handle field name on views
+                if (isset($row["field_label_view"])) {
+                    if (trim($row["field_label_view"]) != "") {
+                        $fieldAlias = trim($row["field_label_view"]);
+                    }
+                }                
 
                 // Create dropdown
                 if ($queryType == $this->QUERY_NO_JOIN) {
@@ -705,7 +711,8 @@ class SqlBuilder extends Base {
 
         // View must return command
         if ($type == "V") {
-            $sql .= " (tb_view_field.field->>'id_command')::text as id_command," . $lb;            
+            $sql .= " (tb_view_field.field->>'id_command')::text as id_command," . $lb;
+            $sql .= " (tb_view_field.field->>'label')::text as field_label_view," . $lb;
         }        
 
         // tb_table
