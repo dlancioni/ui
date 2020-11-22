@@ -20,14 +20,25 @@ class SqlBuilder extends Base {
     public $lastQuery = "";
 
     /*
-     * Line break
+     * Aggregation
+     */
+    private $SELECTION = 1;
+    private $COUNT = 2;
+    private $SUM = 3;
+    private $MAX = 4;
+    private $MIN = 5;
+    private $AVG = 6;
+
+    /*
+     * Other
      */    
     public $lb = "";    
+    private $NO_ALIAS = "NO_ALIAS";
 
     /* 
      * Query and return json
      */
-    public function executeQuery($cn, $tableId="", $viewId="", $filter="[]", $queryType=1, $tableDef="") {
+    public function executeQuery($cn, $tableId="", $viewId="", $filter="[]", $queryType=1, $queryDef="") {
 
         // General Declaration
         $rs = "";
@@ -42,7 +53,7 @@ class SqlBuilder extends Base {
             $this->lb = $stringUtil->lb();
 
             // Get query
-            $query = $this->prepareQuery($cn, $tableId, $viewId, $filter, $queryType, $tableDef);
+            $query = $this->prepareQuery($cn, $tableId, $viewId, $filter, $queryType, $queryDef);
 
             // Transform results to json
             $sql = "select json_agg(t) from (" . $query . ") t";
@@ -110,10 +121,11 @@ class SqlBuilder extends Base {
     /*
      * Return query based on mapping
      */
-    private function prepareQuery($cn, $tableId, $viewId, $filter, $queryType, $tableDef) {
+    private function prepareQuery($cn, $tableId, $viewId, $filter, $queryType, $queryDef) {
 
         // General Declaration
         $sql = "";
+        $tableName = "";
 
         try {
 
@@ -124,10 +136,10 @@ class SqlBuilder extends Base {
 
             // Get table structure
             if ($viewId != "") {
-                $tableDef = $this->getTableDef($cn, "", $viewId);
+                $queryDef = $this->getTableDef($cn, "", $viewId);
             } else {
-                if ($tableDef == "") {
-                    $tableDef = $this->getTableDef($cn, $tableId, "");
+                if ($queryDef == "") {
+                    $queryDef = $this->getTableDef($cn, $tableId, "");
                 }
             }
 
@@ -138,33 +150,39 @@ class SqlBuilder extends Base {
             }
 
             // Prepare query
-            if (is_array($tableDef)) {
+            if (is_array($queryDef)) {
 
-                if (count($tableDef) > 0) {
+                if (count($queryDef) > 0) {
+
+                    // Keep table name
+                    $tableName = $queryDef[0]["table_name"];
 
                     // Get field list
-                    $sql .= $this->getFieldList($tableDef, $queryType);
+                    $sql .= $this->getFieldList($queryDef, $queryType);
 
                     // Get from
-                    $sql .= $this->getFrom($tableDef);
+                    $sql .= $this->getFrom($queryDef);
 
                     // Get join
                     if ($queryType != $this->QUERY_NO_JOIN) {
-                        $sql .= $this->getJoin($tableDef);
+                        $sql .= $this->getJoin($queryDef);
                     }
 
                     // Get where
-                    $sql .= $this->getWhere($tableDef, $tableId);
+                    $sql .= $this->getWhere($queryDef, $tableId);
 
                     // Get condition
                     $sql .= $this->getCondition($filter);
 
                     // Get ordering
-                    $sql .= $this->getOrderBy($tableDef);
+                    $sql .= $this->getGroupBy($tableName, $queryDef);
+
+                    // Get ordering
+                    $sql .= $this->getOrderBy($tableName, $queryDef);
 
                     // Paging control
                     if ($queryType != $this->QUERY_NO_PAGING) {
-                        $sql .= $this->getPaging($tableDef);
+                        $sql .= $this->getPaging($queryDef);
                     }
                 }
             }
@@ -180,7 +198,7 @@ class SqlBuilder extends Base {
     /*
      * Get field list
      */
-    private function getFieldList($tableDef, $queryType) {
+    private function getFieldList($queryDef, $queryType) {
 
         // General Declaration
         $lb = "";
@@ -202,23 +220,23 @@ class SqlBuilder extends Base {
             $lb = $this->lb;
 
             // Table name
-            $tableName = trim($tableDef[0]["table_name"]);
+            $tableName = trim($queryDef[0]["table_name"]);
 
             // Get id            
             $sql .= "select " . $lb;
 
             // Count over pagination
-            $sql .= "count(*) over() as record_count," . $lb;
-
-            // System fields
-            $sql .= $jsonUtil->select($tableName, "id_system", $this->TYPE_TEXT, "id_system") . "," . $lb;
-            $sql .= $jsonUtil->select($tableName, "id_group", $this->TYPE_INT, "id_group") . "," . $lb;
-
-            // Base ID            
-            $sql .= trim($tableDef[0]["table_name"]) . ".id" . $lb;
+            if ($this->aggregatedQuery($queryDef)) {
+                $sql .= $jsonUtil->select($tableName, "id_group", $this->TYPE_INT, "id_group") . $lb;
+            } else {
+                $sql .= "count(*) over() as record_count," . $lb;
+                // $sql .= $jsonUtil->select($tableName, "id_system", $this->TYPE_TEXT, "id_system") . "," . $lb;
+                $sql .= $jsonUtil->select($tableName, "id_group", $this->TYPE_INT, "id_group") . "," . $lb;
+                $sql .= $tableName . ".id" . $lb;
+            }
 
             // Field list
-            foreach ($tableDef as $row) {
+            foreach ($queryDef as $row) {
 
                 // Keep info
                 $sql .= ", ";
@@ -238,7 +256,7 @@ class SqlBuilder extends Base {
 
                 // Create dropdown
                 if ($queryType == $this->QUERY_NO_JOIN) {
-                    $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias) . $lb;
+                    $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias, $command) . $lb;
                 } else {
                     if ($fk == 0) {
                         $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias, $command) . $lb;
@@ -249,15 +267,15 @@ class SqlBuilder extends Base {
                         $tableName = $fieldDomain . "_" . $fieldName;
                         $fieldName = "value";
                         $fieldType = $this->TYPE_TEXT;
-                        $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias) . $lb;
+                        $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias, $command) . $lb;
                     } else {
-                        $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias) . $lb;
+                        $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias, $command) . $lb;
                         $sql .= ", ";
                         $fieldAlias = substr($fieldName, 3);
                         $tableName = $tableFk . "_" . $fieldName;
                         $fieldName = $fieldFk;
                         $fieldType = $this->TYPE_TEXT;
-                        $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias) . $lb;
+                        $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias, $command) . $lb;
                     }
                 }
             }
@@ -270,14 +288,14 @@ class SqlBuilder extends Base {
     /*
      * Get from
      */
-    private function getFrom($tableDef) {
+    private function getFrom($queryDef) {
 
         $sql = "";
         $jsonUtil = new JsonUtil();
         $lb = $this->lb;
 
         try {
-            $sql .= " from " . $tableDef[0]["table_name"] . $lb;
+            $sql .= " from " . $queryDef[0]["table_name"] . $lb;
         } catch (Exception $ex) {
             $this->setError("QueryBuilder.getFrom()", $ex->getMessage());
         }
@@ -287,7 +305,7 @@ class SqlBuilder extends Base {
     /*
      * Get the joins
      */
-    private function getJoin($tableDef) {
+    private function getJoin($queryDef) {
 
         // General declaration
         $sql = "";
@@ -296,7 +314,7 @@ class SqlBuilder extends Base {
 
         try {
 
-            foreach ($tableDef as $row) {
+            foreach ($queryDef as $row) {
                 if ($row["id_fk"] > 0) {
                     $sql .= $jsonUtil->join($row["table_name"], 
                                             $row["field_name"], 
@@ -314,7 +332,7 @@ class SqlBuilder extends Base {
     /*
      * Get where
      */
-    private function getWhere($tableDef, $table) {
+    private function getWhere($queryDef, $table) {
 
         $sql = "";
         $tableName = "";
@@ -323,7 +341,7 @@ class SqlBuilder extends Base {
 
         try {
 
-            $tableName = $tableDef[0]["table_name"];
+            $tableName = $queryDef[0]["table_name"];
 
             $sql .= " where " . $jsonUtil->condition($tableName, 
                                                     "id_system",
@@ -397,18 +415,65 @@ class SqlBuilder extends Base {
         return $sql;
     }
 
+
+    private function getGroupBy($tableName, $queryDef) {
+
+        // General declaration
+        $sql = "";
+        $fieldName = "";
+        $fieldType = "";
+        $fieldAlias = "";
+        $jsonUtil = new JsonUtil();
+        $lb = $this->lb;
+
+        try {
+
+            if ($this->aggregatedQuery($queryDef)) {
+
+                // Mandatory aggregation
+                $sql .= " group by "; 
+                $sql .= $jsonUtil->select($tableName, "id_group", "int", $this->NO_ALIAS) . $lb;
+
+                // Other fields
+                foreach ($queryDef as $row) {
+                    if (isset($row["id_command"])) {
+                        $command = $row["id_command"];
+                        if ($command == $this->SELECTION) {                        
+                            $tableName = $row["table_name"];
+                            $fieldName = $row["field_name"];
+                            $fieldType = $row["field_type"];
+                            $fieldAlias = $this->NO_ALIAS;
+                            $sql .= ", " . $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias) . $lb;
+                        }
+                    }
+                }
+            }
+
+        } catch (Exception $ex) {
+            $this->setError("QueryBuilder.getGroupBy()", $ex->getMessage());
+        }
+        return $sql;
+    }    
+
     /*
      * Get ordering
      */
-    private function getOrderBy($tableDef) {
+    private function getOrderBy($tableName, $queryDef) {
 
         $sql = "";
         $lb = $this->lb;
                 
 
         try {
-            $sql = " order by " . trim($tableDef[0]["table_name"]) . ".id";
+
+            if ($this->aggregatedQuery($queryDef)) {
+
+            } else {
+                $sql = " order by $tableName.id";
+            }
+
             $sql .= $lb;
+
         } catch (Exception $ex) {
             $this->setError("QueryBuilder.getOrderBy()", $ex->getMessage());
         }
@@ -418,7 +483,7 @@ class SqlBuilder extends Base {
     /*
      * Get paging
      */
-    private function getPaging($tableDef) {
+    private function getPaging($queryDef) {
 
         $sql = "";
         $lb = $this->lb;
@@ -669,6 +734,23 @@ class SqlBuilder extends Base {
         return $sql;
     }
 
+    private function aggregatedQuery($queryDef) {
+        foreach ($queryDef as $row) {
+            if (isset($row["id_command"])) {
+                $command = $row["id_command"];
+                switch ($command) {
+                    case $this->COUNT:
+                    case $this->SUM:
+                    case $this->MAX:
+                    case $this->MIN:
+                    case $this->AVG:
+                        return true;
+                        break;
+                }
+            }
+        }
+        return false;
+    }
 
 } // End of class
 ?>

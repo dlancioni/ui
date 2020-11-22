@@ -287,7 +287,10 @@
             }
 
             // Prepare field
-            $output = $a . $this->field($table, $field, $type) . $b . " as " . (trim($alias) == "" ? $field : $alias);
+            $output = $a . $this->field($table, $field, $type) . $b;
+            if ($alias != "NO_ALIAS") {
+                $output .= " as " . (trim($alias) == "" ? $field : $alias);
+            }
 
             // Just return it
             return $output;
