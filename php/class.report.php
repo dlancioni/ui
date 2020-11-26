@@ -111,8 +111,10 @@ class LogicReport extends Base {
             $rows .= $this->createTableHeader($viewId, $data, $tableDef);
 
             // Prepare table contents
-            $cols = "";
             foreach ($data as $row) {
+
+                // Start new column
+                $cols = "";
 
                 // Create radio for selection
                 if (isset($row["id"])) {
@@ -122,7 +124,7 @@ class LogicReport extends Base {
                     $cols .= $this->element->createTableCol($row["id"]);
                 }
 
-                // Create data contents                
+                // Create data contents
                 foreach ($tableDef as $col) {
 
                     // Keep info
