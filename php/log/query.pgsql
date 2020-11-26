@@ -1,14 +1,15 @@
 select json_agg(t) from (select 
-(tb_relationship.field->>'id_group')::int as "id_group"
-, (tb_relationship.field->>'id_activity')::int as id_activity
-, (tb_activity_id_activity.field->>'description')::text as "activity"
-, sum((tb_relationship.field->>'cost')::float) as cost
- from tb_relationship
- left join tb_activity tb_activity_id_activity on (tb_relationship.field->>'id_activity')::text = (tb_activity_id_activity.id)::text
- where (tb_relationship.field->>'id_system')::text = 'S20201'
- group by (tb_relationship.field->>'id_group')::int
-, (tb_relationship.field->>'id_activity')::int
-, (tb_activity_id_activity.field->>'description')::text
-
+count(*) over() as record_count,
+(tb_file.field->>'id_group')::int as "id_group",
+tb_file.id
+, (tb_file.field->>'id_client')::int as id_client
+, (tb_customer_id_client.field->>'name')::text as "client"
+, (tb_file.field->>'file_name')::text as file_name
+, (tb_file.field->>'description')::text as description
+, (tb_file.field->>'file')::text as file
+ from tb_file
+ left join tb_customer tb_customer_id_client on (tb_file.field->>'id_client')::text = (tb_customer_id_client.id)::text
+ where (tb_file.field->>'id_system')::text = 'S20201'
+ order by tb_file.id
  limit 15
 ) t

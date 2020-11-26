@@ -53,6 +53,7 @@ class LogicReport extends Base {
         $pageTitle = "";
         $tableDef = "";
         $logUtil = "";
+        $count = 0;
 
         try {
 
@@ -128,6 +129,7 @@ class LogicReport extends Base {
                 foreach ($tableDef as $col) {
 
                     // Keep info
+                    $count ++;
                     $columnSize = 0;                    
                     $fieldId = $col["id"];
                     $tableFk = $col["table_fk"];
@@ -136,6 +138,9 @@ class LogicReport extends Base {
                     $fieldType = $col["field_type"];
                     $fk = $col["id_fk"];
                     $control = $col["id_control"];
+
+                    // Column size
+                    $columnSize = $this->getSize(count($tableDef), $count);
 
                     // Handle field name on views
                     if (isset($col["field_label_view"])) {
@@ -259,6 +264,27 @@ class LogicReport extends Base {
     }
 
 
+    /*
+     * Define the column size according to the number of columns
+     */
+    private function getSize($columnCount, $column) {
 
-}
+        $size = 0;
+        switch ($columnCount) {
+            case 2:
+                if ($column == 2) {
+                    $size = 80;
+                }
+                break;
+            case 1:
+                if ($column == 1) {
+                    $size = 95;
+                }
+                break;                
+        }
+
+        return $size;
+    }
+
+} // end of class
 ?>
