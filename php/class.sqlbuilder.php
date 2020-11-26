@@ -429,8 +429,10 @@ class SqlBuilder extends Base {
         $fieldName = "";
         $fieldType = "";
         $fieldAlias = "";
-        $jsonUtil = new JsonUtil();
+        $tableFk = "";
+        $fieldFk = "";
         $lb = $this->lb;
+        $jsonUtil = new JsonUtil();       
 
         try {
 
@@ -444,12 +446,23 @@ class SqlBuilder extends Base {
                 foreach ($queryDef as $row) {
                     if (isset($row["id_command"])) {
                         $command = $row["id_command"];
-                        if ($command == $this->SELECTION) {                        
+                        if ($command == $this->SELECTION) {
                             $tableName = $row["table_name"];
                             $fieldName = $row["field_name"];
                             $fieldType = $row["field_type"];
+                            $tableFk = $row["table_fk"];
+                            $fieldFk = $row["field_fk"];
                             $fieldAlias = $this->NO_ALIAS;
                             $sql .= ", " . $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias) . $lb;
+
+                            if ($row["id_fk"] != 0) {
+                                $sql .= ", ";
+                                $tableName = $tableFk . "_" . $fieldName;
+                                $fieldName = $fieldFk;
+                                $fieldType = $this->TYPE_TEXT;
+                                $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias) . $lb;
+                            }
+
                         }
                     }
                 }
