@@ -175,6 +175,60 @@
             return $html;            
         }
 
+        /* 
+         * Create dropdown
+         */
+        public function createSimpleDropdown($fieldName, $data, $key, $value, $selectedValue="", $event) {
+
+            // General declaration
+            $html = "";
+            $stringUtil = new StringUtil();
+
+            try {
+
+                // Open dropdown
+                $html .= "<select";
+                $html .= " id=" . $stringUtil->dqt($fieldName); 
+                $html .= " name=" . $stringUtil->dqt($fieldName);
+                $html .= " class=" . $stringUtil->dqt("custom-select my-1 mr-sm-2");
+                $html .= " " . $event;
+                $html .= ">";
+
+                // Empty item
+                $html .= '<option value="0">Selecionar</option>';
+
+                // Add options
+                foreach ($data as $item) {
+
+                    // Keep values
+                    $key = $item[$key];
+                    $value = $item[$value];
+
+                    // Handle selected
+                    if ($key == $selectedValue) {
+                        $selected = "selected";
+                    } else {
+                        $selected = "";
+                    }
+
+                    // Create option
+                    $html .= "<option ";
+                    $html .= "value=" . $stringUtil->dqt($key) . " " . $selected . ">";
+                    $html .= $value;
+                    $html .= "</option>";
+                }
+
+                // Close dropdown
+                $html .= "</select>";
+
+
+            } catch (Exception $ex) {
+                throw $ex;
+            }
+
+            // Return filled dropdown
+            return $html;            
+        }        
 
         /* 
          * Create button

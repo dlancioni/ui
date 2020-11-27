@@ -23,6 +23,7 @@
     $element = "";
     $pageEvent = "";
     $action = "";
+    $viewList = array();
 
     // Solution allow multiple systems
     if (isset($_SESSION["_SYSTEM_"])) {

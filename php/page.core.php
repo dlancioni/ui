@@ -28,6 +28,7 @@
                 $logicReport->PageEvent = $pageEvent;
                 $logicReport->tableDef = $tableDef;
                 $logicReport->viewDef = $viewDef;
+                $logicReport->viewList = $viewList;                
                 $html .= $logicReport->createReport($tableId, $viewId, $pageOffset);
                 $error = $logicReport->getError();                
             } else {

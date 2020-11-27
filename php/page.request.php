@@ -41,6 +41,10 @@
                 $filter->add("tb_event", "id_table", $tableId);
                 $_SESSION["_PAGE_ACTION_"] = $sqlBuilder->executeQuery($cn, $sqlBuilder->TB_EVENT, "", $filter->create(), $sqlBuilder->QUERY_NO_PAGING);
 
+                // Get views
+                $filter = new Filter();
+                $_SESSION["_VIEW_LIST_"] = $sqlBuilder->executeQuery($cn, $sqlBuilder->TB_VIEW, "", $filter->create(), $sqlBuilder->QUERY_NO_PAGING);
+
                 // Get table def
                 $_SESSION['_TABLEDEF_'] = $sqlBuilder->getTableDef($cn, $tableId, "");
 
@@ -53,6 +57,7 @@
                     $viewId = "";
                     $_SESSION["_VIEW_"] = $viewId;
                     $_SESSION['_VIEWDEF_'] = "";
+                    $_SESSION["_VIEW_LIST_"] = "";
                 }
             }
         }
@@ -77,7 +82,11 @@
     }
     if (isset($_SESSION["_VIEWDEF_"])) {
         $viewDef = $_SESSION['_VIEWDEF_'];
-    }    
+    }
+    if (isset($_SESSION["_VIEW_LIST_"])) {
+        $viewList = $_SESSION["_VIEW_LIST_"];
+    }
+    
 
 
 ?>

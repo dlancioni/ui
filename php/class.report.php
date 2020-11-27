@@ -3,15 +3,17 @@ class LogicReport extends Base {
 
     // Public members
     public $PageEvent = "";
-    public $action = "";   
+    public $action = "";
     public $tableDef = "";
-    public $viewDef = "";    
+    public $viewDef = "";
+    public $formData = "";
+    public $viewList = array();
 
     // Private members
     private $cn = 0;
     private $sqlBuilder = 0;
     private $element = "";    
-    public $formData = "";
+
 
     // Constructor
     function __construct($cn, $sqlBuilder, $formData) {
@@ -65,6 +67,7 @@ class LogicReport extends Base {
             $message = new Message($this->cn, $this->sqlBuilder);            
             $this->element = new HTMLElement($this->cn, $this->sqlBuilder);
             $formData = $this->formData;
+            $viewList = $this->viewList;
 
             // Handle structures
             if ($viewId != "") {
@@ -205,8 +208,11 @@ class LogicReport extends Base {
                                                   $this->sqlBuilder->PageSize, 
                                                   $this->sqlBuilder->PageOffset);
 
+            // Prepare view list
+            $html .= $this->createViewList($viewList, $viewId);
+
             // Space between form and buttons
-            $html .= "<br><br>";
+            $html .= "<br>";
 
         } catch (Exception $ex) {
             $this->setError("LogicReport.createReport()", $ex->getMessage());
@@ -285,6 +291,23 @@ class LogicReport extends Base {
 
         return $size;
     }
+
+
+    /*
+     * Prepare view list
+     */
+    private function createViewList($data, $viewId) {
+
+        $html = "<br>";
+        $event = "onChange='submit()'";
+
+        if (count($data) > 0) {
+            $html .= $this->element->createSimpleDropdown("_VIEW_", $data, "id", "name", $viewId, $event);
+        }
+
+        return $html;
+    }    
+
 
 } // end of class
 ?>
