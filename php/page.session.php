@@ -10,44 +10,43 @@
     session_start();
 
     // General Declaration
-    $systemId = ""; 
-    $username = "";
-    $password = "";
-    $viewId = "";
+    $systemId = 0; 
     $tableId = 0; 
+    $viewId = 0;    
     $userId = 0;
     $groupId = 0; 
-    $filter = "[]";
     $pageOffset = 0;
-    $eventAction = "";
-    $element = "";
-    $pageEvent = "";
-    $action = "";
+    $action = 0;
+    $username = "";
+    $password = "";    
+    $filter = array();
+    $eventAction = array();
+    $element = array();
     $viewList = array();
 
     // Solution allow multiple systems
     if (isset($_SESSION["_SYSTEM_"])) {
-        $systemId = $_SESSION["_SYSTEM_"];
+        $systemId = intval($_SESSION["_SYSTEM_"]);
     }
 
     // Current table
     if (isset($_SESSION["_TABLE_"])) {
-        $tableId = $_SESSION["_TABLE_"];
+        $tableId = intval($_SESSION["_TABLE_"]);
     }
 
     // Current view
     if (isset($_SESSION["_VIEW_"])) {
-        $viewId = $_SESSION["_VIEW_"];
+        $viewId = intval($_SESSION["_VIEW_"]);
     }
 
     // Current user
     if (isset($_SESSION["_USER_"])) {
-        $userId = $_SESSION["_USER_"];
+        $userId = intval($_SESSION["_USER_"]);
     }
 
     // Current group
     if (isset($_SESSION["_GROUP_"])) {
-        $groupId = $_SESSION["_GROUP_"];
+        $groupId = intval($_SESSION["_GROUP_"]);
     }
 
     // Current group

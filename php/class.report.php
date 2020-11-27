@@ -1,19 +1,11 @@
 <?php
 class LogicReport extends Base {
 
-    // Public members
-    public $PageEvent = "";
-    public $action = "";
-    public $tableDef = "";
-    public $viewDef = "";
-    public $formData = "";
-    public $viewList = array();
-
-    // Private members
+    // Class members
     private $cn = 0;
     private $sqlBuilder = 0;
-    private $element = "";    
-
+    private $element = "";
+    public $formData = array();    
 
     // Constructor
     function __construct($cn, $sqlBuilder, $formData) {
@@ -26,7 +18,7 @@ class LogicReport extends Base {
     /* 
     * Create a table
     */
-    function createReport($tableId, $viewId, $pageOffset) {
+    function createReport($tableId, $viewId, $action, $pageOffset) {
 
         // General Declaration
         $html = "";
@@ -39,7 +31,6 @@ class LogicReport extends Base {
         $fieldName = "";
         $fieldType = 0;
         $fieldValue = "";
-        $data = array();
         $filter = "";
         $checked = "";
         $radio = "";
@@ -56,6 +47,9 @@ class LogicReport extends Base {
         $tableDef = "";
         $logUtil = "";
         $count = 0;
+        $data = array();
+        $viewList = array();
+        $eventList = array();
 
         try {
 
@@ -64,16 +58,16 @@ class LogicReport extends Base {
             $numberUtil = new NumberUtil();
             $jsonUtil = new jsonUtil();
             $pathUtil = new PathUtil();            
+            $eventAction = new EventAction($this->cn, $this->sqlBuilder);
             $message = new Message($this->cn, $this->sqlBuilder);            
             $this->element = new HTMLElement($this->cn, $this->sqlBuilder);
             $formData = $this->formData;
-            $viewList = $this->viewList;
 
             // Handle structures
-            if ($viewId != "") {
-                $tableDef = $this->viewDef;
+            if ($viewId != 0) {
+                $tableDef = $this->sqlBuilder->getTableDef($this->cn, 0, $viewId);
             } else {
-                $tableDef = $this->tableDef;                
+                $tableDef = $this->sqlBuilder->getTableDef($this->cn, $tableId, 0);
             }
 
             // Get table structure
@@ -83,7 +77,7 @@ class LogicReport extends Base {
 
             // Get data
             $filter = new Filter("like");
-            if ($this->action == "Filter") {
+            if ($action == "Filter") {
                 $filter->setFilter($tableDef, $formData);
                 $_SESSION["_FILTER_"][$tableId] = array($formData);
             } else {
@@ -197,6 +191,15 @@ class LogicReport extends Base {
                 $rows .= $this->element->createTableRow($cols);
             }
 
+            // Get views
+            $filter = new Filter();
+            $viewList = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_VIEW, 0, $filter->create(), $this->sqlBuilder->QUERY_NO_PAGING);
+
+            //Get events
+            $filter = new Filter();
+            $filter->add("tb_event", "id_table", $tableId);
+            $eventList = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_EVENT, 0, $filter->create(), $this->sqlBuilder->QUERY_NO_PAGING);
+
             // Create page title
             $html .= $this->element->createPageTitle($pageTitle);
 
@@ -204,12 +207,13 @@ class LogicReport extends Base {
             $html .= $this->element->createTable($rows);
 
             // Get events (buttons)
-            $html .= $this->element->createPaging($recordCount, 
-                                                  $this->sqlBuilder->PageSize, 
-                                                  $this->sqlBuilder->PageOffset);
+            $html .= $this->element->createPaging($recordCount, $this->sqlBuilder->PageSize, $this->sqlBuilder->PageOffset);
 
             // Prepare view list
             $html .= $this->createViewList($viewList, $viewId);
+
+            // Create buttons
+            $html .= $eventAction->createButton($eventList, 1);
 
             // Space between form and buttons
             $html .= "<br>";

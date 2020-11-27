@@ -15,7 +15,7 @@
     $key = "";
     $value = "";    
     $json = [];
-    $viewId = "";    
+    $viewId = 0;
     $data = "{}";
     $jsonUtil = "";
     $sqlBuilder = "";    

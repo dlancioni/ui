@@ -43,7 +43,7 @@ class LogicForm extends Base {
         $disabled = "";
         $placeHolder = "";
 
-        $viewId = "";
+        $viewId = 0;
         $fieldId = "";
         $fieldLabel = "";
         $fieldName = "";

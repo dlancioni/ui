@@ -12,80 +12,39 @@
 
     // Session related variables
     if (isset($_REQUEST["_FORMAT_"])) {
-        $format = $_REQUEST["_FORMAT_"];
-        $_SESSION['_FORMAT_'] = $format;
+        $format = intval($_REQUEST["_FORMAT_"]);
+        $_SESSION['_FORMAT_'] = intval($format);
     }
+
     if (isset($_REQUEST["_ACTION_"])) {
-        $action = $_REQUEST["_ACTION_"];
-        $_SESSION['_ACTION_'] = $action;
+        $action = intval($_REQUEST["_ACTION_"]);
+        $_SESSION['_ACTION_'] = intval($action);
     }
+
+    if (isset($_REQUEST["_TABLE_"])) {
+        $tableId = intval($_REQUEST["_TABLE_"]);
+        $_SESSION['_TABLE_'] = intval($tableId);
+    }
+
+    if (isset($_REQUEST["_VIEW_"])) {
+        $viewId = intval($_REQUEST["_VIEW_"]);
+        $_SESSION['_VIEW_'] = intval($viewId);
+    }
+
     if (isset($_REQUEST["selection"])) {
         $id = intval($_REQUEST['selection']);
         if ($action == "filter") {
             $id = 0;
         }
-        $_SESSION['_ID_'] = $id;
+        $_SESSION['_ID_'] = intval($id);
     }
+
     if (isset($_REQUEST["_PAGING_"])) {
-        $pageOffset = $_REQUEST["_PAGING_"];
+        $pageOffset = intval($_REQUEST["_PAGING_"]);
     }
 
-    if (isset($_REQUEST["_TABLE_"])) {
-        if ($_REQUEST["_TABLE_"] != "0") {
-            if ($_SESSION['_TABLE_'] != $_REQUEST["_TABLE_"]) {
-                $tableId = $_REQUEST["_TABLE_"];
-                $_SESSION['_TABLE_'] = $tableId;
 
-                // Get events
-                $filter = new Filter();
-                $filter->add("tb_event", "id_table", $tableId);
-                $_SESSION["_PAGE_ACTION_"] = $sqlBuilder->executeQuery($cn, $sqlBuilder->TB_EVENT, "", $filter->create(), $sqlBuilder->QUERY_NO_PAGING);
 
-                // Get views
-                $filter = new Filter();
-                $_SESSION["_VIEW_LIST_"] = $sqlBuilder->executeQuery($cn, $sqlBuilder->TB_VIEW, "", $filter->create(), $sqlBuilder->QUERY_NO_PAGING);
-
-                // Get table def
-                $_SESSION['_TABLEDEF_'] = $sqlBuilder->getTableDef($cn, $tableId, "");
-
-                // Handle view
-                if (trim($_SESSION['_TABLEDEF_'][0]["id_view"]) != "0") {
-                    $viewId = trim($_SESSION['_TABLEDEF_'][0]["id_view"]);
-                    $_SESSION["_VIEW_"] = $viewId;
-                    $_SESSION['_VIEWDEF_'] = $sqlBuilder->getTableDef($cn, "", $viewId);
-                } else {
-                    $viewId = "";
-                    $_SESSION["_VIEW_"] = $viewId;
-                    $_SESSION['_VIEWDEF_'] = "";
-                    $_SESSION["_VIEW_LIST_"] = "";
-                }
-            }
-        }
-    }
-
-    // Current controls (buttons)
-    if (isset($_SESSION["_PAGE_ACTION_"])) {
-        $pageEvent = $_SESSION["_PAGE_ACTION_"];
-    }
-
-    // Current table
-    if (isset($_SESSION["_TABLE_"])) {
-        $tableId = $_SESSION['_TABLE_'];
-    }
-    if (isset($_SESSION["_TABLEDEF_"])) {
-        $tableDef = $_SESSION['_TABLEDEF_'];
-    }
-
-    // Current view
-    if (isset($_SESSION["_VIEW_"])) {
-        $viewId = $_SESSION['_VIEW_'];
-    }
-    if (isset($_SESSION["_VIEWDEF_"])) {
-        $viewDef = $_SESSION['_VIEWDEF_'];
-    }
-    if (isset($_SESSION["_VIEW_LIST_"])) {
-        $viewList = $_SESSION["_VIEW_LIST_"];
-    }
     
 
 

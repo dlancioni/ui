@@ -38,7 +38,7 @@ class SqlBuilder extends Base {
     /* 
      * Query and return json
      */
-    public function executeQuery($cn, $tableId="", $viewId="", $filter="[]", $queryType=1, $queryDef="") {
+    public function executeQuery($cn, $tableId=0, $viewId=0, $filter="[]", $queryType=1, $queryDef="") {
 
         // General Declaration
         $rs = "";
@@ -98,7 +98,7 @@ class SqlBuilder extends Base {
         try {
 
             // Get table structure and related information
-            if ($viewId != "") {
+            if ($viewId != 0) {
                 $sql = $this->getSqlViewDef($viewId);
             } else {
                 $sql = $this->getSqlTableDef($tableId);
@@ -130,15 +130,15 @@ class SqlBuilder extends Base {
         try {
 
             // Handle table as parameter
-            if ($tableId != "") {
+            if ($tableId != 0) {
                 $this->setTable(intval($tableId));
             }
 
             // Get table structure
-            if ($viewId != "") {
+            if ($viewId != 0) {
                 $queryDef = $this->getTableDef($cn, "", $viewId);
             } else {
-                if ($queryDef == "") {
+                if (count($queryDef) == 0) {
                     $queryDef = $this->getTableDef($cn, $tableId, "");
                 }
             }

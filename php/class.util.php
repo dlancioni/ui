@@ -407,7 +407,7 @@
             // General Declaration            
             $html = "";
             $message = "";
-            $viewId = "";
+            $viewId = 0;
             $stringUtil = new StringUtil();
 
             try {

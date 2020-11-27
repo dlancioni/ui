@@ -24,41 +24,21 @@
             // Create page or form
             if ($format == 1) {
                 $logicReport = new LogicReport($cn, $sqlBuilder, $_REQUEST);
-                $logicReport->action = $action;
-                $logicReport->PageEvent = $pageEvent;
-                $logicReport->tableDef = $tableDef;
-                $logicReport->viewDef = $viewDef;
-                $logicReport->viewList = $viewList;                
-                $html .= $logicReport->createReport($tableId, $viewId, $pageOffset);
-                $error = $logicReport->getError();                
+                $html .= $logicReport->createReport($tableId, $viewId, $action, $pageOffset);
+                $error = $logicReport->getError();
             } else {
                 $logicForm = new LogicForm($cn, $sqlBuilder);
-                $logicForm->action = $action;
-                $logicForm->PageEvent = $pageEvent;
-                $logicForm->tableDef = $tableDef;
-                $html .= $logicForm->createForm($tableId, $id);
+                $html .= $logicForm->createForm($tableId, $id, $action);
                 $error = $logicForm->getError();
             }
 
             // Handle error
             if ($error != "") {
-
-                // Alert the final error
                 $html = $element->getAlert("Erro de processamento", $error);
-
             } else {
-
-                // Back to main table
                 $sqlBuilder->setTable($tableId);
-
-                // Add buttons to form
-                $html .= $eventAction->createButton($pageEvent, $format);
-
-                // Add global functions (js code)
                 $html .= $eventAction->createJS();
-
-                // Create form/load events
-                $onLoadFunctions = $eventAction->createFormLoad($pageEvent, $format);
+                //$onLoadFunctions = $eventAction->createFormLoad($pageEvent, $format);
             }
         }
 

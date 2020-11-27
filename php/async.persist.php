@@ -15,7 +15,7 @@
     $new = "{}";    
     $key = "";       
     $logic = "";
-    $viewId = "";
+    $viewId = 0;
     $message = "";
     $tableDef = "";
     $tableName = "";
@@ -30,7 +30,7 @@
     $fieldLabel = "";    
     $changed = false;
     $file = "";
-    $viewId = "";
+    $viewId = 0;
 
     // Core code
     try {

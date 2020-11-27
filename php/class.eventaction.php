@@ -96,7 +96,7 @@
             // General declaration
             $js = "";
             $rs = "";
-            $viewId = "";
+            $viewId = 0;
 
             // Get data
             $filter = new Filter();

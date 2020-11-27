@@ -159,7 +159,7 @@
             $rs = "";
             $json = "";
             $record = "";
-            $viewId = "";
+            $viewId = 0;
             $affectedRows = 0;
             $tableDef = "";
             $jsonUtil = new JsonUtil();
@@ -213,7 +213,7 @@
             $record = "";
             $affectedRows = 0;
             $tableDef = "";
-            $viewId = "";
+            $viewId = 0;
             $jsonUtil = new JsonUtil();
 
             try {

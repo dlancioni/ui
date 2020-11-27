@@ -32,7 +32,7 @@
             $userId = 0;
             $profileId = 0;
             $groupId = 0;
-            $viewId = "";
+            $viewId = 0;
             $affectedRows = 0;
             $jsonUtil = new JsonUtil();
             $pathUtil = new PathUtil();
