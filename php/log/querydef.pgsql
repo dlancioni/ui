@@ -1,4 +1,3 @@
-set search_path to s20201;
  select
  tb_field.id,
  (tb_field.field->>'id_system')::text as id_system,
@@ -24,5 +23,5 @@ set search_path to s20201;
  left join tb_table tb_table_fk on (tb_field.field->>'id_table_fk')::text = (tb_table_fk.id)::text
  left join tb_field tb_field_fk on (tb_field.field->>'id_field_fk')::text = (tb_field_fk.id)::text
  where (tb_field.field->>'id_system')::text = 'S20201'
- and (tb_field.field->>'id_table')::int = 10
+ and (tb_field.field->>'id_table')::int = 1
  order by (tb_field.field->>'ordenation')::int, tb_field.id

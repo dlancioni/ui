@@ -26,7 +26,7 @@
 
     // Solution allow multiple systems
     if (isset($_SESSION["_SYSTEM_"])) {
-        $systemId = intval($_SESSION["_SYSTEM_"]);
+        $systemId = $_SESSION["_SYSTEM_"];
     }
 
     // Current table
@@ -62,6 +62,6 @@
     $sqlBuilder = new SqlBuilder($systemId, $tableId, $userId, $groupId);
     $eventAction = new EventAction($cn, $sqlBuilder);
     $logicMenu = new LogicMenu($cn, $sqlBuilder);
-    $element = new HTMLElement($cn, $sqlBuilder);    
+    $element = new HTMLElement($cn, $sqlBuilder);
     
 ?>

@@ -69,6 +69,7 @@ class LogicReport extends Base {
             } else {
                 $tableDef = $this->sqlBuilder->getTableDef($this->cn, $tableId, 0);
             }
+            $logUtil->log("querydef.pgsql", $this->sqlBuilder->lastQuery);
 
             // Get table structure
             if (count($tableDef) > 0) {

@@ -93,9 +93,13 @@ class SqlBuilder extends Base {
         $sql = "";
         $rs = "";
         $db = new Db();
-        $logUtil = new LogUtil();        
+        $logUtil = new LogUtil();
+        $stringUtil = new StringUtil();
 
         try {
+
+            // Define the separator
+            $this->lb = $stringUtil->lb();
 
             // Get table structure and related information
             if ($viewId != 0) {
@@ -138,7 +142,7 @@ class SqlBuilder extends Base {
             if ($viewId != 0) {
                 $queryDef = $this->getTableDef($cn, "", $viewId);
             } else {
-                if (count($queryDef) == 0) {
+                if (!is_array($queryDef)) {
                     $queryDef = $this->getTableDef($cn, $tableId, "");
                 }
             }

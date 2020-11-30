@@ -2,9 +2,7 @@
 class LogicForm extends Base {
 
     // Public members
-    public $action = "";
     public $PageEvent = "";
-    public $tableDef = "";    
 
     // Private members
     private $cn = 0;
@@ -21,7 +19,7 @@ class LogicForm extends Base {
     /* 
     * Create new form
     */
-    function createForm($tableId, $id=0) {
+    function createForm($tableId, $id=0, $action) {
 
         // General Declaration
         $k = "";
@@ -54,48 +52,54 @@ class LogicForm extends Base {
         $fieldValue = "";
         $defaultValue = "";
 
+        $tableDef = array();
         $label = "";
         $control = "";
         $controls = "";
         $cascade = array();
         $pageTitle = "";
+        $eventList = array();
 
         $control = "";
         $jsonUtil = "";
         $jsonUtil = new jsonUtil();
         $numberUtil = new NumberUtil();
+        $eventAction = new EventAction($this->cn, $this->sqlBuilder);        
 
         try {
 
             // Handle events
-            if ($this->action == "Delete") {
+            if ($action == "Delete") {
                 $disabled = "disabled";
             }
 
-            if ($this->action == "Filter") {
+            if ($action == "Filter") {
                 $id = 0;
             }
 
             // Get table structure
-            if (count($this->tableDef) > 0) {
+            $tableDef = $this->sqlBuilder->getTableDef($this->cn, $tableId, 0);
+
+            // Prepare the form
+            if (count($tableDef) > 0) {
 
                 // Keep page title
-                $pageTitle = $this->tableDef[0]["title"];
+                $pageTitle = $tableDef[0]["title"];
                 
                 // Do not query database
-                if ($this->action == "Filter") {
+                if ($action == "Filter") {
                     if (isset($_SESSION["_FILTER_"][$tableId])) {
                         $data = $_SESSION["_FILTER_"][$tableId];
                     }                    
                 } else {
                     // Get data
                     $filter = new Filter();
-                    $filter->add($this->tableDef[0]["table_name"], "id", $id);
+                    $filter->add($tableDef[0]["table_name"], "id", $id);
                     $data = $this->sqlBuilder->executeQuery($this->cn, $tableId, $viewId, $filter->create());
                 }
 
                 // Create field Id (rules according to action)
-                $controls .= $this->createId($data, $placeHolder, $disabled);
+                $controls .= $this->createId($data, $placeHolder, $disabled, $action);
             }
 
             // Keep cascade info for current transaction
@@ -104,8 +108,8 @@ class LogicForm extends Base {
             $cascade = $this->sqlBuilder->executeQuery($this->cn, $this->TB_DOMAIN, $viewId, $filter->create());            
 
             // Create base form
-            if (is_array($this->tableDef)) {
-                foreach($this->tableDef as $item) {
+            if (is_array($tableDef)) {
+                foreach($tableDef as $item) {
 
                     // Get structure
                     $cols = "";
@@ -160,7 +164,7 @@ class LogicForm extends Base {
                                                     $fieldMask, 
                                                     $fieldMandatory, 
                                                     $fk, 
-                                                    $this->action);
+                                                    $action);
                     
                     // Add label                
                     $label = $this->element->createLabel($fieldLabel, $fieldName);
@@ -250,7 +254,7 @@ class LogicForm extends Base {
                     }
 
                     // Cannot filter on binary fields
-                    if ($this->action == "Filter") {
+                    if ($action == "Filter") {
                         if ($fieldType != $this->TYPE_BINARY) {
                             $controls .= $this->element->createFieldGroup($label, $control);
                         }
@@ -265,6 +269,12 @@ class LogicForm extends Base {
 
             // Finalize form
             $html .= $this->element->createForm("form1", $controls);
+
+            // Create buttons
+            $filter = new Filter();
+            $filter->add("tb_event", "id_table", $tableId);
+            $eventList = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_EVENT, 0, $filter->create(), $this->sqlBuilder->QUERY_NO_PAGING);
+            $html .= $eventAction->createButton($eventList, 2);
 
             // Add validateForm function
             $html .= $this->element->createScript($js);
@@ -281,7 +291,7 @@ class LogicForm extends Base {
     /*
      * Create field ID
      */
-    private function createId($data, $placeHolder, $disabled) {
+    private function createId($data, $placeHolder, $disabled, $action) {
         // General declaration
         $id = "";
         $fieldId = "_id_";
@@ -294,7 +304,7 @@ class LogicForm extends Base {
         }
 
         // Control access
-        switch ($this->action) {
+        switch ($action) {
             case "New":
                 $id = "";
                 $disabled = "disabled";
