@@ -1,14 +1,19 @@
 select json_agg(t) from (select 
 count(*) over() as record_count,
-(tb_menu.field->>'id_group')::int as "id_group",
-tb_menu.id
-, (tb_menu.field->>'name')::text as name
-, (tb_menu.field->>'id_parent')::int as id_parent
-, (tb_menu_id_parent.field->>'name')::text as "parent"
-, (tb_menu.field->>'order')::int as order
- from tb_menu
- left join tb_menu tb_menu_id_parent on (tb_menu.field->>'id_parent')::text = (tb_menu_id_parent.id)::text
- where (tb_menu.field->>'id_system')::text = 'S20201'
- order by tb_menu.id
+(tb_customer.field->>'id_group')::int as "id_group",
+tb_customer.id
+, (tb_customer.field->>'name')::text as name
+, (tb_customer.field->>'person_type')::int as person_type
+, (tb_person_type_person_type.field->>'value')::text as "son_type"
+, (tb_customer.field->>'client_type')::text as client_type
+, (tb_client_type_client_type.field->>'value')::text as "ent_type"
+ from tb_customer
+ left join tb_domain tb_person_type_person_type on (tb_customer.field->>'person_type')::text = (tb_person_type_person_type.field->>'key')::text and (tb_person_type_person_type.field->>'domain')::text = 'tb_person_type'
+ left join tb_domain tb_client_type_client_type on (tb_customer.field->>'client_type')::text = (tb_client_type_client_type.field->>'key')::text and (tb_client_type_client_type.field->>'domain')::text = 'tb_client_type'
+ where (tb_customer.field->>'id_system')::text = 'S20201'
+ and tb_customer.id = 2
+ and tb_customer.id = 2
+ and tb_customer.id = 2
+ order by tb_customer.id
  limit 15
 ) t

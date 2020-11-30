@@ -17,8 +17,8 @@
     }
 
     if (isset($_REQUEST["_ACTION_"])) {
-        $action = intval($_REQUEST["_ACTION_"]);
-        $_SESSION['_ACTION_'] = intval($action);
+        $action = $_REQUEST["_ACTION_"];
+        $_SESSION['_ACTION_'] = $action;
     }
 
     if (isset($_REQUEST["_TABLE_"])) {

@@ -211,7 +211,7 @@ class LogicReport extends Base {
             $html .= $this->element->createPaging($recordCount, $this->sqlBuilder->PageSize, $this->sqlBuilder->PageOffset);
 
             // Prepare view list
-            $html .= $this->createViewList($viewList, $viewId);
+            // $html .= $this->createViewList($viewList, $viewId);
 
             // Create buttons
             $html .= $eventAction->createButton($eventList, 1);
