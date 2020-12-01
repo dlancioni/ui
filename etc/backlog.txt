@@ -2,7 +2,7 @@ Pendentes
 	Criar submenu
 	Criar view e solucao para apresentar graficos
 	Criar tela para alterar senha
-	Criar tela para registrar cliente
+
 
 Nice to have
 	Revisar tratamento erros na chamada de sql, etc	
@@ -23,40 +23,6 @@ Finalizados
 	Criar campo hidden
 	Testar tipos data e valor
 	Configurar php.ini para enviar email
+	Criar tela para registrar cliente
 
 
-
-
-
-    if (isset($_REQUEST["_TABLE_"])) {
-        if ($_REQUEST["_TABLE_"] != "0") {
-            if ($_SESSION['_TABLE_'] != $_REQUEST["_TABLE_"]) {
-                $tableId = $_REQUEST["_TABLE_"];
-                $_SESSION['_TABLE_'] = $tableId;
-
-                // Get events
-                $filter = new Filter();
-                $filter->add("tb_event", "id_table", $tableId);
-                $_SESSION["_PAGE_ACTION_"] = $sqlBuilder->executeQuery($cn, $sqlBuilder->TB_EVENT, 0, $filter->create(), $sqlBuilder->QUERY_NO_PAGING);
-
-                // Get views
-                $filter = new Filter();
-                $_SESSION["_VIEW_LIST_"] = $sqlBuilder->executeQuery($cn, $sqlBuilder->TB_VIEW, 0, $filter->create(), $sqlBuilder->QUERY_NO_PAGING);
-
-                // Get table def
-                $_SESSION['_TABLEDEF_'] = $sqlBuilder->getTableDef($cn, $tableId, 0);
-
-                // Handle view
-                if (trim($_SESSION['_TABLEDEF_'][0]["id_view"]) != "0") {
-                    $viewId = trim($_SESSION['_TABLEDEF_'][0]["id_view"]);
-                    $_SESSION["_VIEW_"] = $viewId;
-                    $_SESSION['_VIEWDEF_'] = $sqlBuilder->getTableDef($cn, "", $viewId);
-                } else {
-                    $viewId = 0;
-                    $_SESSION["_VIEW_"] = $viewId;
-                    $_SESSION['_VIEWDEF_'] = array();
-                    $_SESSION["_VIEW_LIST_"] = array();
-                }
-            }
-        }
-    }

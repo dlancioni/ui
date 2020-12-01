@@ -1,7 +1,5 @@
  select
  tb_field.id,
- (tb_view_field.field->>'id_command')::text as id_command,
- (tb_view_field.field->>'label')::text as field_label_view,
  (tb_field.field->>'id_system')::text as id_system,
  (tb_table.field->>'name')::text as table_name,
  (tb_table.field->>'title')::text as title,
@@ -20,12 +18,10 @@
  (tb_field.field->>'default_value')::text as default_value,
  (tb_field.field->>'ordenation')::text as ordenation,
  (tb_field.field->>'id_control')::text as id_control
- from tb_view
- inner join tb_view_field on (tb_view_field.field->>'id_view')::text = (tb_view.id)::text
- inner join tb_field on (tb_view_field.field->>'id_field')::text = (tb_field.id)::text
+ from tb_field
  inner join tb_table on (tb_field.field->>'id_table')::text = (tb_table.id)::text
  left join tb_table tb_table_fk on (tb_field.field->>'id_table_fk')::text = (tb_table_fk.id)::text
  left join tb_field tb_field_fk on (tb_field.field->>'id_field_fk')::text = (tb_field_fk.id)::text
  where (tb_field.field->>'id_system')::text = 'S20201'
- and tb_view.id = 1
- order by tb_view_field.id
+ and (tb_field.field->>'id_table')::int = 15
+ order by (tb_field.field->>'ordenation')::int, tb_field.id

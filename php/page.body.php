@@ -1,3 +1,4 @@
+
 <!-- Main container -->
 <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
 
@@ -47,3 +48,43 @@
 
     </div>
 </div>
+
+
+
+
+
+
+<nav class="navbar navbar-light bg-light navbar-expand-sm mb-3">
+    <a class="navbar-brand">Forms</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse">
+        <ul class="navbar-nav mr-auto">
+        <li class="nav-item dropdown">
+
+
+            <a class="nav-link dropdown-toggle" tabindex="0" data-toggle="dropdown" data-submenu>Cadastros</a>
+            <div class="dropdown-menu">
+                <button class="dropdown-item" type="button">Clientes</button>
+                <div class="dropdown dropright dropdown-submenu">
+                    <button class="dropdown-item dropdown-toggle" type="button">Outros</button>                   
+                    <div class="dropdown-menu">
+                    <button class="dropdown-item" type="button">Paises</button>
+                    <button class="dropdown-item" type="button">Estados</button>
+                    <button class="dropdown-item" type="button">Cidades</button>
+                </div>    
+            </div>
+        </li>
+
+        <li>    
+        <a class="nav-link dropdown-toggle" tabindex="0" data-toggle="dropdown" data-submenu>Financeiro</a>
+        </li>
+
+        </ul>    
+    </div>
+</nav>
+<script>
+
+$('[data-submenu]').submenupicker();
+</script>

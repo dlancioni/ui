@@ -3,7 +3,10 @@
 
 <!-- BOOTSTRAP -->
 <script src="lib/bootstrap/js/bootstrap.min.js"></script>
+<script src="lib/bootstrap-submenu/js/bootstrap-submenu.min.js"></script>
+
 <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="lib/bootstrap-submenu/css/bootstrap-submenu.min.css">
 
 <!-- JAVASCRIPT -->
 <script src="js/filesaver.js"></script>
