@@ -62,31 +62,28 @@
     <div class="collapse navbar-collapse">
         <ul class="navbar-nav mr-auto">
 
-            <!-- Menu 1 -->
+
+            <!-- Parent = 0 -->
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" tabindex="0" data-toggle="dropdown" data-submenu>Cadastros</a>
-
                 <div class="dropdown-menu">
                     <button class="dropdown-item" type="button">Clientes</button>
 
-                    <div class="dropdown dropright dropdown-submenu">                   
-                    <button class="dropdown-item dropdown-toggle" type="button">Entidades</button>
-                    <div class="dropdown-menu">
-                        <button class="dropdown-item" type="button">Clientes</button>
-                        <button class="dropdown-item" type="button">Fornecedores</button>
-                        
-                    <div class="dropdown dropright dropdown-submenu">
-                    <button class="dropdown-item dropdown-toggle" type="button">Funcionarios</button>
-                    <div class="dropdown-menu">
-                        <button class="dropdown-item" type="button">PF</button>
-                        <button class="dropdown-item" type="button">PJ</button>
-            </li>
-
-            <!-- Menu 2 -->
+            <!-- Parent > 0 -->
+            <div class="dropdown dropright dropdown-submenu">                   
+            <button class="dropdown-item dropdown-toggle" type="button">Entidades</button>
+            <div class="dropdown-menu">
+                <button class="dropdown-item" type="button">Clientes</button>
+                <button class="dropdown-item" type="button">Fornecedores</button>
+                
+            <div class="dropdown dropright dropdown-submenu">
+            <button class="dropdown-item dropdown-toggle" type="button">Funcionarios</button>
+            <div class="dropdown-menu">
+                <button class="dropdown-item" type="button">PF</button>
+                <button class="dropdown-item" type="button">PJ</button>
 
 
 
-        </ul>    
     </div>
 </nav>
 <script>
