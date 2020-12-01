@@ -54,7 +54,8 @@
 
 
 
-<nav class="navbar navbar-light bg-light navbar-expand-sm mb-3">
+
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <a class="navbar-brand">Forms</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse">
         <span class="navbar-toggler-icon"></span>
