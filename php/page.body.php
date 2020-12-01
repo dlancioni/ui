@@ -61,25 +61,30 @@
     </button>
     <div class="collapse navbar-collapse">
         <ul class="navbar-nav mr-auto">
-        <li class="nav-item dropdown">
 
+            <!-- Menu 1 -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" tabindex="0" data-toggle="dropdown" data-submenu>Cadastros</a>
 
-            <a class="nav-link dropdown-toggle" tabindex="0" data-toggle="dropdown" data-submenu>Cadastros</a>
-            <div class="dropdown-menu">
-                <button class="dropdown-item" type="button">Clientes</button>
-                <div class="dropdown dropright dropdown-submenu">
-                    <button class="dropdown-item dropdown-toggle" type="button">Outros</button>                   
+                <div class="dropdown-menu">
+                    <button class="dropdown-item" type="button">Clientes</button>
+
+                    <div class="dropdown dropright dropdown-submenu">                   
+                    <button class="dropdown-item dropdown-toggle" type="button">Entidades</button>
                     <div class="dropdown-menu">
-                    <button class="dropdown-item" type="button">Paises</button>
-                    <button class="dropdown-item" type="button">Estados</button>
-                    <button class="dropdown-item" type="button">Cidades</button>
-                </div>    
-            </div>
-        </li>
+                        <button class="dropdown-item" type="button">Clientes</button>
+                        <button class="dropdown-item" type="button">Fornecedores</button>
+                        
+                    <div class="dropdown dropright dropdown-submenu">
+                    <button class="dropdown-item dropdown-toggle" type="button">Funcionarios</button>
+                    <div class="dropdown-menu">
+                        <button class="dropdown-item" type="button">PF</button>
+                        <button class="dropdown-item" type="button">PJ</button>
+            </li>
 
-        <li>    
-        <a class="nav-link dropdown-toggle" tabindex="0" data-toggle="dropdown" data-submenu>Financeiro</a>
-        </li>
+            <!-- Menu 2 -->
+
+
 
         </ul>    
     </div>
