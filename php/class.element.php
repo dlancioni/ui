@@ -407,6 +407,9 @@
                             // Define function call                        
                             $html .= "<a href='#' onClick='paging($pageOffset);'>$i </a>";
                         }
+
+                        // Extra line
+                        $html .= "<br>";
                     }
                 }
 

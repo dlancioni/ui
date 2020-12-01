@@ -201,6 +201,9 @@ class LogicReport extends Base {
             $filter->add("tb_event", "id_table", $tableId);
             $eventList = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_EVENT, 0, $filter->create(), $this->sqlBuilder->QUERY_NO_PAGING);
 
+            // Prepare view list
+            $html .= $this->createViewList($viewList, $viewId);
+
             // Create page title
             $html .= $this->element->createPageTitle($pageTitle);
 
@@ -210,14 +213,8 @@ class LogicReport extends Base {
             // Get events (buttons)
             $html .= $this->element->createPaging($recordCount, $this->sqlBuilder->PageSize, $this->sqlBuilder->PageOffset);
 
-            // Prepare view list
-            // $html .= $this->createViewList($viewList, $viewId);
-
             // Create buttons
             $html .= $eventAction->createButton($eventList, 1);
-
-            // Space between form and buttons
-            $html .= "<br>";
 
         } catch (Exception $ex) {
             $this->setError("LogicReport.createReport()", $ex->getMessage());
@@ -308,6 +305,7 @@ class LogicReport extends Base {
 
         if (count($data) > 0) {
             $html .= $this->element->createSimpleDropdown("_VIEW_", $data, "id", "name", $viewId, $event);
+            $html .= "<br><br>";
         }
 
         return $html;
