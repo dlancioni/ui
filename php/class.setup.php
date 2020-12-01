@@ -150,15 +150,22 @@
             global $tableName;
             global $total;
             $model = new Model($this->systemId, $this->groupId);
+
+            // Menus
+            $MENU_ADM = 101;
+            $MENU_SYS = 102;
+            $MENU_AC = 103;
+            $MENU_CAD = 104;            
             
             try {
 
                 // Define table name
                 $tableName = "tb_menu";
                 $this->execute($cn, $model->addMenu("Administração", 0, 1));
-                $this->execute($cn, $model->addMenu("Controle de Acesso", 0, 2));
-                $this->execute($cn, $model->addMenu("Cadastros", 0, 3));
-                
+                $this->execute($cn, $model->addMenu("Sistema", $MENU_ADM, 2));
+                $this->execute($cn, $model->addMenu("Controle de Acesso", $MENU_ADM, 3));
+                $this->execute($cn, $model->addMenu("Cadastros", $MENU_ADM, 4));
+
                 // Define table name
                 $tableName = "tb_table";
 
@@ -169,21 +176,16 @@
                 $TYPE_SYSTEM = 1;
                 $TYPE_USER = 2;
 
-                // Menus
-                $MENU_ADM = 101;
-                $MENU_AC = 102;
-                $MENU_CAD = 103;
-
                 // CORE
-                $this->TB_MENU = $this->execute($cn, $model->addTable("tb_menu", "Menus", $TYPE_SYSTEM, $MENU_ADM));
-                $this->TB_TABLE = $this->execute($cn, $model->addTable("tb_table", "Tabelas", $TYPE_SYSTEM, $MENU_ADM));
-                $this->TB_FIELD = $this->execute($cn, $model->addTable("tb_field", "Campos", $TYPE_SYSTEM, $MENU_ADM));
-                $this->TB_DOMAIN = $this->execute($cn, $model->addTable( "tb_domain", "Domínios", $TYPE_SYSTEM, $MENU_ADM));
-                $this->TB_EVENT = $this->execute($cn, $model->addTable("tb_event", "Eventos", $TYPE_SYSTEM, $MENU_ADM));
-                $this->TB_FUNCTION = $this->execute($cn, $model->addTable("tb_function", "Funções", $TYPE_SYSTEM, $MENU_ADM));
-                $this->TB_CODE = $this->execute($cn, $model->addTable("tb_code", "Programação", $TYPE_SYSTEM, $MENU_ADM));
-                $this->TB_VIEW = $this->execute($cn, $model->addTable("tb_view","Visão", $TYPE_SYSTEM,  $MENU_ADM));
-                $this->TB_VIEW_FIELD = $this->execute($cn, $model->addTable("tb_view_field", "Visão x Campos", $TYPE_SYSTEM, $MENU_ADM));
+                $this->TB_MENU = $this->execute($cn, $model->addTable("tb_menu", "Menus", $TYPE_SYSTEM, $MENU_SYS));
+                $this->TB_TABLE = $this->execute($cn, $model->addTable("tb_table", "Tabelas", $TYPE_SYSTEM, $MENU_SYS));
+                $this->TB_FIELD = $this->execute($cn, $model->addTable("tb_field", "Campos", $TYPE_SYSTEM, $MENU_SYS));
+                $this->TB_DOMAIN = $this->execute($cn, $model->addTable( "tb_domain", "Domínios", $TYPE_SYSTEM, $MENU_SYS));
+                $this->TB_EVENT = $this->execute($cn, $model->addTable("tb_event", "Eventos", $TYPE_SYSTEM, $MENU_SYS));
+                $this->TB_FUNCTION = $this->execute($cn, $model->addTable("tb_function", "Funções", $TYPE_SYSTEM, $MENU_SYS));
+                $this->TB_CODE = $this->execute($cn, $model->addTable("tb_code", "Programação", $TYPE_SYSTEM, $MENU_SYS));
+                $this->TB_VIEW = $this->execute($cn, $model->addTable("tb_view","Visão", $TYPE_SYSTEM,  $MENU_SYS));
+                $this->TB_VIEW_FIELD = $this->execute($cn, $model->addTable("tb_view_field", "Visão x Campos", $TYPE_SYSTEM, $MENU_SYS));
 
                 // ACCESS CONTROL
                 $this->TB_PROFILE = $this->execute($cn, $model->addTable("tb_profile", "Perfil", $TYPE_SYSTEM, $MENU_AC));

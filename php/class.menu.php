@@ -68,7 +68,11 @@
                 if (is_array($v)) {
                     if (isset($v["children"])) {
                         if (count($v["children"]) > 0) {
-                            $this->append($this->addMenu($v["name"]));
+                            if (trim($v["id_parent"]) == "0") {
+                                $this->append($this->addMenu($v["name"]));
+                            } else {
+                                $this->append($this->addSubMenu($v["name"]));
+                            }
                         }
                     }
                     $this->writeTree($v);
@@ -83,17 +87,43 @@
         }
 
         /*
-         * Create main menu
+         * Create root level (no parent)
          */
         private function addMenu($label) {
 
+            // General Declaration
             $html = "";
             $stringUtil = new StringUtil();
+            $lb = $stringUtil->lb();
 
-            $html .= "<li class=" . $stringUtil->dqt("nav-item dropdown") . ">";
-            $html .= "<a class=". $stringUtil->dqt("nav-link dropdown-toggle") . " href=" . $stringUtil->dqt("#") . "id=". $stringUtil->dqt("menu") ." data-toggle=" . $stringUtil->dqt("dropdown") . ">" . trim($label) . "</a>";
-            $html .= "<div class=" . $stringUtil->dqt("dropdown-menu") . " aria-labelledby=" . $stringUtil->dqt("menu") .">";
-            
+            // Create menu item
+            $html .= "<li class='nav-item dropdown'>" . $lb;
+            $html .= "<a class='nav-link dropdown-toggle' tabindex='0' data-toggle='dropdown' data-submenu>$label</a>" . $lb;
+            $html .= "<div class='dropdown-menu'>" . $lb;
+            $html .= "<div class='dropdown dropright dropdown-submenu'>" . $lb;
+
+            // Just return it
+            return $html;
+        }
+
+
+        /*
+         * Create main menu
+         */
+        private function addSubMenu($label) {
+
+            // General Declaration
+            $html = "";
+            $stringUtil = new StringUtil();
+            $lb = $stringUtil->lb();
+
+            // Create menu item
+            $html .= "</div>" . $lb;
+            $html .= "<div class='dropdown dropright dropdown-submenu'>" . $lb;
+            $html .= "<button class='dropdown-item dropdown-toggle' type='button'>$label</button>" . $lb;
+            $html .= "<div class='dropdown-menu'>" . $lb;
+
+            // Just return it
             return $html;
         }
 
@@ -102,9 +132,15 @@
          */
         private function addMenuItem($id, $label) {
 
+            // General Declaration
             $html = "";
-            $jsonUtil = new JsonUtil();
-            $html .= "<a class='dropdown-item' href='#' onclick='go(" . $id . ", 1)'>" . $label . "</a>";
+            $stringUtil = new StringUtil();
+            $lb = $stringUtil->lb();
+
+            // Create menu item
+            $html .= "<button class='dropdown-item' type='button' onclick='go($id, 1)'>$label</button>" . $lb;
+
+            // Just return it
             return $html;
         }
 
@@ -159,8 +195,9 @@
                         $sql .= " from tb_table";
                         $sql .= " where (field->>'id_system')::text = " . "'" . $systemId . "'";
                     $sql .= " )";
+                    $sql .= " or (tb_menu.field->>'id_parent')::int = 0";                    
                 $sql .= " ) tb";
-                $sql .= " order by 1";
+                $sql .= " order by 2";
 
                 // Execute query
                 $rs = $db->queryJson($this->cn, $sql);

@@ -50,11 +50,7 @@
 </div>
 
 
-
-
-
-
-
+<!-- Temp -->
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <a class="navbar-brand">Forms</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse">
@@ -82,12 +78,15 @@
             <div class="dropdown-menu">
                 <button class="dropdown-item" type="button">PF</button>
                 <button class="dropdown-item" type="button">PJ</button>
-
-
-
     </div>
 </nav>
-<script>
+<!-- Temp -->
 
+
+
+
+
+
+<script>
 $('[data-submenu]').submenupicker();
 </script>
