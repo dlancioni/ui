@@ -75,10 +75,6 @@
                             if (trim($v["id_parent"]) == "0") {
                                 $this->append($this->addMenu($v["name"]));
                             } else {
-
-
-
-
                                 $this->append($this->addSubMenu($v["name"]));
                             }
                         }
@@ -211,7 +207,7 @@
                     $sql .= " )" . $lb;
                     $sql .= " or (tb_menu.field->>'id_parent')::int = 0" . $lb;
                 $sql .= " ) tb" . $lb;
-                $sql .= " order by 2" . $lb;
+                $sql .= " order by id_parent, id" . $lb;
 
                 // Keeep query to log
                 $this->lastQuery = $sql;

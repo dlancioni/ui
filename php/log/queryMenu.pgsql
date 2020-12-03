@@ -1,4 +1,3 @@
-set search_path to s20201;
  select * from
  (
  select
@@ -27,4 +26,4 @@ set search_path to s20201;
  )
  or (tb_menu.field->>'id_parent')::int = 0
  ) tb
- order by 2
+ order by id_parent, id
