@@ -37,13 +37,16 @@
 
             $path = "";
             $os = new OS();
+            $path = realpath('.');
 
             try {
 
                 if ($os->getOS() == $os->WINDOWS) {
-                    $path = realpath('.') . "\\php\\log\\" . $fileName; // Windows
+                    $path = str_replace("\\php", "", $path);
+                    $path = $path . "\\php\\log\\" . $fileName; // Windows
                 } else {
-                    $path = realpath('.') . "/php/log/" . $fileName; // Linux
+                    $path = str_replace("/php", "", $path);
+                    $path = $path . "/php/log/" . $fileName; // Linux
                 }
 
             } catch (Exception $ex) {

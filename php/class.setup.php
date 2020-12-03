@@ -164,7 +164,7 @@
                 $this->execute($cn, $model->addMenu("Administração", 0, 1));
                 $this->execute($cn, $model->addMenu("Sistema", $MENU_ADM, 2));
                 $this->execute($cn, $model->addMenu("Controle de Acesso", $MENU_ADM, 3));
-                $this->execute($cn, $model->addMenu("Cadastros", $MENU_ADM, 4));
+                //$this->execute($cn, $model->addMenu("Cadastros", $MENU_ADM, 4));
 
                 // Define table name
                 $tableName = "tb_table";
@@ -197,12 +197,14 @@
                 $this->TB_USER_GROUP = $this->execute($cn, $model->addTable("tb_user_group", "Usuários x Grupos", $TYPE_SYSTEM, $MENU_AC));
 
                 // CLIENTES
+                /*
                 $this->TB_CUSTOMER = $this->execute($cn, $model->addTable("tb_customer", "Clientes", $TYPE_USER, $MENU_CAD));
                 $this->TB_ADDRESS = $this->execute($cn, $model->addTable("tb_address", "Endereços", $TYPE_USER, $MENU_CAD));
                 $this->TB_CONTACT = $this->execute($cn, $model->addTable("tb_contact", "Contatos", $TYPE_USER, $MENU_CAD));
                 $this->TB_ACTIVITY = $this->execute($cn, $model->addTable("tb_activity", "Atividades", $TYPE_USER, $MENU_CAD));
                 $this->TB_RELATIONSHIP = $this->execute($cn, $model->addTable("tb_relationship", "Relacionamento", $TYPE_USER, $MENU_CAD));
                 $this->TB_FILE = $this->execute($cn, $model->addTable("tb_file", "Arquivos", $TYPE_USER, $MENU_CAD));
+                */
                
             } catch (Exception $ex) {
                 throw $ex;

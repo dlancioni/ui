@@ -50,7 +50,7 @@
 </div>
 
 
-<!-- Temp -->
+<!-- Temp 
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <a class="navbar-brand">Forms</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse">
@@ -60,13 +60,12 @@
         <ul class="navbar-nav mr-auto">
 
 
-            <!-- Parent = 0 -->
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" tabindex="0" data-toggle="dropdown" data-submenu>Cadastros</a>
                 <div class="dropdown-menu">
                     <button class="dropdown-item" type="button">Clientes</button>
 
-            <!-- Parent > 0 -->
+
             <div class="dropdown dropright dropdown-submenu">                   
             <button class="dropdown-item dropdown-toggle" type="button">Entidades</button>
             <div class="dropdown-menu">
@@ -80,7 +79,7 @@
                 <button class="dropdown-item" type="button">PJ</button>
     </div>
 </nav>
-<!-- Temp -->
+ -->
 
 
 

@@ -20,11 +20,15 @@
             // General Declaration            
             $rs = "";
             $tree = "";
+            $logUtil = new LogUtil();
 
             try {
 
                 // Get transactions applying access control
                 $rs = $this->getData($systemId, $userId);
+
+                // Log query
+                $logUtil->log("queryMenu.pgsql", $this->lastQuery);
 
                 // Data to treeview
                 $tree = $this->prepareTree($rs);
@@ -71,6 +75,10 @@
                             if (trim($v["id_parent"]) == "0") {
                                 $this->append($this->addMenu($v["name"]));
                             } else {
+
+
+
+
                                 $this->append($this->addSubMenu($v["name"]));
                             }
                         }
@@ -122,7 +130,7 @@
             $lb = $stringUtil->lb();
 
             // Create menu item
-            $html .= "</div>" . $lb;
+            //$html .= "</div>" . $lb;
             $html .= "<div class='dropdown dropright dropdown-submenu'>" . $lb;
             $html .= "<button class='dropdown-item dropdown-toggle' type='button'>$label</button>" . $lb;
             $html .= "<div class='dropdown-menu'>" . $lb;
@@ -164,44 +172,49 @@
             $rs = "";
             $sql = "";
             $db = new Db();
+            $stringUtil = new StringUtil();
+            $lb = $stringUtil->lb();                        
 
             try {
 
                 // Query menus and modules
-                $sql .= " select * from";
-                $sql .= " (";
+                $sql .= " select * from" . $lb;
+                $sql .= " (" . $lb;
 
                     // Modules
-                    $sql .= " select";
-                    $sql .= " tb_table.id,";
-                    $sql .= " (tb_table.field->>'id_menu')::int as id_parent,";
-                    $sql .= " tb_table.field->>'title' as name";
-                    $sql .= " from tb_table";
-                    $sql .= " inner join tb_profile_table on (tb_profile_table.field->>'id_table')::int = tb_table.id";
-                    $sql .= " inner join tb_profile on (tb_profile_table.field->>'id_profile')::int = tb_profile.id";
-                    $sql .= " inner join tb_user_profile on (tb_user_profile.field->>'id_profile')::int = tb_profile.id";
-                    $sql .= " where (tb_table.field->>'id_system')::text = " . "'" . $systemId . "'";
-                    $sql .= " and (tb_user_profile.field->>'id_user')::int = " . $userId;
+                    $sql .= " select" . $lb;
+                    $sql .= " tb_table.id," . $lb;
+                    $sql .= " (tb_table.field->>'id_menu')::int as id_parent," . $lb;
+                    $sql .= " tb_table.field->>'title' as name" . $lb;
+                    $sql .= " from tb_table" . $lb;
+                    $sql .= " inner join tb_profile_table on (tb_profile_table.field->>'id_table')::int = tb_table.id" . $lb;
+                    $sql .= " inner join tb_profile on (tb_profile_table.field->>'id_profile')::int = tb_profile.id" . $lb;
+                    $sql .= " inner join tb_user_profile on (tb_user_profile.field->>'id_profile')::int = tb_profile.id" . $lb;
+                    $sql .= " where (tb_table.field->>'id_system')::text = " . "'" . $systemId . "'" . $lb;
+                    $sql .= " and (tb_user_profile.field->>'id_user')::int = " . $userId . $lb;
 
-                    $sql .= " union";
+                    $sql .= " union" . $lb;
                     
                     // Menus within transactions
-                    $sql .= " select"; 
-                    $sql .= " tb_menu.id,";
-                    $sql .= " (field->>'id_parent')::int as id_parent,";
-                    $sql .= " (field->>'name')::text as name";
-                    $sql .= " from tb_menu";
-                    $sql .= " where (field->>'id_system')::text = " . "'" . $systemId . "'";
-                    $sql .= " and tb_menu.id in"; 
-                    $sql .= " (";
-                        $sql .= " select"; 
-                        $sql .= " (field->>'id_menu')::int";
-                        $sql .= " from tb_table";
-                        $sql .= " where (field->>'id_system')::text = " . "'" . $systemId . "'";
-                    $sql .= " )";
-                    $sql .= " or (tb_menu.field->>'id_parent')::int = 0";                    
-                $sql .= " ) tb";
-                $sql .= " order by 2";
+                    $sql .= " select" . $lb;
+                    $sql .= " tb_menu.id," . $lb;
+                    $sql .= " (field->>'id_parent')::int as id_parent," . $lb;
+                    $sql .= " (field->>'name')::text as name" . $lb;
+                    $sql .= " from tb_menu" . $lb;
+                    $sql .= " where (field->>'id_system')::text = " . "'" . $systemId . "'" . $lb;
+                    $sql .= " and tb_menu.id in" . $lb;
+                    $sql .= " (" . $lb;
+                        $sql .= " select" . $lb;
+                        $sql .= " (field->>'id_menu')::int" . $lb;
+                        $sql .= " from tb_table" . $lb;
+                        $sql .= " where (field->>'id_system')::text = " . "'" . $systemId . "'" . $lb;
+                    $sql .= " )" . $lb;
+                    $sql .= " or (tb_menu.field->>'id_parent')::int = 0" . $lb;
+                $sql .= " ) tb" . $lb;
+                $sql .= " order by 2" . $lb;
+
+                // Keeep query to log
+                $this->lastQuery = $sql;
 
                 // Execute query
                 $rs = $db->queryJson($this->cn, $sql);
@@ -209,7 +222,7 @@
             } catch (Exception $ex) {
 
                 // Set error
-                $this->setError("QueryBuilder.getTableDef()", $ex->getMessage());
+                $this->setError("LogicMenu.getData()", $ex->getMessage());
             }
 
             // Return data
