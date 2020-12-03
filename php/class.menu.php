@@ -68,7 +68,10 @@
             // General Declaration
             $id = 0;
 
+            // Write top menu based on parent structure
             foreach($array as $k => $v) {
+
+                // Identify menu heads
                 if (is_array($v)) {
                     if (isset($v["children"])) {
                         if (count($v["children"]) > 0) {
@@ -83,14 +86,19 @@
                     continue;
                 }
 
-                if ($k == "id") 
-                    $id = $v; // temporario
+                // Keep current id
+                if ($k == "id") {
+                    $id = $v;
+                }
 
-                if ($k == "name" && $array["id_parent"] != "0") { 
-                    if (!isset($array["children"])) {
-                        $this->append($this->addMenuItem($id, $v));
+                // Write single item
+                if ($array["id_parent"] != 0) {
+                    if ($k == "name") { 
+                        if (!isset($array["children"])) {
+                            $this->append($this->addMenuItem($id, $v));
+                        }
                     }
-                }    
+                }
             }
         }
 
@@ -126,7 +134,7 @@
             $lb = $stringUtil->lb();
 
             // Create menu item
-            //$html .= "</div>" . $lb;
+            $html .= "</div>" . $lb;
             $html .= "<div class='dropdown dropright dropdown-submenu'>" . $lb;
             $html .= "<button class='dropdown-item dropdown-toggle' type='button'>$label</button>" . $lb;
             $html .= "<div class='dropdown-menu'>" . $lb;
