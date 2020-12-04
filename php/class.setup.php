@@ -173,7 +173,7 @@
                 $this->TB_FIELD = $this->execute($cn, $model->addTable("tb_field", "Campos", $TYPE_SYSTEM, $MENU_SYS));
                 $this->TB_DOMAIN = $this->execute($cn, $model->addTable( "tb_domain", "Domínios", $TYPE_SYSTEM, $MENU_SYS));
                 $this->TB_EVENT = $this->execute($cn, $model->addTable("tb_event", "Eventos", $TYPE_SYSTEM, $MENU_SYS));
-                $this->TB_ACTION = $this->execute($cn, $model->addTable("tb_action", "Funções", $TYPE_SYSTEM, $MENU_SYS));
+                $this->TB_ACTION = $this->execute($cn, $model->addTable("tb_action", "Ações", $TYPE_SYSTEM, $MENU_SYS));
                 $this->TB_CODE = $this->execute($cn, $model->addTable("tb_code", "Programação", $TYPE_SYSTEM, $MENU_SYS));
                 $this->TB_VIEW = $this->execute($cn, $model->addTable("tb_view","Visão", $TYPE_SYSTEM,  $MENU_SYS));
                 $this->TB_VIEW_FIELD = $this->execute($cn, $model->addTable("tb_view_field", "Visão x Campos", $TYPE_SYSTEM, $MENU_SYS));
