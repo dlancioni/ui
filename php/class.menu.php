@@ -6,6 +6,7 @@
         private $sqlBuilder = 0;
         private $count = 0;
         private $total = 0;
+        private $level = 0;
 
         // Public members
         public $html = "";        
@@ -85,6 +86,7 @@
                             if (count($v["children"]) > 0) {
                                 if (trim($v["id_parent"]) == "0") {
                                     $this->append($this->addMenu($v["name"]));
+                                    $this->level = 2;
                                 } else {
 
                                     // Control menu breaks
@@ -94,6 +96,8 @@
                                         if (isset($v["children"])) {
                                             $this->total = count($v["children"]);
                                         }
+                                    } else {
+                                        $this->level ++;
                                     }
 
                                     // Add html menu
@@ -121,7 +125,7 @@
                                 // Add menu break;
                                 $this->count ++;
                                 if ($this->total == $this->count) {
-                                    $this->append("</div>");
+                                    $this->append(str_repeat("</div>", $this->level));
                                 }
 
                             }

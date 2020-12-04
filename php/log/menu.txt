@@ -24,7 +24,7 @@
 <button class='dropdown-item' type='button' onclick='go(14, 1)'>Usuários x Pefil</button>
 <button class='dropdown-item' type='button' onclick='go(15, 1)'>Grupos</button>
 <button class='dropdown-item' type='button' onclick='go(16, 1)'>Usuários x Grupos</button>
-</div></div><div class='dropdown dropright dropdown-submenu'>
+</div></div></div><div class='dropdown dropright dropdown-submenu'>
 <button class='dropdown-item dropdown-toggle' type='button'>Cadastros</button>
 <div class='dropdown-menu'>
 <button class='dropdown-item' type='button' onclick='go(17, 1)'>Clientes</button>
@@ -33,4 +33,4 @@
 <button class='dropdown-item' type='button' onclick='go(20, 1)'>Atividades</button>
 <button class='dropdown-item' type='button' onclick='go(21, 1)'>Relacionamento</button>
 <button class='dropdown-item' type='button' onclick='go(22, 1)'>Arquivos</button>
-</div></div>
+</div></div></div>
