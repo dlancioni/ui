@@ -119,14 +119,6 @@
                 array_push($table, "tb_user_profile");
                 array_push($table, "tb_user_group");
                 
-                // User
-                array_push($table, "tb_customer");
-                array_push($table, "tb_address");
-                array_push($table, "tb_contact");
-                array_push($table, "tb_activity");
-                array_push($table, "tb_relationship");
-                array_push($table, "tb_file");
-
                 for ($i=0; $i<=count($table)-1; $i++) {
                     $tableName = $table[$i];
                     pg_query($cn, "drop table if exists $tableName cascade;");
@@ -161,16 +153,15 @@
 
                 // Define table name
                 $tableName = "tb_menu";
-                $this->execute($cn, $model->addMenu("Administração", 0, 1));
-                $this->execute($cn, $model->addMenu("Sistema", $MENU_ADM, 2));
-                $this->execute($cn, $model->addMenu("Controle de Acesso", $MENU_ADM, 3));
-                $this->execute($cn, $model->addMenu("Cadastros", $MENU_ADM, 4));
+                $this->execute($cn, $model->addMenu("Administração", 0));
+                $this->execute($cn, $model->addMenu("Sistema", $MENU_ADM));
+                $this->execute($cn, $model->addMenu("Controle de Acesso", $MENU_ADM));
 
                 // Define table name
                 $tableName = "tb_table";
 
                 // Count control
-                $total = 23;
+                $total = 16;
 
                 // System or User
                 $TYPE_SYSTEM = 1;
@@ -195,14 +186,6 @@
                 $this->TB_USER_PROFILE = $this->execute($cn, $model->addTable("tb_user_profile", "Usuários x Pefil", $TYPE_SYSTEM, $MENU_AC));
                 $this->TB_GROUP = $this->execute($cn, $model->addTable("tb_group", "Grupos", $TYPE_SYSTEM, $MENU_AC));                
                 $this->TB_USER_GROUP = $this->execute($cn, $model->addTable("tb_user_group", "Usuários x Grupos", $TYPE_SYSTEM, $MENU_AC));
-
-                // CLIENTES
-                $this->TB_CUSTOMER = $this->execute($cn, $model->addTable("tb_customer", "Clientes", $TYPE_USER, $MENU_CAD));
-                $this->TB_ADDRESS = $this->execute($cn, $model->addTable("tb_address", "Endereços", $TYPE_USER, $MENU_CAD));
-                $this->TB_CONTACT = $this->execute($cn, $model->addTable("tb_contact", "Contatos", $TYPE_USER, $MENU_CAD));
-                $this->TB_ACTIVITY = $this->execute($cn, $model->addTable("tb_activity", "Atividades", $TYPE_USER, $MENU_CAD));
-                $this->TB_RELATIONSHIP = $this->execute($cn, $model->addTable("tb_relationship", "Relacionamento", $TYPE_USER, $MENU_CAD));
-                $this->TB_FILE = $this->execute($cn, $model->addTable("tb_file", "Arquivos", $TYPE_USER, $MENU_CAD));
                
             } catch (Exception $ex) {
                 throw $ex;
@@ -235,7 +218,6 @@
                 $seq = 0;
                 $this->execute($cn, $model->addField($this->TB_MENU, "Nome", "name", $this->TYPE_TEXT, 50, "", $yes, $no, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
                 $this->execute($cn, $model->addField($this->TB_MENU, "Parent", "id_parent", $this->TYPE_INT, 0, "", $no, $no, $this->tb("tb_menu"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_MENU, "Ordem", "order", $this->TYPE_INT, 0, "", $yes, $yes, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
 
                 // tb_view
                 $seq = 0;
@@ -330,49 +312,6 @@
                 $this->execute($cn, $model->addField($this->TB_USER_GROUP, "Usuário", "id_user", $this->TYPE_INT, 0, "", $yes, $no, $this->tb("tb_user"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
                 $this->execute($cn, $model->addField($this->TB_USER_GROUP, "Grupo", "id_grp", $this->TYPE_INT, 0, "", $yes, $no, $this->tb("tb_group"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
 
-                // tb_customer
-                $seq = 0;
-                $this->execute($cn, $model->addField($this->TB_CUSTOMER, "Nome", "name", $this->TYPE_TEXT, 50, "", $yes, $yes, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_CUSTOMER, "Tipo de Pessoa", "person_type", $this->TYPE_INT, 0, "", $yes, $yes, $this->tb("tb_domain"), $this->fd("value"), "tb_person_type", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_CUSTOMER, "Tipo de Cliente", "client_type", $this->TYPE_TEXT, 50, "", $yes, $no, $this->tb("tb_domain"), $this->fd("value"), "tb_client_type", "", $this->INPUT_DROPDOWN, ++$seq));
-
-                // tb_address
-                $seq = 0;
-                $this->execute($cn, $model->addField($this->TB_ADDRESS, "Cliente", "id_client", $this->TYPE_INT, 0, "", $yes, $yes, $this->tb("tb_customer"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_ADDRESS, "Tipo", "address_type", $this->TYPE_INT, 0, "", $yes, $yes, $this->tb("tb_domain"), $this->fd("value"), "tb_address_type", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_ADDRESS, "Logradouro", "street", $this->TYPE_TEXT, 200, "", $yes, $no, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_ADDRESS, "Numero", "number", $this->TYPE_TEXT, 10, "", $yes, $no, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_ADDRESS, "Compl.", "extra", $this->TYPE_TEXT, 10, "", $no, $no, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_ADDRESS, "Estado", "state", $this->TYPE_TEXT, 10, "", $yes, $no, $this->tb("tb_domain"), $this->fd("value"), "tb_state", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_ADDRESS, "Cidade", "city", $this->TYPE_TEXT, 500, "", $yes, $no, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_ADDRESS, "Bairro", "neighborhood", $this->TYPE_TEXT, 500, "", $no, $no, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
-
-                // tb_contact
-                $seq = 0;
-                $this->execute($cn, $model->addField($this->TB_CONTACT, "Cliente", "id_client", $this->TYPE_INT, 0, "", $yes, $yes, $this->tb("tb_customer"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_CONTACT, "Tipo", "contact_type", $this->TYPE_INT, 0, "", $yes, $yes, $this->tb("tb_domain"), $this->fd("value"), "tb_contact_type", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_CONTACT, "Valor", "value", $this->TYPE_TEXT, 50, "", $yes, $yes, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_CONTACT, "Nota", "description", $this->TYPE_TEXT, 50, "", $no, $no, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
-                
-                // tb_activity
-                $seq = 0;
-                $this->execute($cn, $model->addField($this->TB_ACTIVITY, "Descrição", "description", $this->TYPE_TEXT, 50, "", $yes, $yes, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
-
-                // tb_relationship
-                $seq = 0;
-                $this->execute($cn, $model->addField($this->TB_RELATIONSHIP, "Cliente", "id_client", $this->TYPE_INT, 0, "", $yes, $no, $this->tb("tb_customer"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_RELATIONSHIP, "Atividade", "id_activity", $this->TYPE_INT, 0, "", $yes, $no, $this->tb("tb_activity"), $this->fd("description"), "", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_RELATIONSHIP, "Data", "date", $this->TYPE_DATE, 0, "dd/mm/yyyy", $no, $no, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_RELATIONSHIP, "Custo", "cost", $this->TYPE_FLOAT, 0, "", $no, $no, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_RELATIONSHIP, "Comentário", "comment", $this->TYPE_TEXT, 10000, "", $yes, $no, 0, 0, "", "", $this->INPUT_TEXTAREA, ++$seq));
-                
-                // tb_file
-                $seq = 0;
-                $this->execute($cn, $model->addField($this->TB_FILE, "Cliente", "id_client", $this->TYPE_INT, 0, "", $yes, $no, $this->tb("tb_customer"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_FILE, "Nome", "file_name", $this->TYPE_TEXT, 50, "", $yes, $no, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_FILE, "Descrição", "description", $this->TYPE_TEXT, 100, "", $yes, $no, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_FILE, "Arquivo", "file", $this->TYPE_BINARY, 0, "", $no, $no, 0, 0, "", "", $this->INPUT_FILE, ++$seq));
-
             } catch (Exception $ex) {
                 throw $ex;
             }
@@ -463,50 +402,6 @@
                 $this->execute($cn, $model->addDomain($this->groupId, "4", "Maior igual", "tb_operator"));
                 $this->execute($cn, $model->addDomain($this->groupId, "5", "Menor", "tb_operator"));
                 $this->execute($cn, $model->addDomain($this->groupId, "6", "Menor igual", "tb_operator"));
-
-                // person type
-                $this->execute($cn, $model->addDomain($this->public, "1", "Física", "tb_person_type"));
-                $this->execute($cn, $model->addDomain($this->public, "2", "Jurídica", "tb_person_type"));
-
-                // client type
-                $this->execute($cn, $model->addDomain($this->public, "1", "Cliente", "tb_client_type"));
-                $this->execute($cn, $model->addDomain($this->public, "2", "Prospect", "tb_client_type"));
-
-                // address type
-                $this->execute($cn, $model->addDomain($this->public, "1", "Residencial", "tb_address_type"));
-                $this->execute($cn, $model->addDomain($this->public, "2", "Comercial", "tb_address_type"));
-
-                // contact type
-                $this->execute($cn, $model->addDomain($this->public, "1", "Email", "tb_contact_type"));
-                $this->execute($cn, $model->addDomain($this->public, "2", "Telefone", "tb_contact_type"));
-
-                // States
-                $this->execute($cn, $model->addDomain($this->public, "1", "AC", "tb_state"));
-                $this->execute($cn, $model->addDomain($this->public, "2", "AL", "tb_state"));
-                $this->execute($cn, $model->addDomain($this->public, "3", "AP", "tb_state"));
-                $this->execute($cn, $model->addDomain($this->public, "4", "AM", "tb_state"));
-                $this->execute($cn, $model->addDomain($this->public, "5", "BA", "tb_state"));
-                $this->execute($cn, $model->addDomain($this->public, "6", "CE", "tb_state"));
-                $this->execute($cn, $model->addDomain($this->public, "7", "ES", "tb_state"));
-                $this->execute($cn, $model->addDomain($this->public, "8", "GO", "tb_state"));
-                $this->execute($cn, $model->addDomain($this->public, "9", "MA", "tb_state"));
-                $this->execute($cn, $model->addDomain($this->public, "10", "MT", "tb_state"));
-                $this->execute($cn, $model->addDomain($this->public, "11", "MS", "tb_state"));
-                $this->execute($cn, $model->addDomain($this->public, "12", "MG", "tb_state"));
-                $this->execute($cn, $model->addDomain($this->public, "13", "PA", "tb_state"));
-                $this->execute($cn, $model->addDomain($this->public, "14", "PB", "tb_state"));
-                $this->execute($cn, $model->addDomain($this->public, "15", "PR", "tb_state"));
-                $this->execute($cn, $model->addDomain($this->public, "16", "PE", "tb_state"));
-                $this->execute($cn, $model->addDomain($this->public, "17", "PI", "tb_state"));
-                $this->execute($cn, $model->addDomain($this->public, "18", "RJ", "tb_state"));
-                $this->execute($cn, $model->addDomain($this->public, "19", "RN", "tb_state"));
-                $this->execute($cn, $model->addDomain($this->public, "20", "RS", "tb_state"));
-                $this->execute($cn, $model->addDomain($this->public, "21", "RO", "tb_state"));
-                $this->execute($cn, $model->addDomain($this->public, "22", "SC", "tb_state"));
-                $this->execute($cn, $model->addDomain($this->public, "23", "SP", "tb_state"));
-                $this->execute($cn, $model->addDomain($this->public, "24", "SE", "tb_state"));
-                $this->execute($cn, $model->addDomain($this->public, "25", "TO", "tb_state"));
-                $this->execute($cn, $model->addDomain($this->public, "26", "DF", "tb_state"));
                 
             } catch (Exception $ex) {
                 throw $ex;
@@ -552,7 +447,6 @@
                 throw $ex;
             }
         }
-
 
         /*
         * Create function
@@ -737,21 +631,6 @@
                 $this->execute($cn, $model->addProfileTable($ADMIN, $this->TB_GROUP));
                 $this->execute($cn, $model->addProfileTable($ADMIN, $this->TB_USER_GROUP));
 
-                $this->execute($cn, $model->addProfileTable($ADMIN, $this->TB_CUSTOMER));
-                $this->execute($cn, $model->addProfileTable($ADMIN, $this->TB_ADDRESS));
-                $this->execute($cn, $model->addProfileTable($ADMIN, $this->TB_CONTACT));
-                $this->execute($cn, $model->addProfileTable($ADMIN, $this->TB_ACTIVITY));
-                $this->execute($cn, $model->addProfileTable($ADMIN, $this->TB_RELATIONSHIP));
-                $this->execute($cn, $model->addProfileTable($ADMIN, $this->TB_FILE));
-
-                // PUBLIC
-                $this->execute($cn, $model->addProfileTable($PUBLIC, $this->TB_CUSTOMER));
-                $this->execute($cn, $model->addProfileTable($PUBLIC, $this->TB_ADDRESS));
-                $this->execute($cn, $model->addProfileTable($PUBLIC, $this->TB_CONTACT));
-                $this->execute($cn, $model->addProfileTable($PUBLIC, $this->TB_ACTIVITY));
-                $this->execute($cn, $model->addProfileTable($PUBLIC, $this->TB_RELATIONSHIP));
-                $this->execute($cn, $model->addProfileTable($PUBLIC, $this->TB_FILE));
-
             } catch (Exception $ex) {
                 throw $ex;
             }
@@ -794,23 +673,11 @@
                         $this->execute($cn, $model->addTableFunction($ADMIN, $i, $j));
                     }
                 }
-
-                // PUBLIC
-                for ($j=1; $j<=7; $j++) {
-                    $this->execute($cn, $model->addTableFunction($PUBLIC, $this->TB_CUSTOMER, $j));
-                    $this->execute($cn, $model->addTableFunction($PUBLIC, $this->TB_ADDRESS, $j));
-                    $this->execute($cn, $model->addTableFunction($PUBLIC, $this->TB_CONTACT, $j));
-
-                    $this->execute($cn, $model->addTableFunction($PUBLIC, $this->TB_ACTIVITY, $j));
-                    $this->execute($cn, $model->addTableFunction($PUBLIC, $this->TB_RELATIONSHIP, $j));
-                    $this->execute($cn, $model->addTableFunction($PUBLIC, $this->TB_FILE, $j));
-                }                
-                
+               
             } catch (Exception $ex) {
                 throw $ex;
             }
         }
-
 
         /*
         * Create code
@@ -834,7 +701,7 @@
             }
         }
 
-        /*
+       /*
         * Create view
         */
         private function createView($cn) {
@@ -850,7 +717,7 @@
                 $tableName = "tb_view";
 
                 // View to transaction
-                $this->execute($cn, $model->addView("Demo", "select count(*) as name from tb_customer"));
+                //$this->execute($cn, $model->addView("Demo", "select count(*) as name from tb_customer"));
                 
             } catch (Exception $ex) {
                 throw $ex;

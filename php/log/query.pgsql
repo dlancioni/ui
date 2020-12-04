@@ -5,7 +5,6 @@ tb_menu.id
 , (tb_menu.field->>'name')::text as name
 , (tb_menu.field->>'id_parent')::int as id_parent
 , (tb_menu_id_parent.field->>'name')::text as "parent"
-, (tb_menu.field->>'order')::int as order
  from tb_menu
  left join tb_menu tb_menu_id_parent on (tb_menu.field->>'id_parent')::text = (tb_menu_id_parent.id)::text
  where (tb_menu.field->>'id_system')::text = 'S20201'

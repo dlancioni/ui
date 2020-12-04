@@ -32,7 +32,7 @@
             return $json;
         }
 
-        public function addMenu($name, $id_parent, $order) {
+        public function addMenu($name, $id_parent) {
 
             // General Declaration
             $json = "";
@@ -45,7 +45,6 @@
             // Create record        
             $json = $jsonUtil->setValue($json, "name", $name);
             $json = $jsonUtil->setValue($json, "id_parent", $id_parent);
-            $json = $jsonUtil->setValue($json, "order", $order);
 
             // Return final json
             return $json;
