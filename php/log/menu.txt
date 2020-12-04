@@ -6,7 +6,7 @@
 <button class='dropdown-item dropdown-toggle' type='button'>Sistema</button>
 <div class='dropdown-menu'>
 <button class='dropdown-item' type='button' onclick='go(1, 1)'>Menus</button>
-<button class='dropdown-item' type='button' onclick='go(2, 1)'>Tabelas</button>
+<button class='dropdown-item' type='button' onclick='go(2, 1)'>Módulos</button>
 <button class='dropdown-item' type='button' onclick='go(3, 1)'>Campos</button>
 <button class='dropdown-item' type='button' onclick='go(4, 1)'>Domínios</button>
 <button class='dropdown-item' type='button' onclick='go(5, 1)'>Eventos</button>
