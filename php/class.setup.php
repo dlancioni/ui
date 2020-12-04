@@ -107,7 +107,7 @@
                 array_push($table, "tb_field");
                 array_push($table, "tb_domain");
                 array_push($table, "tb_event");
-                array_push($table, "tb_function");
+                array_push($table, "tb_action");
                 array_push($table, "tb_code");
                 array_push($table, "tb_group");
                 array_push($table, "tb_view");
@@ -173,7 +173,7 @@
                 $this->TB_FIELD = $this->execute($cn, $model->addTable("tb_field", "Campos", $TYPE_SYSTEM, $MENU_SYS));
                 $this->TB_DOMAIN = $this->execute($cn, $model->addTable( "tb_domain", "Domínios", $TYPE_SYSTEM, $MENU_SYS));
                 $this->TB_EVENT = $this->execute($cn, $model->addTable("tb_event", "Eventos", $TYPE_SYSTEM, $MENU_SYS));
-                $this->TB_FUNCTION = $this->execute($cn, $model->addTable("tb_function", "Funções", $TYPE_SYSTEM, $MENU_SYS));
+                $this->TB_ACTION = $this->execute($cn, $model->addTable("tb_action", "Funções", $TYPE_SYSTEM, $MENU_SYS));
                 $this->TB_CODE = $this->execute($cn, $model->addTable("tb_code", "Programação", $TYPE_SYSTEM, $MENU_SYS));
                 $this->TB_VIEW = $this->execute($cn, $model->addTable("tb_view","Visão", $TYPE_SYSTEM,  $MENU_SYS));
                 $this->TB_VIEW_FIELD = $this->execute($cn, $model->addTable("tb_view_field", "Visão x Campos", $TYPE_SYSTEM, $MENU_SYS));
@@ -259,16 +259,16 @@
                 $this->execute($cn, $model->addField($this->TB_VIEW_FIELD, "Operador", "id_operator", $this->TYPE_INT, 0, "", $no, $no, $this->tb("tb_domain"), $this->fd("value"), "tb_operator", "", $this->INPUT_DROPDOWN, ++$seq));
                 $this->execute($cn, $model->addField($this->TB_VIEW_FIELD, "Valor", "value", $this->TYPE_TEXT, 5000, "", $no, $no, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
 
-                // tb_function
+                // tb_action
                 $seq = 0;
-                $this->execute($cn, $model->addField($this->TB_FUNCTION, "Nome", "name", $this->TYPE_TEXT, 50, "", $yes, $yes, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_ACTION, "Nome", "name", $this->TYPE_TEXT, 50, "", $yes, $yes, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
 
                 // tb_event
                 $seq = 0;
                 $this->execute($cn, $model->addField($this->TB_EVENT, "Módulo", "id_table", $this->TYPE_INT, 0, "", $yes, $no, $this->tb("tb_table"), $this->fd("title"), "", "", $this->INPUT_DROPDOWN, ++$seq));
                 $this->execute($cn, $model->addField($this->TB_EVENT, "Campo", "id_field", $this->TYPE_INT, 0, "", $no, $no, $this->tb("tb_field"), $this->fd("label"), "", "", $this->INPUT_DROPDOWN, ++$seq));
                 $this->execute($cn, $model->addField($this->TB_EVENT, "Tela", "id_target", $this->TYPE_INT, 0, "", $yes, $no, $this->tb("tb_domain"), $this->fd("value"), "tb_target", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_EVENT, "Ação", "id_function", $this->TYPE_INT, 0, "", $no, $no, $this->tb("tb_function"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_EVENT, "Ação", "id_function", $this->TYPE_INT, 0, "", $no, $no, $this->tb("tb_action"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
                 $this->execute($cn, $model->addField($this->TB_EVENT, "Evento", "id_event", $this->TYPE_INT, 0, "", $no, $no, $this->tb("tb_domain"), $this->fd("value"), "tb_event", "", $this->INPUT_DROPDOWN, ++$seq));
                 $this->execute($cn, $model->addField($this->TB_EVENT, "Código", "code", $this->TYPE_TEXT, 10000, "", $yes, $no, 0, 0, "", "", $this->INPUT_TEXTAREA, ++$seq));
 
@@ -294,7 +294,7 @@
                 $seq = 0;
                 $this->execute($cn, $model->addField($this->TB_TABLE_FUNCTION, "Perfil", "id_profile", $this->TYPE_INT, 0, "", $yes, $yes, $this->tb("tb_profile"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
                 $this->execute($cn, $model->addField($this->TB_TABLE_FUNCTION, "Transação", "id_table", $this->TYPE_INT, 0, "", $yes, $yes, $this->tb("tb_table"), $this->fd("title"), "", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_TABLE_FUNCTION, "Function", "id_function", $this->TYPE_INT, 0, "", $yes, $yes, $this->tb("tb_function"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_TABLE_FUNCTION, "Function", "id_function", $this->TYPE_INT, 0, "", $yes, $yes, $this->tb("tb_action"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
 
                 // tb_user
                 $seq = 0;
@@ -459,7 +459,7 @@
             try {
 
                 // Define table name
-                $tableName = "tb_function";
+                $tableName = "tb_action";
 
                 // Create actions
                 $this->execute($cn, $model->addFunction("Novo"));

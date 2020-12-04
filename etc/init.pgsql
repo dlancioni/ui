@@ -1,4 +1,4 @@
-
+drop schema if exists s20201 cascade;
 drop schema if exists home cascade;
 create schema home;
 create table home.tb_client (

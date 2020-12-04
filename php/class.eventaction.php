@@ -134,14 +134,14 @@
                 // Query menus and modules
                 $sql .= " select distinct" . $lb; 
                 $sql .= " tb_user_profile.field->>'id_profile' id_profile," . $lb; 
-                $sql .= " tb_function.id," . $lb; 
-                $sql .= " tb_function.field->>'name' as name" . $lb; 
+                $sql .= " tb_action.id," . $lb; 
+                $sql .= " tb_action.field->>'name' as name" . $lb; 
                 $sql .= " from tb_user_profile" . $lb; 
                 $sql .= " inner join tb_table_function on (tb_table_function.field->>'id_profile')::int = (tb_user_profile.field->>'id_profile')::int" . $lb; 
-                $sql .= " inner join tb_function on (tb_table_function.field->>'id_function')::int = tb_function.id" . $lb; 
+                $sql .= " inner join tb_action on (tb_table_function.field->>'id_function')::int = tb_action.id" . $lb; 
                 $sql .= " where (tb_table_function.field->>'id_table')::int = " . $tableId . $lb;
                 $sql .= " and (tb_user_profile.field->>'id_user')::int = " . $userId . $lb;
-                $sql .= " order by tb_function.id" . $lb;
+                $sql .= " order by tb_action.id" . $lb;
 
                 // Execute query
                 $rs = $db->queryJson($this->cn, $sql);
