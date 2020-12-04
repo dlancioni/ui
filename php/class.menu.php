@@ -4,7 +4,11 @@
         // Private members
         private $cn = 0;
         private $sqlBuilder = 0;
-        public $html = "";
+        private $count = 0;
+        private $total = 0;
+
+        // Public members
+        public $html = "";        
 
         // Constructor
         function __construct($cn, $sqlBuilder) {
@@ -36,6 +40,9 @@
                 // Treeview to html
                 $this->writeTree($tree);
 
+                // Log tree
+                $logUtil->log("menu.txt", $this->html);
+
             } catch (Exception $ex) {
                 throw $ex;
             }
@@ -63,42 +70,67 @@
         /*
          * Create html menu
          */        
-        public function writeTree($array)
-        {
+        public function writeTree($array) {
             // General Declaration
             $id = 0;
 
-            // Write top menu based on parent structure
-            foreach($array as $k => $v) {
+            try {
 
-                // Identify menu heads
-                if (is_array($v)) {
-                    if (isset($v["children"])) {
-                        if (count($v["children"]) > 0) {
-                            if (trim($v["id_parent"]) == "0") {
-                                $this->append($this->addMenu($v["name"]));
-                            } else {
-                                $this->append($this->addSubMenu($v["name"]));
+                // Write top menu based on parent structure
+                foreach($array as $k => $v) {
+
+                    // Identify menu heads
+                    if (is_array($v)) {
+                        if (isset($v["children"])) {
+                            if (count($v["children"]) > 0) {
+                                if (trim($v["id_parent"]) == "0") {
+                                    $this->append($this->addMenu($v["name"]));
+                                } else {
+
+                                    // Control menu breaks
+                                    $this->count = 0;
+                                    $this->total = -1;
+                                    if (!$this->hasChildren($v)) {
+                                        if (isset($v["children"])) {
+                                            $this->total = count($v["children"]);
+                                        }
+                                    }
+
+                                    // Add html menu
+                                    $this->append($this->addSubMenu($v["name"]));
+                                }
+                            }
+                        }
+                        $this->writeTree($v);
+                        continue;
+                    }
+
+                    // Keep current id
+                    if ($k == "id") {
+                        $id = $v;
+                    }
+
+                    // Write single item
+                    if ($array["id_parent"] != 0) {
+                        if ($k == "name") { 
+                            if (!isset($array["children"])) {
+
+                                // Add single item
+                                $this->append($this->addMenuItem($id, $v));
+
+                                // Add menu break;
+                                $this->count ++;
+                                if ($this->total == $this->count) {
+                                    $this->append("</div>");
+                                }
+
                             }
                         }
                     }
-                    $this->writeTree($v);
-                    continue;
                 }
 
-                // Keep current id
-                if ($k == "id") {
-                    $id = $v;
-                }
-
-                // Write single item
-                if ($array["id_parent"] != 0) {
-                    if ($k == "name") { 
-                        if (!isset($array["children"])) {
-                            $this->append($this->addMenuItem($id, $v));
-                        }
-                    }
-                }
+            } catch (Exception $ex) {
+                throw $ex;
             }
         }
 
@@ -134,7 +166,6 @@
             $lb = $stringUtil->lb();
 
             // Create menu item
-            $html .= "</div>" . $lb;
             $html .= "<div class='dropdown dropright dropdown-submenu'>" . $lb;
             $html .= "<button class='dropdown-item dropdown-toggle' type='button'>$label</button>" . $lb;
             $html .= "<div class='dropdown-menu'>" . $lb;
@@ -231,6 +262,20 @@
 
             // Return data
             return $rs;
+        }
+
+        private function hasChildren($v) {
+            
+            // General Declaration
+            $size = 0;
+            $value = false;
+
+            // Check arrays
+            $size = count($v["children"])-1;
+            $value = isset($v["children"][$size]["children"]);
+
+            // Just return it
+            return $value;
         }
 
 
