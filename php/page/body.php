@@ -31,7 +31,7 @@
     <div class="row">
 
         <!-- Add logout button -->
-        <?php include "php/login.php";?>
+        <?php include "php/page/login.php";?>
 
         <!-- Left side -->
         <div id="left1" class="col-sm-1">

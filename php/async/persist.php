@@ -3,7 +3,7 @@
     session_start();
 
     // Include classes
-    include "include.php";
+    include "../page/include.php";
 
     // General declaration
     $id = 0;
