@@ -23,5 +23,5 @@
  left join tb_table tb_table_fk on (tb_field.field->>'id_table_fk')::text = (tb_table_fk.id)::text
  left join tb_field tb_field_fk on (tb_field.field->>'id_field_fk')::text = (tb_field_fk.id)::text
  where (tb_field.field->>'id_system')::text = 'S20201'
- and (tb_field.field->>'id_table')::int = 6
+ and (tb_field.field->>'id_table')::int = 1
  order by (tb_field.field->>'ordenation')::int, tb_field.id
