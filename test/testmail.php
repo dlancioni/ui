@@ -1,7 +1,7 @@
 <?php
-include "page.include.php";
-include "page.session.php";
-include "page.core.php";
+include "include.php";
+include "session.php";
+include "core.php";
 ?>
 
 

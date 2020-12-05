@@ -3,7 +3,7 @@
     session_start();
 
     // Include classes
-    include "../page.include.php";
+    include "../include.php";
 
     // General declaration
     $db = "";

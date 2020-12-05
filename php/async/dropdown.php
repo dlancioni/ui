@@ -3,7 +3,7 @@
     session_start();
 
     // Include classes
-    include "page.include.php";
+    include "../include.php";
 
     // http://localhost/ui/php/async_dropdown.php?source=id_table&target=id_field&value=1
 

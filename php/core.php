@@ -13,7 +13,7 @@
     try {
         
         // Handle request outside to organize code
-        include "page.request.php";
+        include "request.php";
 
         // Create table or form
         if ($tableId > 0) {

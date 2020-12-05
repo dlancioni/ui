@@ -1,6 +1,6 @@
 <?php
     // Regular code
-    include "page.exception.php";
+    include "exception.php";
     
     // Include classes
     include "class/base.php";
@@ -12,7 +12,6 @@
     include "class/eventaction.php";
     include "class/model.php";
     include "class/mail.php";
-
     include "class/menu.php";
     include "class/table.php";
     include "class/field.php";
