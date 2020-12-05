@@ -6,13 +6,11 @@ Pendentes
 
 Nice to have
 	Revisar tratamento erros na chamada de sql, etc	
-	Organizar pasta de uploads fora do projeto
     Todas a classes devem extender Base
 	Colocar schema nas queries
 	Enviar email em ambiente dev
 
 Bugs
-
 
 Finalizados
 	Deixar na memoria por transacao, listar todas e filtrar form ou report na apresentacao
@@ -24,5 +22,5 @@ Finalizados
 	Testar tipos data e valor
 	Configurar php.ini para enviar email
 	Criar tela para registrar cliente
-
+	Organizar pasta de uploads fora do projeto
 

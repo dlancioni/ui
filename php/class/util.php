@@ -29,33 +29,6 @@
 
     class PathUtil {
 
-
-        /*
-         * Get virtual file path
-         */
-        public function getLogPath($fileName) {
-
-            $path = "";
-            $os = new OS();
-            $path = realpath('.');
-
-            try {
-
-                if ($os->getOS() == $os->WINDOWS) {
-                    $path = str_replace("\\php", "", $path);
-                    $path = $path . "\\php\\log\\" . $fileName; // Windows
-                } else {
-                    $path = str_replace("/php", "", $path);
-                    $path = $path . "/php/log/" . $fileName; // Linux
-                }
-
-            } catch (Exception $ex) {
-                throw $ex;
-            }
-
-            return $path;
-        }
-
         /*
          * Get virtual file path
          */
@@ -80,6 +53,29 @@
         }
 
         /*
+         * Get log path
+         */
+        public function getLogPath($fileName) {
+
+            $path = "";
+            $os = new OS();
+
+            try {
+
+                if ($os->getOS() == $os->WINDOWS) {                   
+                    $path = "c:\\temp\\log\\" . $fileName; // Windows
+                } else {
+                    $path = "/home/storage/8/df/6a/form12/log" . $fileName; // Linux
+                }
+
+            } catch (Exception $ex) {
+                throw $ex;
+            }
+
+            return $path;
+        }
+
+        /*
          * Get upload path for windows or linux
          */
         public function getUploadPath() {
@@ -89,10 +85,10 @@
 
             try {
 
-                if ($os->getOS() == $os->WINDOWS) {
-                    $path = realpath('.') . "\\files\\";
+                if ($os->getOS() == $os->WINDOWS) {                   
+                    $path = "c:\\temp\\log\\form1\\file"; // Windows
                 } else {
-                    $path = realpath('.') . "/files/";
+                    $path = "/home/storage/8/df/6a/form12/form1/file"; // Linux
                 }
 
             } catch (Exception $ex) {

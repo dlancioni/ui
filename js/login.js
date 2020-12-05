@@ -13,7 +13,7 @@ async function login() {
     formData.append('_USERNAME_', username);
     formData.append('_PASSWORD_', password);
     
-    let info = await execute('async.login.php', formData);
+    let info = await execute('async/login.php', formData);
     info = JSON.parse(info);
     
     if (info.status > 1) {
@@ -29,7 +29,7 @@ async function login() {
 async function logout() {
     
     // General Declaration
-    let page = 'async.eval.php';
+    let page = 'async/eval.php';
     let formData = new FormData();
 
     // Set commands to end session
@@ -58,7 +58,7 @@ async function retrieveCredential(email) {
     formData.append('_EMAIL_', email);
     
     // Just retrieve it
-    let info = await execute('async.retrieve.mail.php', formData);
+    let info = await execute('async/retrieve.mail.php', formData);
     info = JSON.parse(info);
     
     // Report the user
@@ -77,7 +77,7 @@ async function register(name, email) {
     formData.append('_EMAIL_', email);
     
     // Register it
-    let info = await execute('async.register.php', formData);
+    let info = await execute('async/register.php', formData);
     info = JSON.parse(info);
     
     // Alert user
