@@ -33,7 +33,7 @@
                 $rs = $this->getData($systemId, $userId);
 
                 // Log query
-                $logUtil->log("queryMenu.pgsql", $this->lastQuery);
+                $logUtil->log("query_menu.pgsql", $this->lastQuery);
 
                 // Data to treeview
                 $tree = $this->prepareTree($rs);

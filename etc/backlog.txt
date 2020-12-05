@@ -1,5 +1,4 @@
 Pendentes
-	Criar submenu
 	Criar view e solucao para apresentar graficos
 	Criar tela para alterar senha
 
@@ -7,7 +6,6 @@ Pendentes
 Nice to have
 	Revisar tratamento erros na chamada de sql, etc	
     Todas a classes devem extender Base
-	Colocar schema nas queries
 	Enviar email em ambiente dev
 
 Bugs
@@ -23,4 +21,4 @@ Finalizados
 	Configurar php.ini para enviar email
 	Criar tela para registrar cliente
 	Organizar pasta de uploads fora do projeto
-
+	Criar submenu

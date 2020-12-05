@@ -69,7 +69,7 @@ class LogicReport extends Base {
             } else {
                 $tableDef = $this->sqlBuilder->getTableDef($this->cn, $tableId, 0);
             }
-            $logUtil->log("querydef.pgsql", $this->sqlBuilder->lastQuery);
+            $logUtil->log("query_def.pgsql", $this->sqlBuilder->lastQuery);
 
             // Get table structure
             if (count($tableDef) > 0) {
@@ -91,7 +91,7 @@ class LogicReport extends Base {
             $this->sqlBuilder->PageSize = $PAGE_SIZE;
             $this->sqlBuilder->PageOffset = $pageOffset;
             $data = $this->sqlBuilder->executeQuery($this->cn, $tableId, $viewId, $filter->create(), 1, $tableDef);
-            $logUtil->log("query.pgsql", $this->sqlBuilder->lastQuery);
+            $logUtil->log("query_data.pgsql", $this->sqlBuilder->lastQuery);
 
             // Error handling    
             if ($this->sqlBuilder->getError() != "") {

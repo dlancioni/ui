@@ -63,9 +63,9 @@
             try {
 
                 if ($os->getOS() == $os->WINDOWS) {                   
-                    $path = "c:\\temp\\log\\" . $fileName; // Windows
+                    $path = "c:\\temp\\forms\\log\\" . $fileName; // Windows
                 } else {
-                    $path = "/home/storage/8/df/6a/form12/log" . $fileName; // Linux
+                    $path = "/home/storage/8/df/6a/form12/forms/log" . $fileName; // Linux
                 }
 
             } catch (Exception $ex) {
@@ -86,9 +86,9 @@
             try {
 
                 if ($os->getOS() == $os->WINDOWS) {                   
-                    $path = "c:\\temp\\log\\form1\\file"; // Windows
+                    $path = "c:\\temp\\log\\forms\\file"; // Windows
                 } else {
-                    $path = "/home/storage/8/df/6a/form12/form1/file"; // Linux
+                    $path = "/home/storage/8/df/6a/form12/forms/file"; // Linux
                 }
 
             } catch (Exception $ex) {
