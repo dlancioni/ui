@@ -219,7 +219,7 @@
             try {
 
                 // Get structure to generate json
-                $tableDef = $this->sqlBuilder->getTableDef($this->cn, $this->sqlBuilder->TB_TABLE_FUNCTION, $viewId);
+                $tableDef = $this->sqlBuilder->getTableDef($this->cn, $this->sqlBuilder->TB_TABLE_ACTION, $viewId);
                 $json = $jsonUtil->getJson($tableDef);
 
                 // Grant profiles Admin and User
@@ -231,8 +231,8 @@
                             for ($j=1; $j<=7; $j++) {
                                 $json = $jsonUtil->setValue($json, "id_profile", $i);
                                 $json = $jsonUtil->setValue($json, "id_table", $tableId);
-                                $json = $jsonUtil->setValue($json, "id_function", $j);
-                                $id = $this->sqlBuilder->persist($this->cn, "tb_table_function", $json);
+                                $json = $jsonUtil->setValue($json, "id_action", $j);
+                                $id = $this->sqlBuilder->persist($this->cn, "tb_table_action", $json);
                             }
                         }
                         // Finish insert flow
@@ -241,9 +241,9 @@
                     case "Delete":
                         // Remove transaction from Transaction x Function
                         $sql = "";
-                        $sql .= " delete from tb_table_function";
-                        $sql .= " where " . $jsonUtil->condition("tb_table_function", "id_system", $this->TYPE_TEXT, "=", $this->sqlBuilder->getSystem());
-                        $sql .= " and " . $jsonUtil->condition("tb_table_function", "id_table", $this->TYPE_INT, "=", $tableId);
+                        $sql .= " delete from tb_table_action";
+                        $sql .= " where " . $jsonUtil->condition("tb_table_action", "id_system", $this->TYPE_TEXT, "=", $this->sqlBuilder->getSystem());
+                        $sql .= " and " . $jsonUtil->condition("tb_table_action", "id_table", $this->TYPE_INT, "=", $tableId);
                         $rs = pg_query($this->cn, $sql);
                         $affectedRows = pg_affected_rows($rs);
                 }

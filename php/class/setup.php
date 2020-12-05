@@ -114,7 +114,7 @@
                 array_push($table, "tb_view_field");
                 array_push($table, "tb_profile");
                 array_push($table, "tb_profile_table");
-                array_push($table, "tb_table_function");
+                array_push($table, "tb_table_action");
                 array_push($table, "tb_user");
                 array_push($table, "tb_user_profile");
                 array_push($table, "tb_user_group");
@@ -181,7 +181,7 @@
                 // ACCESS CONTROL
                 $this->TB_PROFILE = $this->execute($cn, $model->addTable("tb_profile", "Perfil", $TYPE_SYSTEM, $MENU_AC));
                 $this->TB_PROFILE_TABLE = $this->execute($cn, $model->addTable("tb_profile_table", "Perfil x Transação", $TYPE_SYSTEM, $MENU_AC));
-                $this->TB_TABLE_FUNCTION = $this->execute($cn, $model->addTable("tb_table_function", "Transação x Função", $TYPE_SYSTEM, $MENU_AC));
+                $this->TB_TABLE_ACTION = $this->execute($cn, $model->addTable("tb_table_action", "Transação x Função", $TYPE_SYSTEM, $MENU_AC));
                 $this->TB_USER = $this->execute($cn, $model->addTable("tb_user", "Usuários", $TYPE_SYSTEM, $MENU_AC));
                 $this->TB_USER_PROFILE = $this->execute($cn, $model->addTable("tb_user_profile", "Usuários x Pefil", $TYPE_SYSTEM, $MENU_AC));
                 $this->TB_GROUP = $this->execute($cn, $model->addTable("tb_group", "Grupos", $TYPE_SYSTEM, $MENU_AC));                
@@ -268,7 +268,7 @@
                 $this->execute($cn, $model->addField($this->TB_EVENT, "Módulo", "id_table", $this->TYPE_INT, 0, "", $yes, $no, $this->tb("tb_table"), $this->fd("title"), "", "", $this->INPUT_DROPDOWN, ++$seq));
                 $this->execute($cn, $model->addField($this->TB_EVENT, "Campo", "id_field", $this->TYPE_INT, 0, "", $no, $no, $this->tb("tb_field"), $this->fd("label"), "", "", $this->INPUT_DROPDOWN, ++$seq));
                 $this->execute($cn, $model->addField($this->TB_EVENT, "Tela", "id_target", $this->TYPE_INT, 0, "", $yes, $no, $this->tb("tb_domain"), $this->fd("value"), "tb_target", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_EVENT, "Ação", "id_function", $this->TYPE_INT, 0, "", $no, $no, $this->tb("tb_action"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_EVENT, "Ação", "id_action", $this->TYPE_INT, 0, "", $no, $no, $this->tb("tb_action"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
                 $this->execute($cn, $model->addField($this->TB_EVENT, "Evento", "id_event", $this->TYPE_INT, 0, "", $no, $no, $this->tb("tb_domain"), $this->fd("value"), "tb_event", "", $this->INPUT_DROPDOWN, ++$seq));
                 $this->execute($cn, $model->addField($this->TB_EVENT, "Código", "code", $this->TYPE_TEXT, 10000, "", $yes, $no, 0, 0, "", "", $this->INPUT_TEXTAREA, ++$seq));
 
@@ -290,11 +290,11 @@
                 $this->execute($cn, $model->addField($this->TB_PROFILE_TABLE, "Perfil", "id_profile", $this->TYPE_INT, 0, "", $yes, $yes, $this->tb("tb_profile"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
                 $this->execute($cn, $model->addField($this->TB_PROFILE_TABLE, "Transação", "id_table", $this->TYPE_INT, 0, "", $yes, $yes, $this->tb("tb_table"), $this->fd("title"), "", "", $this->INPUT_DROPDOWN, ++$seq));
 
-                // tb_table_function
+                // tb_table_action.
                 $seq = 0;
-                $this->execute($cn, $model->addField($this->TB_TABLE_FUNCTION, "Perfil", "id_profile", $this->TYPE_INT, 0, "", $yes, $yes, $this->tb("tb_profile"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_TABLE_FUNCTION, "Transação", "id_table", $this->TYPE_INT, 0, "", $yes, $yes, $this->tb("tb_table"), $this->fd("title"), "", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_TABLE_FUNCTION, "Function", "id_function", $this->TYPE_INT, 0, "", $yes, $yes, $this->tb("tb_action"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_TABLE_ACTION, "Perfil", "id_profile", $this->TYPE_INT, 0, "", $yes, $yes, $this->tb("tb_profile"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_TABLE_ACTION, "Transação", "id_table", $this->TYPE_INT, 0, "", $yes, $yes, $this->tb("tb_table"), $this->fd("title"), "", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_TABLE_ACTION, "Function", "id_action", $this->TYPE_INT, 0, "", $yes, $yes, $this->tb("tb_action"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
 
                 // tb_user
                 $seq = 0;
@@ -625,7 +625,7 @@
                 $this->execute($cn, $model->addProfileTable($ADMIN, $this->TB_PROFILE));
                 $this->execute($cn, $model->addProfileTable($ADMIN, $this->TB_PROFILE));
                 $this->execute($cn, $model->addProfileTable($ADMIN, $this->TB_PROFILE_TABLE));
-                $this->execute($cn, $model->addProfileTable($ADMIN, $this->TB_TABLE_FUNCTION));
+                $this->execute($cn, $model->addProfileTable($ADMIN, $this->TB_TABLE_ACTION));
                 $this->execute($cn, $model->addProfileTable($ADMIN, $this->TB_USER));
                 $this->execute($cn, $model->addProfileTable($ADMIN, $this->TB_USER_PROFILE));
                 $this->execute($cn, $model->addProfileTable($ADMIN, $this->TB_GROUP));
@@ -658,7 +658,7 @@
             try {
 
                 // Define table name
-                $tableName = "tb_table_function";
+                $tableName = "tb_table_action";
 
                 // SYSTEM has all permissions
                 for ($i=1; $i<=$total; $i++) {

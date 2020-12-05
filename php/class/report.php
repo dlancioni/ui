@@ -200,6 +200,7 @@ class LogicReport extends Base {
             $filter = new Filter();
             $filter->add("tb_event", "id_table", $tableId);
             $eventList = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_EVENT, 0, $filter->create(), $this->sqlBuilder->QUERY_NO_PAGING);
+            $logUtil->log("query_event.pgsql", $this->sqlBuilder->lastQuery);
 
             // Prepare view list
             $html .= $this->createViewList($viewList, $viewId);

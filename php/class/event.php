@@ -68,7 +68,7 @@
             try {
 
                 // Get structure to generate json
-                $tableDef = $this->sqlBuilder->getTableDef($this->cn, $this->sqlBuilder->TB_TABLE_FUNCTION);
+                $tableDef = $this->sqlBuilder->getTableDef($this->cn, $this->sqlBuilder->TB_TABLE_ACTION);
                 $json = $jsonUtil->getJson($tableDef);
 
                 // Grant profiles Admin and User
@@ -78,14 +78,14 @@
 
                         // Get keys
                         $tableId = $jsonUtil->getValue($new, "id_table");
-                        $id = $jsonUtil->getValue($new, "id_function");
+                        $id = $jsonUtil->getValue($new, "id_action");
 
                         // When event is a FUNCTION, grant permission to admin
                         if (intval($id) != 0) {
                             $json = $jsonUtil->setValue($json, "id_profile", 1);
                             $json = $jsonUtil->setValue($json, "id_table", $tableId);
-                            $json = $jsonUtil->setValue($json, "id_function", $id);
-                            $id = $this->sqlBuilder->persist($this->cn, "tb_table_function", $json);
+                            $json = $jsonUtil->setValue($json, "id_action", $id);
+                            $id = $this->sqlBuilder->persist($this->cn, "tb_table_action", $json);
                             break;
                         }
 
@@ -93,15 +93,15 @@
 
                         // Get keys
                         $tableId = $jsonUtil->getValue($old, "id_table");
-                        $id = $jsonUtil->getValue($old, "id_function");
+                        $id = $jsonUtil->getValue($old, "id_action");
 
                         // When event is a FUNCTION, revoke permission from admin
                         if (intval($id) != 0) {
                             $sql = "";
-                            $sql .= " delete from tb_table_function";
-                            $sql .= " where " . $jsonUtil->condition("tb_table_function", "id_system", $this->TYPE_TEXT, "=", $this->sqlBuilder->getSystem());
-                            $sql .= " and " . $jsonUtil->condition("tb_table_function", "id_table", $this->TYPE_INT, "=", $tableId);
-                            $sql .= " and " . $jsonUtil->condition("tb_table_function", "id_function", $this->TYPE_INT, "=", $id);
+                            $sql .= " delete from tb_table_action";
+                            $sql .= " where " . $jsonUtil->condition("tb_table_action", "id_system", $this->TYPE_TEXT, "=", $this->sqlBuilder->getSystem());
+                            $sql .= " and " . $jsonUtil->condition("tb_table_action", "id_table", $this->TYPE_INT, "=", $tableId);
+                            $sql .= " and " . $jsonUtil->condition("tb_table_action", "id_action", $this->TYPE_INT, "=", $id);
                             $rs = pg_query($this->cn, $sql);
                             $affectedRows = pg_affected_rows($rs);
                         }

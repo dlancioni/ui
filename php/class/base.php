@@ -45,7 +45,7 @@
         // Access Control
         public $TB_PROFILE = 10;
         public $TB_PROFILE_TABLE = 11;
-        public $TB_TABLE_FUNCTION = 12;
+        public $TB_TABLE_ACTION = 12;
         public $TB_USER = 13;
         public $TB_USER_PROFILE = 14;
         public $TB_GROUP = 15;

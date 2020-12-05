@@ -22,7 +22,6 @@
             $filter = "";
             $element = "";
             $permission = array();
-            $FunctionByProfileUser = 2;
 
             try {
                 // Create objects
@@ -36,11 +35,11 @@
                 if (is_array($pageEvent) && is_array($permission)) {
                     foreach ($pageEvent as $event) {
                         if ($event["id_target"] == $format) {
-                            if ($event["id_function"] != 0) {
+                            if ($event["id_action"] != 0) {
                                 foreach ($permission as $item) {
-                                    if ($event["id_function"] == $item["id"]) {
+                                    if ($event["id_action"] == $item["id"]) {
                                         $name = "btn" . $event["id_table"] . $event["id"];
-                                        $html .= $element->createButton($name, $event["function"], $event["event"], $event["code"]);
+                                        $html .= $element->createButton($name, $event["action"], $event["event"], $event["code"]);
                                         break;
                                     }
                                 }
@@ -137,9 +136,9 @@
                 $sql .= " tb_action.id," . $lb; 
                 $sql .= " tb_action.field->>'name' as name" . $lb; 
                 $sql .= " from tb_user_profile" . $lb; 
-                $sql .= " inner join tb_table_function on (tb_table_function.field->>'id_profile')::int = (tb_user_profile.field->>'id_profile')::int" . $lb; 
-                $sql .= " inner join tb_action on (tb_table_function.field->>'id_function')::int = tb_action.id" . $lb; 
-                $sql .= " where (tb_table_function.field->>'id_table')::int = " . $tableId . $lb;
+                $sql .= " inner join tb_table_action on (tb_table_action.field->>'id_profile')::int = (tb_user_profile.field->>'id_profile')::int" . $lb; 
+                $sql .= " inner join tb_action on (tb_table_action.field->>'id_action')::int = tb_action.id" . $lb; 
+                $sql .= " where (tb_table_action.field->>'id_table')::int = " . $tableId . $lb;
                 $sql .= " and (tb_user_profile.field->>'id_user')::int = " . $userId . $lb;
                 $sql .= " order by tb_action.id" . $lb;
 
