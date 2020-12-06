@@ -23,5 +23,6 @@
     include  $path . "setup.php";
     include  $path . "report.php";
     include  $path . "form.php";
+    include  $path . "persist.php";
 
 ?>    
