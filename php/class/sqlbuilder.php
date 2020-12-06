@@ -353,12 +353,7 @@ class SqlBuilder extends Base {
 
             $tableName = $queryDef[0]["table_name"];
 
-            $sql .= " where " . $jsonUtil->condition($tableName, 
-                                                    "id_system",
-                                                    $this->TYPE_TEXT, 
-                                                    "=", 
-                                                    $this->getSystem());
-            $sql .= $lb;
+            $sql .= " where 1=1" . $lb;;
 
             // 1-system
             // 2-admin
@@ -553,8 +548,7 @@ class SqlBuilder extends Base {
         $sql .= " left join tb_field tb_field_fk on (tb_field.field->>'id_field_fk')::text = (tb_field_fk.id)::text" . $lb;
 
         // Base filter
-        $sql .= " where (tb_field.field->>'id_system')::text = " . $this->getSystem() . $lb;
-        $sql .= " and (tb_field.field->>'id_table')::int = " . $tableId . $lb;
+        $sql .= " where (tb_field.field->>'id_table')::int = " . $tableId . $lb;
 
         // Ordering
         $sql .= " order by (tb_field.field->>'ordenation')::int, tb_field.id" . $lb;

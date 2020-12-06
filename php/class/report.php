@@ -58,9 +58,9 @@ class LogicReport extends Base {
             $logUtil = new LogUtil();
             $numberUtil = new NumberUtil();
             $jsonUtil = new jsonUtil();
-            $pathUtil = new PathUtil();            
+            $pathUtil = new PathUtil();
             $eventAction = new EventAction($this->cn, $this->sqlBuilder);
-            $message = new Message($this->cn, $this->sqlBuilder);            
+            $message = new Message($this->cn, $this->sqlBuilder);
             $this->element = new HTMLElement($this->cn, $this->sqlBuilder);
             $formData = $this->formData;
 
@@ -198,12 +198,18 @@ class LogicReport extends Base {
 
             // Get views
             $filter = new Filter();
-            $viewList = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_VIEW, 0, $filter->create(), $this->sqlBuilder->QUERY_NO_PAGING);
-
+            $viewList = $this->sqlBuilder->executeQuery($this->cn, 
+                                                        $this->TB_VIEW, 0, 
+                                                        $filter->create(), 
+                                                        $this->sqlBuilder->QUERY_NO_PAGING);
             //Get events
             $filter = new Filter();
             $filter->add("tb_event", "id_table", $tableId);
-            $eventList = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_EVENT, 0, $filter->create(), $this->sqlBuilder->QUERY_NO_PAGING);
+            $eventList = $this->sqlBuilder->executeQuery($this->cn, 
+                                                         $this->TB_EVENT, 0, 
+                                                         $filter->create(), 
+                                                         $this->sqlBuilder->QUERY_NO_PAGING);
+
             $logUtil->log("query_event.pgsql", $this->sqlBuilder->lastQuery);
 
             // Prepare view list
@@ -216,7 +222,9 @@ class LogicReport extends Base {
             $html .= $this->element->createTable($rows);
 
             // Get events (buttons)
-            $html .= $this->element->createPaging($recordCount, $this->sqlBuilder->PageSize, $this->sqlBuilder->PageOffset);
+            $html .= $this->element->createPaging($recordCount, 
+                                                  $this->sqlBuilder->PageSize, 
+                                                  $this->sqlBuilder->PageOffset);
 
             // Create buttons
             $html .= $eventAction->createButton($eventList, 1);

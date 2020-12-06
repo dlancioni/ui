@@ -66,7 +66,7 @@
                 $jsonUtil = new JsonUtil();
                 $stringUtil = new StringUtil();
                 $numberUtil = new NumberUtil();
-                $message = new Message($cn, $sqlBuilder);
+                $message = new Message($cn);
 
                 // Get table structure
                 $tableDef = $sqlBuilder->getTableDef($cn, $tableId, $viewId);

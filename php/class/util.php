@@ -375,12 +375,10 @@
 
         // Private members
         private $cn = 0;
-        private $sqlBuilder = 0;
 
         // Constructor
-        function __construct($cn="", $sqlBuilder="") {
+        function __construct($cn="") {
             $this->cn = $cn;
-            $this->sqlBuilder = $sqlBuilder;
         }
 
         public function getStatus($status=0, $message) {
@@ -408,6 +406,7 @@
             $message = "";
             $viewId = 0;
             $stringUtil = new StringUtil();
+            $sqlBuilder = new SqlBuilder();
 
             try {
 
@@ -415,7 +414,7 @@
                 $filter = new Filter();
                 $filter->addCondition("tb_domain", "key", "text", "=", $code);
                 $filter->addCondition("tb_domain", "domain", "text", "=", "tb_message");
-                $data = $this->sqlBuilder->executeQuery($this->cn, $this->TB_DOMAIN, $viewId, $filter->create());
+                $data = $sqlBuilder->executeQuery($this->cn, $this->TB_DOMAIN, $viewId, $filter->create());
 
                 // Create main menu
                 foreach ($data as $row) {

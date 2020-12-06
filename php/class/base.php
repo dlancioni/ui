@@ -60,7 +60,7 @@
         public $TB_FILE = 22;
 
         // Constructor
-        function __construct($systemId, $tableId, $userId, $groupId) {
+        function __construct($systemId=0, $tableId=0, $userId=0, $groupId=0) {
             $this->setSystem($systemId);
             $this->setTable($tableId);
             $this->setUser($userId);
