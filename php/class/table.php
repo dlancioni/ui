@@ -37,6 +37,9 @@
                 // Create, rename or delete table
                 $this->table($old, $new);
 
+                // Action and events
+                $this->actionEvent($tableId);
+
                 // Delete fields
                 $this->field($id);
 
@@ -115,6 +118,84 @@
                 throw $ex;
             }
         }
+
+        /*
+         * Actions
+         */        
+        private function actionEvent($tableId) {
+
+            // General Declaration
+            $sql = "";
+            $rs = "";
+            $json = "";
+            $record = "";
+            $affectedRows = 0;
+            $tableDef = "";
+            $viewId = 0;
+            $jsonUtil = new JsonUtil();
+            $model = new Model(0, 0);
+
+            $TABLE = 1;
+            $FORM = 2;
+
+            $EVENT_ONCLICK = 2;
+
+            try {
+
+                // Grant profiles Admin and User
+                switch ($this->sqlBuilder->getAction()) {
+
+                    case "New":
+                        
+                        // New
+                        $json = $model->addEvent($TABLE, $tableId, 0, 1, $EVENT_ONCLICK, 'formNew();');
+                        $id = $this->sqlBuilder->persist($this->cn, "tb_event", $json);
+
+                        // Edit
+                        $json = $model->addEvent($TABLE, $tableId, 0, 2, $EVENT_ONCLICK, 'formEdit();');
+                        $id = $this->sqlBuilder->persist($this->cn, "tb_event", $json);
+
+                        // Delete
+                        $json = $model->addEvent($TABLE, $tableId, 0, 2, $EVENT_ONCLICK, 'formDelete();');
+                        $id = $this->sqlBuilder->persist($this->cn, "tb_event", $json);
+
+                        // Confirm
+                        $json = $model->addEvent($FORM, $tableId, 0, 2, $EVENT_ONCLICK, 'confirm();');
+                        $id = $this->sqlBuilder->persist($this->cn, "tb_event", $json);
+
+                        // Filter
+                        $json = $model->addEvent($TABLE, $tableId, 0, 2, $EVENT_ONCLICK, 'formFilter();');
+                        $id = $this->sqlBuilder->persist($this->cn, "tb_event", $json);                        
+
+                        // Clear
+                        $json = $model->addEvent($FORM, $tableId, 0, 2, $EVENT_ONCLICK, 'formClear();');
+                        $id = $this->sqlBuilder->persist($this->cn, "tb_event", $json);
+
+                        // Back
+                        $json = $model->addEvent($FORM, $tableId, 0, 2, $EVENT_ONCLICK, 'reportBack();');
+                        $id = $this->sqlBuilder->persist($this->cn, "tb_event", $json);                        
+
+                        break;
+
+                    case "Delete":
+                        // Remove transaction from Transaction x Function
+                        $sql = "";
+                        $sql .= " delete from tb_event";
+                        $sql .= " where " . $jsonUtil->condition("tb_event", "id_system", $this->TYPE_TEXT, "=", $this->sqlBuilder->getSystem());
+                        $sql .= " and " . $jsonUtil->condition("tb_event", "id_table", $this->TYPE_INT, "=", $tableId);
+                        $rs = pg_query($this->cn, $sql);
+                        $affectedRows = pg_affected_rows($rs);
+                }
+
+            } catch (Exception $ex) {
+
+                // Keep source and error                
+                $this->sqlBuilder->setError("TableLogic.actionEvent()", $ex->getMessage());
+
+                // Rethrow it
+                throw $ex;
+            }
+        }        
 
         /*
          * Delete fields

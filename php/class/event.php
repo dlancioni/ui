@@ -61,6 +61,7 @@
             $json = "";
             $record = "";
             $tableId = 0;
+            $viewId = 0;
             $affectedRows = 0;
             $tableDef = "";
             $jsonUtil = new JsonUtil();
@@ -68,7 +69,7 @@
             try {
 
                 // Get structure to generate json
-                $tableDef = $this->sqlBuilder->getTableDef($this->cn, $this->sqlBuilder->TB_TABLE_ACTION);
+                $tableDef = $this->sqlBuilder->getTableDef($this->cn, $this->sqlBuilder->TB_TABLE_ACTION, $viewId);
                 $json = $jsonUtil->getJson($tableDef);
 
                 // Grant profiles Admin and User
