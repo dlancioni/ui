@@ -38,7 +38,7 @@
                 $this->table($old, $new);
 
                 // Action and events
-                $this->actionEvent($tableId);
+                $this->actionEvent($id);
 
                 // Delete fields
                 $this->field($id);
@@ -156,23 +156,23 @@
                         $id = $this->sqlBuilder->persist($this->cn, "tb_event", $json);
 
                         // Delete
-                        $json = $model->addEvent($TABLE, $tableId, 0, 2, $EVENT_ONCLICK, 'formDelete();');
+                        $json = $model->addEvent($TABLE, $tableId, 0, 3, $EVENT_ONCLICK, 'formDelete();');
                         $id = $this->sqlBuilder->persist($this->cn, "tb_event", $json);
 
                         // Confirm
-                        $json = $model->addEvent($FORM, $tableId, 0, 2, $EVENT_ONCLICK, 'confirm();');
+                        $json = $model->addEvent($FORM, $tableId, 0, 4, $EVENT_ONCLICK, 'confirm();');
                         $id = $this->sqlBuilder->persist($this->cn, "tb_event", $json);
 
                         // Filter
-                        $json = $model->addEvent($TABLE, $tableId, 0, 2, $EVENT_ONCLICK, 'formFilter();');
+                        $json = $model->addEvent($TABLE, $tableId, 0, 5, $EVENT_ONCLICK, 'formFilter();');
                         $id = $this->sqlBuilder->persist($this->cn, "tb_event", $json);                        
 
                         // Clear
-                        $json = $model->addEvent($FORM, $tableId, 0, 2, $EVENT_ONCLICK, 'formClear();');
+                        $json = $model->addEvent($FORM, $tableId, 0, 6, $EVENT_ONCLICK, 'formClear();');
                         $id = $this->sqlBuilder->persist($this->cn, "tb_event", $json);
 
                         // Back
-                        $json = $model->addEvent($FORM, $tableId, 0, 2, $EVENT_ONCLICK, 'reportBack();');
+                        $json = $model->addEvent($FORM, $tableId, 0, 7, $EVENT_ONCLICK, 'reportBack();');
                         $id = $this->sqlBuilder->persist($this->cn, "tb_event", $json);                        
 
                         break;

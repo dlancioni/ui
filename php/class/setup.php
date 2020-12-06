@@ -226,8 +226,8 @@
 
                 // tb_table
                 $seq = 0;
-                $this->execute($cn, $model->addField($this->TB_TABLE, "Menu", "id_menu", $this->TYPE_INT, 0, "", $yes, $no, $this->tb("tb_menu"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));                
                 $this->execute($cn, $model->addField($this->TB_TABLE, "Titulo", "title", $this->TYPE_TEXT, 50, "", $yes, $no, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_TABLE, "Menu", "id_menu", $this->TYPE_INT, 0, "", $yes, $no, $this->tb("tb_menu"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));                
                 $this->execute($cn, $model->addField($this->TB_TABLE, "Tipo", "id_type", $this->TYPE_INT, 0, "", $yes, $no, $this->tb("tb_domain"), $this->fd("value"), "tb_table_type", "", $this->INPUT_DROPDOWN, ++$seq));
                 $this->execute($cn, $model->addField($this->TB_TABLE, "Tabela", "name", $this->TYPE_TEXT, 50, "", $yes, $yes, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));                
                 $this->execute($cn, $model->addField($this->TB_TABLE, "View", "id_view", $this->TYPE_INT, 0, "", $no, $no, $this->tb("tb_view"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
