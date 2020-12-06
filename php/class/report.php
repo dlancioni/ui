@@ -47,6 +47,7 @@ class LogicReport extends Base {
         $tableDef = "";
         $logUtil = "";
         $count = 0;
+        $msg = "";
         $data = array();
         $viewList = array();
         $eventList = array();
@@ -74,6 +75,9 @@ class LogicReport extends Base {
             // Get table structure
             if (count($tableDef) > 0) {
                 $pageTitle = $tableDef[0]["title"];
+            } else {
+                $msg = $message->getValue("A19");
+                throw new Exception($msg);
             }
 
             // Get data
