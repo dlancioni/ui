@@ -255,43 +255,38 @@
         public function persist($cn, $tableName, $record) {
             
             // General declaration
-            $key = "";
             $sql = "";
             $rs = "";
             $msg = "";
             $message = "";
             $affectedRows = "";
-            $action = $this->getAction();
             $jsonUtil = new jsonUtil();
-            $systemId = $this->getSystem();
+            $message = new Message($cn);
 
-            // Make sure id_system is set
-            //$record = $jsonUtil->setValue($record, "id_system", $systemId);
+            // Make sure id_group is set
             $record = $jsonUtil->setValue($record, "id_group", $this->getGroup());
-
-            // Prepare condition for update and delete
-            $key .= " where " . $jsonUtil->condition($tableName, "id", $this->TYPE_INT, "=", $this->getLastId());                        
-            //$key .= " and " . $jsonUtil->condition($tableName, "id_system", $this->TYPE_TEXT, "=", $this->getSystem());
-
+            
             try {
 
                 // Prepare string
-                switch ($action) {
+                switch ($this->getAction()) {
 
                     case "New":
-                        $sql = "insert into $tableName (field) values ('$record') returning id";
-                        $msg = "A6";
+                        $msg = "A6";                        
+                        $sql = "insert into $tableName (field) values ('$record') returning id";                        
                         break;
 
                     case "Edit":
-                        $sql .= " update $tableName set field = '$record' " . $key;
-                        $msg = "A7";
+                        $msg = "A7";                        
+                        $sql .= " update $tableName set field = '$record' ";
+                        $sql .= " where " . $jsonUtil->condition($tableName, "id", $this->TYPE_INT, "=", $this->getLastId());
                         break;
 
                     case "Delete":
-                        $sql .= " delete from $tableName " . $key;
-                        $msg = "A8";
-                        break;                        
+                        $msg = "A8";                        
+                        $sql .= " delete from $tableName ";
+                        $sql .= " where " . $jsonUtil->condition($tableName, "id", $this->TYPE_INT, "=", $this->getLastId());                        
+                        break;
                 }
 
                 // Execute statement            
@@ -309,7 +304,6 @@
                 }
 
                 // Get final message
-                $message = new Message($cn);
                 $msg = $message->getValue($msg);
 
                 // Success
