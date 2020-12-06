@@ -140,6 +140,7 @@
 
             global $tableName;
             global $total;
+            $persist = new Persist();
             $model = new Model($this->groupId);
 
             // Menus
@@ -149,6 +150,10 @@
             $MENU_CAD = 104;            
             
             try {
+
+                // Set group
+                $persist->setGroup($model->groupId);
+                $persist->setAction("New");
 
                 // Define table name
                 $tableName = "tb_menu";
@@ -176,7 +181,6 @@
                 $this->TB_CODE = $this->execute($cn, $model->addTable("tb_code", "Programação", $TYPE_SYSTEM, $MENU_SYS));
                 $this->TB_VIEW = $this->execute($cn, $model->addTable("tb_view","Visão", $TYPE_SYSTEM,  $MENU_SYS));
                 $this->TB_VIEW_FIELD = $this->execute($cn, $model->addTable("tb_view_field", "Visão x Campos", $TYPE_SYSTEM, $MENU_SYS));
-
                 // ACCESS CONTROL
                 $this->TB_PROFILE = $this->execute($cn, $model->addTable("tb_profile", "Perfil", $TYPE_SYSTEM, $MENU_AC));
                 $this->TB_PROFILE_TABLE = $this->execute($cn, $model->addTable("tb_profile_table", "Perfil x Transação", $TYPE_SYSTEM, $MENU_AC));
@@ -185,7 +189,7 @@
                 $this->TB_USER_PROFILE = $this->execute($cn, $model->addTable("tb_user_profile", "Usuários x Pefil", $TYPE_SYSTEM, $MENU_AC));
                 $this->TB_GROUP = $this->execute($cn, $model->addTable("tb_group", "Grupos", $TYPE_SYSTEM, $MENU_AC));                
                 $this->TB_USER_GROUP = $this->execute($cn, $model->addTable("tb_user_group", "Usuários x Grupos", $TYPE_SYSTEM, $MENU_AC));
-               
+
             } catch (Exception $ex) {
                 throw $ex;
             }

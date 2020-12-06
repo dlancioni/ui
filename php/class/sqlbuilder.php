@@ -143,7 +143,7 @@ class SqlBuilder extends Base {
                 $queryDef = $this->getTableDef($cn, "", $viewId);
             } else {
                 if (!is_array($queryDef)) {
-                    $queryDef = $this->getTableDef($cn, $tableId, "");
+                    $queryDef = $this->getTableDef($cn, $tableId, $viewId);
                 }
             }
 

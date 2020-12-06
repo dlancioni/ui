@@ -225,9 +225,9 @@
             return $output;
         }
 
-        /* 
+       /* 
         * Persist data
-        */        
+        */
         public function persist($cn, $tableName, $old, $new) {
             
             // General declaration
@@ -326,8 +326,16 @@
             return $this->getLastId();
         }
 
-
-
+       /* 
+        * Use for setup only
+        */
+        public function add($cn, $tableName, $record) {
+            try {
+                $this->persist($cn, $tableName, "", $record);
+            } catch (Exception $ex) {
+                throw $ex;
+            }
+        }
 
 
     } // End of class

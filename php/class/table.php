@@ -68,43 +68,44 @@
             try {
 
                 // Figure out table name   
-                if ($old != "{}") {
-                    $json = json_decode($old);
-                    $tableOld = $json->{'name'};
+                if (trim($old) != "") {
+                    if ($old != "{}") {
+                        $json = json_decode($old);
+                        $tableOld = $json->{'name'};
+                    }
                 }
 
-                if ($new != "{}") {
-                    $json = json_decode($new);
-                    $tableNew = $json->{'name'};
+                if (trim($new) != "") {                
+                    if ($new != "{}") {
+                        $json = json_decode($new);
+                        $tableNew = $json->{'name'};
+                    }
                 }
 
                 // Take action on tables according to current event
-                if (trim($json->{'id_type'}) != "3") {
+                switch ($this->getAction()) {
+                    
+                    // Create it
+                    case "New":                        
+                        $sql = "drop table if exists " . $tableNew;
+                        pg_query($this->cn, $sql);
+                        $sql = "create table if not exists " . $tableNew . " (id serial, field jsonb);";
+                        pg_query($this->cn, $sql);
+                        break;
 
-                    switch ($this->getAction()) {
-                        
-                        // Create it
-                        case "New":                        
-                            $sql = "drop table if exists " . $tableNew;
-                            pg_query($this->cn, $sql);
-                            $sql = "create table if not exists " . $tableNew . " (id serial, field jsonb);";
-                            pg_query($this->cn, $sql);
-                            break;
-    
-                        // Rename it
-                        case "Edit":
-                            if ($tableOld != $tableNew) {
-                                $sql = "alter table " . $tableOld . " rename to " . $tableNew;
-                                pg_query($this->cn, $sql);                        
-                            }
-                            break;
-    
-                        // Delete it                            
-                        case "Delete":
-                            $sql = "drop table if exists " . $tableOld;
-                            pg_query($this->cn, $sql);
-                            break;                        
-                    }                    
+                    // Rename it
+                    case "Edit":
+                        if ($tableOld != $tableNew) {
+                            $sql = "alter table " . $tableOld . " rename to " . $tableNew;
+                            pg_query($this->cn, $sql);                        
+                        }
+                        break;
+
+                    // Delete it                            
+                    case "Delete":
+                        $sql = "drop table if exists " . $tableOld;
+                        pg_query($this->cn, $sql);
+                        break;                        
                 }
 
             } catch (Exception $ex) {
