@@ -3,14 +3,12 @@
 
         // Private members
         private $cn = 0;
-        private $sqlBuilder = 0;
         private $tableDef = "";
         private $tableData = "";
 
         // Constructor
-        function __construct($cn, $sqlBuilder) {
+        function __construct($cn) {
             $this->cn = $cn;
-            $this->sqlBuilder = $sqlBuilder;
         }
 
         /*
@@ -37,7 +35,7 @@
                 }
 
                 // Validate TableFK without field - it causes system crash
-                if ($this->sqlBuilder->getTable() == $this->TB_FIELD) {
+                if ($this->getTable() == $this->TB_FIELD) {
                     if ($jsonUtil->getValue($new, "id_table_fk") != "0") {
                         if ($jsonUtil->getValue($new, "id_field_fk") == "0") {
                             $msg = $message->getValue("A9");
