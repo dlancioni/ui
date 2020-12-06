@@ -8,13 +8,10 @@
         private $tempFile = "";
         private $fileSize = "";
         private $fileExtension = "";
-        private $message = "";
 
         // Constructor
-        function __construct($cn, $sqlBuilder) {
-            $this->cn = $cn;
-            $this->sqlBuilder = $sqlBuilder;
-            $this->message = new Message($this->cn);
+        function __construct($cn) {
+            $this->cn = $cn;            
         }
 
         /*
@@ -51,7 +48,7 @@
             } catch (Exception $ex) {
 
                 // Keep source and error                
-                $this->sqlBuilder->setError("Upload.uploadFiles()", $ex->getMessage());
+                $this->setError("Upload.uploadFiles()", $ex->getMessage());
 
                 // Rethrow it
                 throw $ex;
@@ -65,11 +62,12 @@
         public function move() {
 
             $msg = "";
+            $message = new Message($this->cn);
 
             try {
 
                 if (!move_uploaded_file($this->tempFile, $this->destination)) {
-                    $msg = $this->message->getValue("A12");
+                    $msg = $message->getValue("A12");
                     throw new Exception($msg);
                 }
 
