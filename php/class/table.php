@@ -131,7 +131,7 @@
             $tableDef = "";
             $viewId = 0;
             $jsonUtil = new JsonUtil();
-            $model = new Model(0, 0);
+            $model = new Model($this->getGroup());
 
             $TABLE = 1;
             $FORM = 2;
@@ -237,8 +237,8 @@
             $record = "";
             $viewId = 0;
             $affectedRows = 0;
-            $model = new Model("", $this->getGroup());
             $jsonUtil = new JsonUtil();
+            $model = new Model($this->getGroup());            
 
             try {
 
@@ -294,7 +294,7 @@
             $record = "";
             $affectedRows = 0;
             $viewId = 0;
-            $model = new Model("", $this->getGroup());            
+            $model = new Model($this->getGroup());
             $jsonUtil = new JsonUtil();
 
             try {

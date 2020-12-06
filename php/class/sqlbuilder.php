@@ -586,11 +586,8 @@ class SqlBuilder extends Base {
         $sql .= " left join tb_table tb_table_fk on (tb_field.field->>'id_table_fk')::text = (tb_table_fk.id)::text" . $lb;
         $sql .= " left join tb_field tb_field_fk on (tb_field.field->>'id_field_fk')::text = (tb_field_fk.id)::text" . $lb;        
 
-        // Base filter
-        $sql .= " where (tb_field.field->>'id_system')::text = " . $this->getSystem() . $lb;
-
         // Filter view
-        $sql .= " and tb_view.id = " . $viewId . $lb;
+        $sql .= " where tb_view.id = " . $viewId . $lb;
 
         // Ordering
         $sql .= " order by tb_view_field.id" . $lb;
@@ -619,8 +616,7 @@ class SqlBuilder extends Base {
             $sql .= " select ";
             $sql .= $jsonUtil->field("tb_user_group", "id_grp", $this->TYPE_INT);
             $sql .= " from tb_user_group";
-            $sql .= " where " . $jsonUtil->field("tb_user_group", "id_system", $this->TYPE_TEXT) . " = " . $this->getSystem();
-            $sql .= " and " . $jsonUtil->field("tb_user_group", "id_user", $this->TYPE_INT) . " = " . $userId;
+            $sql .= " where " . $jsonUtil->field("tb_user_group", "id_user", $this->TYPE_INT) . " = " . $userId;
 
         } catch (Exception $ex) {
             $this->setError("QueryBuilder.getSqlGroupIdByUser()", $ex->getMessage());
@@ -646,7 +642,6 @@ class SqlBuilder extends Base {
         }        
 
         // tb_table
-        $sql .= " (tb_field.field->>'id_system')::text as id_system," . $lb;
         $sql .= " (tb_table.field->>'name')::text as table_name," . $lb;
         $sql .= " (tb_table.field->>'title')::text as title," . $lb;
         $sql .= " (tb_table.field->>'id_view')::text as id_view," . $lb;

@@ -3,13 +3,11 @@
 
         // Private members
         private $cn = 0;
-        private $sqlBuilder = 0;
         public $systemId;
         public $groupId;
 
         // Constructor
-        function __construct($id_system, $id_group) {
-            $this->systemId = $id_system;
+        function __construct($id_group) {
             $this->groupId = $id_group;
         }
 
@@ -20,7 +18,6 @@
             $jsonUtil = new JsonUtil();
 
             // Create key
-            $json = $jsonUtil->setValue($json, "id_system", $this->systemId);
             $json = $jsonUtil->setValue($json, "id_group", $this->groupId);
 
             // Create record        
@@ -39,7 +36,6 @@
             $jsonUtil = new JsonUtil();
 
             // Create key
-            $json = $jsonUtil->setValue($json, "id_system", $this->systemId);
             $json = $jsonUtil->setValue($json, "id_group", $this->groupId);
 
             // Create record        
@@ -57,7 +53,6 @@
             $jsonUtil = new JsonUtil();
 
             // Create key
-            $json = $jsonUtil->setValue($json, "id_system", $this->systemId);
             $json = $jsonUtil->setValue($json, "id_group", $this->groupId);
 
             // Create record        
@@ -77,7 +72,6 @@
             $jsonUtil = new JsonUtil();
 
             // Create key
-            $json = $jsonUtil->setValue($json, "id_system", $this->systemId);
             $json = $jsonUtil->setValue($json, "id_group", $this->groupId);
 
             // Create record
@@ -107,7 +101,6 @@
             $jsonUtil = new JsonUtil();
 
             // Create key
-            $json = $jsonUtil->setValue($json, "id_system", $this->systemId);
             $json = $jsonUtil->setValue($json, "id_group", $groupId);
 
             // Create record        
@@ -126,7 +119,6 @@
             $jsonUtil = new JsonUtil();
 
             // Create key
-            $json = $jsonUtil->setValue($json, "id_system", $this->systemId);
             $json = $jsonUtil->setValue($json, "id_group", $this->groupId);
 
             // Create record        
@@ -149,7 +141,6 @@
             $jsonUtil = new JsonUtil();
 
             // Create key
-            $json = $jsonUtil->setValue($json, "id_system", $this->systemId);
             $json = $jsonUtil->setValue($json, "id_group", $this->groupId);
 
             // Create record        
@@ -166,7 +157,6 @@
             $jsonUtil = new JsonUtil();
 
             // Create key
-            $json = $jsonUtil->setValue($json, "id_system", $this->systemId);
             $json = $jsonUtil->setValue($json, "id_group", $this->groupId);
 
             // Create record        
@@ -183,7 +173,6 @@
             $jsonUtil = new JsonUtil();
 
             // Create key
-            $json = $jsonUtil->setValue($json, "id_system", $this->systemId);
             $json = $jsonUtil->setValue($json, "id_group", $this->groupId);
 
             // Create record        
@@ -201,7 +190,6 @@
             $jsonUtil = new JsonUtil();
 
             // Create key
-            $json = $jsonUtil->setValue($json, "id_system", $this->systemId);
             $json = $jsonUtil->setValue($json, "id_group", $this->groupId);
 
             // Create record        
@@ -219,7 +207,6 @@
             $jsonUtil = new JsonUtil();
 
             // Create key
-            $json = $jsonUtil->setValue($json, "id_system", $this->systemId);
             $json = $jsonUtil->setValue($json, "id_group", $this->groupId);
 
             // Create record        
@@ -238,7 +225,6 @@
             $jsonUtil = new JsonUtil();
 
             // Create key
-            $json = $jsonUtil->setValue($json, "id_system", $this->systemId);
             $json = $jsonUtil->setValue($json, "id_group", $groupId);
 
             // Create record        
@@ -257,7 +243,6 @@
             $jsonUtil = new JsonUtil();
 
             // Create key
-            $json = $jsonUtil->setValue($json, "id_system", $this->systemId);
             $json = $jsonUtil->setValue($json, "id_group", $groupId);
 
             // Create record        
@@ -275,7 +260,6 @@
             $jsonUtil = new JsonUtil();
 
             // Create key
-            $json = $jsonUtil->setValue($json, "id_system", $this->systemId);
             $json = $jsonUtil->setValue($json, "id_group", $groupId);
             
             // Create record
@@ -293,7 +277,6 @@
             $jsonUtil = new JsonUtil();
 
             // Create key
-            $json = $jsonUtil->setValue($json, "id_system", $this->systemId);
             $json = $jsonUtil->setValue($json, "id_group", $this->groupId);
 
             // Create record        
@@ -311,7 +294,6 @@
             $jsonUtil = new JsonUtil();
 
             // Create key
-            $json = $jsonUtil->setValue($json, "id_system", $this->systemId);
             $json = $jsonUtil->setValue($json, "id_group", $this->groupId);
 
             // Create record        
@@ -329,7 +311,6 @@
             $jsonUtil = new JsonUtil();
 
             // Create key
-            $json = $jsonUtil->setValue($json, "id_system", $this->systemId);
             $json = $jsonUtil->setValue($json, "id_group", $this->groupId);
 
             // Create record        

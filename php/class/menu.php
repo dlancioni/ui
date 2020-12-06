@@ -227,8 +227,7 @@
                     $sql .= " inner join tb_profile_table on (tb_profile_table.field->>'id_table')::int = tb_table.id" . $lb;
                     $sql .= " inner join tb_profile on (tb_profile_table.field->>'id_profile')::int = tb_profile.id" . $lb;
                     $sql .= " inner join tb_user_profile on (tb_user_profile.field->>'id_profile')::int = tb_profile.id" . $lb;
-                    $sql .= " where (tb_table.field->>'id_system')::text = " . "'" . $systemId . "'" . $lb;
-                    $sql .= " and (tb_user_profile.field->>'id_user')::int = " . $userId . $lb;
+                    $sql .= " where (tb_user_profile.field->>'id_user')::int = " . $userId . $lb;
 
                     $sql .= " union" . $lb;
                     
@@ -238,13 +237,11 @@
                     $sql .= " (field->>'id_parent')::int as id_parent," . $lb;
                     $sql .= " (field->>'name')::text as name" . $lb;
                     $sql .= " from tb_menu" . $lb;
-                    $sql .= " where (field->>'id_system')::text = " . "'" . $systemId . "'" . $lb;
-                    $sql .= " and tb_menu.id in" . $lb;
+                    $sql .= " where tb_menu.id in" . $lb;
                     $sql .= " (" . $lb;
                         $sql .= " select" . $lb;
                         $sql .= " (field->>'id_menu')::int" . $lb;
                         $sql .= " from tb_table" . $lb;
-                        $sql .= " where (field->>'id_system')::text = " . "'" . $systemId . "'" . $lb;
                     $sql .= " )" . $lb;
                     $sql .= " or (tb_menu.field->>'id_parent')::int = 0" . $lb;
                 $sql .= " ) tb" . $lb;

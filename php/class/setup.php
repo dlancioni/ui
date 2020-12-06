@@ -75,14 +75,13 @@
         */
         public function createSchema($cn) {
 
-            $systemId = 0;
+            $systemId = "";
             $schemaName = "";
 
             try {
 
                 // Create schema for clientes
                 $schemaName = $this->systemId;
-
                 pg_query($cn, "drop schema if exists $schemaName cascade");
                 pg_query($cn, "create schema if not exists $schemaName");
                 pg_query($cn, "set search_path to $schemaName");
@@ -141,7 +140,7 @@
 
             global $tableName;
             global $total;
-            $model = new Model($this->systemId, $this->groupId);
+            $model = new Model($this->groupId);
 
             // Menus
             $MENU_ADM = 101;
@@ -198,7 +197,7 @@
         private function createField($cn) {
 
             global $tableName;
-            $model = new Model($this->systemId, $this->groupId);
+            $model = new Model($this->groupId);
 
             try {
 
@@ -323,7 +322,7 @@
         private function createDomain($cn) {
 
             global $tableName;
-            $model = new Model($this->systemId, $this->groupId);        
+            $model = new Model($this->groupId);        
 
             try {
                 
@@ -418,7 +417,7 @@
             global $tableName;
             global $total;
             $jsonUtil = new jsonUtil();
-            $model = new Model($this->systemId, $this->groupId);
+            $model = new Model($this->groupId);
 
             try {
 
@@ -455,7 +454,7 @@
         private function createFunction($cn) {
 
             global $tableName;
-            $model = new Model($this->systemId, $this->groupId);
+            $model = new Model($this->groupId);
 
             try {
 
@@ -483,7 +482,7 @@
         private function createGroup($cn) {
 
             global $tableName;
-            $model = new Model($this->systemId, $this->groupId);
+            $model = new Model($this->groupId);
 
             try {
 
@@ -507,7 +506,7 @@
         private function createUser($cn) {
 
             global $tableName;
-            $model = new Model($this->systemId, $this->groupId);
+            $model = new Model($this->groupId);
 
             try {
 
@@ -531,7 +530,7 @@
         private function createProfile($cn) {
 
             global $tableName;
-            $model = new Model($this->systemId, $this->groupId);
+            $model = new Model($this->groupId);
 
             try {
 
@@ -554,7 +553,7 @@
         private function createUserProfile($cn) {
 
             global $tableName;
-            $model = new Model($this->systemId, $this->groupId);
+            $model = new Model($this->groupId);
 
             try {
 
@@ -578,7 +577,7 @@
         private function createUserGroup($cn) {
 
             global $tableName;
-            $model = new Model($this->systemId, $this->groupId);
+            $model = new Model($this->groupId);
 
             try {
 
@@ -605,7 +604,7 @@
             global $tableName;
             global $total;
             $jsonUtil = new jsonUtil();
-            $model = new Model($this->systemId, $this->groupId);
+            $model = new Model($this->groupId);
 
             // Profiles
             $SYSTEM = 1;
@@ -649,7 +648,7 @@
             global $tableName;
             global $total;
             $jsonUtil = new jsonUtil();
-            $model = new Model($this->systemId, $this->groupId);
+            $model = new Model($this->groupId);
 
             // Profiles
             $SYSTEM = 1;
@@ -686,7 +685,7 @@
         private function createCode($cn) {
 
             global $tableName;
-            $model = new Model($this->systemId, $this->groupId);
+            $model = new Model($this->groupId);
             
             try {
 
@@ -710,7 +709,7 @@
             $json = "";
             global $tableName;
             $jsonUtil = new JsonUtil();
-            $model = new Model($this->systemId, $this->groupId);
+            $model = new Model($this->groupId);
 
             try {
 
@@ -767,8 +766,7 @@
                 $sql .= " select";
                 $sql .= " tb_table.id";
                 $sql .= " from tb_table";
-                $sql .= " where (tb_table.field->>'id_system')::text = " . $this->getSystem();
-                $sql .= " and (tb_table.field->>'name')::text = " . "'" . $tableName . "'";
+                $sql .= " where (tb_table.field->>'name')::text = " . "'" . $tableName . "'";
                 
                 $rs = pg_query($this->cn, $sql);
                 while ($row = pg_fetch_row($rs)) {
@@ -798,8 +796,7 @@
                 $sql .= " select";
                 $sql .= " tb_field.id";
                 $sql .= " from tb_field";
-                $sql .= " where (tb_field.field->>'id_system')::text = " . $this->getSystem();
-                $sql .= " and (tb_field.field->>'id_table')::int = " . $this->tableId;
+                $sql .= " where (tb_field.field->>'id_table')::int = " . $this->tableId;
                 $sql .= " and tb_field.field->>'name' = " . "'" . $fieldName . "'";
                 
                 $rs = pg_query($this->cn, $sql);

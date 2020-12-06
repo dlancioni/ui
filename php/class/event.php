@@ -65,7 +65,7 @@
             $viewId = 0;
             $affectedRows = 0;
             $jsonUtil = new JsonUtil();
-            $model = new Model(0, 0);
+            $model = new Model($this->getGroup());
 
             try {
 
