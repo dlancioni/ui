@@ -13,7 +13,7 @@ class LogicForm extends Base {
     function __construct($cn, $sqlBuilder) {
         $this->cn = $cn;
         $this->sqlBuilder = $sqlBuilder;
-        $this->element = new HTMLElement($this->cn, $this->sqlBuilder);
+        $this->element = new HTMLElement($this->cn);
     }
 
     /* 
@@ -51,6 +51,7 @@ class LogicForm extends Base {
         $fieldDomain = "";
         $fieldValue = "";
         $defaultValue = "";
+        $userId = 0;
 
         $tableDef = array();
         $label = "";
@@ -64,7 +65,7 @@ class LogicForm extends Base {
         $jsonUtil = "";
         $jsonUtil = new jsonUtil();
         $numberUtil = new NumberUtil();
-        $eventAction = new EventAction($this->cn, $this->sqlBuilder);        
+        $eventAction = new EventAction($this->cn);
 
         try {
 
@@ -76,6 +77,9 @@ class LogicForm extends Base {
             if ($action == "Filter") {
                 $id = 0;
             }
+
+            // Current user
+            $userId = $this->sqlBuilder->getUser();
 
             // Get table structure
             $tableDef = $this->sqlBuilder->getTableDef($this->cn, $tableId, 0);
@@ -274,7 +278,7 @@ class LogicForm extends Base {
             $filter = new Filter();
             $filter->add("tb_event", "id_table", $tableId);
             $eventList = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_EVENT, 0, $filter->create(), $this->sqlBuilder->QUERY_NO_PAGING);
-            $html .= $eventAction->createButton($eventList, 2);
+            $html .= $eventAction->createButton($tableId, $userId, $eventList, 2);
 
             // Add validateForm function
             $html .= $this->element->createScript($js);

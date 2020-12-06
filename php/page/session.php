@@ -60,8 +60,8 @@
 
     // Get main components
     $sqlBuilder = new SqlBuilder($systemId, $tableId, $userId, $groupId);
-    $eventAction = new EventAction($cn, $sqlBuilder);
-    $logicMenu = new LogicMenu($cn, $sqlBuilder);
-    $element = new HTMLElement($cn, $sqlBuilder);
+    $eventAction = new EventAction($cn);
+    $logicMenu = new LogicMenu($cn);
+    $element = new HTMLElement($cn);
     
 ?>

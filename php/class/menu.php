@@ -3,7 +3,6 @@
 
         // Private members
         private $cn = 0;
-        private $sqlBuilder = 0;
         private $count = 0;
         private $total = 0;
         private $level = 0;
@@ -12,9 +11,8 @@
         public $html = "";        
 
         // Constructor
-        function __construct($cn, $sqlBuilder) {
+        function __construct($cn) {
             $this->cn = $cn;
-            $this->sqlBuilder = $sqlBuilder;
         }
 
         /*

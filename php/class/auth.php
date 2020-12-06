@@ -37,7 +37,7 @@
             $jsonUtil = new JsonUtil();
             $pathUtil = new PathUtil();
             $message = new Message($this->cn);
-            $logicMenu = new LogicMenu($this->cn, $this->sqlBuilder);
+            $logicMenu = new LogicMenu($this->cn);
 
             try {
 

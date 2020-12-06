@@ -43,9 +43,4 @@
         $pageOffset = intval($_REQUEST["_PAGING_"]);
     }
 
-
-
-    
-
-
 ?>

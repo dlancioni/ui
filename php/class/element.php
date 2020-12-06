@@ -3,12 +3,10 @@
 
         // Private members
         private $cn = 0;
-        private $sqlBuilder = 0;
 
         // Constructor
-        function __construct($cn, $sqlBuilder) {
+        function __construct($cn) {
             $this->cn = $cn;
-            $this->sqlBuilder = $sqlBuilder;
         }
 
         /* 

@@ -2,19 +2,17 @@
     class EventAction extends Base {
 
         // Private members
-        private $cn = 0;
-        private $sqlBuilder = 0;
+        private $cn = "";
 
         // Constructor
-        function __construct($cn, $sqlBuilder) {
+        function __construct($cn) {
             $this->cn = $cn;
-            $this->sqlBuilder = $sqlBuilder;
         }
 
         /* 
         * Get event list and isolate function calls related to buttons
         */
-        function createButton($pageEvent, $format) {
+        function createButton($tableId, $userId, $pageEvent, $format) {
 
             // General declaration
             $html = "";
@@ -25,10 +23,10 @@
 
             try {
                 // Create objects
-                $element = new HTMLElement($this->cn, $this->sqlBuilder);
+                $element = new HTMLElement($this->cn);
 
                 // Get access control
-                $permission = $this->getFunctionByProfileUser($this->sqlBuilder->getTable(), $this->sqlBuilder->getUser());
+                $permission = $this->getFunctionByProfileUser($tableId, $userId);
 
                 // Create event list
                 $html .= "<br>";                
@@ -99,7 +97,8 @@
 
             // Get data
             $filter = new Filter();
-            $rs = $this->sqlBuilder->executeQuery($this->cn, $this->TB_CODE, $viewId, $filter, $this->sqlBuilder->QUERY_NO_PAGING);
+            $sqlBuilder = new SqlBuilder();
+            $rs = $sqlBuilder->executeQuery($this->cn, $this->TB_CODE, $viewId, $filter, $sqlBuilder->QUERY_NO_PAGING);
 
             // Create event list
             foreach ($rs as $item) {

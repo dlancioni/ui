@@ -12,7 +12,7 @@ class LogicReport extends Base {
         $this->cn = $cn;
         $this->sqlBuilder = $sqlBuilder;
         $this->formData = $formData;
-        $this->element = new HTMLElement($this->cn, $this->sqlBuilder);
+        $this->element = new HTMLElement($this->cn);
     }
 
     /* 
@@ -47,6 +47,7 @@ class LogicReport extends Base {
         $tableDef = "";
         $logUtil = "";
         $count = 0;
+        $userId = 0;
         $msg = "";
         $data = array();
         $viewList = array();
@@ -59,10 +60,13 @@ class LogicReport extends Base {
             $numberUtil = new NumberUtil();
             $jsonUtil = new jsonUtil();
             $pathUtil = new PathUtil();
-            $eventAction = new EventAction($this->cn, $this->sqlBuilder);
+            $eventAction = new EventAction($this->cn);
             $message = new Message($this->cn);
-            $this->element = new HTMLElement($this->cn, $this->sqlBuilder);
+            $this->element = new HTMLElement($this->cn);
             $formData = $this->formData;
+
+            // Current user
+            $userId = $this->sqlBuilder->getUser();            
 
             // Handle structures
             if ($viewId != 0) {
@@ -227,7 +231,7 @@ class LogicReport extends Base {
                                                   $this->sqlBuilder->PageOffset);
 
             // Create buttons
-            $html .= $eventAction->createButton($eventList, 1);
+            $html .= $eventAction->createButton($tableId, $userId, $eventList, 1);
 
         } catch (Exception $ex) {
             $this->setError("LogicReport.createReport()", $ex->getMessage());
