@@ -61,6 +61,11 @@
         public $TB_RELATIONSHIP = 21;
         public $TB_FILE = 22;
 
+        // Profiles
+        public $PROFILE_SYSTEM = 1;
+        public $PROFILE_ADMIN = 2;
+        public $PROFILE_USER = 3;
+
         // Constructor
         function __construct($systemId=0, $tableId=0, $userId=0, $groupId=0) {
             $this->setSystem($systemId);

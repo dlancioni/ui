@@ -3,14 +3,12 @@
 
         // Private members
         private $cn = 0;
-        private $sqlBuilder = 0;
         private $tableDef = "";
         private $tableData = "";
 
         // Constructor
-        function __construct($cn, $sqlBuilder) {
+        function __construct($cn) {
             $this->cn = $cn;
-            $this->sqlBuilder = $sqlBuilder;
         }
 
         /*
@@ -83,7 +81,7 @@
                 // Take action on tables according to current event
                 if (trim($json->{'id_type'}) != "3") {
 
-                    switch ($this->sqlBuilder->getAction()) {
+                    switch ($this->getAction()) {
                         
                         // Create it
                         case "New":                        
@@ -112,7 +110,7 @@
             } catch (Exception $ex) {
 
                 // Keep source and error
-                $this->sqlBuilder->setError("TableLogic.table()", $ex->getMessage());
+                $this->setError("TableLogic.table()", $ex->getMessage());
 
                 // Rethrow it
                 throw $ex;
@@ -120,7 +118,7 @@
         }
 
         /*
-         * Actions
+         * Create standard actions 
          */        
         private function actionEvent($tableId) {
 
@@ -143,37 +141,37 @@
             try {
 
                 // Grant profiles Admin and User
-                switch ($this->sqlBuilder->getAction()) {
+                switch ($this->getAction()) {
 
                     case "New":
                         
                         // New
                         $json = $model->addEvent($TABLE, $tableId, 0, 1, $EVENT_ONCLICK, 'formNew();');
-                        $id = $this->sqlBuilder->persist($this->cn, "tb_event", $json);
+                        pg_query($this->cn, "insert into tb_event (field) values ('$json')");
 
                         // Edit
                         $json = $model->addEvent($TABLE, $tableId, 0, 2, $EVENT_ONCLICK, 'formEdit();');
-                        $id = $this->sqlBuilder->persist($this->cn, "tb_event", $json);
+                        pg_query($this->cn, "insert into tb_event (field) values ('$json')");
 
                         // Delete
                         $json = $model->addEvent($TABLE, $tableId, 0, 3, $EVENT_ONCLICK, 'formDelete();');
-                        $id = $this->sqlBuilder->persist($this->cn, "tb_event", $json);
+                        pg_query($this->cn, "insert into tb_event (field) values ('$json')");
 
                         // Confirm
                         $json = $model->addEvent($FORM, $tableId, 0, 4, $EVENT_ONCLICK, 'confirm();');
-                        $id = $this->sqlBuilder->persist($this->cn, "tb_event", $json);
+                        pg_query($this->cn, "insert into tb_event (field) values ('$json')");
 
                         // Filter
                         $json = $model->addEvent($TABLE, $tableId, 0, 5, $EVENT_ONCLICK, 'formFilter();');
-                        $id = $this->sqlBuilder->persist($this->cn, "tb_event", $json);                        
+                        pg_query($this->cn, "insert into tb_event (field) values ('$json')");
 
                         // Clear
                         $json = $model->addEvent($FORM, $tableId, 0, 6, $EVENT_ONCLICK, 'formClear();');
-                        $id = $this->sqlBuilder->persist($this->cn, "tb_event", $json);
+                        pg_query($this->cn, "insert into tb_event (field) values ('$json')");
 
                         // Back
                         $json = $model->addEvent($FORM, $tableId, 0, 7, $EVENT_ONCLICK, 'reportBack();');
-                        $id = $this->sqlBuilder->persist($this->cn, "tb_event", $json);                        
+                        pg_query($this->cn, "insert into tb_event (field) values ('$json')");
 
                         break;
 
@@ -181,8 +179,7 @@
                         // Remove transaction from Transaction x Function
                         $sql = "";
                         $sql .= " delete from tb_event";
-                        $sql .= " where " . $jsonUtil->condition("tb_event", "id_system", $this->TYPE_TEXT, "=", $this->sqlBuilder->getSystem());
-                        $sql .= " and " . $jsonUtil->condition("tb_event", "id_table", $this->TYPE_INT, "=", $tableId);
+                        $sql .= " where " . $jsonUtil->condition("tb_event", "id_table", $this->TYPE_INT, "=", $tableId);
                         $rs = pg_query($this->cn, $sql);
                         $affectedRows = pg_affected_rows($rs);
                 }
@@ -190,7 +187,7 @@
             } catch (Exception $ex) {
 
                 // Keep source and error                
-                $this->sqlBuilder->setError("TableLogic.actionEvent()", $ex->getMessage());
+                $this->setError("TableLogic.actionEvent()", $ex->getMessage());
 
                 // Rethrow it
                 throw $ex;
@@ -198,7 +195,7 @@
         }        
 
         /*
-         * Delete fields
+         * Handle fields (delete only)
          */
         private function field($tableId) {
 
@@ -211,10 +208,9 @@
             try {
 
                 // Delete related events
-                if ($this->sqlBuilder->getAction() == "Delete") {
+                if ($this->getAction() == "Delete") {
                     $sql .= " delete from tb_field";
-                    $sql .= " where " . $jsonUtil->condition("tb_field", "id_system", $this->TYPE_TEXT, "=", $this->sqlBuilder->getSystem());
-                    $sql .= " and " . $jsonUtil->condition("tb_field", "id_table", $this->TYPE_INT, "=", $tableId);
+                    $sql .= " where " . $jsonUtil->condition("tb_field", "id_table", $this->TYPE_INT, "=", $tableId);
                     $rs = pg_query($this->cn, $sql);
                     $affectedRows = pg_affected_rows($rs);
                 }    
@@ -222,16 +218,15 @@
             } catch (Exception $ex) {
 
                 // Keep source and error                
-                $this->sqlBuilder->setError("TableLogic.field()", $ex->getMessage());
+                $this->setError("TableLogic.field()", $ex->getMessage());
 
                 // Rethrow it
                 throw $ex;
             }
         }
 
-
         /*
-         * Delete fields
+         * Access control
          */
         private function profileTransaction($tableId) {
 
@@ -242,34 +237,36 @@
             $record = "";
             $viewId = 0;
             $affectedRows = 0;
-            $tableDef = "";
+            $model = new Model("", $this->getGroup());
             $jsonUtil = new JsonUtil();
 
             try {
 
-                // Get structure to generate json
-                $tableDef = $this->sqlBuilder->getTableDef($this->cn, $this->sqlBuilder->TB_PROFILE_TABLE, $viewId);
-                $json = $jsonUtil->getJson($tableDef);
-
                 // Grant for system, admin and user
-                switch ($this->sqlBuilder->getAction()) {
+                switch ($this->getAction()) {
 
                     case "New":
-                        for ($i=1; $i<=3; $i++) {
-                            $json = $jsonUtil->setValue($json, "id_profile", $i);
-                            $json = $jsonUtil->setValue($json, "id_table", $tableId);
-                            $id = $this->sqlBuilder->persist($this->cn, "tb_profile_table", $json);
-                        }
 
-                        // Finish insert flow
+                        // System
+                        $json = $model->addProfileTable($this->PROFILE_SYSTEM, $tableId);
+                        pg_query($this->cn, "insert into tb_profile_table (field) values ('$json')");
+
+                        // Admin
+                        $json = $model->addProfileTable($this->PROFILE_ADMIN, $tableId);
+                        pg_query($this->cn, "insert into tb_profile_table (field) values ('$json')");
+
+                        // User
+                        $json = $model->addProfileTable($this->PROFILE_USER, $tableId);
+                        pg_query($this->cn, "insert into tb_profile_table (field) values ('$json')");
+
                         break;
 
                     case "Delete":
-                        // Remove transaction from Profile x Transaction
+
+                        // Just delete related config
                         $sql = "";
                         $sql .= " delete from tb_profile_table";
-                        $sql .= " where " . $jsonUtil->condition("tb_profile_table", "id_system", $this->TYPE_TEXT, "=", $this->sqlBuilder->getSystem());
-                        $sql .= " and " . $jsonUtil->condition("tb_profile_table", "id_table", $this->TYPE_INT, "=", $tableId);
+                        $sql .= " where " . $jsonUtil->condition("tb_profile_table", "id_table", $this->TYPE_INT, "=", $tableId);
                         $rs = pg_query($this->cn, $sql);
                         $affectedRows = pg_affected_rows($rs);
                         break;                    
@@ -285,6 +282,9 @@
             }
         }
 
+        /*
+         * Access control
+         */        
         private function transactionFunction($tableId) {
 
             // General Declaration
@@ -293,38 +293,32 @@
             $json = "";
             $record = "";
             $affectedRows = 0;
-            $tableDef = "";
             $viewId = 0;
+            $model = new Model("", $this->getGroup());            
             $jsonUtil = new JsonUtil();
 
             try {
 
-                // Get structure to generate json
-                $tableDef = $this->sqlBuilder->getTableDef($this->cn, $this->sqlBuilder->TB_TABLE_ACTION, $viewId);
-                $json = $jsonUtil->getJson($tableDef);
-
                 // Grant profiles Admin and User
-                switch ($this->sqlBuilder->getAction()) {
+                switch ($this->getAction()) {
 
                     case "New":
+
                         // Add standard 7 functions (New, Edit, Delete, Confirm, Filter, Clear, Back)
                         for ($i=1; $i<=3; $i++) {
                             for ($j=1; $j<=7; $j++) {
-                                $json = $jsonUtil->setValue($json, "id_profile", $i);
-                                $json = $jsonUtil->setValue($json, "id_table", $tableId);
-                                $json = $jsonUtil->setValue($json, "id_action", $j);
-                                $id = $this->sqlBuilder->persist($this->cn, "tb_table_action", $json);
+                                $json = $model->addTableFunction($i, $tableId, $j);
+                                pg_query($this->cn, "insert into tb_table_action (field) values ('$json')");
                             }
                         }
-                        // Finish insert flow
                         break;
 
                     case "Delete":
+
                         // Remove transaction from Transaction x Function
                         $sql = "";
                         $sql .= " delete from tb_table_action";
-                        $sql .= " where " . $jsonUtil->condition("tb_table_action", "id_system", $this->TYPE_TEXT, "=", $this->sqlBuilder->getSystem());
-                        $sql .= " and " . $jsonUtil->condition("tb_table_action", "id_table", $this->TYPE_INT, "=", $tableId);
+                        $sql .= " where " . $jsonUtil->condition("tb_table_action", "id_table", $this->TYPE_INT, "=", $tableId);
                         $rs = pg_query($this->cn, $sql);
                         $affectedRows = pg_affected_rows($rs);
                 }
@@ -338,5 +332,8 @@
                 throw $ex;
             }
         }
+
+
+        
     } // End of class
 ?>

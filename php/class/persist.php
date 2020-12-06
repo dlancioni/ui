@@ -18,7 +18,6 @@
             $old = "{}";
             $new = "{}";    
             $key = "";       
-            $logic = "";
             $message = "";
             $tableDef = "";
             $tableName = "";
@@ -103,7 +102,7 @@
 
                     // Get existing record
                     $filter = new Filter();
-                    $filter->add($tableName, "id", $sqlBuilder->getLastId());
+                    $filter->add($tableName, "id", $this->getLastId());
                     $data = $sqlBuilder->executeQuery($cn, $tableId, $viewId, $filter->create(), $sqlBuilder->QUERY_NO_JOIN);
                     if (count($data) > 0) {
                         $old = json_encode($data[0]);
@@ -189,34 +188,11 @@
                     }
                 }
 
-                // Get logic for current transaction
-                switch ($tableName) {
-                    case "tb_table":
-                        $logic = new LogicTable($cn, $sqlBuilder);
-                        break;                
-                    case "tb_field":
-                        $logic = new LogicField($cn, $sqlBuilder);
-                        break;
-                    case "tb_event":
-                        $logic = new LogicEvent($cn, $sqlBuilder);
-                        break;
-                    default:  
-                        $logic  = "";
-                }
-
                 // Open transaction
                 pg_query($cn, "begin");
 
-                    // Before insert logic 
-                    if ($logic)
-                        $logic->before($old, $new);
-
                     // Persist info
-                    $id = $this->persist($cn, $tableName, $new);
-
-                    // After insert logic
-                    if ($logic)
-                        $logic->after($id, $old, $new);
+                    $id = $this->persist($cn, $tableName, $old, $new);
 
                 // Open transaction
                 pg_query($cn, "commit");
@@ -252,36 +228,61 @@
         /* 
         * Persist data
         */        
-        public function persist($cn, $tableName, $record) {
+        public function persist($cn, $tableName, $old, $new) {
             
             // General declaration
+            $id = 0;
+            $rs = "";            
             $sql = "";
-            $rs = "";
             $msg = "";
+            $logic = "";
             $message = "";
             $affectedRows = "";
             $jsonUtil = new jsonUtil();
             $message = new Message($cn);
 
             // Make sure id_group is set
-            $record = $jsonUtil->setValue($record, "id_group", $this->getGroup());
-            
+            $new = $jsonUtil->setValue($new, "id_group", $this->getGroup());
+
+            // Get logic for current transaction
+            switch ($tableName) {
+                case "tb_table":
+                    $logic = new LogicTable($cn);
+                    break;                
+                case "tb_field":
+                    $logic = new LogicField($cn, $sqlBuilder);
+                    break;
+                case "tb_event":
+                    $logic = new LogicEvent($cn, $sqlBuilder);
+                    break;
+                default:  
+                    $logic  = "";
+            }
+
+            // Before insert logic 
+            if ($logic) {
+
+                // Set important keys
+                $logic->setAction($this->getAction());
+                $logic->setGroup($this->getGroup());
+
+                // Trigger before
+                $logic->before($old, $new);
+            }
+
+            // Prepare sql string according to the action
             try {
 
-                // Prepare string
                 switch ($this->getAction()) {
-
                     case "New":
                         $msg = "A6";                        
-                        $sql = "insert into $tableName (field) values ('$record') returning id";                        
+                        $sql = "insert into $tableName (field) values ('$new') returning id";                        
                         break;
-
                     case "Edit":
                         $msg = "A7";                        
-                        $sql .= " update $tableName set field = '$record' ";
+                        $sql .= " update $tableName set field = '$new' ";
                         $sql .= " where " . $jsonUtil->condition($tableName, "id", $this->TYPE_INT, "=", $this->getLastId());
                         break;
-
                     case "Delete":
                         $msg = "A8";                        
                         $sql .= " delete from $tableName ";
@@ -295,12 +296,16 @@
                     throw new Exception(pg_last_error($cn));
                 }
 
-                // Keep rows affected
-                $affectedRows = pg_affected_rows($rs);
-
                 // Get inserted ID
+                $affectedRows = pg_affected_rows($rs);                
                 while ($row = pg_fetch_array($rs)) {
                     $this->setLastId($row['id']);
+                    $id = $this->getLastId();
+                }
+
+                // After insert logic
+                if ($logic) {
+                    $logic->after($id, $old, $new);
                 }
 
                 // Get final message
