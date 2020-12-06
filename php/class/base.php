@@ -11,6 +11,8 @@
         private $error = "";
         private $message = "";
         private $lastId = 0;
+        private $viewId = 0;
+
 
         // Other
         private $action = "";
@@ -119,11 +121,19 @@
             return $this->lastId;
         }
 
+        // view ID
+        function setView($id) {
+            $this->viewId = $id;
+        }
+        function getView() {
+            return $this->viewId;
+        }
+
         // Action (new, edit, etc)
         public function getAction() {
             return $this->action;
         }
-        public function setEvent($action) {
+        public function setAction($action) {
             $this->action = $action;
         }        
 

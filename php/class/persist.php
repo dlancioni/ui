@@ -19,14 +19,12 @@
             $new = "{}";    
             $key = "";       
             $logic = "";
-            $viewId = 0;
             $message = "";
             $tableDef = "";
             $tableName = "";
             $jsonUtil = "";
             $unique = "";    
             $output = "";
-            $tableId = 0;
             $action = "";
             $fieldName = "";       
             $fieldType = "";
@@ -35,44 +33,67 @@
             $fieldLabel = "";    
             $changed = false;
             $file = "";
+            $systemId = "";
+            $tableId = 0;
             $viewId = 0;
+            $userId = 0;
+            $groupId = 0;
 
             // Core code
             try {
+                
+                // Handle System
+                if (isset($session["_SYSTEM_"])) {
+                    $this->setSystem($session["_SYSTEM_"]);
+                }                
+                // Handle Table
+                if (isset($session["_TABLE_"])) {
+                    $this->setTable($session["_TABLE_"]);
+                }
+                // Handle User
+                if (isset($session["_USER_"])) {
+                    $this->setUser($session["_USER_"]);
+                }
+                // Handle Group
+                if (isset($session["_GROUP_"])) {
+                    $this->setGroup($session["_GROUP_"]);
+                }
+                // Handle ID    
+                if (isset($session["_ID_"])) {
+                    $this->setLastId($session["_ID_"]);
+                } else {
+                    $this->setLastId("0");            
+                }
+                // Handle Action
+                if (isset($session["_ACTION_"])) {
+                    $this->setAction($session["_ACTION_"]);
+                }
+
+                // Validate properties above
+                // Pending yet
+
+                // To simplify and debug, keep in variables
+                $systemId = $this->getSystem();
+                $tableId = $this->getTable();
+                $userId = $this->getUser();
+                $groupId = $this->getGroup();
+                $action = $this->getAction();
 
                 // Open connection
                 $db = new Db();
-                $cn = $db->getConnection($session["_SYSTEM_"]);
-
-                // Keep instance of SqlBuilder for current session
-                $sqlBuilder = new SqlBuilder($session["_SYSTEM_"], 
-                                             $session["_TABLE_"], 
-                                             $session["_USER_"],
-                                             $session["_GROUP_"]);
-
-                if (isset($session["_ID_"])) {
-                    $sqlBuilder->setLastId($session["_ID_"]);
-                } else {
-                    $sqlBuilder->setLastId("0");            
-                }
-                if (isset($session["_ACTION_"])) {
-                    $sqlBuilder->setEvent($session["_ACTION_"]);
-                }
-                if (isset($session["_TABLE_"])) {
-                    $tableId = $session["_TABLE_"];   
-                }     
+                $cn = $db->getConnection($systemId);
 
                 // Object instances
                 $jsonUtil = new JsonUtil();
                 $stringUtil = new StringUtil();
                 $numberUtil = new NumberUtil();
-                $message = new Message($cn);
+                $message = new Message($cn);                
+                $sqlBuilder = new SqlBuilder($systemId, $tableId, $userId, $groupId);
 
                 // Get table structure
                 $tableDef = $sqlBuilder->getTableDef($cn, $tableId, $viewId);
                 if ($tableDef) {
                     $tableName = $tableDef[0]["table_name"];
-                    $action = $session["_ACTION_"];
                 }
 
                 // Rules for update/delete
@@ -99,7 +120,7 @@
 
                 // Handle files
                 if (count($_FILES) > 0) {
-                    $logicUpload = new LogicUpload($cn, $sqlBuilder);
+                    $logicUpload = new LogicUpload($cn);
                     $logicUpload->uploadFiles($_FILES);
                 }
                 
