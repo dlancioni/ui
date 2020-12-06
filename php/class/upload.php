@@ -14,7 +14,7 @@
         function __construct($cn, $sqlBuilder) {
             $this->cn = $cn;
             $this->sqlBuilder = $sqlBuilder;
-            $this->message = new Message($this->cn, $this->sqlBuilder);
+            $this->message = new Message($this->cn);
         }
 
         /*

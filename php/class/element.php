@@ -484,7 +484,7 @@
             $js = "";
             $msg = "";
             $stringUtil = new StringUtil();
-            $message = new Message($this->cn, $this->sqlBuilder);
+            $message = new Message($this->cn);
 
             // Prepare values        
             $fieldName = $stringUtil->dqt($fieldName);

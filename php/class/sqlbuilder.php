@@ -661,7 +661,7 @@ class SqlBuilder extends Base {
             }
 
             // Get final message
-            $message = new Message($cn, $this);
+            $message = new Message($cn);
             $msg = $message->getValue($msg);
 
             // Success

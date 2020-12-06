@@ -30,7 +30,7 @@
         $db = new Db();
         $cn = $db->getConnection($systemId);
         $sqlBuilder = new SqlBuilder($systemId, 0, 0, 0);
-        $message = new Message($cn, $sqlBuilder);
+        $message = new Message($cn);
         $logicAuth = new LogicAuth($cn, $sqlBuilder);
 
         // Authenticate user

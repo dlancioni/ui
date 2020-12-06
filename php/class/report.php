@@ -60,7 +60,7 @@ class LogicReport extends Base {
             $jsonUtil = new jsonUtil();
             $pathUtil = new PathUtil();
             $eventAction = new EventAction($this->cn, $this->sqlBuilder);
-            $message = new Message($this->cn, $this->sqlBuilder);
+            $message = new Message($this->cn);
             $this->element = new HTMLElement($this->cn, $this->sqlBuilder);
             $formData = $this->formData;
 

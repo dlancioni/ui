@@ -36,7 +36,7 @@
             $affectedRows = 0;
             $jsonUtil = new JsonUtil();
             $pathUtil = new PathUtil();
-            $message = new Message($this->cn, $this->sqlBuilder);
+            $message = new Message($this->cn);
             $logicMenu = new LogicMenu($this->cn, $this->sqlBuilder);
 
             try {

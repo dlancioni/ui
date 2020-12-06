@@ -23,7 +23,7 @@
             $data = "";
             $message = "";
             $jsonUtil = new JsonUtil();
-            $message = new Message($this->cn, $this->sqlBuilder);
+            $message = new Message($this->cn);
 
             try {
 
