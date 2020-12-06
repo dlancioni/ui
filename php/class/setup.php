@@ -3,7 +3,6 @@
 
         // Private members
         private $cn = 0;
-        private $sqlBuilder = 0;
         public $error = "";
         public $systemId = 0;
         public $tableId = 0;
@@ -14,9 +13,8 @@
         public $public = 3;
 
         // Constructor
-        function __construct($cn, $sqlBuilder) {
+        function __construct($cn) {
             $this->cn = $cn;
-            $this->sqlBuilder = $sqlBuilder;
         }
 
         /*
@@ -53,17 +51,19 @@
 
                 // Access control
                 $this->createUser($cn);
+                $this->createUserProfile($cn);
+
                 $this->createProfile($cn);
                 $this->createUserGroup($cn);
+
                 $this->createProfileTable($cn);
-                $this->createUserProfile($cn);
                 $this->createTableAction($cn);
 
 
             } catch (Exception $ex) {
 
                 // Keep source and error                
-                $this->sqlBuilder->setError("LogicSetup.setup()", $ex->getMessage());
+                $this->setError("LogicSetup.setup()", $ex->getMessage());
 
                 // Rethrow it
                 throw $ex;

@@ -6,27 +6,16 @@
     // General declaration
     $db = "";
     $cn = "";
-    $rs = "[]";
-    $sql = "";
-    $json = "";
-    $jsonUtil = "";
-    $sqlBuilder = "";
-    $total = 0;
     $systemId = "forms";
     
     // Core code
     try {
 
-        // Keep instance of SqlBuilder for current session
-        $sqlBuilder = new SqlBuilder(1, 0, 0, 0);
-
         // Open connection
         $db = new Db();
-        $cn = $db->getConnection(""); // No schema yet
-        $logicSetup = new LogicSetup($cn, $sqlBuilder);
+        $cn = $db->getConnection("");
+        $logicSetup = new LogicSetup($cn);
         $logicSetup->setup($systemId);
-
-        echo "Done !!";
 
     } catch (Exception $ex) {        
 
