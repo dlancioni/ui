@@ -57,7 +57,7 @@
                 $this->createUserGroup($cn);
                 $this->createProfileTable($cn);
                 $this->createUserProfile($cn);
-                $this->createTableFunction($cn);
+                $this->createTableAction($cn);
 
 
             } catch (Exception $ex) {
@@ -641,7 +641,7 @@
         /*
         * Create events
         */
-        private function createTableFunction($cn) {
+        private function createTableAction($cn) {
 
             $i = 0;
             $j = 0;
@@ -664,14 +664,14 @@
                 // SYSTEM has all permissions
                 for ($i=1; $i<=$total; $i++) {
                     for ($j=1; $j<=7; $j++) {
-                        $this->execute($cn, $model->addTableFunction($SYSTEM, $i, $j));
+                        $this->execute($cn, $model->addTableAction($SYSTEM, $i, $j));
                     }
                 }
 
                 // ADMIN has Access Control only (11 ... 17)
                 for ($i=11; $i<=$total; $i++) {
                     for ($j=1; $j<=7; $j++) {
-                        $this->execute($cn, $model->addTableFunction($ADMIN, $i, $j));
+                        $this->execute($cn, $model->addTableAction($ADMIN, $i, $j));
                     }
                 }
                

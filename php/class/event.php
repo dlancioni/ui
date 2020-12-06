@@ -3,14 +3,12 @@
 
         // Private members
         private $cn = 0;
-        private $sqlBuilder = 0;
         private $tableDef = "";
         private $tableData = "";
 
         // Constructor
-        function __construct($cn, $sqlBuilder) {
+        function __construct($cn) {
             $this->cn = $cn;
-            $this->sqlBuilder = $sqlBuilder;
         }
 
         /*
@@ -42,7 +40,7 @@
             try {
 
                 // Set permission for admin
-                $this->transactionFunction($old, $new);
+                $this->tableAction($old, $new);
 
             } catch (Exception $ex) {
 
@@ -52,7 +50,10 @@
         }
 
 
-        private function transactionFunction($old, $new) {
+        /*
+         * Once new action is created, need to grant access
+         */
+        private function tableAction($old, $new) {
 
             // General Declaration
             $id = 0;            
@@ -63,17 +64,13 @@
             $tableId = 0;
             $viewId = 0;
             $affectedRows = 0;
-            $tableDef = "";
             $jsonUtil = new JsonUtil();
+            $model = new Model(0, 0);
 
             try {
 
-                // Get structure to generate json
-                $tableDef = $this->sqlBuilder->getTableDef($this->cn, $this->sqlBuilder->TB_TABLE_ACTION, $viewId);
-                $json = $jsonUtil->getJson($tableDef);
-
                 // Grant profiles Admin and User
-                switch ($this->sqlBuilder->getAction()) {
+                switch ($this->getAction()) {
 
                     case "New":
 
@@ -83,10 +80,19 @@
 
                         // When event is a FUNCTION, grant permission to admin
                         if (intval($id) != 0) {
-                            $json = $jsonUtil->setValue($json, "id_profile", 1);
-                            $json = $jsonUtil->setValue($json, "id_table", $tableId);
-                            $json = $jsonUtil->setValue($json, "id_action", $id);
-                            $id = $this->sqlBuilder->persist($this->cn, "tb_table_action", $json);
+
+                            // System
+                            $json = $model->addTableAction($this->PROFILE_SYSTEM, $tableId, $id);
+                            pg_query($this->cn, "insert into tb_table_action (field) values ('$json')");
+
+                            // Administrator
+                            $json = $model->addTableAction($this->PROFILE_ADMIN, $tableId, $id);
+                            pg_query($this->cn, "insert into tb_table_action (field) values ('$json')");
+
+                            // Users
+                            $json = $model->addTableAction($this->PROFILE_USER, $tableId, $id);
+                            pg_query($this->cn, "insert into tb_table_action (field) values ('$json')");
+
                             break;
                         }
 
@@ -97,11 +103,10 @@
                         $id = $jsonUtil->getValue($old, "id_action");
 
                         // When event is a FUNCTION, revoke permission from admin
-                        if (intval($id) != 0) {
+                        if (intval($id) != 0) {                           
                             $sql = "";
                             $sql .= " delete from tb_table_action";
-                            $sql .= " where " . $jsonUtil->condition("tb_table_action", "id_system", $this->TYPE_TEXT, "=", $this->sqlBuilder->getSystem());
-                            $sql .= " and " . $jsonUtil->condition("tb_table_action", "id_table", $this->TYPE_INT, "=", $tableId);
+                            $sql .= " where " . $jsonUtil->condition("tb_table_action", "id_table", $this->TYPE_INT, "=", $tableId);
                             $sql .= " and " . $jsonUtil->condition("tb_table_action", "id_action", $this->TYPE_INT, "=", $id);
                             $rs = pg_query($this->cn, $sql);
                             $affectedRows = pg_affected_rows($rs);
@@ -111,7 +116,7 @@
             } catch (Exception $ex) {
 
                 // Keep source and error                
-                $this->sqlBuilder->setError("TableLogic.profileTransaction()", $ex->getMessage());
+                $this->setError("TableLogic.profileTransaction()", $ex->getMessage());
 
                 // Rethrow it
                 throw $ex;

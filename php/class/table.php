@@ -45,7 +45,7 @@
                 $this->profileTransaction($id);
 
                 // Transaction x Function
-                $this->transactionFunction($id);
+                $this->tableAction($id);
 
             } catch (Exception $ex) {
 
@@ -285,7 +285,7 @@
         /*
          * Access control
          */        
-        private function transactionFunction($tableId) {
+        private function tableAction($tableId) {
 
             // General Declaration
             $sql = "";
@@ -307,7 +307,7 @@
                         // Add standard 7 functions (New, Edit, Delete, Confirm, Filter, Clear, Back)
                         for ($i=1; $i<=3; $i++) {
                             for ($j=1; $j<=7; $j++) {
-                                $json = $model->addTableFunction($i, $tableId, $j);
+                                $json = $model->addTableAction($i, $tableId, $j);
                                 pg_query($this->cn, "insert into tb_table_action (field) values ('$json')");
                             }
                         }

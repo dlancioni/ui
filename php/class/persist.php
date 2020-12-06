@@ -250,10 +250,10 @@
                     $logic = new LogicTable($cn);
                     break;                
                 case "tb_field":
-                    $logic = new LogicField($cn, $sqlBuilder);
+                    $logic = new LogicField($cn);
                     break;
                 case "tb_event":
-                    $logic = new LogicEvent($cn, $sqlBuilder);
+                    $logic = new LogicEvent($cn);
                     break;
                 default:  
                     $logic  = "";

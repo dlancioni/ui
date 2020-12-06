@@ -212,7 +212,7 @@
             return $json;
         }
 
-        public function addTableFunction($id_profile, $id_table, $id_action) {
+        public function addTableAction($id_profile, $id_table, $id_action) {
 
             // General Declaration
             $json = "";
