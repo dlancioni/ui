@@ -84,6 +84,7 @@
                 $cn = $db->getConnection($systemId);
 
                 // Object instances
+                $logUtil = new LogUtil();
                 $jsonUtil = new JsonUtil();
                 $stringUtil = new StringUtil();
                 $numberUtil = new NumberUtil();
@@ -92,6 +93,7 @@
 
                 // Get table structure
                 $tableDef = $sqlBuilder->getTableDef($cn, $tableId, $viewId);
+                $logUtil->log("table_def.pgsql", $sqlBuilder->lastQuery);
                 if ($tableDef) {
                     $tableName = $tableDef[0]["table_name"];
                 }
@@ -210,7 +212,7 @@
                         $logic->before($old, $new);
 
                     // Persist info
-                    $id = $sqlBuilder->persist($cn, $tableName, $new);
+                    $id = $this->persist($cn, $tableName, $new);
 
                     // After insert logic
                     if ($logic)
@@ -237,15 +239,95 @@
             }    
 
             // Return results
-            if ($sqlBuilder->getError() != "") {
-                $output = $sqlBuilder->getError();
+            if ($this->getError() != "") {
+                $output = $this->getError();
             } else {
-                $output = $sqlBuilder->getMessage();        
+                $output = $this->getMessage();        
             }
             
             // Return final results
             return $output;
         }
+
+        /* 
+        * Persist data
+        */        
+        public function persist($cn, $tableName, $record) {
+            
+            // General declaration
+            $key = "";
+            $sql = "";
+            $rs = "";
+            $msg = "";
+            $message = "";
+            $affectedRows = "";
+            $action = $this->getAction();
+            $jsonUtil = new jsonUtil();
+            $systemId = $this->getSystem();
+
+            // Make sure id_system is set
+            //$record = $jsonUtil->setValue($record, "id_system", $systemId);
+            $record = $jsonUtil->setValue($record, "id_group", $this->getGroup());
+
+            // Prepare condition for update and delete
+            $key .= " where " . $jsonUtil->condition($tableName, "id", $this->TYPE_INT, "=", $this->getLastId());                        
+            //$key .= " and " . $jsonUtil->condition($tableName, "id_system", $this->TYPE_TEXT, "=", $this->getSystem());
+
+            try {
+
+                // Prepare string
+                switch ($action) {
+
+                    case "New":
+                        $sql = "insert into $tableName (field) values ('$record') returning id";
+                        $msg = "A6";
+                        break;
+
+                    case "Edit":
+                        $sql .= " update $tableName set field = '$record' " . $key;
+                        $msg = "A7";
+                        break;
+
+                    case "Delete":
+                        $sql .= " delete from $tableName " . $key;
+                        $msg = "A8";
+                        break;                        
+                }
+
+                // Execute statement            
+                $rs = pg_query($cn, $sql);
+                if (!$rs) {
+                    throw new Exception(pg_last_error($cn));
+                }
+
+                // Keep rows affected
+                $affectedRows = pg_affected_rows($rs);
+
+                // Get inserted ID
+                while ($row = pg_fetch_array($rs)) {
+                    $this->setLastId($row['id']);
+                }
+
+                // Get final message
+                $message = new Message($cn);
+                $msg = $message->getValue($msg);
+
+                // Success
+                $this->setError("", "");
+                $this->setMessage($msg);
+
+            } catch (Exception $ex) {
+
+                // Keep last error
+                $this->setMessage("");
+                $this->setError("Db.Persist()", $ex->getMessage());
+            }
+            
+            // Return ID
+            return $this->getLastId();
+        }
+
+
 
 
 

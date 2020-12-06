@@ -82,8 +82,9 @@
                     $json = $row[0];
                     break;
                 }
-            } catch (exception $ex) {                
-                $this->setError("db.queryJson()", pg_last_error($cn));
+            } catch (exception $ex) {
+                $this->setError("db.queryJson()", $ex->getMessage());
+                throw $ex;
             }
 
             // Handle empty json
