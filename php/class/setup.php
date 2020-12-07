@@ -40,9 +40,11 @@
                 // System Structure
                 $this->createSchema($cn);
                 $this->createTable($cn);
-                $this->createTransaction($cn);
-                $this->createField($cn);
+                
                 $this->createDomain($cn);
+                $this->createField($cn);
+                $this->createModule($cn);
+
                 $this->createEvent($cn);
                 $this->createFunction($cn);
                 $this->createGroup($cn);
@@ -136,19 +138,26 @@
         /*
         * Create transactions (menus, tables)
         */
-        private function createTransaction($cn) {
+        private function createModule($cn) {
 
             global $tableName;
             global $total;
             $persist = new Persist();
             $model = new Model($this->groupId);
 
+            // Count control
+            $total = 16;
+
             // Menus
             $MENU_ADM = 101;
             $MENU_SYS = 102;
             $MENU_AC = 103;
             $MENU_CAD = 104;            
-            
+
+            // Module type
+            $TYPE_SYSTEM = 1;
+            $TYPE_USER = 2;
+
             try {
 
                 // Set group
@@ -164,13 +173,6 @@
                 // Define table name
                 $tableName = "tb_table";
 
-                // Count control
-                $total = 16;
-
-                // System or User
-                $TYPE_SYSTEM = 1;
-                $TYPE_USER = 2;
-
                 // CORE
                 $this->TB_MENU = $this->execute($cn, $model->addTable("tb_menu", "Menus", $TYPE_SYSTEM, $MENU_SYS));
                 $this->TB_TABLE = $this->execute($cn, $model->addTable("tb_table", "Módulos", $TYPE_SYSTEM, $MENU_SYS));
@@ -181,6 +183,7 @@
                 $this->TB_CODE = $this->execute($cn, $model->addTable("tb_code", "Programação", $TYPE_SYSTEM, $MENU_SYS));
                 $this->TB_VIEW = $this->execute($cn, $model->addTable("tb_view","Visão", $TYPE_SYSTEM,  $MENU_SYS));
                 $this->TB_VIEW_FIELD = $this->execute($cn, $model->addTable("tb_view_field", "Visão x Campos", $TYPE_SYSTEM, $MENU_SYS));
+                
                 // ACCESS CONTROL
                 $this->TB_PROFILE = $this->execute($cn, $model->addTable("tb_profile", "Perfil", $TYPE_SYSTEM, $MENU_AC));
                 $this->TB_PROFILE_TABLE = $this->execute($cn, $model->addTable("tb_profile_table", "Perfil x Transação", $TYPE_SYSTEM, $MENU_AC));
