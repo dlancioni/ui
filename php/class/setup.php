@@ -37,27 +37,25 @@
                 // Open connection
                 $cn = $this->cn;
 
-                // System Structure
+                // Database objects
                 $this->createSchema($cn);
                 $this->createTable($cn);
-                
-                $this->createDomain($cn);
-                $this->createField($cn);
-                $this->createModule($cn);
 
+                // System structure
+                $this->createModule($cn);
+                $this->createField($cn);
+                $this->createDomain($cn);
                 $this->createEvent($cn);
-                $this->createFunction($cn);
-                $this->createGroup($cn);
                 $this->createCode($cn);
+                $this->createAction($cn);
                 $this->createView($cn);
 
-                // Access control
+                // Access control                
+                $this->createGroup($cn);
                 $this->createUser($cn);
                 $this->createUserProfile($cn);
-
                 $this->createProfile($cn);
                 $this->createUserGroup($cn);
-
                 $this->createProfileTable($cn);
                 $this->createTableAction($cn);
 
@@ -458,7 +456,7 @@
         /*
         * Create function
         */
-        private function createFunction($cn) {
+        private function createAction($cn) {
 
             global $tableName;
             $model = new Model($this->groupId);
