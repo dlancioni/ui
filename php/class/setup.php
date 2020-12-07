@@ -226,7 +226,7 @@
                 // tb_view
                 $seq = 0;
                 $this->execute($cn, $model->addField($this->TB_VIEW, "Nome", "name", $this->TYPE_TEXT, 50, "", $yes, $yes, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_VIEW, "SQL", "sql", $this->TYPE_TEXT, 10000, "", $yes, $yes, 0, 0, "", "", $this->INPUT_TEXTAREA, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_VIEW, "SQL", "sql", $this->TYPE_TEXT, 10000, "", $no, $no, 0, 0, "", "", $this->INPUT_TEXTAREA, ++$seq));
 
                 // tb_table
                 $seq = 0;
