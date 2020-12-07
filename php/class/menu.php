@@ -210,9 +210,16 @@
             $sql = "";
             $db = new Db();
             $stringUtil = new StringUtil();
-            $lb = $stringUtil->lb();                        
+            $lb = $stringUtil->lb();
+            $join = "";
 
             try {
+
+                // Join used in both queries
+                $join .= " inner join tb_profile_table on (tb_profile_table.field->>'id_table')::int = tb_table.id" . $lb;
+                $join .= " inner join tb_profile on (tb_profile_table.field->>'id_profile')::int = tb_profile.id" . $lb;
+                $join .= " inner join tb_user_profile on (tb_user_profile.field->>'id_profile')::int = tb_profile.id" . $lb;
+                $join .= " where (tb_user_profile.field->>'id_user')::int = " . $userId . $lb;
 
                 // Query menus and modules
                 $sql .= " select * from" . $lb;
@@ -224,10 +231,7 @@
                     $sql .= " (tb_table.field->>'id_menu')::int as id_parent," . $lb;
                     $sql .= " tb_table.field->>'title' as name" . $lb;
                     $sql .= " from tb_table" . $lb;
-                    $sql .= " inner join tb_profile_table on (tb_profile_table.field->>'id_table')::int = tb_table.id" . $lb;
-                    $sql .= " inner join tb_profile on (tb_profile_table.field->>'id_profile')::int = tb_profile.id" . $lb;
-                    $sql .= " inner join tb_user_profile on (tb_user_profile.field->>'id_profile')::int = tb_profile.id" . $lb;
-                    $sql .= " where (tb_user_profile.field->>'id_user')::int = " . $userId . $lb;
+                    $sql .= $join;
 
                     $sql .= " union" . $lb;
                     
@@ -240,8 +244,9 @@
                     $sql .= " where tb_menu.id in" . $lb;
                     $sql .= " (" . $lb;
                         $sql .= " select" . $lb;
-                        $sql .= " (field->>'id_menu')::int" . $lb;
+                        $sql .= " (tb_table.field->>'id_menu')::int" . $lb;
                         $sql .= " from tb_table" . $lb;
+                        $sql .= $join;
                     $sql .= " )" . $lb;
                     $sql .= " or (tb_menu.field->>'id_parent')::int = 0" . $lb;
                 $sql .= " ) tb" . $lb;
