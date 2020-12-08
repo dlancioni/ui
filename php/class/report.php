@@ -202,6 +202,7 @@ class LogicReport extends Base {
 
             // Get views
             $filter = new Filter();
+            $filter->add("tb_view", "id_table", $tableId);
             $viewList = $this->sqlBuilder->executeQuery($this->cn, 
                                                         $this->TB_VIEW, 0, 
                                                         $filter->create(), 
