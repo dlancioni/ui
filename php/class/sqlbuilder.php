@@ -509,9 +509,7 @@ class SqlBuilder extends Base {
             }
 
             // order by configured, use standard
-            if ($i == 0) {
-                $sql = " order by $tableName.id";
-            } else {
+            if ($i > 0) {
                 $sql = " order by " . $ordering;
             }
 
