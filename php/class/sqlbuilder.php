@@ -22,15 +22,15 @@ class SqlBuilder extends Base {
     /*
      * Aggregation
      */
-    private $SELECTION = 1;
-    private $COUNT = 2;
-    private $SUM = 3;
-    private $MAX = 4;
-    private $MIN = 5;
-    private $AVG = 6;
-    private $CONDITION = 7;
-    private $ORDERING_ASC = 8;
-    private $ORDERING_DESC = 9;
+    public $SELECTION = 1;
+    public $COUNT = 2;
+    public $SUM = 3;
+    public $MAX = 4;
+    public $MIN = 5;
+    public $AVG = 6;
+    public $CONDITION = 7;
+    public $ORDERING_ASC = 8;
+    public $ORDERING_DESC = 9;
 
     /*
      * Other
@@ -245,7 +245,6 @@ class SqlBuilder extends Base {
             foreach ($queryDef as $row) {
 
                 // Keep info
-                $sql .= ", ";
                 $changed = 0;
                 $tableName = $row["table_name"];
                 $fieldName = $row["field_name"];
@@ -269,30 +268,33 @@ class SqlBuilder extends Base {
                     }
                 }                
 
-                // Create dropdown
-                if ($queryType == $this->QUERY_NO_JOIN) {
-                    $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias, $command) . $lb;
-                } else {
-                    if ($fk == 0) {
-                        $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias, $command) . $lb;
-                    } else if ($fk == $this->TB_DOMAIN) {
-                        $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias) . $lb;
-                        $sql .= ", ";
-                        if ($changed == 0) 
-                            $fieldAlias = substr($fieldName, 3);
-                        $tableName = $fieldDomain . "_" . $fieldName;
-                        $fieldName = "value";
-                        $fieldType = $this->TYPE_TEXT;
+                // Create field list with selectable fields only
+                if ($command < $this->CONDITION) {
+                    $sql .= ", ";                    
+                    if ($queryType == $this->QUERY_NO_JOIN) {
                         $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias, $command) . $lb;
                     } else {
-                        $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias, $command) . $lb;
-                        $sql .= ", ";
-                        if ($changed == 0) 
-                            $fieldAlias = substr($fieldName, 3);
-                        $tableName = $tableFk . "_" . $fieldName;
-                        $fieldName = $fieldFk;
-                        $fieldType = $this->TYPE_TEXT;
-                        $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias, $command) . $lb;
+                        if ($fk == 0) {
+                            $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias, $command) . $lb;
+                        } else if ($fk == $this->TB_DOMAIN) {
+                            $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias) . $lb;
+                            $sql .= ", ";
+                            if ($changed == 0) 
+                                $fieldAlias = substr($fieldName, 3);
+                            $tableName = $fieldDomain . "_" . $fieldName;
+                            $fieldName = "value";
+                            $fieldType = $this->TYPE_TEXT;
+                            $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias, $command) . $lb;
+                        } else {
+                            $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias, $command) . $lb;
+                            $sql .= ", ";
+                            if ($changed == 0) 
+                                $fieldAlias = substr($fieldName, 3);
+                            $tableName = $tableFk . "_" . $fieldName;
+                            $fieldName = $fieldFk;
+                            $fieldType = $this->TYPE_TEXT;
+                            $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias, $command) . $lb;
+                        }
                     }
                 }
             }

@@ -391,15 +391,15 @@
                 $this->execute($cn, $model->addDomain($this->groupId, 6, "Password", "tb_control"));
 
                 // tb_command
-                $this->execute($cn, $model->addDomain($this->groupId, "1", "Selecionar", "tb_command"));
-                $this->execute($cn, $model->addDomain($this->groupId, "2", "Contar", "tb_command"));
-                $this->execute($cn, $model->addDomain($this->groupId, "3", "Somatória", "tb_command"));
-                $this->execute($cn, $model->addDomain($this->groupId, "4", "Máximo", "tb_command"));
-                $this->execute($cn, $model->addDomain($this->groupId, "5", "Mínimo", "tb_command"));
-                $this->execute($cn, $model->addDomain($this->groupId, "6", "Média", "tb_command"));
-                $this->execute($cn, $model->addDomain($this->groupId, "7", "Condição", "tb_command"));
-                $this->execute($cn, $model->addDomain($this->groupId, "8", "Ordenar Asc", "tb_command"));
-                $this->execute($cn, $model->addDomain($this->groupId, "9", "Ordenar Desc", "tb_command"));
+                $this->execute($cn, $model->addDomain($this->groupId, 1, "Selecionar", "tb_command"));
+                $this->execute($cn, $model->addDomain($this->groupId, 2, "Contar", "tb_command"));
+                $this->execute($cn, $model->addDomain($this->groupId, 3, "Somatória", "tb_command"));
+                $this->execute($cn, $model->addDomain($this->groupId, 4, "Máximo", "tb_command"));
+                $this->execute($cn, $model->addDomain($this->groupId, 5, "Mínimo", "tb_command"));
+                $this->execute($cn, $model->addDomain($this->groupId, 6, "Média", "tb_command"));
+                $this->execute($cn, $model->addDomain($this->groupId, 7, "Condição", "tb_command"));
+                $this->execute($cn, $model->addDomain($this->groupId, 8, "Ordenar Asc", "tb_command"));
+                $this->execute($cn, $model->addDomain($this->groupId, 9, "Ordenar Desc", "tb_command"));
 
                 // tb_operator
                 $this->execute($cn, $model->addDomain($this->groupId, "1", "Igual", "tb_operator"));

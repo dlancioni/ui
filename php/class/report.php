@@ -49,6 +49,7 @@ class LogicReport extends Base {
         $count = 0;
         $userId = 0;
         $msg = "";
+        $command = 0;
         $data = array();
         $viewList = array();
         $eventList = array();
@@ -145,6 +146,11 @@ class LogicReport extends Base {
                     $fk = $col["id_fk"];
                     $control = $col["id_control"];
 
+                    if (isset($col["id_command"])) {
+                        $command = $col["id_command"];
+                    }
+
+
                     // Column size
                     $columnSize = $this->getSize(count($tableDef), $count);
 
@@ -193,7 +199,10 @@ class LogicReport extends Base {
                         // Print it
                         $cols .= $this->element->createTableCol($fieldValue, $columnSize);
                     } else {
-                        $cols .= $this->element->createTableCol("", $columnSize);
+                        // Discard unselected columns on views
+                        if ($command < $this->sqlBuilder->CONDITION) {
+                            $cols .= $this->element->createTableCol("", $columnSize);
+                        }
                     }
                 }
 
@@ -269,6 +278,12 @@ class LogicReport extends Base {
                 if (trim($item["field_label_view"]) != "") {
                     $fieldName = $item["field_label_view"];
                     $fieldLabel = $fieldName;
+                }
+            }
+
+            if (isset($row["id_command"])) {            
+                if ($item["id_command"] > 6) {
+                    $fieldLabel = "";
                 }
             }
 
