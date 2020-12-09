@@ -28,6 +28,8 @@ class SqlBuilder extends Base {
     private $MAX = 4;
     private $MIN = 5;
     private $AVG = 6;
+    private $CONDITION = 7;
+    private $ORDERING = 8;
 
     /*
      * Other
@@ -435,7 +437,7 @@ class SqlBuilder extends Base {
         $tableFk = "";
         $fieldFk = "";
         $lb = $this->lb;
-        $jsonUtil = new JsonUtil();       
+        $jsonUtil = new JsonUtil();
 
         try {
 
@@ -482,23 +484,42 @@ class SqlBuilder extends Base {
      */
     private function getOrderBy($tableName, $queryDef) {
 
+        $i = 0;
         $sql = "";
+        $ordering = "";
         $lb = $this->lb;
-                
+        $jsonUtil = new JsonUtil();
 
         try {
-
-            if ($this->aggregatedQuery($queryDef)) {
-
-            } else {
-                $sql = " order by $tableName.id";
+            if (count($queryDef) > 0) {
+                foreach ($queryDef as $row) {
+                    if (isset($row["id_command"])) {
+                        $command = $row["id_command"];
+                        if ($command == $this->ORDERING) {
+                            $i ++;
+                            $tableName = $row["table_name"];
+                            $fieldName = $row["field_name"];
+                            $fieldType = $row["field_type"];
+                            $fieldAlias = $this->NO_ALIAS;
+                            $ordering .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias) . ", ";
+                        }
+                    }
+                }
+                $ordering = str_replace(", ", "", $ordering);
             }
 
-            $sql .= $lb;
+            // order by configured, use standard
+            if ($i == 0) {
+                $sql = " order by $tableName.id";
+            } else {
+                $sql = " order by " . $ordering;
+            }
 
         } catch (Exception $ex) {
             $this->setError("QueryBuilder.getOrderBy()", $ex->getMessage());
         }
+
+        // Return order by
         return $sql;
     }
 
