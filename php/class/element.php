@@ -180,6 +180,8 @@
 
             // General declaration
             $html = "";
+            $code = "";
+            $description = "";
             $stringUtil = new StringUtil();
 
             try {
@@ -199,11 +201,11 @@
                 foreach ($data as $item) {
 
                     // Keep values
-                    $key = $item[$key];
-                    $value = $item[$value];
+                    $code = $item[$key];
+                    $description = $item[$value];
 
                     // Handle selected
-                    if ($key == $selectedValue) {
+                    if ($code == $selectedValue) {
                         $selected = "selected";
                     } else {
                         $selected = "";
@@ -211,8 +213,8 @@
 
                     // Create option
                     $html .= "<option ";
-                    $html .= "value=" . $stringUtil->dqt($key) . " " . $selected . ">";
-                    $html .= $value;
+                    $html .= "value=" . $stringUtil->dqt($code) . " " . $selected . ">";
+                    $html .= $description;
                     $html .= "</option>";
                 }
 
