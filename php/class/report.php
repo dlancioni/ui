@@ -266,17 +266,9 @@ class LogicReport extends Base {
 
             // For view, fields may does not exists in data            
             if ($viewId > 0) {
-
                 if (trim($item["field_label_view"]) != "") {
                     $fieldName = $item["field_label_view"];
                     $fieldLabel = $fieldName;
-                }
-
-                foreach ($data as $row) {
-                    if (!isset($row[$fieldName])) {
-                        $fieldLabel = "";
-                        break;
-                    }
                 }
             }
 

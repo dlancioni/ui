@@ -243,7 +243,7 @@ class SqlBuilder extends Base {
 
                 // Keep info
                 $sql .= ", ";
-                $alias = "";
+                $changed = 0;
                 $tableName = $row["table_name"];
                 $fieldName = $row["field_name"];
                 $fieldType = $row["field_type"];
@@ -262,6 +262,7 @@ class SqlBuilder extends Base {
                 if (isset($row["field_label_view"])) {
                     if (trim($row["field_label_view"]) != "") {
                         $fieldAlias = trim($row["field_label_view"]);
+                        $changed = 1;
                     }
                 }                
 
@@ -274,7 +275,8 @@ class SqlBuilder extends Base {
                     } else if ($fk == $this->TB_DOMAIN) {
                         $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias) . $lb;
                         $sql .= ", ";
-                        $fieldAlias = substr($fieldName, 3);
+                        if ($changed == 0) 
+                            $fieldAlias = substr($fieldName, 3);
                         $tableName = $fieldDomain . "_" . $fieldName;
                         $fieldName = "value";
                         $fieldType = $this->TYPE_TEXT;
@@ -282,7 +284,8 @@ class SqlBuilder extends Base {
                     } else {
                         $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias, $command) . $lb;
                         $sql .= ", ";
-                        $fieldAlias = substr($fieldName, 3);
+                        if ($changed == 0) 
+                            $fieldAlias = substr($fieldName, 3);
                         $tableName = $tableFk . "_" . $fieldName;
                         $fieldName = $fieldFk;
                         $fieldType = $this->TYPE_TEXT;

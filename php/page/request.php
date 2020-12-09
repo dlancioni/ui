@@ -21,6 +21,11 @@
         $_SESSION['_ACTION_'] = $action;
     }
 
+    if (isset($_REQUEST["_VIEW_"])) {
+        $viewId = intval($_REQUEST["_VIEW_"]);
+        $_SESSION['_VIEW_'] = intval($viewId);
+    }
+
     if (isset($_REQUEST["_TABLE_"])) {
         $tableId = intval($_REQUEST["_TABLE_"]);
         if ($_SESSION['_TABLE_'] != $tableId) {
@@ -28,11 +33,6 @@
             $_SESSION["_VIEW_"] = $viewId;
         }
         $_SESSION['_TABLE_'] = intval($tableId);
-    }
-
-    if (isset($_REQUEST["_VIEW_"])) {
-        $viewId = intval($_REQUEST["_VIEW_"]);
-        $_SESSION['_VIEW_'] = intval($viewId);
     }
 
     if (isset($_REQUEST["selection"])) {
