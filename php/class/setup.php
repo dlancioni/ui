@@ -398,7 +398,8 @@
                 $this->execute($cn, $model->addDomain($this->groupId, "5", "Mínimo", "tb_command"));
                 $this->execute($cn, $model->addDomain($this->groupId, "6", "Média", "tb_command"));
                 $this->execute($cn, $model->addDomain($this->groupId, "7", "Condição", "tb_command"));
-                $this->execute($cn, $model->addDomain($this->groupId, "8", "Ordenar", "tb_command"));
+                $this->execute($cn, $model->addDomain($this->groupId, "8", "Ordenar Asc", "tb_command"));
+                $this->execute($cn, $model->addDomain($this->groupId, "9", "Ordenar Desc", "tb_command"));
 
                 // tb_operator
                 $this->execute($cn, $model->addDomain($this->groupId, "1", "Igual", "tb_operator"));

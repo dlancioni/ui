@@ -29,7 +29,8 @@ class SqlBuilder extends Base {
     private $MIN = 5;
     private $AVG = 6;
     private $CONDITION = 7;
-    private $ORDERING = 8;
+    private $ORDERING_ASC = 8;
+    private $ORDERING_DESC = 9;
 
     /*
      * Other
@@ -495,7 +496,7 @@ class SqlBuilder extends Base {
                 foreach ($queryDef as $row) {
                     if (isset($row["id_command"])) {
                         $command = $row["id_command"];
-                        if ($command == $this->ORDERING) {
+                        if ($command == $this->ORDERING_ASC || $command == $this->ORDERING_DESC) {
                             $i ++;
                             $tableName = $row["table_name"];
                             $fieldName = $row["field_name"];
@@ -511,6 +512,12 @@ class SqlBuilder extends Base {
             // order by configured, use standard
             if ($i > 0) {
                 $sql = " order by " . $ordering;
+                if ($command == $this->ORDERING_ASC) {
+                    $sql .= " asc";
+                }
+                if ($command == $this->ORDERING_DESC) {
+                    $sql .= " desc";
+                }
             }
 
         } catch (Exception $ex) {
