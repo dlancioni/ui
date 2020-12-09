@@ -136,7 +136,7 @@ class LogicReport extends Base {
 
                     // Keep info
                     $count ++;
-                    $columnSize = 0;                    
+                    $columnSize = 0;
                     $fieldId = $col["id"];
                     $tableFk = $col["table_fk"];
                     $fieldFk = $col["field_fk"];
@@ -153,11 +153,11 @@ class LogicReport extends Base {
                         if (trim($col["field_label_view"]) != "") {
                             $fieldName = trim($col["field_label_view"]);
                         }
-                    }
-
-                    // Handle field name on joins
-                    if ($fk != 0) {
-                        $fieldName = substr($fieldName, 3);
+                    } else {
+                        // Handle field name on joins
+                        if ($fk != 0) {
+                            $fieldName = substr($fieldName, 3);
+                        }
                     }
 
                     // Prepare grid

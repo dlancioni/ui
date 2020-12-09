@@ -243,6 +243,7 @@ class SqlBuilder extends Base {
 
                 // Keep info
                 $sql .= ", ";
+                $alias = "";
                 $tableName = $row["table_name"];
                 $fieldName = $row["field_name"];
                 $fieldType = $row["field_type"];
