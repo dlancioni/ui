@@ -1,14 +1,16 @@
 Pendentes
-	Criar view e solucao para apresentar graficos
+	Criar solucao para view 
+	Criar solucao para apresentar graficos
 	Criar tela para alterar senha
-
+	Criar conceito parent nas telas (tabs)
+Bugs
+	VIEW: Ao apagar view, apagar view def tb
+	VIEW: Nao permitir funcao agregada (sum, avg, etc) em campos string
 
 Nice to have
 	Revisar tratamento erros na chamada de sql, etc	
     Todas a classes devem extender Base
-	Enviar email em ambiente dev
-
-Bugs
+	Enviar email em ambiente dev	
 
 Finalizados
 	Deixar na memoria por transacao, listar todas e filtrar form ou report na apresentacao
