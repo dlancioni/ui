@@ -489,6 +489,7 @@ class SqlBuilder extends Base {
 
         $i = 0;
         $sql = "";
+        $ascdesc = 0;
         $ordering = "";
         $lb = $this->lb;
         $jsonUtil = new JsonUtil();
@@ -500,6 +501,7 @@ class SqlBuilder extends Base {
                         $command = $row["id_command"];
                         if ($command == $this->ORDERING_ASC || $command == $this->ORDERING_DESC) {
                             $i ++;
+                            $ascdesc = $command;
                             $tableName = $row["table_name"];
                             $fieldName = $row["field_name"];
                             $fieldType = $row["field_type"];
@@ -514,10 +516,10 @@ class SqlBuilder extends Base {
             // order by configured, use standard
             if ($i > 0) {
                 $sql = " order by " . $ordering;
-                if ($command == $this->ORDERING_ASC) {
+                if ($ascdesc == $this->ORDERING_ASC) {
                     $sql .= " asc";
                 }
-                if ($command == $this->ORDERING_DESC) {
+                if ($ascdesc == $this->ORDERING_DESC) {
                     $sql .= " desc";
                 }
             }

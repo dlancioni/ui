@@ -116,7 +116,7 @@ class LogicReport extends Base {
             }
 
             // Create header
-            $rows .= $this->createTableHeader($viewId, $data, $tableDef);
+            $rows .= $this->createTableHeader($viewId, $data, $tableDef, $this->sqlBuilder->CONDITION);
 
             // Prepare table contents
             foreach ($data as $row) {
@@ -197,7 +197,9 @@ class LogicReport extends Base {
                         }
 
                         // Print it
-                        $cols .= $this->element->createTableCol($fieldValue, $columnSize);
+                        if ($command < $this->sqlBuilder->CONDITION) {
+                            $cols .= $this->element->createTableCol($fieldValue, $columnSize);
+                        }
                     } else {
                         // Discard unselected columns on views
                         if ($command < $this->sqlBuilder->CONDITION) {
@@ -254,12 +256,13 @@ class LogicReport extends Base {
     /*
      * Create table header
      */
-    private function createTableHeader($viewId, $data, $tableDef) {
+    private function createTableHeader($viewId, $data, $tableDef, $condition) {
 
         // General Declaration
         $cols = "";
         $fieldName = "";
         $fieldLabel = "";
+        $command = 0;
 
         // Create checkbox columns
         if (isset($data[0]["id"]) || count($data) == 0) {
@@ -272,6 +275,9 @@ class LogicReport extends Base {
 
             $fieldName = $item["field_name"];
             $fieldLabel = $item["field_label"];
+            if (isset($item["id_command"])) {
+                $command = $item["id_command"];
+            }
 
             // For view, fields may does not exists in data            
             if ($viewId > 0) {
@@ -281,10 +287,8 @@ class LogicReport extends Base {
                 }
             }
 
-            if (isset($row["id_command"])) {            
-                if ($item["id_command"] > 6) {
-                    $fieldLabel = "";
-                }
+            if ($command > $condition) {
+                $fieldLabel = "";
             }
 
             // Add columns where both def and data exists
