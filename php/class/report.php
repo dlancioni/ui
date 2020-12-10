@@ -145,25 +145,10 @@ class LogicReport extends Base {
                     $fieldType = $col["field_type"];
                     $fk = $col["id_fk"];
                     $control = $col["id_control"];
-
+                    $columnSize = $this->getSize(count($tableDef), $count);
+                    $fieldName = $this->prepareFieldName($col, $fieldName, $fk);
                     if (isset($col["id_command"])) {
                         $command = $col["id_command"];
-                    }
-
-
-                    // Column size
-                    $columnSize = $this->getSize(count($tableDef), $count);
-
-                    // Handle field name on views
-                    if (isset($col["field_label_view"])) {
-                        if (trim($col["field_label_view"]) != "") {
-                            $fieldName = trim($col["field_label_view"]);
-                        }
-                    } else {
-                        // Handle field name on joins
-                        if ($fk != 0) {
-                            $fieldName = substr($fieldName, 3);
-                        }
                     }
 
                     // Prepare grid
@@ -200,6 +185,7 @@ class LogicReport extends Base {
                         if ($command < $this->sqlBuilder->CONDITION) {
                             $cols .= $this->element->createTableCol($fieldValue, $columnSize);
                         }
+
                     } else {
                         // Discard unselected columns on views
                         if ($command < $this->sqlBuilder->CONDITION) {
@@ -328,17 +314,35 @@ class LogicReport extends Base {
      * Prepare view list
      */
     private function createViewList($data, $viewId) {
-
         $html = "<br>";
         $event = "onChange='submit()'";
-
         if (count($data) > 0) {
             $html .= $this->element->createSimpleDropdown("_VIEW_", $data, "id", "name", $viewId, $event);
             $html .= "<br><br>";
         }
-
         return $html;
-    }    
+    }
+
+    /*
+     * Get field name
+     */
+    private function prepareFieldName($col, $fieldName, $fk) {
+
+        // Handle field name on views
+        if (isset($col["field_label_view"])) {
+            if (trim($col["field_label_view"]) != "") {
+                $fieldName = trim($col["field_label_view"]);
+            }
+        } else {
+            // Handle field name on joins
+            if ($fk != 0) {
+                $fieldName = substr($fieldName, 3);
+            }
+        }
+
+        return $fieldName;
+    }
+
 
 
 } // end of class
