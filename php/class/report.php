@@ -38,8 +38,7 @@ class LogicReport extends Base {
         $recordCount = 0;       
         $numberUtil = "";
         $jsonUtil = "";
-        $PAGE_SIZE = 15;
-        $link = "";
+        $PAGE_SIZE = 15;       
         $columnSize = "";
         $fieldAttribute = "";
         $control = "";
@@ -154,32 +153,8 @@ class LogicReport extends Base {
                     // Prepare grid
                     if (isset($row[$fieldName])) {
 
-                        // Get field value
-                        $fieldValue = $row[$fieldName];
-
-                        // Handle field type (datatype)
-                        switch ($fieldType) {
-                            case $this->TYPE_FLOAT: 
-                                $fieldValue = number_format($fieldValue, 2, ',', '.');
-                                break;
-                            case $this->TYPE_BINARY: 
-                                break;
-                            default:    
-                        }
-
-                        // Handle field element (html control)
-                        switch ($control) {
-                            case $this->INPUT_PASSWORD:
-                                $fieldValue = "******";
-                                break;
-                            case $this->INPUT_FILE:
-                                if ($fieldValue != null) {
-                                    $link = $pathUtil->getVirtualPath() . $fieldValue;
-                                    $fieldValue = $this->element->createLink($this->element->createImage($link), $fieldValue, $link, true);
-                                }
-                                break;
-                            default:
-                        }
+                        // Format field value
+                        $fieldValue = $this->prepareFieldValue($fieldType, $row[$fieldName], $control);
 
                         // Print it
                         if ($command < $this->sqlBuilder->CONDITION) {
@@ -286,7 +261,6 @@ class LogicReport extends Base {
         return $this->element->createTableRow($cols);
     }
 
-
     /*
      * Define the column size according to the number of columns
      */
@@ -308,7 +282,6 @@ class LogicReport extends Base {
 
         return $size;
     }
-
 
     /*
      * Prepare view list
@@ -339,10 +312,42 @@ class LogicReport extends Base {
                 $fieldName = substr($fieldName, 3);
             }
         }
-
         return $fieldName;
     }
 
+    /*
+     * Get field value
+     */
+    private function prepareFieldValue($fieldType, $fieldValue, $control) {
+
+        $link = "";
+        
+        // Handle field type (datatype)
+        switch ($fieldType) {
+            case $this->TYPE_FLOAT: 
+                $fieldValue = number_format($fieldValue, 2, ',', '.');
+                break;
+            case $this->TYPE_BINARY: 
+                break;
+            default:    
+        }
+
+        // Handle field element (html control)
+        switch ($control) {
+            case $this->INPUT_PASSWORD:
+                $fieldValue = "******";
+                break;
+            case $this->INPUT_FILE:
+                if ($fieldValue != null) {
+                    $link = $pathUtil->getVirtualPath() . $fieldValue;
+                    $fieldValue = $this->element->createLink($this->element->createImage($link), $fieldValue, $link, true);
+                }
+                break;
+            default:
+        }
+
+        return $fieldValue;
+    }
 
 
 } // end of class
