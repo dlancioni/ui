@@ -32,8 +32,6 @@ class LogicReport extends Base {
         $fieldType = 0;
         $fieldValue = "";
         $filter = "";
-        $checked = "";
-        $radio = "";
         $fk = 0;
         $recordCount = 0;       
         $numberUtil = "";
@@ -139,12 +137,7 @@ class LogicReport extends Base {
                 $cols = "";
 
                 // Create radio for selection
-                if (isset($row["id"])) {
-                    $cols == "" ? $checked = "checked" : $checked = "";
-                    $radio = $this->element->createRadio("selection", $row["id"], $checked);
-                    $cols = $this->element->createTableCol($radio);
-                    $cols .= $this->element->createTableCol($row["id"]);
-                }
+                $cols = $this->prepareRadio($row);
 
                 // Create data contents
                 foreach ($tableDef as $col) {
@@ -346,6 +339,22 @@ class LogicReport extends Base {
         }
 
         return $fieldValue;
+    }
+
+    private function prepareRadio($row) {
+
+        $radio = "";
+        $cols = "";
+        $checked = "";
+
+        if (isset($row["id"])) {
+            $cols == "" ? $checked = "checked" : $checked = "";
+            $radio = $this->element->createRadio("selection", $row["id"], $checked);
+            $cols = $this->element->createTableCol($radio);
+            $cols .= $this->element->createTableCol($row["id"]);
+        }
+
+        return $cols;
     }
 
 
