@@ -84,6 +84,21 @@ class LogicReport extends Base {
                 throw new Exception($msg);
             }
 
+            // Get views
+            $filter = new Filter();
+            $filter->add("tb_view", "id_table", $tableId);
+            $viewList = $this->sqlBuilder->executeQuery($this->cn, 
+                                                        $this->TB_VIEW, 0, 
+                                                        $filter->create(), 
+                                                        $this->sqlBuilder->QUERY_NO_PAGING);
+            //Get events
+            $filter = new Filter();
+            $filter->add("tb_event", "id_table", $tableId);
+            $eventList = $this->sqlBuilder->executeQuery($this->cn, 
+                                                         $this->TB_EVENT, 0, 
+                                                         $filter->create(), 
+                                                         $this->sqlBuilder->QUERY_NO_PAGING);
+
             // Get data
             $filter = new Filter("like");
             if ($action == "Filter") {
@@ -162,6 +177,7 @@ class LogicReport extends Base {
                         }
 
                     } else {
+                        
                         // Discard unselected columns on views
                         if ($command < $this->sqlBuilder->CONDITION) {
                             $cols .= $this->element->createTableCol("", $columnSize);
@@ -171,23 +187,6 @@ class LogicReport extends Base {
 
                 $rows .= $this->element->createTableRow($cols);
             }
-
-            // Get views
-            $filter = new Filter();
-            $filter->add("tb_view", "id_table", $tableId);
-            $viewList = $this->sqlBuilder->executeQuery($this->cn, 
-                                                        $this->TB_VIEW, 0, 
-                                                        $filter->create(), 
-                                                        $this->sqlBuilder->QUERY_NO_PAGING);
-            //Get events
-            $filter = new Filter();
-            $filter->add("tb_event", "id_table", $tableId);
-            $eventList = $this->sqlBuilder->executeQuery($this->cn, 
-                                                         $this->TB_EVENT, 0, 
-                                                         $filter->create(), 
-                                                         $this->sqlBuilder->QUERY_NO_PAGING);
-
-            $logUtil->log("query_event.pgsql", $this->sqlBuilder->lastQuery);
 
             // Prepare view list
             $html .= $this->createViewList($viewList, $viewId);
