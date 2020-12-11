@@ -1,10 +1,10 @@
 Pendentes
 	1) Criar solucao para view 
-		Query customizada sobrepor viewdef	
+		Query customizada sobrepor viewdef	- OK
+		Adicionar condicoes as views		
 		Criar tela tipo painel para exibir campo view
 		Ao apagar view, apagar view def tb
 		Nao permitir funcao agregada (sum, avg, etc) em campos string ou tipo 
-		Adicionar condicoes as views
 
 	2) Criar solucao para apresentar graficos
 	3) Criar tela para alterar senha	

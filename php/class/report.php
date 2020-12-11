@@ -97,6 +97,8 @@ class LogicReport extends Base {
                     $msg = $message->getValue("A19");
                     throw new Exception($msg);
                 }
+            } else {
+                $pageTitle = $tableDef[0]["view_name"];
             }
 
             // Get data
@@ -183,9 +185,6 @@ class LogicReport extends Base {
                 $rows .= $this->element->createTableRow($cols);
             }
 
-            // Prepare view list
-            $html .= $this->createViewList($viewList, $viewId);
-
             // Create page title
             $html .= $this->element->createPageTitle($pageTitle);
 
@@ -199,6 +198,9 @@ class LogicReport extends Base {
 
             // Create buttons
             $html .= $eventAction->createButton($tableId, $userId, $eventList, 1);
+
+            // Prepare view list
+            $html .= $this->element->createPanel($this->createViewList($viewList, $viewId));            
 
         } catch (Exception $ex) {
             $this->setError("LogicReport.createReport()", $ex->getMessage());
@@ -281,11 +283,11 @@ class LogicReport extends Base {
      * Prepare view list
      */
     private function createViewList($data, $viewId) {
-        $html = "<br>";
+        $html = "";
+        $html .= "Visão" . "<br>";
         $event = "onChange='submit()'";
         if (count($data) > 0) {
             $html .= $this->element->createSimpleDropdown("_VIEW_", $data, "id", "name", $viewId, $event);
-            $html .= "<br><br>";
         }
         return $html;
     }

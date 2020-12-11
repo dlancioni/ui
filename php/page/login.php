@@ -4,10 +4,8 @@
 
     if (isset($_SESSION["_AUTH_"]) == false || $_SESSION["_AUTH_"] == 0) {
         ?>  
-
             <!-- Left side itens -->        
             <div class="col-12 text-right">
-                <!-- Button trigger modal -->
                 <a href="#" class="" data-toggle="modal" data-target="#modalRegister">Cadastre-se</a>
                 &nbsp;&nbsp;&nbsp;
                 <a href="#" class="" data-toggle="modal" data-target="#modalRetrieveCredential">Esqueci a senha</a>
@@ -100,7 +98,7 @@
                         </div>
                     </div>
                 </div>
-            </div>            
+            </div>
 
         <?php
 
@@ -109,6 +107,10 @@
 
         <!-- Left side itens -->        
         <div class="col-12 text-right">
+
+            <a href="#" class="" data-toggle="modal" data-target="#modalPanel">Painel</a>
+            &nbsp;&nbsp;&nbsp;            
+
             <?php echo $systemId ?>
             &nbsp;
             <?php echo $username ?>

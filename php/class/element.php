@@ -653,6 +653,38 @@
             return $html;
         }
 
+        public function createPanel($item1="") {
+
+            // General declaration
+            $html = "";
+
+            $html .= "<div class='modal fade' id='modalPanel' tabindex='-1' role='dialog'>";
+                $html .= "<div class='modal-dialog modal-dialog-centered' role='document'>";
+                    $html .= "<div class='modal-content'>";
+
+                        $html .= "<div class='modal-header'>";
+                            $html .= "<h5 class='modal-title' id='exampleModalLongTitle'>Painel</h5>";
+                            $html .= "<button type='button' class='close' data-dismiss='modal' aria-label='Close'>";
+                            $html .= "<span aria-hidden='true'>&times;</span>";
+                            $html .= "</button>";
+                        $html .= "</div>";
+
+                        $html .= "<!-- Body -->";
+                        $html .= "<div class='modal-body'>";
+
+                        if (trim($item1) != "") {
+                            $html .= $item1;
+                        }
+
+                        $html .= "</div>";
+                    $html .= "</div>";
+                $html .= "</div>";
+            $html .= "</div>";
+
+            // Return new panel
+            return $html;
+        }
+
     // End of class
     }
 ?>
