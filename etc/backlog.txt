@@ -11,7 +11,9 @@ Pendentes
 	4) Criar conceito parent nas telas (tabs)	
 
 Bugs
-	Adicionar codigo do sistema na tela de recuperar senha
+	1) Adicionar codigo do sistema na tela de recuperar senha
+	2) Form/load nao esta funcionando
+
 
 Nice to have
 	Revisar tratamento erros na chamada de sql, etc	
