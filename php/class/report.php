@@ -94,7 +94,7 @@ class LogicReport extends Base {
                 if (count($tableDef) > 0) {
                     $pageTitle = $tableDef[0]["title"];
                 } else {
-                    $msg = $message->getValue("A19");
+                    $msg = $message->getValue("M19");
                     throw new Exception($msg);
                 }
             } else {

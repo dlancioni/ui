@@ -56,18 +56,31 @@
             $fieldId = 0;
             $fieldType = "";
             $error = "";
+            $operator = "";
+            $value = "";
             $jsonUtil = new JsonUtil();
             $message = new Message($this->cn);
             $sqlBuilder = new SqlBuilder();
 
             try {
 
-                // Figure out the command
-                $command = $jsonUtil->getValue($new, "id_command");
-
-                // Get field ID
+                // Get data
                 $tableId = $jsonUtil->getValue($new, "id_table");
-                $fieldId = $jsonUtil->getValue($new, "id_field");
+                $fieldId = $jsonUtil->getValue($new, "id_field");                
+                $command = $jsonUtil->getValue($new, "id_command");
+                $operator = $jsonUtil->getValue($new, "id_operator");
+                $value = $jsonUtil->getValue($new, "value");
+
+                // Validate key fields
+                if ($tableId == 0) {
+                    $error = $message->getValue("M1");
+                    $error = str_replace("%", "Tabela", $error);
+                }
+
+                if ($fieldId == 0) {
+                    $error = $message->getValue("M1");
+                    $error = str_replace("%", "Campo", $error);
+                }                
 
                 // Figure out field type
                 $filter = new Filter();
@@ -84,30 +97,42 @@
 
                 // Validate it
                 switch ($command) {
+
+                    // Valid data types
                     case $this->SUM:
                     case $this->MAX:
                     case $this->MIN:
-                        // Valid data types
                         if ($fieldType != $this->TYPE_INT && 
                             $fieldType != $this->TYPE_FLOAT && 
                             $fieldType != $this->TYPE_DATE) {
-                                $error = "M21";
+                                $error = $message->getValue("M21");
                         }
                         break;
 
+                    // Valid data types                        
                     case $this->AVG:
-                        // Valid data types
                         if ($fieldType != $this->TYPE_INT && 
                             $fieldType != $this->TYPE_FLOAT) {
-                                $error = "M22";
+                                $error = $message->getValue("M22");
                         }
+
+                    // Validate selection
+                    case $this->SELECTION:
+                        if ($operator != 0 || trim($value) != "") {
+                            $error = $message->getValue("M23");
+                        }
+                        break;
+
+                    // Validate condition
+                    case $this->CONDITION:
+                        if ($operator == 0 || trim($value) == "") {
+                            $error = $message->getValue("M24");
+                        }
+                        break;
                 }
 
                 // Validate it
                 if ($error != "") {
-
-                    // Get error message
-                    $error = $message->getValue($error);
 
                     // Keep it
                     $this->setError("LogicViewField.validateViewField()", $error);

@@ -67,7 +67,7 @@
             try {
 
                 if (!move_uploaded_file($this->tempFile, $this->destination)) {
-                    $msg = $message->getValue("A12");
+                    $msg = $message->getValue("M12");
                     throw new Exception($msg);
                 }
 

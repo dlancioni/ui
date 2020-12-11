@@ -357,29 +357,31 @@
                 $this->execute($cn, $model->addDomain($this->groupId, 1, "Tabela", "tb_target"));
                 $this->execute($cn, $model->addDomain($this->groupId, 2, "Formulário", "tb_target"));
                 // tb_message
-                $this->execute($cn, $model->addDomain($this->groupId, "A1", "Campo % é obrigatório", "tb_message"));
-                $this->execute($cn, $model->addDomain($this->groupId, "A2", "Data inválida informada no campo %", "tb_message"));
-                $this->execute($cn, $model->addDomain($this->groupId, "A3", "Numero inválido informada no campo %", "tb_message"));
-                $this->execute($cn, $model->addDomain($this->groupId, "A4", "Os valores para os campos % ja existem na tabela e não podem se repetir", "tb_message"));
-                $this->execute($cn, $model->addDomain($this->groupId, "A5", "Nenhuma mudança identifica no registro, alteração não realizada", "tb_message"));
-                $this->execute($cn, $model->addDomain($this->groupId, "A6", "Registro incluído com sucesso", "tb_message"));
-                $this->execute($cn, $model->addDomain($this->groupId, "A7", "Registro alterado com sucesso", "tb_message"));
-                $this->execute($cn, $model->addDomain($this->groupId, "A8", "Registro excluído com sucesso", "tb_message"));
-                $this->execute($cn, $model->addDomain($this->groupId, "A9", "Campo Tabela FK foi selecionado, entao Campo FK é obrigatório", "tb_message"));
-                $this->execute($cn, $model->addDomain($this->groupId, "A10", "Campo % é do tipo data, mascara é obrigatório. ex: dd/mm/yyyy", "tb_message"));
-                $this->execute($cn, $model->addDomain($this->groupId, "A11", "Registro pertence ao grupo Sistema, não pode ser modificado ou excluído", "tb_message"));
-                $this->execute($cn, $model->addDomain($this->groupId, "A12", "Não foi possível concluir o upload dos arquivos", "tb_message"));                
-                $this->execute($cn, $model->addDomain($this->groupId, "A13", "Usuário não cadastrado ou não informado", "tb_message"));
-                $this->execute($cn, $model->addDomain($this->groupId, "A14", "Usuário não está associado a nenhum perfil", "tb_message"));
-                $this->execute($cn, $model->addDomain($this->groupId, "A15", "Usuário não está associado a nenhum grupo", "tb_message"));
-                $this->execute($cn, $model->addDomain($this->groupId, "A16", "Perfil do usuário não possui transações associadas", "tb_message"));
-                $this->execute($cn, $model->addDomain($this->groupId, "A17", "Senha inválida ou não informada", "tb_message"));
-                $this->execute($cn, $model->addDomain($this->groupId, "A18", "Autenticado com sucesso, seja bem vindo", "tb_message"));
-                $this->execute($cn, $model->addDomain($this->groupId, "A19", "Módulo não tem nenhum campo associado", "tb_message"));
-                $this->execute($cn, $model->addDomain($this->groupId, "A20", "Não foi possível executar a consulta dinamica", "tb_message"));
+                $this->execute($cn, $model->addDomain($this->groupId, "M1", "Campo % é obrigatório", "tb_message"));
+                $this->execute($cn, $model->addDomain($this->groupId, "M2", "Data inválida informada no campo %", "tb_message"));
+                $this->execute($cn, $model->addDomain($this->groupId, "M3", "Numero inválido informada no campo %", "tb_message"));
+                $this->execute($cn, $model->addDomain($this->groupId, "M4", "Os valores para os campos % ja existem na tabela e não podem se repetir", "tb_message"));
+                $this->execute($cn, $model->addDomain($this->groupId, "M5", "Nenhuma mudança identifica no registro, alteração não realizada", "tb_message"));
+                $this->execute($cn, $model->addDomain($this->groupId, "M6", "Registro incluído com sucesso", "tb_message"));
+                $this->execute($cn, $model->addDomain($this->groupId, "M7", "Registro alterado com sucesso", "tb_message"));
+                $this->execute($cn, $model->addDomain($this->groupId, "M8", "Registro excluído com sucesso", "tb_message"));
+                $this->execute($cn, $model->addDomain($this->groupId, "M9", "Campo Tabela FK foi selecionado, entao Campo FK é obrigatório", "tb_message"));
+                $this->execute($cn, $model->addDomain($this->groupId, "M10", "Campo % é do tipo data, mascara é obrigatório. ex: dd/mm/yyyy", "tb_message"));
+                $this->execute($cn, $model->addDomain($this->groupId, "M11", "Registro pertence ao grupo Sistema, não pode ser modificado ou excluído", "tb_message"));
+                $this->execute($cn, $model->addDomain($this->groupId, "M12", "Não foi possível concluir o upload dos arquivos", "tb_message"));                
+                $this->execute($cn, $model->addDomain($this->groupId, "M13", "Usuário não cadastrado ou não informado", "tb_message"));
+                $this->execute($cn, $model->addDomain($this->groupId, "M14", "Usuário não está associado a nenhum perfil", "tb_message"));
+                $this->execute($cn, $model->addDomain($this->groupId, "M15", "Usuário não está associado a nenhum grupo", "tb_message"));
+                $this->execute($cn, $model->addDomain($this->groupId, "M16", "Perfil do usuário não possui transações associadas", "tb_message"));
+                $this->execute($cn, $model->addDomain($this->groupId, "M17", "Senha inválida ou não informada", "tb_message"));
+                $this->execute($cn, $model->addDomain($this->groupId, "M18", "Autenticado com sucesso, seja bem vindo", "tb_message"));
+                $this->execute($cn, $model->addDomain($this->groupId, "M19", "Módulo não tem nenhum campo associado", "tb_message"));
+                $this->execute($cn, $model->addDomain($this->groupId, "M20", "Não foi possível executar a consulta dinamica", "tb_message"));
                 $this->execute($cn, $model->addDomain($this->groupId, "M21", "Funções Soma, Máximo e Mínimo só são válidas para campos do tipo inteiro, decimal e data", "tb_message"));
                 $this->execute($cn, $model->addDomain($this->groupId, "M22", "Função Média só é válidas para campos do tipo numérico (inteiro e decimal)", "tb_message"));
-                                
+                $this->execute($cn, $model->addDomain($this->groupId, "M23", "Operador e Valor devem estar vazios para usar o comando Seleção", "tb_message"));
+                $this->execute($cn, $model->addDomain($this->groupId, "M24", "Comando Condição selecionado, Operador e Valor são obrigatórios", "tb_message"));
+
                 // tb_cascade
                 $this->execute($cn, $model->addDomain($this->groupId, "tb_field.id_table_fk", "id_field_fk; tb_field; id; label", "tb_cascade"));
                 $this->execute($cn, $model->addDomain($this->groupId, "tb_event.id_table", "id_field; tb_field; id; label", "tb_cascade"));
@@ -405,12 +407,12 @@
                 $this->execute($cn, $model->addDomain($this->groupId, 9, "Ordenar Desc", "tb_command"));
 
                 // tb_operator
-                $this->execute($cn, $model->addDomain($this->groupId, "1", "Igual", "tb_operator"));
-                $this->execute($cn, $model->addDomain($this->groupId, "2", "Diferente", "tb_operator"));
-                $this->execute($cn, $model->addDomain($this->groupId, "3", "Maior", "tb_operator"));
-                $this->execute($cn, $model->addDomain($this->groupId, "4", "Maior igual", "tb_operator"));
-                $this->execute($cn, $model->addDomain($this->groupId, "5", "Menor", "tb_operator"));
-                $this->execute($cn, $model->addDomain($this->groupId, "6", "Menor igual", "tb_operator"));
+                $this->execute($cn, $model->addDomain($this->groupId, 1, "Igual", "tb_operator"));
+                $this->execute($cn, $model->addDomain($this->groupId, 2, "Diferente", "tb_operator"));
+                $this->execute($cn, $model->addDomain($this->groupId, 3, "Maior", "tb_operator"));
+                $this->execute($cn, $model->addDomain($this->groupId, 4, "Maior igual", "tb_operator"));
+                $this->execute($cn, $model->addDomain($this->groupId, 5, "Menor", "tb_operator"));
+                $this->execute($cn, $model->addDomain($this->groupId, 6, "Menor igual", "tb_operator"));
                 
             } catch (Exception $ex) {
                 throw $ex;

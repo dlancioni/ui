@@ -492,7 +492,7 @@
 
             // Validate mandatory fields
             if ($action != "Filter") {
-                $msg = $message->getValue("A1", $fieldLabel);
+                $msg = $message->getValue("M1", $fieldLabel);
                 if ($fieldMandatory == 1) {                
                     $js .= "if (!validateMandatory($fieldName, $fk, $msg)) {";
                     $js .= "return false;";
@@ -501,7 +501,7 @@
             }
 
             // Validate data type date
-            $msg = $message->getValue("A2", $fieldLabel);
+            $msg = $message->getValue("M2", $fieldLabel);
             if ($fieldType == "date") {                
                 $js .= "if (!validateDate($fieldName, $fieldMask, $msg)) {";
                 $js .= "return false;";
@@ -509,7 +509,7 @@
             }
 
             // Validate datat numeric
-            $msg = $message->getValue("A3", $fieldLabel);
+            $msg = $message->getValue("M3", $fieldLabel);
             if ($fieldType == "int" || $fieldType == "float") {
                 $js .= "if (!validateNumeric($fieldName, $msg)) {";
                 $js .= "return false;";

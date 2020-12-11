@@ -113,7 +113,7 @@
                     // Cannot touch system info
                     if ($sqlBuilder->getGroup() > 1) {
                         if ($jsonUtil->getValue($old, "id_group", true) == "1") {
-                            $msg = $message->getValue("A11", $key);
+                            $msg = $message->getValue("M11", $key);
                             throw new Exception($msg);
                         }
                     }
@@ -173,7 +173,7 @@
 
                     // Do nothing if no changes in the records
                     if ($changed == false)  {
-                        $msg = $message->getValue("A5");
+                        $msg = $message->getValue("M5");
                         throw new Exception($msg);
                     }
 
@@ -182,7 +182,7 @@
                         $data = $sqlBuilder->executeQuery($cn, $tableId, $viewId, $filter->create(), $sqlBuilder->QUERY_NO_JOIN);
                         if (count($data) > 0) {
                             $key =  rtrim($key, ", ");
-                            $msg = $message->getValue("A4", $key);
+                            $msg = $message->getValue("M4", $key);
                             throw new Exception($msg);
                         }
                     }
@@ -281,16 +281,16 @@
 
                 switch ($this->getAction()) {
                     case "New":
-                        $msg = "A6";                        
+                        $msg = "M6";                        
                         $sql = "insert into $tableName (field) values ('$new') returning id";                        
                         break;
                     case "Edit":
-                        $msg = "A7";                        
+                        $msg = "M7";                        
                         $sql .= " update $tableName set field = '$new' ";
                         $sql .= " where " . $jsonUtil->condition($tableName, "id", $this->TYPE_INT, "=", $this->getLastId());
                         break;
                     case "Delete":
-                        $msg = "A8";                        
+                        $msg = "M8";                        
                         $sql .= " delete from $tableName ";
                         $sql .= " where " . $jsonUtil->condition($tableName, "id", $this->TYPE_INT, "=", $this->getLastId());                        
                         break;

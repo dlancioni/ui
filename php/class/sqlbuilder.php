@@ -68,7 +68,7 @@ class SqlBuilder extends Base {
                     break;
                 }
             } else {
-                $error = $message->getValue("A20");
+                $error = $message->getValue("M20");
                 $this->setError("sqlbuilder.queryJson()", $error);
             }
 

@@ -3,9 +3,9 @@ Pendentes
 		Query customizada sobrepor viewdef	- OK
 		Criar tela tipo painel para exibir campo view - OK
 		Ao apagar view, apagar view def tb - OK
-
+		Nao permitir funcao agregada (sum, avg, etc) em campos string ou tipo - OK
 		Adicionar condicoes as views		
-		Nao permitir funcao agregada (sum, avg, etc) em campos string ou tipo 
+
 
 	2) Criar solucao para apresentar graficos
 	3) Criar tela para alterar senha	

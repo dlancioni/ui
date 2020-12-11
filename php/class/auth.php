@@ -57,7 +57,7 @@
                 $filter->addCondition("tb_user", "username", $this->TYPE_TEXT, "=", $username);
                 $data = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_USER, $viewId, $filter->create(), $this->sqlBuilder->QUERY_NO_JOIN);
                 if (count($data) <= 0) {
-                    $msg = $message->getValue("A13");
+                    $msg = $message->getValue("M13");
                     throw new Exception($msg);
                 } else {
                     $userId = $data[0]["id"];
@@ -68,7 +68,7 @@
                 $filter->addCondition("tb_user_profile", "id_user", $this->TYPE_INT, "=", $userId);
                 $data = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_USER_PROFILE, $viewId, $filter->create(), $this->sqlBuilder->QUERY_NO_JOIN);
                 if (count($data) <= 0) {
-                    $msg = $message->getValue("A14");
+                    $msg = $message->getValue("M14");
                     throw new Exception($msg);
                 } else {
                     $profileId = $data[0]["id_profile"];
@@ -79,7 +79,7 @@
                 $filter->addCondition("tb_user_group", "id_user", $this->TYPE_INT, "=", $userId);
                 $data = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_USER_GROUP, $viewId, $filter->create(), $this->sqlBuilder->QUERY_NO_JOIN);
                 if (count($data) <= 0) {
-                    $msg = $message->getValue("A15");
+                    $msg = $message->getValue("M15");
                     throw new Exception($msg);
                 } else {
                     $groupId = $data[0]["id_grp"];
@@ -90,7 +90,7 @@
                 $filter->addCondition("tb_profile_table", "id_profile", $this->TYPE_INT, "=", $profileId);
                 $data = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_PROFILE_TABLE, $viewId, $filter->create(), $this->sqlBuilder->QUERY_NO_JOIN);
                 if (count($data) <= 0) {
-                    $msg = $message->getValue("A16");
+                    $msg = $message->getValue("M16");
                     throw new Exception($msg);
                 }
 
@@ -100,7 +100,7 @@
                 $filter->addCondition("tb_user", "password", $this->TYPE_TEXT, "=", $password);
                 $data = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_USER, $viewId, $filter->create(), $this->sqlBuilder->QUERY_NO_JOIN);
                 if (count($data) <= 0) {
-                    $msg = $message->getValue("A17");
+                    $msg = $message->getValue("M17");
                     throw new Exception($msg);
                 }
 
@@ -113,7 +113,7 @@
                 $this->userName = $username;               
                 $this->profileId = $profileId;
                 $this->groupId = $groupId;
-                $this->message = $message->getValue("A18");
+                $this->message = $message->getValue("M18");
                 $this->menu = $logicMenu->html;
 
             } catch (Exception $ex) {
