@@ -33,7 +33,7 @@
             try {
 
                 // Get current Id
-                $viewId = $jsonUtil->getValue("id_view", $old);
+                $viewId = $jsonUtil->getValue($old, "id");
 
                 // Delete it
                 switch ($this->getAction()) {
@@ -54,6 +54,7 @@
             $rs = "";
             $sql = "";
             $affectedRows = 0;
+            $jsonUtil = new JsonUtil();
 
             try {
 

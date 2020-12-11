@@ -325,7 +325,10 @@
 
                 // Keep last error
                 $this->setMessage("");
-                $this->setError("Db.Persist()", $ex->getMessage());
+                $this->setError("Persist.persist()", $ex->getMessage());
+
+                // Very important to handle transaction
+                throw $ex;
             }
             
             // Return ID

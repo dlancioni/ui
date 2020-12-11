@@ -1,5 +1,5 @@
 set search_path to S20201;
-
+delete from tb_view_field;
 
 select 
 count(*) over() as record_count, -- Paginação
