@@ -141,6 +141,18 @@ class SqlBuilder extends Base {
      */
     private function prepareQuery($cn, $tableId, $viewId, $filter, $queryType, $queryDef) {
 
+        /*
+        Instructions for custom queries:
+
+            1) To enable paging, must append line below in your query
+            count(*) over() as record_count
+
+            2) To enable group countrol, must append line below in your query    
+            (tb_menu.field->>'id_group')::int as "id_group"
+
+            3) Your must the query output fields in view_def
+        */
+
         // General Declaration
         $sql = "";
         $tableName = "";
@@ -176,7 +188,13 @@ class SqlBuilder extends Base {
                     // Keep table name
                     $tableName = $queryDef[0]["table_name"];
 
-                    if (trim($tableName) != "") {
+                    // Check custom query
+                    if (isset($queryDef[0]["sql"])) {
+                        $sql = $queryDef[0]["sql"];
+                    }
+
+                    // No custom view, generate sql
+                    if (trim($sql) == "") {
                         
                         // Get field list
                         $sql .= $this->getFieldList($queryDef, $queryType);
@@ -205,6 +223,17 @@ class SqlBuilder extends Base {
                         if ($queryType != $this->QUERY_NO_PAGING) {
                             $sql .= $this->getPaging($queryDef);
                         }
+
+                    } else {
+
+                        // Check custom query
+                        $sql = $queryDef[0]["sql"];
+
+                        // Paging control
+                        if ($queryType != $this->QUERY_NO_PAGING) {
+                            $sql .= $this->getPaging($queryDef);
+                        }
+
                     }
                 }
             }
