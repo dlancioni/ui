@@ -49,6 +49,8 @@ class SqlBuilder extends Base {
         $query = "";
         $sql = "";
         $stringUtil = new StringUtil();
+        $message = new Message($cn);
+        $error = "";
 
         try {
 
@@ -78,6 +80,9 @@ class SqlBuilder extends Base {
                     $json = $row[0];
                     break;
                 }
+            } else {
+                $error = $message->getValue("A20");
+                $this->setError("sqlbuilder.queryJson()", $error);
             }
 
         } catch (exception $ex) {                

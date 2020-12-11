@@ -376,7 +376,8 @@
                 $this->execute($cn, $model->addDomain($this->groupId, "A17", "Senha inválida ou não informada", "tb_message"));
                 $this->execute($cn, $model->addDomain($this->groupId, "A18", "Autenticado com sucesso, seja bem vindo", "tb_message"));
                 $this->execute($cn, $model->addDomain($this->groupId, "A19", "Módulo não tem nenhum campo associado", "tb_message"));
-                
+                $this->execute($cn, $model->addDomain($this->groupId, "A20", "Não foi possível executar a consulta dinamica", "tb_message"));
+                                
                 // tb_cascade
                 $this->execute($cn, $model->addDomain($this->groupId, "tb_field.id_table_fk", "id_field_fk; tb_field; id; label", "tb_cascade"));
                 $this->execute($cn, $model->addDomain($this->groupId, "tb_event.id_table", "id_field; tb_field; id; label", "tb_cascade"));
