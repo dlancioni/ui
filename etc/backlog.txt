@@ -1,8 +1,9 @@
 Pendentes
 	1) Criar solucao para view 
 		Query customizada sobrepor viewdef	- OK
+		Criar tela tipo painel para exibir campo view - OK
+
 		Adicionar condicoes as views		
-		Criar tela tipo painel para exibir campo view
 		Ao apagar view, apagar view def tb
 		Nao permitir funcao agregada (sum, avg, etc) em campos string ou tipo 
 

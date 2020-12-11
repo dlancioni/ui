@@ -23,5 +23,3 @@ include "php/page/core.php";
     </form>
 </body>
 </html>
-        
-        

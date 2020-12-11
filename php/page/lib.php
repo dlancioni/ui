@@ -8,6 +8,9 @@
 <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet" href="lib/bootstrap-submenu/css/bootstrap-submenu.min.css">
 
+<!-- CANVASJS -->
+<script src="lib/canvasjs/canvasjs.min.js"></script>
+
 <!-- JAVASCRIPT -->
 <script src="js/filesaver.js"></script>
 <script src="js/moment.js"></script>
