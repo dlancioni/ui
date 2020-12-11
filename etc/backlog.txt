@@ -5,9 +5,11 @@ Pendentes
 	Criar conceito parent nas telas (tabs)
 	Query customizada sobrepor viewdef
 	Criar tela tipo painel para exibir campo view
+
 Bugs
 	VIEW: Ao apagar view, apagar view def tb
 	VIEW: Nao permitir funcao agregada (sum, avg, etc) em campos string ou tipo 
+	Adicionar codigo do sistema na tela de recuperar senha
 
 Nice to have
 	Revisar tratamento erros na chamada de sql, etc	

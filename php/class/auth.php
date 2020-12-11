@@ -178,7 +178,7 @@
                 $sql .= "select" . $stringUtil->lb();
                 $sql .= "field->>'username' as username," . $stringUtil->lb();
                 $sql .= "field->>'password' as password" . $stringUtil->lb();
-                $sql .= "from tb_user" . $stringUtil->lb();
+                $sql .= "from s20201.tb_user" . $stringUtil->lb();
                 $sql .= "where field->>'username' = '$username'" . $stringUtil->lb();
                 $rs = pg_query($cn, $sql);
 
