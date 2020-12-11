@@ -1,14 +1,16 @@
 Pendentes
-	Criar solucao para view 
-	Criar solucao para apresentar graficos
-	Criar tela para alterar senha
-	Criar conceito parent nas telas (tabs)
-	Query customizada sobrepor viewdef
-	Criar tela tipo painel para exibir campo view
+	1) Criar solucao para view 
+		Query customizada sobrepor viewdef	
+		Criar tela tipo painel para exibir campo view
+		Ao apagar view, apagar view def tb
+		Nao permitir funcao agregada (sum, avg, etc) em campos string ou tipo 
+		Adicionar condicoes as views
+
+	2) Criar solucao para apresentar graficos
+	3) Criar tela para alterar senha	
+	4) Criar conceito parent nas telas (tabs)	
 
 Bugs
-	VIEW: Ao apagar view, apagar view def tb
-	VIEW: Nao permitir funcao agregada (sum, avg, etc) em campos string ou tipo 
 	Adicionar codigo do sistema na tela de recuperar senha
 
 Nice to have
