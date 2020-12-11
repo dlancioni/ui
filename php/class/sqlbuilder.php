@@ -20,19 +20,6 @@ class SqlBuilder extends Base {
     public $lastQuery = "";
 
     /*
-     * Aggregation
-     */
-    public $SELECTION = 1;
-    public $COUNT = 2;
-    public $SUM = 3;
-    public $MAX = 4;
-    public $MIN = 5;
-    public $AVG = 6;
-    public $CONDITION = 7;
-    public $ORDERING_ASC = 8;
-    public $ORDERING_DESC = 9;
-
-    /*
      * Other
      */    
     public $lb = "";    

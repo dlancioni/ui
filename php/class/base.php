@@ -13,7 +13,6 @@
         private $lastId = 0;
         private $viewId = 0;
 
-
         // Other
         private $action = "";
 
@@ -65,6 +64,19 @@
         public $PROFILE_SYSTEM = 1;
         public $PROFILE_ADMIN = 2;
         public $PROFILE_USER = 3;
+
+        /*
+        * Aggregation
+        */
+        public $SELECTION = 1;
+        public $COUNT = 2;
+        public $SUM = 3;
+        public $MAX = 4;
+        public $MIN = 5;
+        public $AVG = 6;
+        public $CONDITION = 7;
+        public $ORDERING_ASC = 8;
+        public $ORDERING_DESC = 9;        
 
         // Constructor
         function __construct($systemId=0, $tableId=0, $userId=0, $groupId=0) {

@@ -203,7 +203,7 @@
             } catch (Exception $ex) {
 
                 // Keep the error
-                $sqlBuilder->setError("Persist()", $ex->getMessage());
+                $this->setError("Persist()", $ex->getMessage());
 
                 // Open transaction
                 pg_query($cn, "rollback");

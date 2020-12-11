@@ -377,6 +377,8 @@
                 $this->execute($cn, $model->addDomain($this->groupId, "A18", "Autenticado com sucesso, seja bem vindo", "tb_message"));
                 $this->execute($cn, $model->addDomain($this->groupId, "A19", "Módulo não tem nenhum campo associado", "tb_message"));
                 $this->execute($cn, $model->addDomain($this->groupId, "A20", "Não foi possível executar a consulta dinamica", "tb_message"));
+                $this->execute($cn, $model->addDomain($this->groupId, "M21", "Funções Soma, Máximo e Mínimo só são válidas para campos do tipo inteiro, decimal e data", "tb_message"));
+                $this->execute($cn, $model->addDomain($this->groupId, "M22", "Função Média só é válidas para campos do tipo numérico (inteiro e decimal)", "tb_message"));
                                 
                 // tb_cascade
                 $this->execute($cn, $model->addDomain($this->groupId, "tb_field.id_table_fk", "id_field_fk; tb_field; id; label", "tb_cascade"));
