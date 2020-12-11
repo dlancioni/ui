@@ -255,6 +255,12 @@
                 case "tb_event":
                     $logic = new LogicEvent($cn);
                     break;
+                case "tb_view":
+                    $logic = new LogicView($cn);
+                    break;
+                case "tb_view_field":
+                    $logic = new LogicViewField($cn);
+                    break;                    
                 default:  
                     $logic  = "";
             }
