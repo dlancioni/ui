@@ -58,20 +58,26 @@ class SqlBuilder extends Base {
             // Get query
             $query = $this->prepareQuery($cn, $tableId, $viewId, $filter, $queryType, $queryDef);
 
-            // Transform results to json
-            $sql = "select json_agg(t) from (" . $query . ") t";
+            // Execute generated query
+            if (trim($query) != "") {
 
-            // Log file
-            $this->lastQuery = $sql;
+                // Transform results to json
+                $sql = "select json_agg(t) from (" . $query . ") t";
 
-            // Execute query
-            $rs = pg_query($cn, $sql);
-            $this->setError("", "");
+                // Log file
+                $this->lastQuery = $sql;
 
-            // Return data
-            while ($row = pg_fetch_row($rs)) {
-                $json = $row[0];
-                break;
+                // Execute query
+                $rs = pg_query($cn, $sql);
+
+                // Reset error
+                $this->setError("", "");
+
+                // Return data
+                while ($row = pg_fetch_row($rs)) {
+                    $json = $row[0];
+                    break;
+                }
             }
 
         } catch (exception $ex) {                
@@ -159,37 +165,41 @@ class SqlBuilder extends Base {
             // Prepare query
             if (is_array($queryDef)) {
 
+                // View with custom sql is a special case
                 if (count($queryDef) > 0) {
 
                     // Keep table name
                     $tableName = $queryDef[0]["table_name"];
 
-                    // Get field list
-                    $sql .= $this->getFieldList($queryDef, $queryType);
+                    if (trim($tableName) != "") {
+                        
+                        // Get field list
+                        $sql .= $this->getFieldList($queryDef, $queryType);
 
-                    // Get from
-                    $sql .= $this->getFrom($queryDef);
+                        // Get from
+                        $sql .= $this->getFrom($queryDef);
 
-                    // Get join
-                    if ($queryType != $this->QUERY_NO_JOIN) {
-                        $sql .= $this->getJoin($queryDef);
-                    }
+                        // Get join
+                        if ($queryType != $this->QUERY_NO_JOIN) {
+                            $sql .= $this->getJoin($queryDef);
+                        }
 
-                    // Get where
-                    $sql .= $this->getWhere($queryDef, $tableId);
+                        // Get where
+                        $sql .= $this->getWhere($queryDef, $tableId);
 
-                    // Get condition
-                    $sql .= $this->getCondition($filter);
+                        // Get condition
+                        $sql .= $this->getCondition($filter);
 
-                    // Get ordering
-                    $sql .= $this->getGroupBy($tableName, $queryDef);
+                        // Get ordering
+                        $sql .= $this->getGroupBy($tableName, $queryDef);
 
-                    // Get ordering
-                    $sql .= $this->getOrderBy($tableName, $queryDef);
+                        // Get ordering
+                        $sql .= $this->getOrderBy($tableName, $queryDef);
 
-                    // Paging control
-                    if ($queryType != $this->QUERY_NO_PAGING) {
-                        $sql .= $this->getPaging($queryDef);
+                        // Paging control
+                        if ($queryType != $this->QUERY_NO_PAGING) {
+                            $sql .= $this->getPaging($queryDef);
+                        }
                     }
                 }
             }
@@ -608,13 +618,13 @@ class SqlBuilder extends Base {
         $sql .= " from tb_view" . $lb;
 
         // View x Fields
-        $sql .= " inner join tb_view_field on (tb_view_field.field->>'id_view')::text = (tb_view.id)::text" . $lb;
+        $sql .= " left join tb_view_field on (tb_view_field.field->>'id_view')::text = (tb_view.id)::text" . $lb;
 
         // Join fields
-        $sql .= " inner join tb_field on (tb_view_field.field->>'id_field')::text = (tb_field.id)::text" . $lb;
+        $sql .= " left join tb_field on (tb_view_field.field->>'id_field')::text = (tb_field.id)::text" . $lb;
 
         // Join table
-        $sql .= " inner join tb_table on (tb_field.field->>'id_table')::text = (tb_table.id)::text" . $lb;
+        $sql .= " left join tb_table on (tb_field.field->>'id_table')::text = (tb_table.id)::text" . $lb;
 
         // Join inner table
         $sql .= " left join tb_table tb_table_fk on (tb_field.field->>'id_table_fk')::text = (tb_table_fk.id)::text" . $lb;
@@ -673,6 +683,7 @@ class SqlBuilder extends Base {
         if ($type == "V") {
             $sql .= " (tb_view_field.field->>'id_command')::text as id_command," . $lb;
             $sql .= " (tb_view_field.field->>'label')::text as field_label_view," . $lb;
+            $sql .= " (tb_view.field->>'sql')::text as sql," . $lb;
         }        
 
         // tb_table

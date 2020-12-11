@@ -64,23 +64,7 @@ class LogicReport extends Base {
             $formData = $this->formData;
 
             // Current user
-            $userId = $this->sqlBuilder->getUser();            
-
-            // Handle structures
-            if ($viewId != 0) {
-                $tableDef = $this->sqlBuilder->getTableDef($this->cn, 0, $viewId);
-            } else {
-                $tableDef = $this->sqlBuilder->getTableDef($this->cn, $tableId, 0);
-            }
-            $logUtil->log("query_def.pgsql", $this->sqlBuilder->lastQuery);
-
-            // Get table structure
-            if (count($tableDef) > 0) {
-                $pageTitle = $tableDef[0]["title"];
-            } else {
-                $msg = $message->getValue("A19");
-                throw new Exception($msg);
-            }
+            $userId = $this->sqlBuilder->getUser();
 
             // Get views
             $filter = new Filter();
@@ -95,7 +79,25 @@ class LogicReport extends Base {
             $eventList = $this->sqlBuilder->executeQuery($this->cn, 
                                                          $this->TB_EVENT, 0, 
                                                          $filter->create(), 
-                                                         $this->sqlBuilder->QUERY_NO_PAGING);
+                                                         $this->sqlBuilder->QUERY_NO_PAGING);            
+
+            // Handle structures
+            if ($viewId != 0) {
+                $tableDef = $this->sqlBuilder->getTableDef($this->cn, 0, $viewId);
+            } else {
+                $tableDef = $this->sqlBuilder->getTableDef($this->cn, $tableId, 0);
+            }
+            $logUtil->log("query_def.pgsql", $this->sqlBuilder->lastQuery);
+
+            // Get table structure
+            if ($viewId == 0) {
+                if (count($tableDef) > 0) {
+                    $pageTitle = $tableDef[0]["title"];
+                } else {
+                    $msg = $message->getValue("A19");
+                    throw new Exception($msg);
+                }
+            }
 
             // Get data
             $filter = new Filter("like");
