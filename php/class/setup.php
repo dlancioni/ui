@@ -228,7 +228,8 @@
                 $this->execute($cn, $model->addField($this->TB_TABLE, "Titulo", "title", $this->TYPE_TEXT, 50, "", $yes, $no, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
                 $this->execute($cn, $model->addField($this->TB_TABLE, "Menu", "id_menu", $this->TYPE_INT, 0, "", $yes, $no, $this->tb("tb_menu"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));                
                 $this->execute($cn, $model->addField($this->TB_TABLE, "Tipo", "id_type", $this->TYPE_INT, 0, "", $yes, $no, $this->tb("tb_domain"), $this->fd("value"), "tb_table_type", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_TABLE, "Tabela", "name", $this->TYPE_TEXT, 50, "", $yes, $yes, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));                
+                $this->execute($cn, $model->addField($this->TB_TABLE, "Tabela", "name", $this->TYPE_TEXT, 50, "", $yes, $yes, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_TABLE, "Estilo", "id_style", $this->TYPE_INT, 0, "", $yes, $no, $this->tb("tb_domain"), $this->fd("value"), "tb_chart_type", "", $this->INPUT_DROPDOWN, ++$seq));               
 
                 // tb_field
                 $seq = 0;
@@ -251,6 +252,7 @@
                 $seq = 0;
                 $this->execute($cn, $model->addField($this->TB_VIEW, "Módulo", "id_table", $this->TYPE_INT, 0, "", $yes, $yes, $this->tb("tb_table"), $this->fd("title"), "", "", $this->INPUT_DROPDOWN, ++$seq));
                 $this->execute($cn, $model->addField($this->TB_VIEW, "Nome", "name", $this->TYPE_TEXT, 50, "", $yes, $yes, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_VIEW, "Tipo", "id_type", $this->TYPE_INT, 0, "", $yes, $no, $this->tb("tb_domain"), $this->fd("value"), "tb_view_type", "", $this->INPUT_DROPDOWN, ++$seq));                
                 $this->execute($cn, $model->addField($this->TB_VIEW, "SQL", "sql", $this->TYPE_TEXT, 10000, "", $no, $no, 0, 0, "", "", $this->INPUT_TEXTAREA, ++$seq));
 
                 // tb_view_field
@@ -413,6 +415,13 @@
                 $this->execute($cn, $model->addDomain($this->groupId, 4, "Maior igual", "tb_operator"));
                 $this->execute($cn, $model->addDomain($this->groupId, 5, "Menor", "tb_operator"));
                 $this->execute($cn, $model->addDomain($this->groupId, 6, "Menor igual", "tb_operator"));
+
+                // tb_chart_type
+                $this->execute($cn, $model->addDomain($this->groupId, 1, "Relatório", "tb_view_type"));
+                $this->execute($cn, $model->addDomain($this->groupId, 2, "Linha", "tb_view_type"));
+                $this->execute($cn, $model->addDomain($this->groupId, 3, "Barra", "tb_view_type"));
+                $this->execute($cn, $model->addDomain($this->groupId, 4, "Área", "tb_view_type"));
+                $this->execute($cn, $model->addDomain($this->groupId, 5, "Pizza", "tb_view_type"));                
                 
             } catch (Exception $ex) {
                 throw $ex;

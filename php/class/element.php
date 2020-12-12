@@ -685,6 +685,43 @@
             return $html;
         }
 
+        public function createChart() {
+
+            // General declaration
+            $html = "";
+
+            // Prepare single chart
+            $html .= "<div id='chartContainer'></div>";
+            $html .= "var chart = new CanvasJS.Chart('chartContainer',";
+            $html .= "{";
+                $html .= "    animationEnabled: true,";
+                $html .= "    theme: 'light2',";
+                $html .= "    title:";
+                $html .= "{";
+                    $html .= "text: 'Simple Line Chart'";
+                    $html .= "},";
+                    $html .= "data:";
+                    $html .= "[{";
+                        $html .= "type: 'column',";
+                        $html .= "indexLabelFontSize: 16,";
+                        $html .= "dataPoints:"; 
+                        $html .= "[";
+                            $html .= "{ y: 450 },";
+                            $html .= "{ y: 480 },";
+                            $html .= "{ y: 480 },";
+                            $html .= "{ y: 280 },";
+                            $html .= "{ y: 480 },";
+                            $html .= "{ y: 510 }";
+                        $html .= "]";
+                    $html .= "}]";
+                $html .= "});";
+            $html .= "chart.render();";
+
+            // Return new chart
+            return $html;
+
+        }
+
     // End of class
     }
 ?>

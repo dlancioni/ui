@@ -359,18 +359,31 @@ class SqlBuilder extends Base {
 
         // General declaration
         $sql = "";
+        $command = 0;
         $jsonUtil = new JsonUtil();
         $lb = $this->lb;
 
         try {
 
             foreach ($queryDef as $row) {
+
                 if ($row["id_fk"] > 0) {
-                    $sql .= $jsonUtil->join($row["table_name"], 
-                                            $row["field_name"], 
-                                            $row["table_fk"], 
-                                            $row["field_domain"]);
-                    $sql .= $lb;                        
+
+                    // Command for view only
+                    if (isset($row["id_command"])) {
+                        $command = $row["id_command"];
+                    }
+
+                    // Discard group/order
+                    if ($command < $this->CONDITION) {
+
+                        // Prepare join
+                        $sql .= $jsonUtil->join($row["table_name"], 
+                                                $row["field_name"], 
+                                                $row["table_fk"], 
+                                                $row["field_domain"]);
+                        $sql .= $lb;
+                    }            
                 }
             }
         } catch (Exception $ex) {
@@ -484,8 +497,10 @@ class SqlBuilder extends Base {
                 // Other fields
                 foreach ($queryDef as $row) {
                     if (isset($row["id_command"])) {
-                        $command = $row["id_command"];
-                        if ($command == $this->SELECTION) {
+                        $command = $row["id_command"];                        
+                        if ($command == $this->SELECTION || 
+                            $command == $this->ORDERING_ASC || 
+                            $command == $this->ORDERING_DESC) {
                             $tableName = $row["table_name"];
                             $fieldName = $row["field_name"];
                             $fieldType = $row["field_type"];

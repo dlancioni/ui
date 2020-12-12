@@ -5,6 +5,7 @@ Pendentes
 		Ao apagar view, apagar view def tb - OK
 		Nao permitir funcao agregada (sum, avg, etc) em campos string ou tipo - OK
 		Adicionar condicoes as views		
+		Controle de paginacao na visao
 
 
 	2) Criar solucao para apresentar graficos

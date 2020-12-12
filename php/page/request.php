@@ -28,9 +28,11 @@
 
     if (isset($_REQUEST["_TABLE_"])) {
         $tableId = intval($_REQUEST["_TABLE_"]);
-        if ($_SESSION['_TABLE_'] != $tableId) {
-            $viewId = 0;
-            $_SESSION["_VIEW_"] = $viewId;
+        if (isset($_SESSION['_TABLE_'])) {
+            if ($_SESSION['_TABLE_'] != $tableId) {
+                $viewId = 0;
+                $_SESSION["_VIEW_"] = $viewId;
+            }
         }
         $_SESSION['_TABLE_'] = intval($tableId);
     }
