@@ -413,13 +413,39 @@ class LogicReport extends Base {
     private function createChart($chartType, $tableDef, $data) {
 
         // General declaration
+        $i = 0;
         $html = "";
-        $chartTitle = "";
+        $label = "";
+        $value = "";
+        $datapoints = "";
+        $fieldLabel = "";
+        $fieldValue = "";
 
         try {
 
+            // Get field names
+            $fieldLabel = $tableDef[0]["field_label_view"];
+            $fieldValue = $tableDef[1]["field_label_view"];
+
+            // Prepare datapoints
+            foreach ($data as $row) {
+                if (isset($row[$fieldLabel])) {
+                    if (isset($row[$fieldValue])) {
+
+                        if ($i > 0) {
+                            $datapoints .= ",";
+                        }
+
+                        $label = $row[$fieldLabel];
+                        $value = $row[$fieldValue];
+                        $datapoints .= "{y:$value, label:'$label'}"; 
+                        $i ++;
+                    }
+                }
+            }          
+
             // Print the chart
-            $html .= $this->element->createChart($chartType, $chartTitle, $datapoints="");
+            $html .= $this->element->createChart($chartType, $datapoints);
 
         } catch (Exception $ex) {
             throw $ex;

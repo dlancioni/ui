@@ -685,7 +685,7 @@
             return $html;
         }
 
-        public function createChart($type, $title, $datapoints="") {
+        public function createChart($type, $datapoints="") {
 
             // General declaration
             $html = "";
@@ -696,13 +696,14 @@
             $html .= "<script>";
                 $html .= "var chart = new CanvasJS.Chart('chartContainer',";
                 $html .= "{";
+
                     $html .= "    animationEnabled: true,";
                     $html .= "    theme: 'light2',";
                     $html .= "    title:";
                     $html .= "{";
 
                         // $html .= "text: 'Simple Line Chart'";
-                        $html .= "text: '$title'";
+                        // $html .= "text: '$title'";
 
                         $html .= "},";
                         $html .= "data:";
@@ -715,11 +716,8 @@
                             $html .= "dataPoints:"; 
                             $html .= "[";
 
-                            $html .= "{y: 79.45, label: 'Google'},"; 
-                            $html .= "{y: 7.31, label: 'Bing'},"; 
-                            $html .= "{y: 7.06, label: 'Baidu'},"; 
-                            $html .= "{y: 4.91, label: 'Yahoo'},"; 
-                            $html .= "{y: 1.26, label: 'Others'}";                             
+                            //$html .= "{y: 79.45, label: 'Google'},"; 
+                            $html .= $datapoints;
 
                             $html .= "]";
                         $html .= "}]";
