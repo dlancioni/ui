@@ -66,8 +66,8 @@
         public $PROFILE_USER = 3;
 
         /*
-        * Aggregation
-        */
+         * Aggregation
+         */
         public $SELECTION = 1;
         public $COUNT = 2;
         public $SUM = 3;
@@ -76,7 +76,16 @@
         public $AVG = 6;
         public $CONDITION = 7;
         public $ORDERING_ASC = 8;
-        public $ORDERING_DESC = 9;        
+        public $ORDERING_DESC = 9;
+
+        /*
+        * View type
+        */
+        public $REPORT = 1;
+        public $CHART_LINE = 2;
+        public $CHART_COLUMN = 3;
+        public $CHART_AREA = 4;
+        public $CHART_PIZZA = 5;
 
         // Constructor
         function __construct($systemId=0, $tableId=0, $userId=0, $groupId=0) {

@@ -24,6 +24,7 @@ class LogicReport extends Base {
         $PAGE_SIZE = 15;
 
         $userId = 0;
+        $viewType = 0;
         $recordCount = 0;
 
         $msg = "";
@@ -75,6 +76,9 @@ class LogicReport extends Base {
                 $pageTitle = $tableDef[0]["view_name"];
             }
 
+            // Create page title
+            $html .= $this->element->createPageTitle($pageTitle);            
+
             // Get data
             $filter = new Filter("like");
             if ($action == "Filter") {
@@ -105,9 +109,27 @@ class LogicReport extends Base {
                 }
             }
 
-            // Create header
-            $tableRow .= $this->createTableHeader($viewId, $data, $tableDef, $this->sqlBuilder->CONDITION);
-            $tableRow .= $this->createTableData($tableDef, $data);
+            // Present data according to the type
+            switch ($viewType) {
+
+                // Standard report view
+                case $this->REPORT:
+                    $tableRow .= $this->createTableHeader($viewId, $data, $tableDef, $this->sqlBuilder->CONDITION);
+                    $tableRow .= $this->createTableData($tableDef, $data);
+                    $html .= $this->element->createTable($tableRow);                    
+                    break;
+
+                // Pizza chart    
+                case $this->CHART_PIZZA:
+                    break;
+
+                // Standard report view                    
+                default:
+                    $tableRow .= $this->createTableHeader($viewId, $data, $tableDef, $this->sqlBuilder->CONDITION);
+                    $tableRow .= $this->createTableData($tableDef, $data);    
+                    $html .= $this->element->createTable($tableRow);
+            }
+
 
             // Get views
             $filter = new Filter();
@@ -124,16 +146,8 @@ class LogicReport extends Base {
                                                          $filter->create(), 
                                                          $this->sqlBuilder->QUERY_NO_PAGING);
 
-            // Create page title
-            $html .= $this->element->createPageTitle($pageTitle);
-
-            // Create final table
-            $html .= $this->element->createTable($tableRow);
-
             // Get events (buttons)
-            $html .= $this->element->createPaging($recordCount, 
-                                                  $this->sqlBuilder->PageSize, 
-                                                  $this->sqlBuilder->PageOffset);
+            $html .= $this->element->createPaging($recordCount, $this->sqlBuilder->PageSize, $this->sqlBuilder->PageOffset);
 
             // Create buttons
             $html .= $eventAction->createButton($tableId, $userId, $eventList, 1);
