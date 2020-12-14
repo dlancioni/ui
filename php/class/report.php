@@ -74,6 +74,7 @@ class LogicReport extends Base {
                 }
             } else {
                 $pageTitle = $tableDef[0]["view_name"];
+                $viewType = $tableDef[0]["view_type"];
             }
 
             // Create page title
@@ -121,15 +122,15 @@ class LogicReport extends Base {
 
                 // Pizza chart    
                 case $this->CHART_PIZZA:
+                    $html = $this->createChart("pie", $tableDef, $data);                    
                     break;
 
                 // Standard report view                    
                 default:
                     $tableRow .= $this->createTableHeader($viewId, $data, $tableDef, $this->sqlBuilder->CONDITION);
-                    $tableRow .= $this->createTableData($tableDef, $data);    
+                    $tableRow .= $this->createTableData($tableDef, $data);
                     $html .= $this->element->createTable($tableRow);
             }
-
 
             // Get views
             $filter = new Filter();
@@ -392,6 +393,29 @@ class LogicReport extends Base {
         // Return table contents
         return $tableRow;
     }    
+
+
+    private function createChart($chartType, $tableDef, $data) {
+
+        // General declaration
+        $html = "";
+        $chartTitle = "";
+
+        try {
+
+            // Get chart title
+            $chartTitle = $tableDef[0]["view_name"];            
+
+            // Print the chart
+            $html .= $this->element->createChart($chartType, $chartTitle, $datapoints="");
+
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+
+        // Return final chart
+        return $html;
+    }
 
 } // end of class
 ?>

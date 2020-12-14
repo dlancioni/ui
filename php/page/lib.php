@@ -6,7 +6,6 @@
 <script src="lib/bootstrap-submenu/js/bootstrap-submenu.min.js"></script>
 
 <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" href="lib/bootstrap-submenu/css/bootstrap-submenu.min.css">
 
 <!-- CANVASJS -->
 <script src="lib/canvasjs/canvasjs.min.js"></script>

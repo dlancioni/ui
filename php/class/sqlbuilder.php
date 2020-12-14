@@ -732,6 +732,7 @@ class SqlBuilder extends Base {
             $sql .= " (tb_view_field.field->>'label')::text as field_label_view," . $lb;
             $sql .= " (tb_view.field->>'sql')::text as sql," . $lb;
             $sql .= " (tb_view.field->>'name')::text as view_name," . $lb;
+            $sql .= " (tb_view.field->>'id_type')::text as view_type," . $lb;
         }        
 
         // tb_table
