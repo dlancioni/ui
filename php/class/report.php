@@ -78,7 +78,7 @@ class LogicReport extends Base {
             }
 
             // Create page title
-            $html .= $this->element->createPageTitle($pageTitle);            
+            $html .= $this->element->createPageTitle($pageTitle);
 
             // Get data
             $filter = new Filter("like");
@@ -117,12 +117,27 @@ class LogicReport extends Base {
                 case $this->REPORT:
                     $tableRow .= $this->createTableHeader($viewId, $data, $tableDef, $this->sqlBuilder->CONDITION);
                     $tableRow .= $this->createTableData($tableDef, $data);
-                    $html .= $this->element->createTable($tableRow);                    
+                    $html .= $this->element->createTable($tableRow);
+                    break;
+
+                // Line chart
+                case $this->CHART_LINE:
+                    $html .= $this->createChart("line", $tableDef, $data);
+                    break;
+
+                // Line chart    
+                case $this->CHART_COLUMN:
+                    $html .= $this->createChart("column", $tableDef, $data);
+                    break;
+
+                // Area chart    
+                case $this->CHART_AREA:
+                    $html .= $this->createChart("area", $tableDef, $data);
                     break;
 
                 // Pizza chart    
                 case $this->CHART_PIZZA:
-                    $html = $this->createChart("pie", $tableDef, $data);                    
+                    $html .= $this->createChart("pie", $tableDef, $data);
                     break;
 
                 // Standard report view                    
@@ -402,9 +417,6 @@ class LogicReport extends Base {
         $chartTitle = "";
 
         try {
-
-            // Get chart title
-            $chartTitle = $tableDef[0]["view_name"];            
 
             // Print the chart
             $html .= $this->element->createChart($chartType, $chartTitle, $datapoints="");
