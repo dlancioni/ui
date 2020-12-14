@@ -21,32 +21,22 @@ class LogicReport extends Base {
     function createReport($tableId, $viewId, $action, $pageOffset) {
 
         // General Declaration
-        $html = "";
-        $row = "";
-        $rows = "";
-        $col = "";
-        $cols = "";        
-        $fieldId = "";        
-        $fieldLabel = "";
-        $fieldName = "";
-        $fieldType = 0;
-        $fieldValue = "";
-        $filter = "";
-        $fk = 0;
-        $recordCount = 0;       
-        $numberUtil = "";
-        $jsonUtil = "";
-        $PAGE_SIZE = 15;       
-        $columnSize = "";
-        $fieldAttribute = "";
-        $control = "";
-        $pageTitle = "";
-        $tableDef = "";
-        $logUtil = "";
-        $count = 0;
+        $PAGE_SIZE = 15;
+
         $userId = 0;
+        $recordCount = 0;
+
         $msg = "";
-        $command = 0;
+        $html = "";
+        $tableRow = "";
+        $filter = "";
+        $control = "";
+        $logUtil = "";
+        $jsonUtil = "";
+        $tableDef = "";
+        $pageTitle = "";
+        $fieldValue = "";
+
         $data = array();
         $viewList = array();
         $eventList = array();
@@ -55,7 +45,6 @@ class LogicReport extends Base {
 
             // Create object instances
             $logUtil = new LogUtil();
-            $numberUtil = new NumberUtil();
             $jsonUtil = new jsonUtil();
             $pathUtil = new PathUtil();
             $eventAction = new EventAction($this->cn);
@@ -117,58 +106,8 @@ class LogicReport extends Base {
             }
 
             // Create header
-            $rows .= $this->createTableHeader($viewId, $data, $tableDef, $this->sqlBuilder->CONDITION);
-
-            // Prepare table contents
-            foreach ($data as $row) {
-
-                // Start new column
-                $cols = "";
-
-                // Create radio for selection
-                $cols = $this->prepareRadio($row);
-
-                // Create data contents
-                foreach ($tableDef as $col) {
-
-                    // Keep info
-                    $count ++;
-                    $columnSize = 0;
-                    $fieldId = $col["id"];
-                    $tableFk = $col["table_fk"];
-                    $fieldFk = $col["field_fk"];
-                    $fieldName = $col["field_name"];
-                    $fieldType = $col["field_type"];
-                    $fk = $col["id_fk"];
-                    $control = $col["id_control"];
-                    $columnSize = $this->getSize(count($tableDef), $count);
-                    $fieldName = $this->prepareFieldName($col, $fieldName, $fk);
-                    if (isset($col["id_command"])) {
-                        $command = $col["id_command"];
-                    }
-
-                    // Prepare grid
-                    if (isset($row[$fieldName])) {
-
-                        // Format field value
-                        $fieldValue = $this->prepareFieldValue($fieldType, $row[$fieldName], $control);
-
-                        // Print it
-                        if ($command < $this->sqlBuilder->CONDITION) {
-                            $cols .= $this->element->createTableCol($fieldValue, $columnSize);
-                        }
-
-                    } else {
-                        
-                        // Discard unselected columns on views
-                        if ($command < $this->sqlBuilder->CONDITION) {
-                            $cols .= $this->element->createTableCol("", $columnSize);
-                        }
-                    }
-                }
-
-                $rows .= $this->element->createTableRow($cols);
-            }
+            $tableRow .= $this->createTableHeader($viewId, $data, $tableDef, $this->sqlBuilder->CONDITION);
+            $tableRow .= $this->createTableData($tableDef, $data);
 
             // Get views
             $filter = new Filter();
@@ -189,7 +128,7 @@ class LogicReport extends Base {
             $html .= $this->element->createPageTitle($pageTitle);
 
             // Create final table
-            $html .= $this->element->createTable($rows);
+            $html .= $this->element->createTable($tableRow);
 
             // Get events (buttons)
             $html .= $this->element->createPaging($recordCount, 
@@ -361,6 +300,84 @@ class LogicReport extends Base {
         return $cols;
     }
 
+    private function createTableData($tableDef, $data) {
+
+        // General declaration
+        $fk = 0;
+        $count = 0;
+        $tableFk = 0;
+        $fieldFk = 0;        
+        $control = 0;
+        $command = 0;        
+        $columnSize = 0;
+        $columnSize = 0;
+
+        $tableRow = "";
+        $fieldId = "";
+        $fieldName = "";
+        $fieldType = "";
+
+
+        try {
+
+            // Prepare table contents
+            foreach ($data as $row) {
+
+                // Start new column
+                $cols = "";
+
+                // Create radio for selection
+                $cols = $this->prepareRadio($row);
+
+                // Create data contents
+                foreach ($tableDef as $col) {
+
+                    // Keep info
+                    $count ++;
+                    $columnSize = 0;
+                    $fieldId = $col["id"];
+                    $tableFk = $col["table_fk"];
+                    $fieldFk = $col["field_fk"];
+                    $fieldName = $col["field_name"];
+                    $fieldType = $col["field_type"];
+                    $fk = $col["id_fk"];
+                    $control = $col["id_control"];
+                    $columnSize = $this->getSize(count($tableDef), $count);
+                    $fieldName = $this->prepareFieldName($col, $fieldName, $fk);
+                    if (isset($col["id_command"])) {
+                        $command = $col["id_command"];
+                    }
+
+                    // Prepare grid
+                    if (isset($row[$fieldName])) {
+
+                        // Format field value
+                        $fieldValue = $this->prepareFieldValue($fieldType, $row[$fieldName], $control);
+
+                        // Print it
+                        if ($command < $this->sqlBuilder->CONDITION) {
+                            $cols .= $this->element->createTableCol($fieldValue, $columnSize);
+                        }
+
+                    } else {
+                        
+                        // Discard unselected columns on views
+                        if ($command < $this->sqlBuilder->CONDITION) {
+                            $cols .= $this->element->createTableCol("", $columnSize);
+                        }
+                    }
+                }
+
+                $tableRow .= $this->element->createTableRow($cols);
+            }
+
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+
+        // Return table contents
+        return $tableRow;
+    }    
 
 } // end of class
 ?>
