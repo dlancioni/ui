@@ -308,19 +308,21 @@ class SqlBuilder extends Base {
                         if ($fk == 0) {
                             $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias, $command) . $lb;
                         } else if ($fk == $this->TB_DOMAIN) {
-                            $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias) . $lb;
-                            $sql .= ", ";
-                            if ($changed == 0) 
+                            if ($changed == 0) {
+                                $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias) . $lb;
+                                $sql .= ", ";
                                 $fieldAlias = substr($fieldName, 3);
+                            }
                             $tableName = $fieldDomain . "_" . $fieldName;
                             $fieldName = "value";
                             $fieldType = $this->TYPE_TEXT;
                             $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias, $command) . $lb;
                         } else {
-                            $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias, $command) . $lb;
-                            $sql .= ", ";
-                            if ($changed == 0) 
+                            if ($changed == 0) {
+                                $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias, $command) . $lb;
+                                $sql .= ", ";
                                 $fieldAlias = substr($fieldName, 3);
+                            }
                             $tableName = $tableFk . "_" . $fieldName;
                             $fieldName = $fieldFk;
                             $fieldType = $this->TYPE_TEXT;
