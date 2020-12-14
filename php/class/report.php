@@ -66,21 +66,6 @@ class LogicReport extends Base {
             // Current user
             $userId = $this->sqlBuilder->getUser();
 
-            // Get views
-            $filter = new Filter();
-            $filter->add("tb_view", "id_table", $tableId);
-            $viewList = $this->sqlBuilder->executeQuery($this->cn, 
-                                                        $this->TB_VIEW, 0, 
-                                                        $filter->create(), 
-                                                        $this->sqlBuilder->QUERY_NO_PAGING);
-            //Get events
-            $filter = new Filter();
-            $filter->add("tb_event", "id_table", $tableId);
-            $eventList = $this->sqlBuilder->executeQuery($this->cn, 
-                                                         $this->TB_EVENT, 0, 
-                                                         $filter->create(), 
-                                                         $this->sqlBuilder->QUERY_NO_PAGING);            
-
             // Handle structures
             if ($viewId != 0) {
                 $tableDef = $this->sqlBuilder->getTableDef($this->cn, 0, $viewId);
@@ -184,6 +169,21 @@ class LogicReport extends Base {
 
                 $rows .= $this->element->createTableRow($cols);
             }
+
+            // Get views
+            $filter = new Filter();
+            $filter->add("tb_view", "id_table", $tableId);
+            $viewList = $this->sqlBuilder->executeQuery($this->cn, 
+                                                        $this->TB_VIEW, 0, 
+                                                        $filter->create(), 
+                                                        $this->sqlBuilder->QUERY_NO_PAGING);
+            //Get events
+            $filter = new Filter();
+            $filter->add("tb_event", "id_table", $tableId);
+            $eventList = $this->sqlBuilder->executeQuery($this->cn, 
+                                                         $this->TB_EVENT, 0, 
+                                                         $filter->create(), 
+                                                         $this->sqlBuilder->QUERY_NO_PAGING);
 
             // Create page title
             $html .= $this->element->createPageTitle($pageTitle);

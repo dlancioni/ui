@@ -359,11 +359,13 @@ class SqlBuilder extends Base {
      */
     private function getJoin($queryDef) {
 
-        // General declaration
-        $sql = "";
+        // General declaration        
+        $key = "";
+        $sql = "";        
         $command = 0;
-        $jsonUtil = new JsonUtil();
         $lb = $this->lb;
+        $join = array();
+        $jsonUtil = new JsonUtil();
 
         try {
 
@@ -379,18 +381,25 @@ class SqlBuilder extends Base {
                     // Discard group/order
                     if ($command < $this->CONDITION) {
 
+                        // Avoid duplicate join as field can appear twice in queries
+                        $key = $row["field_name"] . "_" . $row["field_domain"];
+
                         // Prepare join
-                        $sql .= $jsonUtil->join($row["table_name"], 
-                                                $row["field_name"], 
-                                                $row["table_fk"], 
-                                                $row["field_domain"]);
-                        $sql .= $lb;
+                        if (!in_array($key, $join)) { 
+                            $sql .= $jsonUtil->join($row["table_name"], 
+                                                    $row["field_name"], 
+                                                    $row["table_fk"], 
+                                                    $row["field_domain"]) . $lb;
+
+                            $join[] = $key;
+                        }
                     }            
                 }
             }
         } catch (Exception $ex) {
             $this->setError("QueryBuilder.getJoin()", $ex->getMessage());
         }
+
         return $sql;
     }
 
