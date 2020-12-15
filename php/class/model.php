@@ -46,7 +46,7 @@
             return $json;
         }
 
-        public function addTable($name, $title, $id_type, $id_menu) {
+        public function addTable($name, $title, $id_type, $id_menu, $id_parent) {
 
             // General Declaration
             $json = "";
@@ -60,7 +60,8 @@
             $json = $jsonUtil->setValue($json, "title", $title);
             $json = $jsonUtil->setValue($json, "id_type", $id_type);
             $json = $jsonUtil->setValue($json, "id_menu", $id_menu);
-
+            $json = $jsonUtil->setValue($json, "id_parent", $id_parent);
+            
             // Return final json
             return $json;
         }

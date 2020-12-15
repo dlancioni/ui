@@ -172,24 +172,24 @@
                 $tableName = "tb_table";
 
                 // CORE
-                $this->TB_MENU = $this->execute($cn, $model->addTable("tb_menu", "Menus", $TYPE_SYSTEM, $MENU_SYS));
-                $this->TB_TABLE = $this->execute($cn, $model->addTable("tb_table", "Módulos", $TYPE_SYSTEM, $MENU_SYS));
-                $this->TB_FIELD = $this->execute($cn, $model->addTable("tb_field", "Campos", $TYPE_SYSTEM, $MENU_SYS));
-                $this->TB_DOMAIN = $this->execute($cn, $model->addTable( "tb_domain", "Domínios", $TYPE_SYSTEM, $MENU_SYS));
-                $this->TB_EVENT = $this->execute($cn, $model->addTable("tb_event", "Eventos", $TYPE_SYSTEM, $MENU_SYS));
-                $this->TB_ACTION = $this->execute($cn, $model->addTable("tb_action", "Ações", $TYPE_SYSTEM, $MENU_SYS));
-                $this->TB_CODE = $this->execute($cn, $model->addTable("tb_code", "Programação", $TYPE_SYSTEM, $MENU_SYS));
-                $this->TB_VIEW = $this->execute($cn, $model->addTable("tb_view","Visão", $TYPE_SYSTEM,  $MENU_SYS));
-                $this->TB_VIEW_FIELD = $this->execute($cn, $model->addTable("tb_view_field", "Visão x Campos", $TYPE_SYSTEM, $MENU_SYS));
+                $this->TB_MENU = $this->execute($cn, $model->addTable("tb_menu", "Menus", $TYPE_SYSTEM, $MENU_SYS, 0));
+                $this->TB_TABLE = $this->execute($cn, $model->addTable("tb_table", "Módulos", $TYPE_SYSTEM, $MENU_SYS, 0));
+                $this->TB_FIELD = $this->execute($cn, $model->addTable("tb_field", "Campos", $TYPE_SYSTEM, $MENU_SYS, 0));
+                $this->TB_DOMAIN = $this->execute($cn, $model->addTable( "tb_domain", "Domínios", $TYPE_SYSTEM, $MENU_SYS, 0));
+                $this->TB_EVENT = $this->execute($cn, $model->addTable("tb_event", "Eventos", $TYPE_SYSTEM, $MENU_SYS, 0));
+                $this->TB_ACTION = $this->execute($cn, $model->addTable("tb_action", "Ações", $TYPE_SYSTEM, $MENU_SYS, 0));
+                $this->TB_CODE = $this->execute($cn, $model->addTable("tb_code", "Programação", $TYPE_SYSTEM, $MENU_SYS, 0));
+                $this->TB_VIEW = $this->execute($cn, $model->addTable("tb_view","Visão", $TYPE_SYSTEM,  $MENU_SYS, 0));
+                $this->TB_VIEW_FIELD = $this->execute($cn, $model->addTable("tb_view_field", "Visão x Campos", $TYPE_SYSTEM, $MENU_SYS, 0));
                 
                 // ACCESS CONTROL
-                $this->TB_PROFILE = $this->execute($cn, $model->addTable("tb_profile", "Perfil", $TYPE_SYSTEM, $MENU_AC));
-                $this->TB_PROFILE_TABLE = $this->execute($cn, $model->addTable("tb_profile_table", "Perfil x Transação", $TYPE_SYSTEM, $MENU_AC));
-                $this->TB_TABLE_ACTION = $this->execute($cn, $model->addTable("tb_table_action", "Transação x Função", $TYPE_SYSTEM, $MENU_AC));
-                $this->TB_USER = $this->execute($cn, $model->addTable("tb_user", "Usuários", $TYPE_SYSTEM, $MENU_AC));
-                $this->TB_USER_PROFILE = $this->execute($cn, $model->addTable("tb_user_profile", "Usuários x Pefil", $TYPE_SYSTEM, $MENU_AC));
-                $this->TB_GROUP = $this->execute($cn, $model->addTable("tb_group", "Grupos", $TYPE_SYSTEM, $MENU_AC));                
-                $this->TB_USER_GROUP = $this->execute($cn, $model->addTable("tb_user_group", "Usuários x Grupos", $TYPE_SYSTEM, $MENU_AC));
+                $this->TB_PROFILE = $this->execute($cn, $model->addTable("tb_profile", "Perfil", $TYPE_SYSTEM, $MENU_AC, 0));
+                $this->TB_PROFILE_TABLE = $this->execute($cn, $model->addTable("tb_profile_table", "Perfil x Transação", $TYPE_SYSTEM, $MENU_AC, 0));
+                $this->TB_TABLE_ACTION = $this->execute($cn, $model->addTable("tb_table_action", "Transação x Função", $TYPE_SYSTEM, $MENU_AC, 0));
+                $this->TB_USER = $this->execute($cn, $model->addTable("tb_user", "Usuários", $TYPE_SYSTEM, $MENU_AC, 0));
+                $this->TB_USER_PROFILE = $this->execute($cn, $model->addTable("tb_user_profile", "Usuários x Pefil", $TYPE_SYSTEM, $MENU_AC, 0));
+                $this->TB_GROUP = $this->execute($cn, $model->addTable("tb_group", "Grupos", $TYPE_SYSTEM, $MENU_AC, 0));
+                $this->TB_USER_GROUP = $this->execute($cn, $model->addTable("tb_user_group", "Usuários x Grupos", $TYPE_SYSTEM, $MENU_AC, 0));
 
             } catch (Exception $ex) {
                 throw $ex;
@@ -226,10 +226,10 @@
                 // tb_table
                 $seq = 0;
                 $this->execute($cn, $model->addField($this->TB_TABLE, "Titulo", "title", $this->TYPE_TEXT, 50, "", $yes, $no, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_TABLE, "Menu", "id_menu", $this->TYPE_INT, 0, "", $yes, $no, $this->tb("tb_menu"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));                
+                $this->execute($cn, $model->addField($this->TB_TABLE, "Menu", "id_menu", $this->TYPE_INT, 0, "", $yes, $no, $this->tb("tb_menu"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
                 $this->execute($cn, $model->addField($this->TB_TABLE, "Tipo", "id_type", $this->TYPE_INT, 0, "", $yes, $no, $this->tb("tb_domain"), $this->fd("value"), "tb_table_type", "", $this->INPUT_DROPDOWN, ++$seq));
                 $this->execute($cn, $model->addField($this->TB_TABLE, "Tabela", "name", $this->TYPE_TEXT, 50, "", $yes, $yes, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_TABLE, "Estilo", "id_style", $this->TYPE_INT, 0, "", $yes, $no, $this->tb("tb_domain"), $this->fd("value"), "tb_chart_type", "", $this->INPUT_DROPDOWN, ++$seq));               
+                $this->execute($cn, $model->addField($this->TB_TABLE, "Parente", "id_parent", $this->TYPE_INT, 0, "", $no, $no, $this->tb("tb_table"), $this->fd("title"), "", "", $this->INPUT_DROPDOWN, ++$seq));
 
                 // tb_field
                 $seq = 0;
