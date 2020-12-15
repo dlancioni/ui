@@ -9,17 +9,22 @@
     $html = "";
     $onLoadFunctions = "";
     $error = "";
+    $parent = array();
+    $parentField = "";
     
     try {
         
         // Handle request outside to organize code
         include "request.php";
 
+        // Keep parent modules
+        $parent = getParent($cn, $sqlBuilder, $tableId);
+        if (count($parent) > 0) {
+            $parentField = str_replace("tb_", "id_", $parent[0]["name"]);
+        }
+
         // Create table or form
         if ($tableId > 0) {
-
-            // Go to current table
-            $sqlBuilder->setTable($tableId);
 
             // Create page or form
             if ($format == 1) {
@@ -43,8 +48,6 @@
         }
 
     } catch (Exception $ex) {        
-        
-        // Error handler
         $html = $ex->getMessage();
     }
 
@@ -52,5 +55,32 @@
     if ($cn) {
         pg_close($cn); 
     }    
+
+    /*
+     * Get parent module to mount tabbed effect
+     */
+    function getParent($cn, $sqlBuilder, $tableId) {
+
+        $viewId = 0;
+        $filter = "";
+        $data = "";
+
+        try {
+
+            // Get data
+            $filter = new Filter();
+            $filter->add("tb_table", "id_parent", $tableId);
+            $data = $sqlBuilder->executeQuery($cn, $sqlBuilder->TB_TABLE, $viewId, $filter->create());
+
+        } catch (Exception $ex) {        
+            throw $ex;
+        }
+
+        // Return it
+        return $data;
+
+    }
+
+
 
 ?>
