@@ -439,6 +439,11 @@
             $jsonUtil = new jsonUtil();
             $model = new Model($this->groupId);
 
+            $TABLE = 1;
+            $FORM = 2;
+
+            $EVENT_CLICK = 2;
+
             try {
 
                 // Define table name
@@ -446,13 +451,14 @@
 
                 // Create standard events
                 for ($i=1; $i<=$total; $i++) {
-                    $this->execute($cn, $model->addEvent(1, $i, 0, 1, 2, "formNew();"));
-                    $this->execute($cn, $model->addEvent(1, $i, 0, 2, 2, "formEdit();"));
-                    $this->execute($cn, $model->addEvent(1, $i, 0, 3, 2, "formDelete();"));
-                    $this->execute($cn, $model->addEvent(2, $i, 0, 4, 2, "confirm();"));
-                    $this->execute($cn, $model->addEvent(1, $i, 0, 5, 2, "formFilter();"));
-                    $this->execute($cn, $model->addEvent(2, $i, 0, 6, 2, "formClear();"));
-                    $this->execute($cn, $model->addEvent(2, $i, 0, 7, 2, "reportBack();"));
+                    $this->execute($cn, $model->addEvent($TABLE, $i, 0, 1, $EVENT_CLICK, "formNew();"));
+                    $this->execute($cn, $model->addEvent($TABLE, $i, 0, 2, $EVENT_CLICK, "formEdit();"));
+                    $this->execute($cn, $model->addEvent($TABLE, $i, 0, 3, $EVENT_CLICK, "formDelete();"));
+                    $this->execute($cn, $model->addEvent($TABLE, $i, 0, 4, $EVENT_CLICK, "formDetail();"));
+                    $this->execute($cn, $model->addEvent($FORM,  $i, 0, 5, $EVENT_CLICK, "confirm();"));
+                    $this->execute($cn, $model->addEvent($TABLE, $i, 0, 6, $EVENT_CLICK, "formFilter();"));
+                    $this->execute($cn, $model->addEvent($FORM,  $i, 0, 7, $EVENT_CLICK, "formClear();"));
+                    $this->execute($cn, $model->addEvent($FORM,  $i, 0, 8, $EVENT_CLICK, "reportBack();"));
                 }
 
                 // Custon events
@@ -485,6 +491,7 @@
                 $this->execute($cn, $model->addFunction("Novo"));
                 $this->execute($cn, $model->addFunction("Editar"));
                 $this->execute($cn, $model->addFunction("Apagar"));
+                $this->execute($cn, $model->addFunction("Detalhe"));
                 $this->execute($cn, $model->addFunction("Confirmar"));
                 $this->execute($cn, $model->addFunction("Filtrar"));
                 $this->execute($cn, $model->addFunction("Limpar"));
@@ -675,6 +682,8 @@
             $ADMIN = 2;
             $PUBLIC = 3;
 
+            $TOTAL_ACTION = 8;
+
             try {
 
                 // Define table name
@@ -682,14 +691,14 @@
 
                 // SYSTEM has all permissions
                 for ($i=1; $i<=$total; $i++) {
-                    for ($j=1; $j<=7; $j++) {
+                    for ($j=1; $j<=$TOTAL_ACTION; $j++) {
                         $this->execute($cn, $model->addTableAction($SYSTEM, $i, $j));
                     }
                 }
 
                 // ADMIN has Access Control only (11 ... 17)
                 for ($i=11; $i<=$total; $i++) {
-                    for ($j=1; $j<=7; $j++) {
+                    for ($j=1; $j<=$TOTAL_ACTION; $j++) {
                         $this->execute($cn, $model->addTableAction($ADMIN, $i, $j));
                     }
                 }
