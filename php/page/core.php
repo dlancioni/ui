@@ -17,14 +17,14 @@
         // Handle request outside to organize code
         include "request.php";
 
-        // Keep parent modules
-        $parent = getParent($cn, $sqlBuilder, $tableId);
-        if (count($parent) > 0) {
-            $parentField = str_replace("tb_", "id_", $parent[0]["name"]);
-        }
-
         // Create table or form
         if ($tableId > 0) {
+
+            // Keep parent modules
+           $parent = getParent($cn, $sqlBuilder, $tableId);
+           if (count($parent) > 0) {
+               $parentField = str_replace("tb_", "id_", $parent[0]["name"]);
+            }
 
             // Create page or form
             if ($format == 1) {
