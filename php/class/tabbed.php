@@ -19,6 +19,7 @@ class LogicTabbed extends Base {
     public function createTabbed($cn, $tableId, $id) {
 
         // General declaration
+        $html = "";
         $parentTable = "";
         $parentField = "";
         $parentModule = array();
@@ -41,7 +42,7 @@ class LogicTabbed extends Base {
         }
 
         // Return final chart
-        return $html;        
+        return $html;
     }
 
 
