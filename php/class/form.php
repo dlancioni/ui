@@ -269,20 +269,29 @@ class LogicForm extends Base {
             }
 
             // Create page title
-            $html .= $this->element->createPageTitle($pageTitle);
+            $this->pageTitle = $pageTitle;            
+            if ($this->showTitle) {
+                $html .= $this->element->createPageTitle($pageTitle);
+            }    
 
             // Finalize form
             $html .= $this->element->createForm("form1", $controls);
 
             // Create buttons
-            $filter = new Filter();
-            $filter->add("tb_event", "id_table", $tableId);
-            $eventList = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_EVENT, 0, $filter->create(), $this->sqlBuilder->QUERY_NO_PAGING);
-            $html .= $eventAction->createButton($tableId, $userId, $eventList, 2);
+            if ($this->showAction) {
+
+                $filter = new Filter();
+                $filter->add("tb_event", "id_table", $tableId);
+                $eventList = $this->sqlBuilder->executeQuery($this->cn, 
+                                                             $this->sqlBuilder->TB_EVENT, 0, 
+                                                             $filter->create(), 
+                                                             $this->sqlBuilder->QUERY_NO_PAGING);
+
+                $html .= $eventAction->createButton($tableId, $userId, $eventList, 2);
+            }
 
             // Add validateForm function
             $html .= $this->element->createScript($js);
-
 
         } catch (Exception $ex) {
             $this->setError("LogicForm.createForm()", $ex->getMessage());

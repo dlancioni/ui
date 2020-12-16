@@ -166,6 +166,7 @@ class LogicReport extends Base {
 
             // Create buttons
             if ($this->showAction) {
+
                 $filter = new Filter();
                 $filter->add("tb_event", "id_table", $tableId);
                 $eventList = $this->sqlBuilder->executeQuery($this->cn, 
