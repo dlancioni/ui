@@ -20,6 +20,8 @@ class LogicTabbed extends Base {
 
         // General declaration
         $html = "";
+        $form = "";
+        $pageTitle = "";
         $parentTable = "";
         $parentField = "";
         $parentModule = array();
@@ -29,6 +31,14 @@ class LogicTabbed extends Base {
             // Create page instances
             $logicReport = new LogicReport($cn, $this->sqlBuilder, "");
             $logicForm = new LogicForm($cn, $this->sqlBuilder);
+
+            // Get main form (disabled)
+            $logicForm->showTitle = false;
+            $logicForm->showAction = false;
+            $form .= $logicForm->createForm($tableId, $id, "Delete");
+            $pageTitle = $logicForm->pageTitle;
+            $html .= $pageTitle;
+            $html .= $form;
 
             // Keep parent modules
             $parentModule = $this->getParent($cn, $this->sqlBuilder, $tableId);

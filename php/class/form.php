@@ -269,7 +269,7 @@ class LogicForm extends Base {
             }
 
             // Create page title
-            $this->pageTitle = $pageTitle;            
+            $this->pageTitle = $this->element->createPageTitle($pageTitle);
             if ($this->showTitle) {
                 $html .= $this->element->createPageTitle($pageTitle);
             }    
