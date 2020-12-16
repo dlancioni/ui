@@ -245,6 +245,12 @@ class LogicReport extends Base {
 
         $size = 0;
         switch ($columnCount) {
+            case 3:
+                if ($column == 3) {
+                    $size = 70;
+                }
+                break;
+
             case 2:
                 if ($column == 2) {
                     $size = 80;
@@ -335,7 +341,13 @@ class LogicReport extends Base {
         if (isset($row["id"])) {
             $cols == "" ? $checked = "checked" : $checked = "";
             $radio = $this->element->createRadio("selection", $row["id"], $checked);
-            $cols = $this->element->createTableCol($radio);
+
+            if ($this->showAction) {
+                $cols = $this->element->createTableCol($radio);
+            } else {
+                $cols = $this->element->createTableCol("");                
+            }
+            
             $cols .= $this->element->createTableCol($row["id"]);
         }
 

@@ -38,7 +38,7 @@ class LogicTabbed extends Base {
             $logicForm->showAction = false;
 
             // Get main form (disabled)
-            $form .= $logicForm->createForm($tableId, $id, "Delete");
+            $form .= $logicForm->createForm($tableId, $id, "Detail");
             $pageTitle = $logicForm->pageTitle;
             $html .= $pageTitle;
             $html .= $form;

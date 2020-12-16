@@ -71,7 +71,7 @@ class LogicForm extends Base {
         try {
 
             // Handle events
-            if ($action == "Delete") {
+            if ($action == "Delete" || $action == "Detail") {
                 $disabled = "disabled";
             }
 
@@ -281,18 +281,21 @@ class LogicForm extends Base {
             // Finalize form
             $html .= $this->element->createForm("form1", $controls);
 
-            // Create buttons
-            if ($this->showAction) {
+            // Create buttons           
+            $filter = new Filter();
+            $filter->add("tb_event", "id_table", $tableId);
 
-                $filter = new Filter();
-                $filter->add("tb_event", "id_table", $tableId);
-                $eventList = $this->sqlBuilder->executeQuery($this->cn, 
-                                                             $this->sqlBuilder->TB_EVENT, 0, 
-                                                             $filter->create(), 
-                                                             $this->sqlBuilder->QUERY_NO_PAGING);
+            // Back only
+            if ($action == "Detail") {
+                $filter->add("tb_event", "id_action", 8);
+            }            
+            $eventList = $this->sqlBuilder->executeQuery($this->cn, 
+                                                            $this->sqlBuilder->TB_EVENT, 0, 
+                                                            $filter->create(), 
+                                                            $this->sqlBuilder->QUERY_NO_PAGING);
 
-                $html .= $eventAction->createButton($tableId, $userId, $eventList, 2);
-            }
+            $html .= $eventAction->createButton($tableId, $userId, $eventList, 2);
+
 
             // Add validateForm function
             $html .= $this->element->createScript($js);
