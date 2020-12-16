@@ -81,7 +81,7 @@ class LogicReport extends Base {
             }
 
             // Create page title
-            $this->pageTitle = $this->element->createPageTitle($pageTitle);
+            $this->pageTitle = $pageTitle;
             if ($this->showTitle) {
                 $html .= $this->element->createPageTitle($pageTitle);
             }

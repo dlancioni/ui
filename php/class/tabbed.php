@@ -22,11 +22,13 @@ class LogicTabbed extends Base {
         $html = "";
         $form = "";
         $report = "";
-        $formData = array();
         $pageTitle = "";
         $parentTable = "";
         $parentField = "";
         $parentModule = array();
+        $formData = array();
+        $tabDef = array();
+        $tabData = array();
 
         try {
 
@@ -55,8 +57,10 @@ class LogicTabbed extends Base {
                 $report = "";
                 $pageTitle = "";
 
-                // Prepare page call
-                $tableId = $module["id"];                
+                // Get child details
+                $tableId = $module["id"];
+
+                // Prepare page call                
                 $logicReport = new LogicReport($cn, $this->sqlBuilder, $formData);
                 $logicReport->showTitle = false;
                 $logicReport->showAction = false;
@@ -66,9 +70,14 @@ class LogicTabbed extends Base {
                 // Create output
                 $report .= $logicReport->createReport($tableId, 0, "Filter", 0);
                 $pageTitle = $logicReport->pageTitle;
-                $html .= $pageTitle;
-                $html .= $report;
+
+                // Create tab definition
+                $tabDef[] = array("name"=>$module["name"], "title"=>$pageTitle, "page"=>$report);
              }
+
+             // Get tabbed data
+             $html .= $this->createTabbedHeader($tabDef);
+             $html .= $this->createTabbedData($tabDef);
 
         } catch (Exception $ex) {
             throw $ex;
@@ -84,6 +93,7 @@ class LogicTabbed extends Base {
      */
     private function getParent($cn, $sqlBuilder, $tableId) {
 
+        // General declaration
         $viewId = 0;
         $filter = "";
         $data = "";
@@ -101,8 +111,82 @@ class LogicTabbed extends Base {
 
         // Return it
         return $data;
-
     }
+
+    /*
+     * Create tab header
+     */    
+    private function createTabbedHeader($tabDef) {
+
+        // General declaration
+        $html = "";
+        $name = "";
+        $title = "";
+        $selected = 'true';
+        $stringUtil = new StringUtil();
+        $lb = $stringUtil->lb();
+       
+        // Create tabbed control
+        $html .= "<ul class='nav nav-tabs' id='myTab' role='tablist'>" . $lb;
+
+            // Add child tabs
+            foreach  ($tabDef as $item) {
+
+                // Key fields
+                $name = $item["name"];
+                $title = $item["title"];
+
+                // Create tab
+                $html .= "<li class='nav-item'>" . $lb;
+                $html .= "<a class='nav-link active' id='$name-tab' data-toggle='tab' href='#$name' role='tab' aria-controls='$name' aria-selected='$selected'>$title</a>" . $lb;
+                $html .= "</li>" . $lb;
+
+                // Only first is selected
+                $selected = 'false';                
+            }
+
+        // Close list    
+        $html .= "</ul>" . $lb;
+
+        // Return it
+        return $html;
+    }
+
+    /*
+     * Create tab contents
+     */
+    private function createTabbedData($tabDef) {
+
+        // General declaration
+        $name = "";
+        $page = "";
+        $html = "";
+        $class = "tab-pane fade";
+        $stringUtil = new StringUtil();
+        $lb = $stringUtil->lb();
+       
+        // Create tabbed control
+        $html .= "<div class='tab-content' id='myTabContent'>" . $lb;
+
+            // Add child tabs
+            foreach ($tabDef as $tab) {
+
+                $name = $tab["name"];
+                $page = $tab["page"];
+                $html .= "<div class='$class' id='$name' role='tabpanel' aria-labelledby='$name-tab'>...</div>" . $lb;
+                $class = "tab-pane fade show active";
+            }
+
+            // Only first is selected
+            $selected = false;
+
+        // Close list    
+        $html .= "</div>" . $lb;
+
+        // Return it
+        return $html;        
+    }
+
 
 
 
