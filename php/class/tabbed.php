@@ -21,6 +21,8 @@ class LogicTabbed extends Base {
         // General declaration
         $html = "";
         $form = "";
+        $report = "";
+        $formData = array();
         $pageTitle = "";
         $parentTable = "";
         $parentField = "";
@@ -29,22 +31,43 @@ class LogicTabbed extends Base {
         try {
 
             // Create page instances
-            $logicReport = new LogicReport($cn, $this->sqlBuilder, "");
             $logicForm = new LogicForm($cn, $this->sqlBuilder);
-
-            // Get main form (disabled)
             $logicForm->showTitle = false;
             $logicForm->showAction = false;
+
+            // Get main form (disabled)
             $form .= $logicForm->createForm($tableId, $id, "Delete");
             $pageTitle = $logicForm->pageTitle;
             $html .= $pageTitle;
             $html .= $form;
 
-            // Keep parent modules
+            // Keep parent field
+            $parentField = str_replace("tb_", "id_", $logicForm->tableName);
+            $formData = array($parentField=>$id);            
+
+            // Get child reports
             $parentModule = $this->getParent($cn, $this->sqlBuilder, $tableId);
+
+            // Create tabbed effect
             foreach ($parentModule as $module) {
-                $parentTable = $module["name"];
-                $parentField = str_replace("tb_", "id_", $parentTable);
+
+                // Reset values
+                $report = "";
+                $pageTitle = "";
+
+                // Prepare page call
+                $tableId = $module["id"];                
+                $logicReport = new LogicReport($cn, $this->sqlBuilder, $formData);
+                $logicReport->showTitle = false;
+                $logicReport->showAction = false;
+                $logicReport->showPaging = false;
+                $logicReport->queryType = $this->sqlBuilder->QUERY_NO_PAGING;
+
+                // Create output
+                $report .= $logicReport->createReport($tableId, 0, "Filter", 0);
+                $pageTitle = $logicReport->pageTitle;
+                $html .= $pageTitle;
+                $html .= $report;
              }
 
         } catch (Exception $ex) {

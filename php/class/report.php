@@ -1,7 +1,10 @@
 <?php
 class LogicReport extends Base {
 
-    // Class members
+    // Public members
+    public $queryType = 1; // See SqlBuilder, Paging declaration
+
+    // Private members
     private $cn = 0;
     private $sqlBuilder = "";
     private $element = "";
@@ -18,7 +21,7 @@ class LogicReport extends Base {
     /* 
     * Create a table
     */
-    function createReport($tableId, $viewId, $action, $pageOffset) {
+    function createReport($tableId, $viewId=0, $action="", $pageOffset=0) {
 
         // General Declaration
         $PAGE_SIZE = 15;
@@ -97,7 +100,7 @@ class LogicReport extends Base {
             // Main query
             $this->sqlBuilder->PageSize = $PAGE_SIZE;
             $this->sqlBuilder->PageOffset = $pageOffset;
-            $data = $this->sqlBuilder->executeQuery($this->cn, $tableId, $viewId, $filter->create(), 1, $tableDef);
+            $data = $this->sqlBuilder->executeQuery($this->cn, $tableId, $viewId, $filter->create(), $this->queryType, $tableDef);
             $logUtil->log("query_data.pgsql", $this->sqlBuilder->lastQuery);
 
             // Error handling    

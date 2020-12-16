@@ -16,7 +16,7 @@
         // Other
         private $action = "";
 
-        // Show properties
+        // Tabbed control
         public $showTitle = true;
         public $showAction = true;
         public $showPaging = true;

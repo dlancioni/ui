@@ -31,6 +31,7 @@
             foreach ($tableDef as $item) {
 
                 // Keep table name
+                $fieldValue = "";
                 $tableName = $tableDef[0]["table_name"];
 
                 // ID is not in table def, handle here
@@ -50,28 +51,31 @@
                 $fieldType = $item["field_type"];
                 $fieldOperator = "=";
 
+                // Filter exitings fields only
                 if (isset($formData[$fieldName])) {
+
+                    // Get value
                     $fieldValue = $formData[$fieldName];
-                }                
 
-                // Use like or = for text comparison
-                if ($fieldType == "text") {
-                    if ($this->operatorForTextComparison == "like") {
-                        $fieldOperator = "like";
-                        $fieldValue = $this->prepareValueForLike($fieldValue);
-                    } else {
-                        $fieldOperator = "=";                        
+                    // Use like or = for text comparison
+                    if ($fieldType == "text") {
+                        if ($this->operatorForTextComparison == "like") {
+                            $fieldOperator = "like";
+                            $fieldValue = $this->prepareValueForLike($fieldValue);
+                        } else {
+                            $fieldOperator = "=";                        
+                        }
                     }
-                }
 
-                // Add condition
-                if (trim($fieldValue) != "" && trim($fieldValue) != "0") {
-                    $this->addCondition($item["table_name"], 
-                                        $item["field_name"], 
-                                        $item["field_type"], 
-                                        $fieldOperator,
-                                        $fieldValue,
-                                        $item["field_mask"]);
+                    // Add condition
+                    if (trim($fieldValue) != "" && trim($fieldValue) != "0") {
+                        $this->addCondition($item["table_name"], 
+                                            $item["field_name"], 
+                                            $item["field_type"], 
+                                            $fieldOperator,
+                                            $fieldValue,
+                                            $item["field_mask"]);
+                    }
                 }
 
             }            

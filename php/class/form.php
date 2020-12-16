@@ -3,6 +3,7 @@ class LogicForm extends Base {
 
     // Public members
     public $PageEvent = "";
+    public $tableName = "";    
 
     // Private members
     private $cn = 0;
@@ -88,7 +89,7 @@ class LogicForm extends Base {
             if (count($tableDef) > 0) {
 
                 // Keep page title
-                $pageTitle = $tableDef[0]["title"];
+                $pageTitle = $tableDef[0]["title"];                
                 
                 // Do not query database
                 if ($action == "Filter") {
@@ -273,6 +274,9 @@ class LogicForm extends Base {
             if ($this->showTitle) {
                 $html .= $this->element->createPageTitle($pageTitle);
             }    
+
+            // Keep table name public
+            $this->tableName = $tableDef[0]["table_name"];
 
             // Finalize form
             $html .= $this->element->createForm("form1", $controls);

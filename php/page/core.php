@@ -32,6 +32,7 @@
                 // Single table
                 case $TABLE:
                     $logicReport = new LogicReport($cn, $sqlBuilder, $_REQUEST);
+                    $logicReport->queryType = $sqlBuilder->QUERY;                    
                     $html .= $logicReport->createReport($tableId, $viewId, $action, $pageOffset);
                     $error = $logicReport->getError();                    
                     break;
