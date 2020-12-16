@@ -16,6 +16,12 @@
         // Other
         private $action = "";
 
+        // Show properties
+        public $showTitle = true;
+        public $showAction = true;
+        public $showPaging = true;
+        public $pageTitle = "";
+
         // Datatypes
         public $TYPE_INT = "int";
         public $TYPE_FLOAT = "float";

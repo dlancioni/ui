@@ -78,7 +78,10 @@ class LogicReport extends Base {
             }
 
             // Create page title
-            $html .= $this->element->createPageTitle($pageTitle);
+            $this->pageTitle = $pageTitle;            
+            if ($this->showTitle) {
+                $html .= $this->element->createPageTitle($pageTitle);
+            }
 
             // Get data
             $filter = new Filter("like");
@@ -154,19 +157,24 @@ class LogicReport extends Base {
                                                         $this->TB_VIEW, 0, 
                                                         $filter->create(), 
                                                         $this->sqlBuilder->QUERY_NO_PAGING);
-            //Get events
-            $filter = new Filter();
-            $filter->add("tb_event", "id_table", $tableId);
-            $eventList = $this->sqlBuilder->executeQuery($this->cn, 
-                                                         $this->TB_EVENT, 0, 
-                                                         $filter->create(), 
-                                                         $this->sqlBuilder->QUERY_NO_PAGING);
 
-            // Get events (buttons)
-            $html .= $this->element->createPaging($recordCount, $this->sqlBuilder->PageSize, $this->sqlBuilder->PageOffset);
+
+            // Create paging
+            if ($this->showPaging) {
+                $html .= $this->element->createPaging($recordCount, $this->sqlBuilder->PageSize, $this->sqlBuilder->PageOffset);
+            }
 
             // Create buttons
-            $html .= $eventAction->createButton($tableId, $userId, $eventList, 1);
+            if ($this->showAction) {
+                $filter = new Filter();
+                $filter->add("tb_event", "id_table", $tableId);
+                $eventList = $this->sqlBuilder->executeQuery($this->cn, 
+                                                            $this->TB_EVENT, 0, 
+                                                            $filter->create(), 
+                                                            $this->sqlBuilder->QUERY_NO_PAGING);                
+                $html .= $eventAction->createButton($tableId, $userId, $eventList, 1);
+            }
+
 
             // Prepare view list
             $html .= $this->element->createPanel($this->createViewList($viewList, $viewId));            
