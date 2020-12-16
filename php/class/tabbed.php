@@ -21,6 +21,7 @@ class LogicTabbed extends Base {
         // General declaration
         $html = "";
         $form = "";
+        $name = "";
         $report = "";
         $pageTitle = "";
         $parentTable = "";
@@ -56,9 +57,11 @@ class LogicTabbed extends Base {
                 // Reset values
                 $report = "";
                 $pageTitle = "";
+                $name = "";
 
                 // Get child details
                 $tableId = $module["id_table"];
+                $name = str_replace("_", "", $module["table"]);
 
                 // Prepare page call                
                 $logicReport = new LogicReport($cn, $this->sqlBuilder, $formData);
@@ -72,7 +75,7 @@ class LogicTabbed extends Base {
                 $pageTitle = $logicReport->pageTitle;
 
                 // Create tab definition
-                $tabDef[] = array("name"=>str_replace("_", "", $module["name"]), "title"=>$pageTitle, "page"=>$report);
+                $tabDef[] = array("name"=>$name, "title"=>$pageTitle, "page"=>$report);
              }
 
              // Get tabbed data
