@@ -19,31 +19,42 @@ async function confirm() {
 /*
  * Basic operations
  */
-function formNew($tableId) {
+function formNew() {
     setFormat(2);
     setEvent("New");
     submit();
 }
-function formEdit($tableId) {
+
+function formEdit() {
     setFormat(2);
     setEvent("Edit");
     submit();
 }
-function formDelete($tableId) {
+
+function formDelete() {
     setFormat(2);
     setEvent("Delete");
     submit();
 }
-function formFilter($tableId) {
+
+function formDetail() {
+    setFormat(3);
+    setEvent("Detail");
+    submit();
+}
+
+function formFilter() {
     setFormat(2);
     setEvent("Filter");
     submit();
 }
-function reportBack($tableId) {
+
+function reportBack() {
     setFormat(1);
     setEvent("Back");
     submit();
 }
+
 function formClear() {   
     let elements = "";
     // Clear text
@@ -68,15 +79,3 @@ function formClear() {
         }
     }    
 }
-
-/*
- * Shortcut to manipulate native functionalities
- */
-function __shortcut__(e) {
-
-    // Navigate on menu
-    if (e.altKey) {
-        go(parseInt(e.key), 1);
-    }
-}
-

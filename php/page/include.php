@@ -24,6 +24,7 @@
     include  $path . "setup.php";
     include  $path . "sqlbuilder.php";
     include  $path . "table.php";
+    include  $path . "tabbed.php";
     include  $path . "util.php";    
     include  $path . "upload.php";
     include  $path . "view.php";

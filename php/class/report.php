@@ -3,7 +3,7 @@ class LogicReport extends Base {
 
     // Class members
     private $cn = 0;
-    private $sqlBuilder = 0;
+    private $sqlBuilder = "";
     private $element = "";
     public $formData = array();    
 

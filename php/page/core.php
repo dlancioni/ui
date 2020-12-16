@@ -4,6 +4,7 @@
     $id = 0;
     $logicReport = "";
     $logicForm = "";
+    $logicTabbed = "";
     $tableId = 0;  
     $format = 1;
     $html = "";
@@ -11,6 +12,11 @@
     $error = "";
     $parent = array();
     $parentField = "";
+
+    // Screen formats
+    $TABLE = 1;
+    $FORM = 2;
+    $TABBED = 3;
     
     try {
         
@@ -20,21 +26,29 @@
         // Create table or form
         if ($tableId > 0) {
 
-            // Keep parent modules
-           $parent = getParent($cn, $sqlBuilder, $tableId);
-           if (count($parent) > 0) {
-               $parentField = str_replace("tb_", "id_", $parent[0]["name"]);
-            }
+            // Create main page
+            switch ($format) {
 
-            // Create page or form
-            if ($format == 1) {
-                $logicReport = new LogicReport($cn, $sqlBuilder, $_REQUEST);
-                $html .= $logicReport->createReport($tableId, $viewId, $action, $pageOffset);
-                $error = $logicReport->getError();
-            } else {
-                $logicForm = new LogicForm($cn, $sqlBuilder);
-                $html .= $logicForm->createForm($tableId, $id, $action);
-                $error = $logicForm->getError();
+                // Single table
+                case $TABLE:
+                    $logicReport = new LogicReport($cn, $sqlBuilder, $_REQUEST);
+                    $html .= $logicReport->createReport($tableId, $viewId, $action, $pageOffset);
+                    $error = $logicReport->getError();                    
+                    break;
+
+                // Single form    
+                case $FORM:
+                    $logicForm = new LogicForm($cn, $sqlBuilder);
+                    $html .= $logicForm->createForm($tableId, $id, $action);
+                    $error = $logicForm->getError();
+                    break;
+
+                // Form with many tables (tabbed)    
+                case $TABBED:
+                    $logicTabbed = new LogicTabbed($cn, $sqlBuilder);
+                    $html .= $logicTabbed->createTabbed($cn, $tableId, $id);
+                    $error = $logicTabbed->getError();
+                    break;
             }
 
             // Handle error
@@ -55,32 +69,4 @@
     if ($cn) {
         pg_close($cn); 
     }    
-
-    /*
-     * Get parent module to mount tabbed effect
-     */
-    function getParent($cn, $sqlBuilder, $tableId) {
-
-        $viewId = 0;
-        $filter = "";
-        $data = "";
-
-        try {
-
-            // Get data
-            $filter = new Filter();
-            $filter->add("tb_table", "id_parent", $tableId);
-            $data = $sqlBuilder->executeQuery($cn, $sqlBuilder->TB_TABLE, $viewId, $filter->create());
-
-        } catch (Exception $ex) {        
-            throw $ex;
-        }
-
-        // Return it
-        return $data;
-
-    }
-
-
-
 ?>
