@@ -72,12 +72,15 @@ class LogicTabbed extends Base {
                 $pageTitle = $logicReport->pageTitle;
 
                 // Create tab definition
-                $tabDef[] = array("name"=>$module["name"], "title"=>$pageTitle, "page"=>$report);
+                $tabDef[] = array("name"=>str_replace("_", "", $module["name"]), "title"=>$pageTitle, "page"=>$report);
              }
 
              // Get tabbed data
+             $html .= "<br><br>";
+             $html .= "<div class='tab'>";
              $html .= $this->createTabbedHeader($tabDef);
              $html .= $this->createTabbedData($tabDef);
+             $html .= "</div>";
 
         } catch (Exception $ex) {
             throw $ex;
@@ -122,12 +125,12 @@ class LogicTabbed extends Base {
         $html = "";
         $name = "";
         $title = "";
-        $selected = 'true';
+        $class = "nav-link active";
         $stringUtil = new StringUtil();
         $lb = $stringUtil->lb();
        
         // Create tabbed control
-        $html .= "<ul class='nav nav-tabs' id='myTab' role='tablist'>" . $lb;
+        $html .= "<ul class='nav nav-tabs'>" . $lb;
 
             // Add child tabs
             foreach  ($tabDef as $item) {
@@ -138,11 +141,11 @@ class LogicTabbed extends Base {
 
                 // Create tab
                 $html .= "<li class='nav-item'>" . $lb;
-                $html .= "<a class='nav-link active' id='$name-tab' data-toggle='tab' href='#$name' role='tab' aria-controls='$name' aria-selected='$selected'>$title</a>" . $lb;
+                $html .= "<a href='#$name' class='$class' data-toggle='tab'>$title</a>" . $lb;
                 $html .= "</li>" . $lb;
 
                 // Only first is selected
-                $selected = 'false';                
+                $class = "nav-link";
             }
 
         // Close list    
@@ -161,20 +164,24 @@ class LogicTabbed extends Base {
         $name = "";
         $page = "";
         $html = "";
-        $class = "tab-pane fade";
+        $class = "tab-pane fade show active";
         $stringUtil = new StringUtil();
         $lb = $stringUtil->lb();
        
         // Create tabbed control
-        $html .= "<div class='tab-content' id='myTabContent'>" . $lb;
+        $html .= "<div class='tab-content'>" . $lb;
 
             // Add child tabs
             foreach ($tabDef as $tab) {
 
                 $name = $tab["name"];
                 $page = $tab["page"];
-                $html .= "<div class='$class' id='$name' role='tabpanel' aria-labelledby='$name-tab'>...</div>" . $lb;
-                $class = "tab-pane fade show active";
+
+                $html .= "<div class='$class' id='$name'>";
+                $html .= "<p>$page</p>" . $lb;
+                $html .= "</div>" . $lb;
+
+                $class = "tab-pane fade";
             }
 
             // Only first is selected
