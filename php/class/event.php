@@ -82,15 +82,15 @@
                         if (intval($id) != 0) {
 
                             // System
-                            $json = $model->addTableAction($this->PROFILE_SYSTEM, $tableId, $id);
+                            $json = $model->addModuleAction($this->PROFILE_SYSTEM, $tableId, $id);
                             pg_query($this->cn, "insert into tb_table_action (field) values ('$json')");
 
                             // Administrator
-                            $json = $model->addTableAction($this->PROFILE_ADMIN, $tableId, $id);
+                            $json = $model->addModuleAction($this->PROFILE_ADMIN, $tableId, $id);
                             pg_query($this->cn, "insert into tb_table_action (field) values ('$json')");
 
                             // Users
-                            $json = $model->addTableAction($this->PROFILE_USER, $tableId, $id);
+                            $json = $model->addModuleAction($this->PROFILE_USER, $tableId, $id);
                             pg_query($this->cn, "insert into tb_table_action (field) values ('$json')");
 
                             break;

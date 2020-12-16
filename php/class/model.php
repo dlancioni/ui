@@ -46,7 +46,7 @@
             return $json;
         }
 
-        public function addTable($name, $title, $id_type, $id_menu, $id_parent) {
+        public function addModule($name, $title, $id_type, $id_menu) {
 
             // General Declaration
             $json = "";
@@ -60,7 +60,6 @@
             $json = $jsonUtil->setValue($json, "title", $title);
             $json = $jsonUtil->setValue($json, "id_type", $id_type);
             $json = $jsonUtil->setValue($json, "id_menu", $id_menu);
-            $json = $jsonUtil->setValue($json, "id_parent", $id_parent);
             
             // Return final json
             return $json;
@@ -201,7 +200,7 @@
             return $json;
         }
 
-        public function addTableAction($id_profile, $id_table, $id_action) {
+        public function addModuleAction($id_profile, $id_table, $id_action) {
 
             // General Declaration
             $json = "";
@@ -219,7 +218,7 @@
             return $json;
         }
 
-        public function addUser($groupId, $name, $username, $password) {
+        public function addUser($groupId, $name, $email, $username, $password) {
 
             // General Declaration
             $json = "";
@@ -230,6 +229,7 @@
 
             // Create record        
             $json = $jsonUtil->setValue($json, "name", $name);
+            $json = $jsonUtil->setValue($json, "email", $email);
             $json = $jsonUtil->setValue($json, "username", $username);
             $json = $jsonUtil->setValue($json, "password", $password);
 

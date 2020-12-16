@@ -245,9 +245,15 @@ class LogicReport extends Base {
 
         $size = 0;
         switch ($columnCount) {
+            case 4:
+                if ($column == 4) {
+                    $size = 50;
+                }
+                break;
+
             case 3:
                 if ($column == 3) {
-                    $size = 70;
+                    $size = 65;
                 }
                 break;
 
@@ -256,6 +262,7 @@ class LogicReport extends Base {
                     $size = 80;
                 }
                 break;
+
             case 1:
                 if ($column == 1) {
                     $size = 95;

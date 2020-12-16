@@ -58,7 +58,7 @@ class LogicTabbed extends Base {
                 $pageTitle = "";
 
                 // Get child details
-                $tableId = $module["id"];
+                $tableId = $module["id_table"];
 
                 // Prepare page call                
                 $logicReport = new LogicReport($cn, $this->sqlBuilder, $formData);
@@ -105,8 +105,8 @@ class LogicTabbed extends Base {
 
             // Get data
             $filter = new Filter();
-            $filter->add("tb_table", "id_parent", $tableId);
-            $data = $sqlBuilder->executeQuery($cn, $sqlBuilder->TB_TABLE, $viewId, $filter->create());
+            $filter->add("tb_field", "id_table_fk", $tableId);
+            $data = $sqlBuilder->executeQuery($cn, $sqlBuilder->TB_FIELD, $viewId, $filter->create());
 
         } catch (Exception $ex) {        
             throw $ex;
