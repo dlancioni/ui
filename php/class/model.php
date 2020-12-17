@@ -183,7 +183,7 @@
         }
 
 
-        public function addProfileTable($id_profile, $id_table) {
+        public function addProfileModule($id_profile, $id_table) {
 
             // General Declaration
             $json = "";

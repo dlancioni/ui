@@ -216,7 +216,7 @@
             $date = "";
 
             $systemId = "";
-            $logicSetup = "";            
+            $setupCore = "";
             $affectedRows = 0;
             $expireDate = "";
             $mail = new Mail();
@@ -281,8 +281,8 @@
 
                 // Keep instance of SqlBuilder for current session
                 $sqlBuilder = new SqlBuilder($systemId, 0, 0, 0);
-                $logicSetup = new LogicSetup($cn, $sqlBuilder);
-                $logicSetup->setup($systemId);
+                $setupCore = new SetupCore($cn, $sqlBuilder);
+                $setupCore->setup($systemId);
 
                 // Commit transaction
                 pg_query($cn, "commit");

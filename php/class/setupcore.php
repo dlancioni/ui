@@ -1,5 +1,5 @@
 <?php
-    class LogicSetup extends Setup {
+    class SetupCore extends Setup {
 
         /*
          * Upload files
@@ -40,12 +40,12 @@
                 $this->createUserProfile($cn);
                 $this->createProfile($cn);
                 $this->createUserGroup($cn);
-                $this->createProfileTable($cn);
+                $this->createProfileModule($cn);
                 $this->createTableAction($cn);
 
 
             } catch (Exception $ex) {
-                $this->setError("LogicSetup.setup()", $ex->getMessage());
+                $this->setError("SetupCore.setup()", $ex->getMessage());
                 throw $ex;
             }
         }        
@@ -610,9 +610,9 @@
         }        
 
         /*
-         * Create Profile x Transaction
+         * Create Profile x Modules
          */
-        private function createProfileTable($cn) {
+        private function createProfileModule($cn) {
 
             // General declaration            
             $i = 0;
@@ -625,18 +625,17 @@
 
                 // SYSTEM
                 for ($i=1; $i<=$this->TOTAL_MODULE; $i++) {
-                    $this->execute($cn, $model->addProfileTable($this->PROFILE_SYSTEM, $i));
+                    $this->execute($cn, $model->addProfileModule($this->PROFILE_SYSTEM, $i));
                 }
 
                 // ADMIN
-                $this->execute($cn, $model->addProfileTable($this->PROFILE_ADMIN, $this->TB_PROFILE));
-                $this->execute($cn, $model->addProfileTable($this->PROFILE_ADMIN, $this->TB_PROFILE));
-                $this->execute($cn, $model->addProfileTable($this->PROFILE_ADMIN, $this->TB_PROFILE_TABLE));
-                $this->execute($cn, $model->addProfileTable($this->PROFILE_ADMIN, $this->TB_TABLE_ACTION));
-                $this->execute($cn, $model->addProfileTable($this->PROFILE_ADMIN, $this->TB_USER));
-                $this->execute($cn, $model->addProfileTable($this->PROFILE_ADMIN, $this->TB_USER_PROFILE));
-                $this->execute($cn, $model->addProfileTable($this->PROFILE_ADMIN, $this->TB_GROUP));
-                $this->execute($cn, $model->addProfileTable($this->PROFILE_ADMIN, $this->TB_USER_GROUP));
+                $this->execute($cn, $model->addProfileModule($this->PROFILE_ADMIN, $this->TB_PROFILE));
+                $this->execute($cn, $model->addProfileModule($this->PROFILE_ADMIN, $this->TB_PROFILE_TABLE));
+                $this->execute($cn, $model->addProfileModule($this->PROFILE_ADMIN, $this->TB_TABLE_ACTION));
+                $this->execute($cn, $model->addProfileModule($this->PROFILE_ADMIN, $this->TB_USER));
+                $this->execute($cn, $model->addProfileModule($this->PROFILE_ADMIN, $this->TB_USER_PROFILE));
+                $this->execute($cn, $model->addProfileModule($this->PROFILE_ADMIN, $this->TB_GROUP));
+                $this->execute($cn, $model->addProfileModule($this->PROFILE_ADMIN, $this->TB_USER_GROUP));
 
             } catch (Exception $ex) {
                 throw $ex;
