@@ -15,7 +15,7 @@
 
         // Totals
         public $TOTAL_MODULE = 0; 
-        public $TOTAL_ACTION = 0;
+        public $TOTAL_ACTION = 8;
 
         // Menus
         public $MENU_ADM = 101;
