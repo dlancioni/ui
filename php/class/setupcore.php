@@ -1,16 +1,6 @@
 <?php
     class LogicSetup extends Setup {
 
-        // Private members
-        public $error = "";
-        public $systemId = 0;
-        public $tableId = 0;
-
-        // Group info
-        public $groupId = 1;
-        public $admin = 2;
-        public $public = 3;
-
         /*
          * Upload files
          */
@@ -36,13 +26,13 @@
                 $this->createTable($cn);
 
                 // System structure
+                $this->createMenu($cn);
                 $this->createModule($cn);
                 $this->createField($cn);
                 $this->createDomain($cn);
                 $this->createEvent($cn);
                 $this->createCode($cn);
                 $this->createAction($cn);
-                $this->createView($cn);
 
                 // Access control                
                 $this->createGroup($cn);
@@ -55,20 +45,17 @@
 
 
             } catch (Exception $ex) {
-
-                // Keep source and error                
                 $this->setError("LogicSetup.setup()", $ex->getMessage());
-
-                // Rethrow it
                 throw $ex;
             }
         }        
 
         /*
-        * Create tables
-        */
+         * Create tables
+         */
         public function createSchema($cn) {
 
+            // General declaration
             $systemId = "";
             $schemaName = "";
 
@@ -86,13 +73,14 @@
         }
 
         /*
-        * Create tables
-        */
+         * Create tables
+         */
         public function createTable($cn) {
 
-            try {
+            // General declaration
+            $table = array();
 
-                $table = array();
+            try {
 
                 // System 
                 array_push($table, "tb_menu");
@@ -120,31 +108,41 @@
 
                 // Due to parent_id, tb_must must start with 100
                 pg_query($cn, "alter sequence tb_menu_id_seq restart with 101;");
-                
 
             } catch (Exception $ex) {
                 throw $ex;
             }
         }
 
-        /*
-        * Create transactions (menus, tables)
+       /*
+        * Create menus
         */
-        private function createModule($cn) {
+        private function createMenu($cn) {
 
-            global $tableName;
-            global $total;
-            $persist = new Persist();
+            // General declaration            
             $model = new Model($this->groupId);
 
-            // Count control
-            $total = 16;
+            try {
 
-            // Menus
-            $MENU_ADM = 101;
-            $MENU_SYS = 102;
-            $MENU_AC = 103;
-            $MENU_CAD = 104;            
+                // MENU
+                $this->setTable("tb_menu");
+                $this->execute($cn, $model->addMenu("Administração", 0));
+                $this->execute($cn, $model->addMenu("Sistema", $this->MENU_ADM));
+                $this->execute($cn, $model->addMenu("Controle de Acesso", $this->MENU_ADM));
+
+            } catch (Exception $ex) {
+                throw $ex;
+            }
+        }
+
+
+        /*
+         * Create transactions (menus, tables)
+         */
+        private function createModule($cn) {
+
+            // General declaration
+            $model = new Model($this->groupId);            
 
             // Module type
             $TYPE_SYSTEM = 1;
@@ -152,38 +150,31 @@
 
             try {
 
-                // Set group
-                $persist->setGroup($model->groupId);
-                $persist->setAction("New");
-
-                // Define table name
-                $tableName = "tb_menu";
-                $this->execute($cn, $model->addMenu("Administração", 0));
-                $this->execute($cn, $model->addMenu("Sistema", $MENU_ADM));
-                $this->execute($cn, $model->addMenu("Controle de Acesso", $MENU_ADM));
-
-                // Define table name
-                $tableName = "tb_table";
+                // Define target table
+                $this->setTable("tb_table");
 
                 // CORE
-                $this->TB_MENU = $this->execute($cn, $model->addModule("tb_menu", "Menus", $TYPE_SYSTEM, $MENU_SYS));
-                $this->TB_TABLE = $this->execute($cn, $model->addModule("tb_table", "Módulos", $TYPE_SYSTEM, $MENU_SYS));
-                $this->TB_FIELD = $this->execute($cn, $model->addModule("tb_field", "Campos", $TYPE_SYSTEM, $MENU_SYS));
-                $this->TB_DOMAIN = $this->execute($cn, $model->addModule( "tb_domain", "Domínios", $TYPE_SYSTEM, $MENU_SYS));
-                $this->TB_EVENT = $this->execute($cn, $model->addModule("tb_event", "Eventos", $TYPE_SYSTEM, $MENU_SYS));
-                $this->TB_ACTION = $this->execute($cn, $model->addModule("tb_action", "Ações", $TYPE_SYSTEM, $MENU_SYS));
-                $this->TB_CODE = $this->execute($cn, $model->addModule("tb_code", "Programação", $TYPE_SYSTEM, $MENU_SYS));
-                $this->TB_VIEW = $this->execute($cn, $model->addModule("tb_view","Visão", $TYPE_SYSTEM,  $MENU_SYS));
-                $this->TB_VIEW_FIELD = $this->execute($cn, $model->addModule("tb_view_field", "Visão x Campos", $TYPE_SYSTEM, $MENU_SYS));
+                $this->TB_MENU = $this->execute($cn, $model->addModule("tb_menu", "Menus", $TYPE_SYSTEM, $this->MENU_SYS));
+                $this->TB_TABLE = $this->execute($cn, $model->addModule("tb_table", "Módulos", $TYPE_SYSTEM, $this->MENU_SYS));
+                $this->TB_FIELD = $this->execute($cn, $model->addModule("tb_field", "Campos", $TYPE_SYSTEM, $this->MENU_SYS));
+                $this->TB_DOMAIN = $this->execute($cn, $model->addModule( "tb_domain", "Domínios", $TYPE_SYSTEM, $this->MENU_SYS));
+                $this->TB_EVENT = $this->execute($cn, $model->addModule("tb_event", "Eventos", $TYPE_SYSTEM, $this->MENU_SYS));
+                $this->TB_ACTION = $this->execute($cn, $model->addModule("tb_action", "Ações", $TYPE_SYSTEM, $this->MENU_SYS));
+                $this->TB_CODE = $this->execute($cn, $model->addModule("tb_code", "Programação", $TYPE_SYSTEM, $this->MENU_SYS));
+                $this->TB_VIEW = $this->execute($cn, $model->addModule("tb_view","Visão", $TYPE_SYSTEM,  $this->MENU_SYS));
+                $this->TB_VIEW_FIELD = $this->execute($cn, $model->addModule("tb_view_field", "Visão x Campos", $TYPE_SYSTEM, $this->MENU_SYS));
                 
                 // ACCESS CONTROL
-                $this->TB_PROFILE = $this->execute($cn, $model->addModule("tb_profile", "Perfil", $TYPE_SYSTEM, $MENU_AC));
-                $this->TB_PROFILE_TABLE = $this->execute($cn, $model->addModule("tb_profile_table", "Perfil x Módulo", $TYPE_SYSTEM, $MENU_AC));
-                $this->TB_TABLE_ACTION = $this->execute($cn, $model->addModule("tb_table_action", "Módulo x Função", $TYPE_SYSTEM, $MENU_AC));
-                $this->TB_USER = $this->execute($cn, $model->addModule("tb_user", "Usuários", $TYPE_SYSTEM, $MENU_AC));
-                $this->TB_USER_PROFILE = $this->execute($cn, $model->addModule("tb_user_profile", "Usuários x Pefil", $TYPE_SYSTEM, $MENU_AC));
-                $this->TB_GROUP = $this->execute($cn, $model->addModule("tb_group", "Grupos", $TYPE_SYSTEM, $MENU_AC));
-                $this->TB_USER_GROUP = $this->execute($cn, $model->addModule("tb_user_group", "Usuários x Grupos", $TYPE_SYSTEM, $MENU_AC));
+                $this->TB_PROFILE = $this->execute($cn, $model->addModule("tb_profile", "Perfil", $TYPE_SYSTEM, $this->MENU_AC));
+                $this->TB_PROFILE_TABLE = $this->execute($cn, $model->addModule("tb_profile_table", "Perfil x Módulo", $TYPE_SYSTEM, $this->MENU_AC));
+                $this->TB_TABLE_ACTION = $this->execute($cn, $model->addModule("tb_table_action", "Módulo x Função", $TYPE_SYSTEM, $this->MENU_AC));
+                $this->TB_USER = $this->execute($cn, $model->addModule("tb_user", "Usuários", $TYPE_SYSTEM, $this->MENU_AC));
+                $this->TB_USER_PROFILE = $this->execute($cn, $model->addModule("tb_user_profile", "Usuários x Pefil", $TYPE_SYSTEM, $this->MENU_AC));
+                $this->TB_GROUP = $this->execute($cn, $model->addModule("tb_group", "Grupos", $TYPE_SYSTEM, $this->MENU_AC));
+                $this->TB_USER_GROUP = $this->execute($cn, $model->addModule("tb_user_group", "Usuários x Grupos", $TYPE_SYSTEM, $this->MENU_AC));
+
+                // Used to grant access in batch
+                $this->TOTAL_MODULE = 16;
 
             } catch (Exception $ex) {
                 throw $ex;
@@ -191,126 +182,128 @@
         }
 
         /*
-        * Create fields
-        */
+         * Create fields
+         */
         private function createField($cn) {
 
-            global $tableName;
+            // General declaration
             $model = new Model($this->groupId);
 
             try {
 
                 // Constants
                 $seq = 0;
-                $yes = 1;
-                $no = 2;
-                $tableName = "tb_field";
+                $YES = 1;
+                $NO = 2;
+
+                // Set base table
+                $this->setTable("tb_field");
 
                 // tb_domain
                 $seq = 0;
-                $this->execute($cn, $model->addField($this->TB_DOMAIN, "Chave", "key", $this->TYPE_TEXT, 50, "", $yes, $yes, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_DOMAIN, "Valor", "value", $this->TYPE_TEXT, 50, "", $yes, $yes, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_DOMAIN, "Domínio", "domain", $this->TYPE_TEXT, 50, "", $yes, $yes, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_DOMAIN, "Chave", "key", $this->TYPE_TEXT, 50, "", $YES, $YES, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_DOMAIN, "Valor", "value", $this->TYPE_TEXT, 50, "", $YES, $YES, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_DOMAIN, "Domínio", "domain", $this->TYPE_TEXT, 50, "", $YES, $YES, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
 
                 // tb_menu
                 $seq = 0;
-                $this->execute($cn, $model->addField($this->TB_MENU, "Nome", "name", $this->TYPE_TEXT, 50, "", $yes, $no, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_MENU, "Pai", "id_parent", $this->TYPE_INT, 0, "", $no, $no, $this->tb("tb_menu"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_MENU, "Nome", "name", $this->TYPE_TEXT, 50, "", $YES, $NO, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_MENU, "Pai", "id_parent", $this->TYPE_INT, 0, "", $NO, $NO, $this->tb("tb_menu"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
 
                 // tb_table
                 $seq = 0;
-                $this->execute($cn, $model->addField($this->TB_TABLE, "Titulo", "title", $this->TYPE_TEXT, 50, "", $yes, $no, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_TABLE, "Menu", "id_menu", $this->TYPE_INT, 0, "", $yes, $no, $this->tb("tb_menu"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_TABLE, "Tipo", "id_type", $this->TYPE_INT, 0, "", $yes, $no, $this->tb("tb_domain"), $this->fd("value"), "tb_table_type", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_TABLE, "Tabela", "name", $this->TYPE_TEXT, 50, "", $yes, $yes, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_TABLE, "Titulo", "title", $this->TYPE_TEXT, 50, "", $YES, $NO, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_TABLE, "Menu", "id_menu", $this->TYPE_INT, 0, "", $YES, $NO, $this->tb("tb_menu"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_TABLE, "Tipo", "id_type", $this->TYPE_INT, 0, "", $YES, $NO, $this->tb("tb_domain"), $this->fd("value"), "tb_table_type", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_TABLE, "Tabela", "name", $this->TYPE_TEXT, 50, "", $YES, $YES, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
 
                 // tb_field
                 $seq = 0;
-                $this->execute($cn, $model->addField($this->TB_FIELD, "Módulo", "id_table", $this->TYPE_INT, 0, "", $yes, $yes, $this->tb("tb_table"), $this->fd("title"), "", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_FIELD, "Rótulo", "label", $this->TYPE_TEXT, 50, "", $yes, $no, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_FIELD, "Nome", "name", $this->TYPE_TEXT, 50, "", $yes, $yes, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_FIELD, "Tipo", "id_type", $this->TYPE_TEXT, 50, "", $yes, $no, $this->tb("tb_domain"), $this->fd("value"), "tb_field_type", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_FIELD, "Tamanho", "size", $this->TYPE_INT, 0, "", $yes, $no, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_FIELD, "Máscara", "mask", $this->TYPE_TEXT, 50, "", $no, $no, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_FIELD, "Obrigatório", "id_mandatory", $this->TYPE_INT, 0, "", $yes, $no, $this->tb("tb_domain"), $this->fd("value"), "tb_bool", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_FIELD, "Único", "id_unique", $this->TYPE_INT, 0, "", $yes, $no, $this->tb("tb_domain"), $this->fd("value"), "tb_bool", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_FIELD, "Módulo FK", "id_table_fk", $this->TYPE_INT, 0, "", $no, $no, $this->tb("tb_table"), $this->fd("title"), "", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_FIELD, "Campo FK", "id_field_fk", $this->TYPE_INT, 0, "", $no, $no, $this->tb("tb_field"), $this->fd("label"), "", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_FIELD, "Domínio", "domain", $this->TYPE_TEXT, 50, "", $no, $no, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_FIELD, "Valor Padrão", "default_value", $this->TYPE_TEXT, 50, "", $no, $no, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_FIELD, "Controle", "id_control", $this->TYPE_INT, 0, "", $yes, $no, $this->tb("tb_domain"), $this->fd("value"), "tb_control", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_FIELD, "Ordenação", "ordenation", $this->TYPE_INT, 0, "", $yes, $no, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_FIELD, "Módulo", "id_table", $this->TYPE_INT, 0, "", $YES, $YES, $this->tb("tb_table"), $this->fd("title"), "", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_FIELD, "Rótulo", "label", $this->TYPE_TEXT, 50, "", $YES, $NO, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_FIELD, "Nome", "name", $this->TYPE_TEXT, 50, "", $YES, $YES, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_FIELD, "Tipo", "id_type", $this->TYPE_TEXT, 50, "", $YES, $NO, $this->tb("tb_domain"), $this->fd("value"), "tb_field_type", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_FIELD, "Tamanho", "size", $this->TYPE_INT, 0, "", $YES, $NO, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_FIELD, "Máscara", "mask", $this->TYPE_TEXT, 50, "", $NO, $NO, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_FIELD, "Obrigatório", "id_mandatory", $this->TYPE_INT, 0, "", $YES, $NO, $this->tb("tb_domain"), $this->fd("value"), "tb_bool", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_FIELD, "Único", "id_unique", $this->TYPE_INT, 0, "", $YES, $NO, $this->tb("tb_domain"), $this->fd("value"), "tb_bool", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_FIELD, "Módulo FK", "id_table_fk", $this->TYPE_INT, 0, "", $NO, $NO, $this->tb("tb_table"), $this->fd("title"), "", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_FIELD, "Campo FK", "id_field_fk", $this->TYPE_INT, 0, "", $NO, $NO, $this->tb("tb_field"), $this->fd("label"), "", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_FIELD, "Domínio", "domain", $this->TYPE_TEXT, 50, "", $NO, $NO, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_FIELD, "Valor Padrão", "default_value", $this->TYPE_TEXT, 50, "", $NO, $NO, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_FIELD, "Controle", "id_control", $this->TYPE_INT, 0, "", $YES, $NO, $this->tb("tb_domain"), $this->fd("value"), "tb_control", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_FIELD, "Ordenação", "ordenation", $this->TYPE_INT, 0, "", $YES, $NO, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
 
                 // tb_view
                 $seq = 0;
-                $this->execute($cn, $model->addField($this->TB_VIEW, "Módulo", "id_table", $this->TYPE_INT, 0, "", $yes, $yes, $this->tb("tb_table"), $this->fd("title"), "", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_VIEW, "Nome", "name", $this->TYPE_TEXT, 50, "", $yes, $yes, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_VIEW, "Tipo", "id_type", $this->TYPE_INT, 0, "", $yes, $no, $this->tb("tb_domain"), $this->fd("value"), "tb_view_type", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_VIEW, "SQL", "sql", $this->TYPE_TEXT, 10000, "", $no, $no, 0, 0, "", "", $this->INPUT_TEXTAREA, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_VIEW, "Módulo", "id_table", $this->TYPE_INT, 0, "", $YES, $YES, $this->tb("tb_table"), $this->fd("title"), "", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_VIEW, "Nome", "name", $this->TYPE_TEXT, 50, "", $YES, $YES, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_VIEW, "Tipo", "id_type", $this->TYPE_INT, 0, "", $YES, $NO, $this->tb("tb_domain"), $this->fd("value"), "tb_view_type", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_VIEW, "SQL", "sql", $this->TYPE_TEXT, 10000, "", $NO, $NO, 0, 0, "", "", $this->INPUT_TEXTAREA, ++$seq));
 
                 // tb_view_field
                 $seq = 0;
-                $this->execute($cn, $model->addField($this->TB_VIEW_FIELD, "Visão", "id_view", $this->TYPE_INT, 0, "", $yes, $no, $this->tb("tb_view"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_VIEW_FIELD, "Comando", "id_command", $this->TYPE_INT, 0, "", $yes, $no, $this->tb("tb_domain"), $this->fd("value"), "tb_command", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_VIEW_FIELD, "Módulo", "id_table", $this->TYPE_INT, 0, "", $yes, $no, $this->tb("tb_table"), $this->fd("title"), "", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_VIEW_FIELD, "Campo", "id_field", $this->TYPE_INT, 0, "", $yes, $no, $this->tb("tb_field"), $this->fd("label"), "", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_VIEW_FIELD, "Descrição", "label", $this->TYPE_TEXT, 50, "", $no, $no, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_VIEW_FIELD, "Operador", "id_operator", $this->TYPE_INT, 0, "", $no, $no, $this->tb("tb_domain"), $this->fd("value"), "tb_operator", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_VIEW_FIELD, "Valor", "value", $this->TYPE_TEXT, 5000, "", $no, $no, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_VIEW_FIELD, "Visão", "id_view", $this->TYPE_INT, 0, "", $YES, $NO, $this->tb("tb_view"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_VIEW_FIELD, "Comando", "id_command", $this->TYPE_INT, 0, "", $YES, $NO, $this->tb("tb_domain"), $this->fd("value"), "tb_command", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_VIEW_FIELD, "Módulo", "id_table", $this->TYPE_INT, 0, "", $YES, $NO, $this->tb("tb_table"), $this->fd("title"), "", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_VIEW_FIELD, "Campo", "id_field", $this->TYPE_INT, 0, "", $YES, $NO, $this->tb("tb_field"), $this->fd("label"), "", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_VIEW_FIELD, "Descrição", "label", $this->TYPE_TEXT, 50, "", $NO, $NO, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_VIEW_FIELD, "Operador", "id_operator", $this->TYPE_INT, 0, "", $NO, $NO, $this->tb("tb_domain"), $this->fd("value"), "tb_operator", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_VIEW_FIELD, "Valor", "value", $this->TYPE_TEXT, 5000, "", $NO, $NO, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
 
                 // tb_action
                 $seq = 0;
-                $this->execute($cn, $model->addField($this->TB_ACTION, "Nome", "name", $this->TYPE_TEXT, 50, "", $yes, $yes, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_ACTION, "Nome", "name", $this->TYPE_TEXT, 50, "", $YES, $YES, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
 
                 // tb_event
                 $seq = 0;
-                $this->execute($cn, $model->addField($this->TB_EVENT, "Módulo", "id_table", $this->TYPE_INT, 0, "", $yes, $no, $this->tb("tb_table"), $this->fd("title"), "", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_EVENT, "Campo", "id_field", $this->TYPE_INT, 0, "", $no, $no, $this->tb("tb_field"), $this->fd("label"), "", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_EVENT, "Tela", "id_target", $this->TYPE_INT, 0, "", $yes, $no, $this->tb("tb_domain"), $this->fd("value"), "tb_target", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_EVENT, "Ação", "id_action", $this->TYPE_INT, 0, "", $no, $no, $this->tb("tb_action"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_EVENT, "Evento", "id_event", $this->TYPE_INT, 0, "", $no, $no, $this->tb("tb_domain"), $this->fd("value"), "tb_event", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_EVENT, "Código", "code", $this->TYPE_TEXT, 10000, "", $yes, $no, 0, 0, "", "", $this->INPUT_TEXTAREA, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_EVENT, "Módulo", "id_table", $this->TYPE_INT, 0, "", $YES, $NO, $this->tb("tb_table"), $this->fd("title"), "", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_EVENT, "Campo", "id_field", $this->TYPE_INT, 0, "", $NO, $NO, $this->tb("tb_field"), $this->fd("label"), "", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_EVENT, "Tela", "id_target", $this->TYPE_INT, 0, "", $YES, $NO, $this->tb("tb_domain"), $this->fd("value"), "tb_target", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_EVENT, "Ação", "id_action", $this->TYPE_INT, 0, "", $NO, $NO, $this->tb("tb_action"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_EVENT, "Evento", "id_event", $this->TYPE_INT, 0, "", $NO, $NO, $this->tb("tb_domain"), $this->fd("value"), "tb_event", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_EVENT, "Código", "code", $this->TYPE_TEXT, 10000, "", $YES, $NO, 0, 0, "", "", $this->INPUT_TEXTAREA, ++$seq));
 
                 // tb_code
                 $seq = 0;
-                $this->execute($cn, $model->addField($this->TB_CODE, "Comentário", "comment", $this->TYPE_TEXT, 50, "", $yes, $yes, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_CODE, "Código", "code", $this->TYPE_TEXT, 10000, "", $yes, $yes, 0, 0, "", "", $this->INPUT_TEXTAREA, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_CODE, "Comentário", "comment", $this->TYPE_TEXT, 50, "", $YES, $YES, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_CODE, "Código", "code", $this->TYPE_TEXT, 10000, "", $YES, $YES, 0, 0, "", "", $this->INPUT_TEXTAREA, ++$seq));
 
                 // tb_group
                 $seq = 0;
-                $this->execute($cn, $model->addField($this->TB_GROUP, "Nome", "name", $this->TYPE_TEXT, 50, "", $yes, $yes, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_GROUP, "Nome", "name", $this->TYPE_TEXT, 50, "", $YES, $YES, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
 
                 // tb_profile
                 $seq = 0;
-                $this->execute($cn, $model->addField($this->TB_PROFILE, "Nome", "name", $this->TYPE_TEXT, 50, "", $yes, $yes, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_PROFILE, "Nome", "name", $this->TYPE_TEXT, 50, "", $YES, $YES, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
 
                 // tb_profile_table
                 $seq = 0;
-                $this->execute($cn, $model->addField($this->TB_PROFILE_TABLE, "Perfil", "id_profile", $this->TYPE_INT, 0, "", $yes, $yes, $this->tb("tb_profile"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_PROFILE_TABLE, "Módulo", "id_table", $this->TYPE_INT, 0, "", $yes, $yes, $this->tb("tb_table"), $this->fd("title"), "", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_PROFILE_TABLE, "Perfil", "id_profile", $this->TYPE_INT, 0, "", $YES, $YES, $this->tb("tb_profile"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_PROFILE_TABLE, "Módulo", "id_table", $this->TYPE_INT, 0, "", $YES, $YES, $this->tb("tb_table"), $this->fd("title"), "", "", $this->INPUT_DROPDOWN, ++$seq));
 
                 // tb_table_action.
                 $seq = 0;
-                $this->execute($cn, $model->addField($this->TB_TABLE_ACTION, "Perfil", "id_profile", $this->TYPE_INT, 0, "", $yes, $yes, $this->tb("tb_profile"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_TABLE_ACTION, "Módulo", "id_table", $this->TYPE_INT, 0, "", $yes, $yes, $this->tb("tb_table"), $this->fd("title"), "", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_TABLE_ACTION, "Action", "id_action", $this->TYPE_INT, 0, "", $yes, $yes, $this->tb("tb_action"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_TABLE_ACTION, "Perfil", "id_profile", $this->TYPE_INT, 0, "", $YES, $YES, $this->tb("tb_profile"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_TABLE_ACTION, "Módulo", "id_table", $this->TYPE_INT, 0, "", $YES, $YES, $this->tb("tb_table"), $this->fd("title"), "", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_TABLE_ACTION, "Action", "id_action", $this->TYPE_INT, 0, "", $YES, $YES, $this->tb("tb_action"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
 
                 // tb_user
                 $seq = 0;
-                $this->execute($cn, $model->addField($this->TB_USER, "Nome", "name", $this->TYPE_TEXT, 50, "", $yes, $yes, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_USER, "Email", "email", $this->TYPE_TEXT, 200, "", $yes, $yes, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_USER, "Usuário", "username", $this->TYPE_TEXT, 50, "", $yes, $yes, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_USER, "Password", "password", $this->TYPE_TEXT, 50, "", $yes, $yes, 0, 0, "", "", $this->INPUT_PASSWORD, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_USER, "Nome", "name", $this->TYPE_TEXT, 50, "", $YES, $YES, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_USER, "Email", "email", $this->TYPE_TEXT, 200, "", $YES, $YES, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_USER, "Usuário", "username", $this->TYPE_TEXT, 50, "", $YES, $YES, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_USER, "Password", "password", $this->TYPE_TEXT, 50, "", $YES, $YES, 0, 0, "", "", $this->INPUT_PASSWORD, ++$seq));
 
                 // tb_user_profile
                 $seq = 0;
-                $this->execute($cn, $model->addField($this->TB_USER_PROFILE, "Usuário", "id_user", $this->TYPE_INT, 0, "", $yes, $no, $this->tb("tb_user"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_USER_PROFILE, "Perfil", "id_profile", $this->TYPE_INT, 0, "", $yes, $no, $this->tb("tb_profile"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_USER_PROFILE, "Usuário", "id_user", $this->TYPE_INT, 0, "", $YES, $NO, $this->tb("tb_user"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_USER_PROFILE, "Perfil", "id_profile", $this->TYPE_INT, 0, "", $YES, $NO, $this->tb("tb_profile"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
 
                 // tb_user_group
                 $seq = 0;
-                $this->execute($cn, $model->addField($this->TB_USER_GROUP, "Usuário", "id_user", $this->TYPE_INT, 0, "", $yes, $no, $this->tb("tb_user"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_USER_GROUP, "Grupo", "id_grp", $this->TYPE_INT, 0, "", $yes, $no, $this->tb("tb_group"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_USER_GROUP, "Usuário", "id_user", $this->TYPE_INT, 0, "", $YES, $NO, $this->tb("tb_user"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_USER_GROUP, "Grupo", "id_grp", $this->TYPE_INT, 0, "", $YES, $NO, $this->tb("tb_group"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
 
             } catch (Exception $ex) {
                 throw $ex;
@@ -318,24 +311,26 @@
         }
 
         /*
-        * Create domain
-        */
+         * Create domain
+         */
         private function createDomain($cn) {
 
-            global $tableName;
+            // General declaration
             $model = new Model($this->groupId);        
 
             try {
                 
                 // Define table name
-                $tableName = "tb_domain";
+                $this->setTable("tb_domain");
 
                 // tb_table_type
                 $this->execute($cn, $model->addDomain($this->groupId, 1, "Sistema", "tb_table_type"));
                 $this->execute($cn, $model->addDomain($this->groupId, 2, "Usuário", "tb_table_type"));
+
                 // tb_bool
                 $this->execute($cn, $model->addDomain($this->groupId, 1, "Sim", "tb_bool"));
                 $this->execute($cn, $model->addDomain($this->groupId, 2, "Não", "tb_bool"));
+
                 // tb_field_type
                 $this->execute($cn, $model->addDomain($this->groupId, $this->TYPE_INT, "Inteiro", "tb_field_type"));
                 $this->execute($cn, $model->addDomain($this->groupId, $this->TYPE_FLOAT, "Decimal", "tb_field_type"));
@@ -343,15 +338,18 @@
                 $this->execute($cn, $model->addDomain($this->groupId, $this->TYPE_DATE, "Data", "tb_field_type"));
                 $this->execute($cn, $model->addDomain($this->groupId, $this->TYPE_TIME, "Hora", "tb_field_type"));
                 $this->execute($cn, $model->addDomain($this->groupId, $this->TYPE_BINARY, "Binario", "tb_field_type"));
+
                 // tb_event
                 $this->execute($cn, $model->addDomain($this->groupId, 1, "onLoad", "tb_event"));
                 $this->execute($cn, $model->addDomain($this->groupId, 2, "onClick", "tb_event"));
                 $this->execute($cn, $model->addDomain($this->groupId, 3, "OnChange", "tb_event"));
                 $this->execute($cn, $model->addDomain($this->groupId, 4, "onFocus", "tb_event"));
                 $this->execute($cn, $model->addDomain($this->groupId, 5, "onBlur", "tb_event"));
+
                 // tb_target
                 $this->execute($cn, $model->addDomain($this->groupId, 1, "Tabela", "tb_target"));
                 $this->execute($cn, $model->addDomain($this->groupId, 2, "Formulário", "tb_target"));
+
                 // tb_message
                 $this->execute($cn, $model->addDomain($this->groupId, "M1", "Campo % é obrigatório", "tb_message"));
                 $this->execute($cn, $model->addDomain($this->groupId, "M2", "Data inválida informada no campo %", "tb_message"));
@@ -423,63 +421,56 @@
         }
 
         /*
-        * Create events
-        */
+         * Create events
+         */
         private function createEvent($cn) {
 
+            // General declaration
             $i = 0;
-            global $tableName;
-            global $total;
-            $jsonUtil = new jsonUtil();
-            $model = new Model($this->groupId);
-
             $TABLE = 1;
             $FORM = 2;
-
-            $EVENT_CLICK = 2;
+            $model = new Model($this->groupId);
 
             try {
 
                 // Define table name
-                $tableName = "tb_event";
+                $this->setTable("tb_event");
 
                 // Create standard events
-                for ($i=1; $i<=$total; $i++) {
-                    $this->execute($cn, $model->addEvent($TABLE, $i, 0, 1, $EVENT_CLICK, "formNew();"));
-                    $this->execute($cn, $model->addEvent($TABLE, $i, 0, 2, $EVENT_CLICK, "formEdit();"));
-                    $this->execute($cn, $model->addEvent($TABLE, $i, 0, 3, $EVENT_CLICK, "formDelete();"));
-                    $this->execute($cn, $model->addEvent($TABLE, $i, 0, 4, $EVENT_CLICK, "formDetail();"));
-                    $this->execute($cn, $model->addEvent($FORM,  $i, 0, 5, $EVENT_CLICK, "confirm();"));
-                    $this->execute($cn, $model->addEvent($TABLE, $i, 0, 6, $EVENT_CLICK, "formFilter();"));
-                    $this->execute($cn, $model->addEvent($FORM,  $i, 0, 7, $EVENT_CLICK, "formClear();"));
-                    $this->execute($cn, $model->addEvent($FORM,  $i, 0, 8, $EVENT_CLICK, "reportBack();"));
+                for ($i=1; $i<=$this->TOTAL_MODULE; $i++) {
+                    $this->execute($cn, $model->addEvent($TABLE, $i, 0, 1, $this->EVENT_CLICK, "formNew();"));
+                    $this->execute($cn, $model->addEvent($TABLE, $i, 0, 2, $this->EVENT_CLICK, "formEdit();"));
+                    $this->execute($cn, $model->addEvent($TABLE, $i, 0, 3, $this->EVENT_CLICK, "formDelete();"));
+                    $this->execute($cn, $model->addEvent($TABLE, $i, 0, 4, $this->EVENT_CLICK, "formDetail();"));
+                    $this->execute($cn, $model->addEvent($FORM,  $i, 0, 5, $this->EVENT_CLICK, "confirm();"));
+                    $this->execute($cn, $model->addEvent($TABLE, $i, 0, 6, $this->EVENT_CLICK, "formFilter();"));
+                    $this->execute($cn, $model->addEvent($FORM,  $i, 0, 7, $this->EVENT_CLICK, "formClear();"));
+                    $this->execute($cn, $model->addEvent($FORM,  $i, 0, 8, $this->EVENT_CLICK, "reportBack();"));
                 }
-
-                // Custon events
-                $this->execute($cn, $model->addEvent(2, 1, 3, 0, 3, "this.value = formatValue(this.value);"));
-                $this->execute($cn, $model->addEvent(2, 2, 5, 0, 3, "this.value = validateTableName(this.value);"));
-                $this->execute($cn, $model->addEvent(2, 3, 17, 0, 3, "cascade(''id_field_fk'', ''id_table'', this.value, ''tb_field'', ''id'', ''label'');"));
-                $this->execute($cn, $model->addEvent(2, 5, 24, 0, 3, "cascade(''id_field'', ''id_table'', this.value, ''tb_field'', ''id'', ''label'');"));
-                $this->execute($cn, $model->addEvent(2, 16, 47, 0, 3, "cascade(''id_field'', ''id_table'', this.value, ''tb_field'', ''id'', ''label'');"));
-                $this->execute($cn, $model->addEvent(2, 7, 0, 8, 2, "eval(field(''code'').value);"));
                 
+                // Custon events
+                $this->execute($cn, $model->addEvent($FORM, $this->tb("tb_table"), $this->fd("name"), $this->ACTION_NONE, $this->EVENT_CHANGE, "this.value = validateTableName(this.value);"));
+                $this->execute($cn, $model->addEvent($FORM, $this->tb("tb_field"), $this->fd("id_field_fk"), $this->ACTION_NONE, $this->EVENT_CHANGE, "cascade(''id_field_fk'', ''id_table'', this.value, ''tb_field'', ''id'', ''label'');"));
+                $this->execute($cn, $model->addEvent($FORM, $this->tb("tb_event"), $this->fd("id_field"), $this->ACTION_NONE, $this->EVENT_CHANGE, "cascade(''id_field'', ''id_table'', this.value, ''tb_field'', ''id'', ''label'');"));
+                $this->execute($cn, $model->addEvent($FORM, $this->TB_CODE, 0, $this->ACTION_TEST, $this->EVENT_CLICK, "eval(field(''code'').value);"));
+
             } catch (Exception $ex) {
                 throw $ex;
             }
         }
 
         /*
-        * Create function
-        */
+         * Create function
+         */
         private function createAction($cn) {
 
-            global $tableName;
+            // General declaration
             $model = new Model($this->groupId);
 
             try {
 
                 // Define table name
-                $tableName = "tb_action";
+                $this->setTable("tb_action");
 
                 // Create actions
                 $this->execute($cn, $model->addFunction("Novo"));
@@ -491,6 +482,9 @@
                 $this->execute($cn, $model->addFunction("Limpar"));
                 $this->execute($cn, $model->addFunction("Voltar"));
                 $this->execute($cn, $model->addFunction("Testar"));
+
+                // Test used in code screen only, that is why 8 
+                $this->TOTAL_ACTION = 8;
                 
             } catch (Exception $ex) {
                 throw $ex;
@@ -498,17 +492,17 @@
         }
 
         /*
-        * Create group
-        */
+         * Create group
+         */
         private function createGroup($cn) {
 
-            global $tableName;
+            // General declaration
             $model = new Model($this->groupId);
 
             try {
 
                 // Define table name
-                $tableName = "tb_group";
+                $this->setTable("tb_group");
 
                 // Create groups
                 $this->execute($cn, $model->addGroup("Sistema"));           // 1) Change structure 2) No restrictions on view
@@ -520,19 +514,18 @@
             }
         }
 
-
         /*
-        * Create User
-        */
+         * Create User
+         */
         private function createUser($cn) {
 
-            global $tableName;
+            // General declaration
             $model = new Model($this->groupId);
 
             try {
 
                 // Define table name
-                $tableName = "tb_user";
+                $this->setTable("tb_user");
 
                 // Create User
                 $this->execute($cn, $model->addUser($this->groupId, "System", "system@form1.com.br", "system", "123"));
@@ -550,13 +543,13 @@
          */
         private function createProfile($cn) {
 
-            global $tableName;
+            // General declaration
             $model = new Model($this->groupId);
 
             try {
 
                 // Define table name
-                $tableName = "tb_profile";
+                $this->setTable("tb_profile");
 
                 // Create Profile
                 $this->execute($cn, $model->addProfile("System"));
@@ -569,17 +562,17 @@
         }
 
         /*
-        * Create User x Profile
-        */
+         * Create User x Profile
+         */
         private function createUserProfile($cn) {
 
-            global $tableName;
+            // General declaration            
             $model = new Model($this->groupId);
 
             try {
 
                 // Define table name
-                $tableName = "tb_user_profile";
+                $this->setTable("tb_user_profile");
 
                 // create User Profile
                 $this->execute($cn, $model->addUserProfile($this->groupId, 1, 1)); // system-system
@@ -597,13 +590,13 @@
          */
         private function createUserGroup($cn) {
 
-            global $tableName;
+            // General declaration            
             $model = new Model($this->groupId);
 
             try {
 
                 // Define table name
-                $tableName = "tb_user_group";
+                $this->setTable("tb_user_group");
 
                 // create User Profile (cannot add permission to group 1)
                 $this->execute($cn, $model->addUserGroup($this->groupId, 1, 1)); // System 
@@ -617,83 +610,65 @@
         }        
 
         /*
-        * Create Profile x Transaction
-        */
+         * Create Profile x Transaction
+         */
         private function createProfileTable($cn) {
 
+            // General declaration            
             $i = 0;
-            global $tableName;
-            global $total;
-            $jsonUtil = new jsonUtil();
             $model = new Model($this->groupId);
-
-            // Profiles
-            $SYSTEM = 1;
-            $ADMIN = 2;
-            $PUBLIC = 3;
 
             try {
 
                 // Define table name
-                $tableName = "tb_profile_table";
+                $this->setTable("tb_profile_table");
 
                 // SYSTEM
-                for ($i=1; $i<=$total; $i++) {               
-                    $this->execute($cn, $model->addProfileTable($SYSTEM, $i));
+                for ($i=1; $i<=$this->TOTAL_MODULE; $i++) {
+                    $this->execute($cn, $model->addProfileTable($this->PROFILE_SYSTEM, $i));
                 }
 
                 // ADMIN
-                $this->execute($cn, $model->addProfileTable($ADMIN, $this->TB_PROFILE));
-                $this->execute($cn, $model->addProfileTable($ADMIN, $this->TB_PROFILE));
-                $this->execute($cn, $model->addProfileTable($ADMIN, $this->TB_PROFILE_TABLE));
-                $this->execute($cn, $model->addProfileTable($ADMIN, $this->TB_TABLE_ACTION));
-                $this->execute($cn, $model->addProfileTable($ADMIN, $this->TB_USER));
-                $this->execute($cn, $model->addProfileTable($ADMIN, $this->TB_USER_PROFILE));
-                $this->execute($cn, $model->addProfileTable($ADMIN, $this->TB_GROUP));
-                $this->execute($cn, $model->addProfileTable($ADMIN, $this->TB_USER_GROUP));
+                $this->execute($cn, $model->addProfileTable($this->PROFILE_ADMIN, $this->TB_PROFILE));
+                $this->execute($cn, $model->addProfileTable($this->PROFILE_ADMIN, $this->TB_PROFILE));
+                $this->execute($cn, $model->addProfileTable($this->PROFILE_ADMIN, $this->TB_PROFILE_TABLE));
+                $this->execute($cn, $model->addProfileTable($this->PROFILE_ADMIN, $this->TB_TABLE_ACTION));
+                $this->execute($cn, $model->addProfileTable($this->PROFILE_ADMIN, $this->TB_USER));
+                $this->execute($cn, $model->addProfileTable($this->PROFILE_ADMIN, $this->TB_USER_PROFILE));
+                $this->execute($cn, $model->addProfileTable($this->PROFILE_ADMIN, $this->TB_GROUP));
+                $this->execute($cn, $model->addProfileTable($this->PROFILE_ADMIN, $this->TB_USER_GROUP));
 
             } catch (Exception $ex) {
                 throw $ex;
             }
         }
 
-
         /*
-        * Create events
-        */
+         * Create events
+         */
         private function createTableAction($cn) {
 
+            // General declaration
             $i = 0;
             $j = 0;
-
-            global $tableName;
-            global $total;
-            $jsonUtil = new jsonUtil();
             $model = new Model($this->groupId);
-
-            // Profiles
-            $SYSTEM = 1;
-            $ADMIN = 2;
-            $PUBLIC = 3;
-
-            $TOTAL_ACTION = 8;
 
             try {
 
                 // Define table name
-                $tableName = "tb_table_action";
+                $this->setTable("tb_table_action");
 
                 // SYSTEM has all permissions
-                for ($i=1; $i<=$total; $i++) {
-                    for ($j=1; $j<=$TOTAL_ACTION; $j++) {
-                        $this->execute($cn, $model->addModuleAction($SYSTEM, $i, $j));
+                for ($i=1; $i<=$this->TOTAL_MODULE; $i++) {
+                    for ($j=1; $j<=$this->TOTAL_ACTION; $j++) {
+                        $this->execute($cn, $model->addModuleAction($this->PROFILE_SYSTEM, $i, $j));
                     }
                 }
 
                 // ADMIN has Access Control only (11 ... 17)
-                for ($i=11; $i<=$total; $i++) {
-                    for ($j=1; $j<=$TOTAL_ACTION; $j++) {
-                        $this->execute($cn, $model->addModuleAction($ADMIN, $i, $j));
+                for ($i=11; $i<=$this->TOTAL_MODULE; $i++) {
+                    for ($j=1; $j<=$this->TOTAL_ACTION; $j++) {
+                        $this->execute($cn, $model->addModuleAction($this->PROFILE_ADMIN, $i, $j));
                     }
                 }
                
@@ -703,18 +678,19 @@
         }
 
         /*
-        * Create code
-        */
+         * Create code
+         */
         private function createCode($cn) {
 
-            global $tableName;
+            // General declaration
             $model = new Model($this->groupId);
             
             try {
 
                 // Define table name
-                $tableName = "tb_code";
+                $this->setTable("tb_code");
 
+                // Add records
                 $this->execute($cn, $model->addCode("Obtem o valor numérico de um campo", "function valor(campo) {\r\n\r\n    value = field(campo).value;\r\n\r\n    if (value.trim() == \"\") {\r\n        value = \"0\";\r\n    }\r\n\r\n    if (!isNumeric(value)) {\r\n        value = \"0\";\r\n    }\r\n\r\n    value = value.split(\".\").join(\"\");\r\n    value = value.split(\",\").join(\".\");\r\n    value = parseFloat(value);\r\n\r\n    return value;\r\n}"));
                 $this->execute($cn, $model->addCode("Chamada de pagina customizada", "async function fetchHtmlAsText(url) {\r\n    return await (await fetch(url)).text();\r\n}\r\n\r\nasync function loadExternalPage(url, div) {\r\n    document.getElementById(div).innerHTML = await fetchHtmlAsText(url);\r\n}"));
                 $this->execute($cn, $model->addCode("Exemplo de query em banco de dados", "function query(campo) {\r\n\r\n    let rs = query(\"select 1*2 as total\");\r\nalert(rs[0].total);\r\n};"));
@@ -723,30 +699,6 @@
                 throw $ex;
             }
         }
-
-       /*
-        * Create view
-        */
-        private function createView($cn) {
-
-            $json = "";
-            global $tableName;
-            $jsonUtil = new JsonUtil();
-            $model = new Model($this->groupId);
-
-            try {
-
-                // Define table name
-                $tableName = "tb_view";
-
-                // View to transaction
-                //$this->execute($cn, $model->addView("Demo", "select count(*) as name from tb_customer"));
-                
-            } catch (Exception $ex) {
-                throw $ex;
-            }
-        }
-
         
     } // End of class
 ?>

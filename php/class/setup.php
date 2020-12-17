@@ -1,7 +1,32 @@
 <?php
     class Setup extends Base {
 
-        public $cn = "";        
+        // Generic info
+        public $cn = "";
+        public $error = "";
+        public $systemId = 0;
+        public $tableId = 0;
+        public $tableName = "";
+
+        // Group info
+        public $groupId = 1;
+        public $admin = 2;
+        public $public = 3;        
+
+        // Totals
+        public $TOTAL_MODULE = 0; 
+        public $TOTAL_ACTION = 0;
+
+        // Menus
+        public $MENU_ADM = 101;
+        public $MENU_SYS = 102;
+        public $MENU_AC = 103;
+        public $MENU_CAD = 104;
+
+        // Profiles
+        public $PROFILE_SYSTEM = 1;
+        public $PROFILE_ADMIN = 2;
+        public $PROFILE_PUBLIC = 3;
 
         // Constructor
         function __construct($cn) {
@@ -15,12 +40,11 @@
 
             $id = 0;
             $rs = "";
-            global $tableName;
 
             try {
 
                 // Insert the record
-                $rs = pg_query($cn, "insert into " . $tableName . " (field) values ('" . $json . "') returning id");
+                $rs = pg_query($cn, "insert into " . $this->tableName . " (field) values ('" . $json . "') returning id");
                 
                 // Get inserted ID
                 while ($row = pg_fetch_array($rs)) {
@@ -95,6 +119,13 @@
 
             return $fieldId;
         }
+
+        public function setTable($tableName) {
+            $this->tableName = $tableName;
+        }
+        public function getTable() {
+            return $tableName;
+        }        
         
     } // End of class
 ?>

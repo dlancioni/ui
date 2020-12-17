@@ -1,6 +1,9 @@
 <?php
     class Base {
 
+        // Other
+        private $action = "";
+
         // Current session
         private $systemId = 0;
         private $tableId = 0;
@@ -12,9 +15,6 @@
         private $message = "";
         private $lastId = 0;
         private $viewId = 0;
-
-        // Other
-        private $action = "";
 
         // Tabbed control
         public $showTitle = true;
@@ -71,9 +71,7 @@
         public $PROFILE_ADMIN = 2;
         public $PROFILE_USER = 3;
 
-        /*
-         * Aggregation
-         */
+        // Aggregation
         public $SELECTION = 1;
         public $COUNT = 2;
         public $SUM = 3;
@@ -84,9 +82,23 @@
         public $ORDERING_ASC = 8;
         public $ORDERING_DESC = 9;
 
-        /*
-        * View type
-        */
+        // Events
+        public $EVENT_CLICK = 2;
+        public $EVENT_CHANGE = 3;
+
+        // Actions
+        public $ACTION_NONE = 0;
+        public $ACTION_NEW = 1;
+        public $ACTION_EDIT = 2;
+        public $ACTION_DELETE = 3;
+        public $ACTION_DETAIL = 4;
+        public $ACTION_CONFIRM = 5;
+        public $ACTION_FILTER = 6;
+        public $ACTION_CLEAR = 7;
+        public $ACTION_BACK = 8;
+        public $ACTION_TEST = 9;
+
+        // View type
         public $REPORT = 1;
         public $CHART_LINE = 2;
         public $CHART_COLUMN = 3;
@@ -103,7 +115,6 @@
 
         // Current session
         public function getSystem() {
-            //return "'" . trim($this->systemId) . "'";
             return trim($this->systemId);
         }
         public function setSystem($systemId) {
