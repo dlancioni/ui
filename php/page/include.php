@@ -22,6 +22,7 @@
     include  $path . "persist.php";
     include  $path . "report.php";
     include  $path . "setup.php";
+    include  $path . "setupcore.php";
     include  $path . "sqlbuilder.php";
     include  $path . "table.php";
     include  $path . "tabbed.php";

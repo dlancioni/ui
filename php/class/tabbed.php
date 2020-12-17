@@ -19,12 +19,13 @@ class LogicTabbed extends Base {
     public function createTabbed($cn, $tableId, $id) {
 
         // General declaration
+        $lastId = 0;
         $html = "";
         $form = "";
         $name = "";
         $report = "";
         $pageTitle = "";
-        $parentTable = "";
+        $parentTableId = "";
         $parentField = "";
         $parentModule = array();
         $formData = array();
@@ -60,8 +61,8 @@ class LogicTabbed extends Base {
                 $name = "";
 
                 // Get child details
-                $tableId = $module["id_table"];
-                $name = str_replace("_", "", $module["table"]);
+                $parentTableId = $module["id_table"];
+                $name = "link" . trim($module["id_table"]);
 
                 // Prepare page call                
                 $logicReport = new LogicReport($cn, $this->sqlBuilder, $formData);
@@ -71,11 +72,16 @@ class LogicTabbed extends Base {
                 $logicReport->queryType = $this->sqlBuilder->QUERY_NO_PAGING;
 
                 // Create output
-                $report .= $logicReport->createReport($tableId, 0, "Filter", 0);
-                $pageTitle = $logicReport->pageTitle;
+                if ($tableId != $parentTableId) {
+                    if ($lastId != $parentTableId) {
+                        $report .= $logicReport->createReport($parentTableId, 0, "Filter", 0);
+                        $pageTitle = $logicReport->pageTitle;
+                        $tabDef[] = array("name"=>$name, "title"=>$pageTitle, "page"=>$report);
+                    }
+                }
 
-                // Create tab definition
-                $tabDef[] = array("name"=>$name, "title"=>$pageTitle, "page"=>$report);
+                // Remove duplication (id_table_fk scenario)
+                $lastId = $parentTableId;
              }
 
              // Get tabbed data
@@ -103,6 +109,7 @@ class LogicTabbed extends Base {
         $viewId = 0;
         $filter = "";
         $data = "";
+        $logUtil = new LogUtil();
 
         try {
 
@@ -110,6 +117,7 @@ class LogicTabbed extends Base {
             $filter = new Filter();
             $filter->add("tb_field", "id_table_fk", $tableId);
             $data = $sqlBuilder->executeQuery($cn, $sqlBuilder->TB_FIELD, $viewId, $filter->create());
+            $logUtil->log("detail.pgsql", $sqlBuilder->lastQuery);
 
         } catch (Exception $ex) {        
             throw $ex;
