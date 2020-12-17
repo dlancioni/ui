@@ -26,15 +26,15 @@
         $_SESSION['_VIEW_'] = intval($viewId);
     }
 
-    if (isset($_REQUEST["_TABLE_"])) {
-        $tableId = intval($_REQUEST["_TABLE_"]);
-        if (isset($_SESSION['_TABLE_'])) {
-            if ($_SESSION['_TABLE_'] != $tableId) {
+    if (isset($_REQUEST["_MODULE_"])) {
+        $moduleId = intval($_REQUEST["_MODULE_"]);
+        if (isset($_SESSION['_MODULE_'])) {
+            if ($_SESSION['_MODULE_'] != $moduleId) {
                 $viewId = 0;
                 $_SESSION["_VIEW_"] = $viewId;
             }
         }
-        $_SESSION['_TABLE_'] = intval($tableId);
+        $_SESSION['_MODULE_'] = intval($moduleId);
     }
 
     if (isset($_REQUEST["selection"])) {

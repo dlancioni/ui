@@ -18,6 +18,7 @@
     include  $path . "form.php";    
     include  $path . "model.php";
     include  $path . "mail.php";
+    include  $path . "module.php";
     include  $path . "menu.php";
     include  $path . "persist.php";
     include  $path . "report.php";
@@ -25,7 +26,6 @@
     include  $path . "setupcore.php";
     include  $path . "setupentity.php";
     include  $path . "sqlbuilder.php";
-    include  $path . "table.php";
     include  $path . "tabbed.php";
     include  $path . "util.php";    
     include  $path . "upload.php";

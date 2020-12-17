@@ -28,7 +28,7 @@ class SqlBuilder extends Base {
     /* 
      * Query and return json
      */
-    public function executeQuery($cn, $tableId=0, $viewId=0, $filter="[]", $queryType=1, $queryDef="") {
+    public function executeQuery($cn, $moduleId=0, $viewId=0, $filter="[]", $queryType=1, $queryDef="") {
 
         // General Declaration
         $rs = "";
@@ -45,7 +45,7 @@ class SqlBuilder extends Base {
             $this->lb = $stringUtil->lb();
 
             // Get query
-            $query = $this->prepareQuery($cn, $tableId, $viewId, $filter, $queryType, $queryDef);
+            $query = $this->prepareQuery($cn, $moduleId, $viewId, $filter, $queryType, $queryDef);
 
             // Execute generated query
             if (trim($query) != "") {
@@ -88,7 +88,7 @@ class SqlBuilder extends Base {
     /*
      * Get table definition
      */
-    public function getTableDef($cn, $tableId, $viewId) {
+    public function getTableDef($cn, $moduleId, $viewId) {
         
         // General declaration    
         $sql = "";
@@ -106,7 +106,7 @@ class SqlBuilder extends Base {
             if ($viewId != 0) {
                 $sql = $this->getSqlViewDef($viewId);
             } else {
-                $sql = $this->getSqlTableDef($tableId);
+                $sql = $this->getSqlTableDef($moduleId);
             }
 
             // Keep last query
@@ -126,7 +126,7 @@ class SqlBuilder extends Base {
     /*
      * Return query based on mapping
      */
-    private function prepareQuery($cn, $tableId, $viewId, $filter, $queryType, $queryDef) {
+    private function prepareQuery($cn, $moduleId, $viewId, $filter, $queryType, $queryDef) {
 
         /*
         Instructions for custom queries:
@@ -147,8 +147,8 @@ class SqlBuilder extends Base {
         try {
 
             // Handle table as parameter
-            if ($tableId != 0) {
-                $this->setTable(intval($tableId));
+            if ($moduleId != 0) {
+                $this->setModule(intval($moduleId));
             }
 
             // Get table structure
@@ -156,7 +156,7 @@ class SqlBuilder extends Base {
                 $queryDef = $this->getTableDef($cn, "", $viewId);
             } else {
                 if (!is_array($queryDef)) {
-                    $queryDef = $this->getTableDef($cn, $tableId, $viewId);
+                    $queryDef = $this->getTableDef($cn, $moduleId, $viewId);
                 }
             }
 
@@ -195,7 +195,7 @@ class SqlBuilder extends Base {
                         }
 
                         // Get where
-                        $sql .= $this->getWhere($queryDef, $tableId);
+                        $sql .= $this->getWhere($queryDef, $moduleId);
 
                         // Get condition
                         $sql .= $this->getCondition($filter);
@@ -406,7 +406,7 @@ class SqlBuilder extends Base {
     /*
      * Get where
      */
-    private function getWhere($queryDef, $table) {
+    private function getWhere($queryDef, $module) {
 
         $sql = "";
         $tableName = "";
@@ -620,7 +620,7 @@ class SqlBuilder extends Base {
         return $sql;
     }
 
-    private function getSqlTableDef($tableId) {
+    private function getSqlTableDef($moduleId) {
         
         // General declaration
         $sql = "";
@@ -636,14 +636,14 @@ class SqlBuilder extends Base {
         $sql .= " from tb_field" . $lb;
 
         // Join table
-        $sql .= " inner join tb_table on (tb_field.field->>'id_table')::text = (tb_table.id)::text" . $lb;
+        $sql .= " inner join tb_module on (tb_field.field->>'id_module')::text = (tb_module.id)::text" . $lb;
 
         // Join inner table
-        $sql .= " left join tb_table tb_table_fk on (tb_field.field->>'id_table_fk')::text = (tb_table_fk.id)::text" . $lb;
+        $sql .= " left join tb_module tb_table_fk on (tb_field.field->>'id_module_fk')::text = (tb_table_fk.id)::text" . $lb;
         $sql .= " left join tb_field tb_field_fk on (tb_field.field->>'id_field_fk')::text = (tb_field_fk.id)::text" . $lb;
 
         // Base filter
-        $sql .= " where (tb_field.field->>'id_table')::int = " . $tableId . $lb;
+        $sql .= " where (tb_field.field->>'id_module')::int = " . $moduleId . $lb;
 
         // Ordering
         $sql .= " order by (tb_field.field->>'ordenation')::int, tb_field.id" . $lb;
@@ -675,10 +675,10 @@ class SqlBuilder extends Base {
         $sql .= " left join tb_field on (tb_view_field.field->>'id_field')::text = (tb_field.id)::text" . $lb;
 
         // Join table
-        $sql .= " left join tb_table on (tb_field.field->>'id_table')::text = (tb_table.id)::text" . $lb;
+        $sql .= " left join tb_module on (tb_field.field->>'id_module')::text = (tb_module.id)::text" . $lb;
 
         // Join inner table
-        $sql .= " left join tb_table tb_table_fk on (tb_field.field->>'id_table_fk')::text = (tb_table_fk.id)::text" . $lb;
+        $sql .= " left join tb_module tb_table_fk on (tb_field.field->>'id_module_fk')::text = (tb_table_fk.id)::text" . $lb;
         $sql .= " left join tb_field tb_field_fk on (tb_field.field->>'id_field_fk')::text = (tb_field_fk.id)::text" . $lb;        
 
         // Filter view
@@ -739,10 +739,10 @@ class SqlBuilder extends Base {
             $sql .= " (tb_view.field->>'id_type')::text as view_type," . $lb;
         }        
 
-        // tb_table
-        $sql .= " (tb_table.field->>'name')::text as table_name," . $lb;
-        $sql .= " (tb_table.field->>'title')::text as title," . $lb;
-        $sql .= " (tb_table.field->>'id_view')::text as id_view," . $lb;
+        // tb_module
+        $sql .= " (tb_module.field->>'name')::text as table_name," . $lb;
+        $sql .= " (tb_module.field->>'title')::text as title," . $lb;
+        $sql .= " (tb_module.field->>'id_view')::text as id_view," . $lb;
 
         // tb_field        
         $sql .= " (tb_field.field->>'label')::text as field_label," . $lb;
@@ -752,7 +752,7 @@ class SqlBuilder extends Base {
         $sql .= " (tb_field.field->>'mask')::text as field_mask," . $lb;
         $sql .= " (tb_field.field->>'id_mandatory')::int as field_mandatory," . $lb;
         $sql .= " (tb_field.field->>'id_unique')::int as field_unique," . $lb;
-        $sql .= " (tb_field.field->>'id_table_fk')::int as id_fk," . $lb;
+        $sql .= " (tb_field.field->>'id_module_fk')::int as id_fk," . $lb;
         $sql .= " (tb_table_fk.field->>'name')::text as table_fk," . $lb;
         $sql .= " (tb_field_fk.field->>'name')::text as field_fk," . $lb;
         $sql .= " (tb_field.field->>'domain')::text as field_domain," . $lb;

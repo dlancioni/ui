@@ -40,7 +40,7 @@ async function logout() {
     await execute(page, formData);
 
     // Do not show screen
-    setTable(0);
+    setModule(0);
 
     // Refresh it
     submit();

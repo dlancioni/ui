@@ -52,7 +52,7 @@
             $sql = "";
             $data = array();
             $command = 0;
-            $tableId = 0;
+            $moduleId = 0;
             $fieldId = 0;
             $fieldType = "";
             $error = "";
@@ -65,14 +65,14 @@
             try {
 
                 // Get data
-                $tableId = $jsonUtil->getValue($new, "id_table");
+                $moduleId = $jsonUtil->getValue($new, "id_module");
                 $fieldId = $jsonUtil->getValue($new, "id_field");                
                 $command = $jsonUtil->getValue($new, "id_command");
                 $operator = $jsonUtil->getValue($new, "id_operator");
                 $value = $jsonUtil->getValue($new, "value");
 
                 // Validate key fields
-                if ($tableId == 0) {
+                if ($moduleId == 0) {
                     $error = $message->getValue("M1");
                     $error = str_replace("%", "Tabela", $error);
                 }
@@ -84,7 +84,7 @@
 
                 // Figure out field type
                 $filter = new Filter();
-                $filter->add("tb_field", "id_table", $tableId);
+                $filter->add("tb_field", "id_module", $moduleId);
                 $filter->add("tb_field", "id", $fieldId);
                 $data = $sqlBuilder->executeQuery($this->cn, 
                                                   $this->TB_FIELD, 0,

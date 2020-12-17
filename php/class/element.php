@@ -531,9 +531,9 @@
             
             try {
 
-                // Very special exception for field table
-                if (trim($k[1]) == "id_table_fk") {
-                    $k[1] = "id_table";
+                // Very special exception for field module
+                if (trim($k[1]) == "id_module_fk") {
+                    $k[1] = "id_module";
                 }
 
                 // Prepare function call

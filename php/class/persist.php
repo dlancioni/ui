@@ -33,7 +33,7 @@
             $changed = false;
             $file = "";
             $systemId = "";
-            $tableId = 0;
+            $moduleId = 0;
             $viewId = 0;
             $userId = 0;
             $groupId = 0;
@@ -46,8 +46,8 @@
                     $this->setSystem($session["_SYSTEM_"]);
                 }                
                 // Handle Table
-                if (isset($session["_TABLE_"])) {
-                    $this->setTable($session["_TABLE_"]);
+                if (isset($session["_MODULE_"])) {
+                    $this->setModule($session["_MODULE_"]);
                 }
                 // Handle User
                 if (isset($session["_USER_"])) {
@@ -73,7 +73,7 @@
 
                 // To simplify and debug, keep in variables
                 $systemId = $this->getSystem();
-                $tableId = $this->getTable();
+                $moduleId = $this->getModule();
                 $userId = $this->getUser();
                 $groupId = $this->getGroup();
                 $action = $this->getAction();
@@ -88,10 +88,10 @@
                 $stringUtil = new StringUtil();
                 $numberUtil = new NumberUtil();
                 $message = new Message($cn);                
-                $sqlBuilder = new SqlBuilder($systemId, $tableId, $userId, $groupId);
+                $sqlBuilder = new SqlBuilder($systemId, $moduleId, $userId, $groupId);
 
-                // Get table structure
-                $tableDef = $sqlBuilder->getTableDef($cn, $tableId, $viewId);
+                // Get module structure
+                $tableDef = $sqlBuilder->getTableDef($cn, $moduleId, $viewId);
                 $logUtil->log("table_def.pgsql", $sqlBuilder->lastQuery);
                 if ($tableDef) {
                     $tableName = $tableDef[0]["table_name"];
@@ -103,7 +103,7 @@
                     // Get existing record
                     $filter = new Filter();
                     $filter->add($tableName, "id", $this->getLastId());
-                    $data = $sqlBuilder->executeQuery($cn, $tableId, $viewId, $filter->create(), $sqlBuilder->QUERY_NO_JOIN);
+                    $data = $sqlBuilder->executeQuery($cn, $moduleId, $viewId, $filter->create(), $sqlBuilder->QUERY_NO_JOIN);
                     if (count($data) > 0) {
                         $old = json_encode($data[0]);
                         $old = $stringUtil->RemoveSpecialChar($old);
@@ -179,7 +179,7 @@
 
                     // Check if values already exists
                     if ($filter->create() != "[]") {
-                        $data = $sqlBuilder->executeQuery($cn, $tableId, $viewId, $filter->create(), $sqlBuilder->QUERY_NO_JOIN);
+                        $data = $sqlBuilder->executeQuery($cn, $moduleId, $viewId, $filter->create(), $sqlBuilder->QUERY_NO_JOIN);
                         if (count($data) > 0) {
                             $key =  rtrim($key, ", ");
                             $msg = $message->getValue("M4", $key);
@@ -246,8 +246,8 @@
 
             // Get logic for current transaction
             switch ($tableName) {
-                case "tb_table":
-                    $logic = new LogicTable($cn);
+                case "tb_module":
+                    $logic = new LogicModule($cn);
                     break;                
                 case "tb_field":
                     $logic = new LogicField($cn);

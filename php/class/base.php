@@ -6,7 +6,7 @@
 
         // Current session
         private $systemId = 0;
-        private $tableId = 0;
+        private $moduleId = 0;
         private $userId = 0;
         private $groupId = 0;
 
@@ -40,7 +40,7 @@
 
         // Transactions
         public $TB_MENU = 1;
-        public $TB_TABLE = 2;
+        public $TB_MODULE = 2;
         public $TB_FIELD = 3;
         public $TB_DOMAIN = 4;
         public $TB_EVENT = 5;
@@ -52,7 +52,7 @@
         // Access Control
         public $TB_PROFILE = 10;
         public $TB_PROFILE_TABLE = 11;
-        public $TB_TABLE_ACTION = 12;
+        public $TB_MODULE_ACTION = 12;
         public $TB_USER = 13;
         public $TB_USER_PROFILE = 14;
         public $TB_GROUP = 15;
@@ -106,9 +106,9 @@
         public $CHART_PIZZA = 5;
 
         // Constructor
-        function __construct($systemId=0, $tableId=0, $userId=0, $groupId=0) {
+        function __construct($systemId=0, $moduleId=0, $userId=0, $groupId=0) {
             $this->setSystem($systemId);
-            $this->setTable($tableId);
+            $this->setModule($moduleId);
             $this->setUser($userId);
             $this->setGroup($groupId);
         }
@@ -120,11 +120,11 @@
         public function setSystem($systemId) {
             $this->systemId = $systemId;
         }
-        public function getTable() {
+        public function getModule() {
             return $this->tableId;
         }
-        public function setTable($tableId) {
-            $this->tableId = $tableId;
+        public function setModule($moduleId) {
+            $this->tableId = $moduleId;
         }
         public function getUser() {
             return $this->userId;

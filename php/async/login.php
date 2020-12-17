@@ -62,7 +62,7 @@
             $_SESSION["_GROUP_"] = $logicAuth->groupId;
             $_SESSION["_SYSTEM_"] = $systemId;
             $_SESSION["_MENU_"] = $logicAuth->menu;
-            $_SESSION['_TABLE_'] = "0";
+            $_SESSION['_MODULE_'] = "0";
             $_SESSION['_PAGE_ACTION_'] = "";
             $_SESSION['_TABLEDEF_'] = "";
             $_SESSION['_VIEWDEF_'] = "";

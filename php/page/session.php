@@ -11,7 +11,7 @@
 
     // General Declaration
     $systemId = 0; 
-    $tableId = 0; 
+    $moduleId = 0; 
     $viewId = 0;    
     $userId = 0;
     $groupId = 0; 
@@ -30,8 +30,8 @@
     }
 
     // Current table
-    if (isset($_SESSION["_TABLE_"])) {
-        $tableId = intval($_SESSION["_TABLE_"]);
+    if (isset($_SESSION["_MODULE_"])) {
+        $moduleId = intval($_SESSION["_MODULE_"]);
     }
 
     // Current view
@@ -59,7 +59,7 @@
     $cn = $db->getConnection($systemId);
 
     // Get main components
-    $sqlBuilder = new SqlBuilder($systemId, $tableId, $userId, $groupId);
+    $sqlBuilder = new SqlBuilder($systemId, $moduleId, $userId, $groupId);
     $eventAction = new EventAction($cn);
     $logicMenu = new LogicMenu($cn);
     $element = new HTMLElement($cn);

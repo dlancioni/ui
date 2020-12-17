@@ -16,7 +16,7 @@ class LogicTabbed extends Base {
     /* 
      * Create tabbed page
      */
-    public function createTabbed($cn, $tableId, $id) {
+    public function createTabbed($cn, $moduleId, $id) {
 
         // General declaration
         $lastId = 0;
@@ -40,7 +40,7 @@ class LogicTabbed extends Base {
             $logicForm->showAction = false;
 
             // Get main form (disabled)
-            $form .= $logicForm->createForm($tableId, $id, "Detail");
+            $form .= $logicForm->createForm($moduleId, $id, "Detail");
             $pageTitle = $logicForm->pageTitle;
             $html .= $pageTitle;
             $html .= $form;
@@ -50,7 +50,7 @@ class LogicTabbed extends Base {
             $formData = array($parentField=>$id);            
 
             // Get child reports
-            $parentModule = $this->getParent($cn, $this->sqlBuilder, $tableId);
+            $parentModule = $this->getParent($cn, $this->sqlBuilder, $moduleId);
 
             // Create tabbed effect
             foreach ($parentModule as $module) {
@@ -61,8 +61,8 @@ class LogicTabbed extends Base {
                 $name = "";
 
                 // Get child details
-                $parentTableId = $module["id_table"];
-                $name = "link" . trim($module["id_table"]);
+                $parentTableId = $module["id_module"];
+                $name = "link" . trim($module["id_module"]);
 
                 // Prepare page call                
                 $logicReport = new LogicReport($cn, $this->sqlBuilder, $formData);
@@ -72,7 +72,7 @@ class LogicTabbed extends Base {
                 $logicReport->queryType = $this->sqlBuilder->QUERY_NO_PAGING;
 
                 // Create output
-                if ($tableId != $parentTableId) {
+                if ($moduleId != $parentTableId) {
                     if ($lastId != $parentTableId) {
                         $report .= $logicReport->createReport($parentTableId, 0, "Filter", 0);
                         $pageTitle = $logicReport->pageTitle;
@@ -80,7 +80,7 @@ class LogicTabbed extends Base {
                     }
                 }
 
-                // Remove duplication (id_table_fk scenario)
+                // Remove duplication (id_module_fk scenario)
                 $lastId = $parentTableId;
              }
 
@@ -103,7 +103,7 @@ class LogicTabbed extends Base {
     /*
      * Get parent module to mount tabbed effect
      */
-    private function getParent($cn, $sqlBuilder, $tableId) {
+    private function getParent($cn, $sqlBuilder, $moduleId) {
 
         // General declaration
         $viewId = 0;
@@ -115,7 +115,7 @@ class LogicTabbed extends Base {
 
             // Get data
             $filter = new Filter();
-            $filter->add("tb_field", "id_table_fk", $tableId);
+            $filter->add("tb_field", "id_module_fk", $moduleId);
             $data = $sqlBuilder->executeQuery($cn, $sqlBuilder->TB_FIELD, $viewId, $filter->create());
             $logUtil->log("detail.pgsql", $sqlBuilder->lastQuery);
 

@@ -1,6 +1,6 @@
 
 /*
- * Validate table name
+ * Validate module name
  */
 function validateTableName(value) {
 

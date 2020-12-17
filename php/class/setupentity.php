@@ -45,23 +45,23 @@
             try {
 
                 // MENU
-                $this->setTable("tb_menu");
+                $this->setModule("tb_menu");
                 $this->execute($cn, $model->addMenu("Cadastros", 0));
 
                 // MODULES [ENTITY]
-                $this->setTable("tb_table");
+                $this->setModule("tb_module");
                 $moduleId = $this->execute($cn, $model->addModule("tb_entity", "Pessoas", $TYPE_USER, $this->MENU_CAD));
                 $this->setupModule($cn, $moduleId, "tb_entity");                
-                $this->setTable("tb_field");
+                $this->setModule("tb_field");
                 $this->execute($cn, $model->addField($moduleId, "Nome", "name", $this->TYPE_TEXT, 50, "", $YES, $NO, 0, 0, "", "", $this->INPUT_TEXTBOX, ($seq=1)));
                 $this->execute($cn, $model->addField($moduleId, "Tipo de Entidade", "id_entity_type", $this->TYPE_INT, 0, "", $YES, $NO, $this->tb("tb_domain"), $this->fd("value"), "tb_entity_type", "", $this->INPUT_DROPDOWN, ++$seq));
                 $this->execute($cn, $model->addField($moduleId, "Tipo de Pessoa", "id_person_type", $this->TYPE_INT, 0, "", $YES, $NO, $this->tb("tb_domain"), $this->fd("value"), "tb_person_type", "", $this->INPUT_DROPDOWN, ++$seq));
 
                 // MODULES [ADDRESS]    
-                $this->setTable("tb_table");
+                $this->setModule("tb_module");
                 $moduleId = $this->execute($cn, $model->addModule("tb_address", "Endereços", $TYPE_USER, $this->MENU_CAD));
                 $this->setupModule($cn, $moduleId, "tb_address");
-                $this->setTable("tb_field");
+                $this->setModule("tb_field");
                 $this->execute($cn, $model->addField($moduleId, "Pessoa", "id_entity", $this->TYPE_INT, 0, "", $YES, $NO, $this->tb("tb_entity"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ($seq=1)));
                 $this->execute($cn, $model->addField($moduleId, "Tipo", "id_address_type", $this->TYPE_INT, 0, "", $YES, $NO, $this->tb("tb_domain"), $this->fd("value"), "tb_address_type", "", $this->INPUT_DROPDOWN, ++$seq));
                 $this->execute($cn, $model->addField($moduleId, "Logradouro", "street", $this->TYPE_TEXT, 500, "", $YES, $NO, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
@@ -70,19 +70,19 @@
                 $this->execute($cn, $model->addField($moduleId, "Cep", "zipcode", $this->TYPE_TEXT, 10, "", $NO, $NO, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
 
                 // MODULES [DOCTOS]
-                $this->setTable("tb_table");
+                $this->setModule("tb_module");
                 $moduleId = $this->execute($cn, $model->addModule("tb_document", "Documentos", $TYPE_USER, $this->MENU_CAD));
                 $this->setupModule($cn, $moduleId, "tb_document");
-                $this->setTable("tb_field");
+                $this->setModule("tb_field");
                 $this->execute($cn, $model->addField($moduleId, "Pessoa", "id_entity", $this->TYPE_INT, 0, "", $YES, $NO, $this->tb("tb_entity"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ($seq=1)));
                 $this->execute($cn, $model->addField($moduleId, "Tipo", "id_document_type", $this->TYPE_INT, 0, "", $YES, $NO, $this->tb("tb_domain"), $this->fd("value"), "tb_document_type", "", $this->INPUT_DROPDOWN, ++$seq));
                 $this->execute($cn, $model->addField($moduleId, "Número", "number", $this->TYPE_TEXT, 50, "", $YES, $NO, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
 
                 // MODULES [CONTACT]
-                $this->setTable("tb_table");
+                $this->setModule("tb_module");
                 $moduleId = $this->execute($cn, $model->addModule("tb_contact", "Contatos", $TYPE_USER, $this->MENU_CAD));
                 $this->setupModule($cn, $moduleId, "tb_contact");
-                $this->setTable("tb_field");
+                $this->setModule("tb_field");
                 $this->execute($cn, $model->addField($moduleId, "Pessoa", "id_entity", $this->TYPE_INT, 0, "", $YES, $NO, $this->tb("tb_entity"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ($seq=1)));
                 $this->execute($cn, $model->addField($moduleId, "Tipo", "id_contact_type", $this->TYPE_INT, 0, "", $YES, $NO, $this->tb("tb_domain"), $this->fd("value"), "tb_contact_type", "", $this->INPUT_DROPDOWN, ++$seq));
                 $this->execute($cn, $model->addField($moduleId, "Documento", "document", $this->TYPE_TEXT, 500, "", $YES, $NO, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
@@ -104,7 +104,7 @@
             try {
                 
                 // Define table name
-                $this->setTable("tb_domain");
+                $this->setModule("tb_domain");
 
                 // tb_entity_type
                 $this->execute($cn, $model->addDomain($this->groupId, 1, "Clientes", "tb_entity_type"));
@@ -158,7 +158,7 @@
                 pg_query($cn, "create table if not exists $tableName (id serial, field jsonb);");
 
                 // Setup events
-                $this->setTable("tb_event");
+                $this->setModule("tb_event");
                 $this->execute($cn, $model->addEvent($TABLE, $moduleId, 0, 1, $this->EVENT_CLICK, "formNew();"));
                 $this->execute($cn, $model->addEvent($TABLE, $moduleId, 0, 2, $this->EVENT_CLICK, "formEdit();"));
                 $this->execute($cn, $model->addEvent($TABLE, $moduleId, 0, 3, $this->EVENT_CLICK, "formDelete();"));
@@ -169,13 +169,13 @@
                 $this->execute($cn, $model->addEvent($FORM,  $moduleId, 0, 8, $this->EVENT_CLICK, "reportBack();"));
 
                 // Setup permissions (profiles)
-                $this->setTable("tb_profile_table");
+                $this->setModule("tb_profile_table");
                 $this->execute($cn, $model->addProfileModule($this->PROFILE_SYSTEM, $moduleId));
                 $this->execute($cn, $model->addProfileModule($this->PROFILE_ADMIN, $moduleId));
                 $this->execute($cn, $model->addProfileModule($this->PROFILE_USER, $moduleId));
 
                 // Setup permissions (actions)
-                $this->setTable("tb_table_action");
+                $this->setModule("tb_module_action");
                 for ($j=1; $j<=$this->TOTAL_ACTION; $j++) {
                     $this->execute($cn, $model->addModuleAction($this->PROFILE_SYSTEM, $moduleId, $j));
                     $this->execute($cn, $model->addModuleAction($this->PROFILE_ADMIN, $moduleId, $j));

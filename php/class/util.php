@@ -222,17 +222,17 @@
         /*
          * Plain field
          */
-        public function field($table, $field, $type, $mask="") {
+        public function field($module, $field, $type, $mask="") {
             $output = "";
 
             if (trim($field) == "id") {
-                $output = $table . "." . $field;
+                $output = $module . "." . $field;
             } else {
 
                 if ($type == "date") {
-                    $output = "to_date(" . $table . ".field" . '->>' . $this->sqt($field) . ", " . $this->sqt($mask) . ")";
+                    $output = "to_date(" . $module . ".field" . '->>' . $this->sqt($field) . ", " . $this->sqt($mask) . ")";
                 } else {
-                    $output = "(" . $table . ".field" . '->>' . $this->sqt($field) . ")::" . $type;
+                    $output = "(" . $module . ".field" . '->>' . $this->sqt($field) . ")::" . $type;
                 }
             }
 
@@ -242,7 +242,7 @@
         /*
          * Select field
          */
-        public function select($table, $field, $type, $alias="", $command="1") {
+        public function select($module, $field, $type, $alias="", $command="1") {
 
             // General declaration
             $SELECTION = 1;
@@ -287,7 +287,7 @@
             }
 
             // Prepare field
-            $output = $a . $this->field($table, $field, $type) . $b;
+            $output = $a . $this->field($module, $field, $type) . $b;
             
             if ($alias != "NO_ALIAS") {
                 if (trim($alias) != "") {
@@ -303,14 +303,14 @@
         /*
          * Condition (and clause)
          */
-        public function condition($table, $field, $type, $operator, $value, $mask="") {
+        public function condition($module, $field, $type, $operator, $value, $mask="") {
             
             // General Declaration
             $condition = "";
             $numberUtil = new NumberUtil();
 
             // Base field            
-            $condition .= $this->field($table, $field, $type, $mask);
+            $condition .= $this->field($module, $field, $type, $mask);
 
             // Operator
             if (trim($operator) == "") {

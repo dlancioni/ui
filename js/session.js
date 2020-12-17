@@ -1,11 +1,11 @@
 /*
   * It manipulates hidden fields in index.htm
  */
-function getTable() {
-    return field("_TABLE_").value;
+function getModule() {
+    return field("_MODULE_").value;
 }
-function setTable(value) {
-    return field("_TABLE_").value = value;
+function setModule(value) {
+    return field("_MODULE_").value = value;
 }
 
 function getFormat() {
@@ -37,8 +37,8 @@ function submit(param="form1") {
     form.submit();
 }
 
-function go(table=0, format=1, event="") {
-    setTable(table);
+function go(module=0, format=1, event="") {
+    setModule(module);
     setFormat(format);
     setEvent(event);
     setPaging(0);

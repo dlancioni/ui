@@ -12,7 +12,7 @@
         /* 
         * Get event list and isolate function calls related to buttons
         */
-        function createButton($tableId, $userId, $pageEvent, $format) {
+        function createButton($moduleId, $userId, $pageEvent, $format) {
 
             // General declaration
             $html = "";
@@ -26,7 +26,7 @@
                 $element = new HTMLElement($this->cn);
 
                 // Get access control
-                $permission = $this->getFunctionByProfileUser($tableId, $userId);
+                $permission = $this->getFunctionByProfileUser($moduleId, $userId);
 
                 // Create event list
                 $html .= "<br>";                
@@ -36,7 +36,7 @@
                             if ($event["id_action"] != 0) {
                                 foreach ($permission as $item) {
                                     if ($event["id_action"] == $item["id"]) {
-                                        $name = "btn" . $event["id_table"] . $event["id"];
+                                        $name = "btn" . $event["id_module"] . $event["id"];
                                         $html .= $element->createButton($name, $event["action"], $event["event"], $event["code"]);
                                         break;
                                     }
@@ -114,9 +114,9 @@
 
 
        /*
-        * Get table function by profile user
+        * Get module function by profile user
         */
-        private function getFunctionByProfileUser($tableId, $userId) {
+        private function getFunctionByProfileUser($moduleId, $userId) {
 
             // General declaration    
             $rs = "";
@@ -135,9 +135,9 @@
                 $sql .= " tb_action.id," . $lb; 
                 $sql .= " tb_action.field->>'name' as name" . $lb; 
                 $sql .= " from tb_user_profile" . $lb; 
-                $sql .= " inner join tb_table_action on (tb_table_action.field->>'id_profile')::int = (tb_user_profile.field->>'id_profile')::int" . $lb; 
-                $sql .= " inner join tb_action on (tb_table_action.field->>'id_action')::int = tb_action.id" . $lb; 
-                $sql .= " where (tb_table_action.field->>'id_table')::int = " . $tableId . $lb;
+                $sql .= " inner join tb_module_action on (tb_module_action.field->>'id_profile')::int = (tb_user_profile.field->>'id_profile')::int" . $lb; 
+                $sql .= " inner join tb_action on (tb_module_action.field->>'id_action')::int = tb_action.id" . $lb; 
+                $sql .= " where (tb_module_action.field->>'id_module')::int = " . $moduleId . $lb;
                 $sql .= " and (tb_user_profile.field->>'id_user')::int = " . $userId . $lb;
                 $sql .= " order by tb_action.id" . $lb;
 

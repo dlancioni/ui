@@ -6,7 +6,7 @@ async function confirm() {
     if (validateForm()) {
         if (getAction() == "Filter") {
             setPaging(0);
-            go(getTable(), 1, getAction());
+            go(getModule(), 1, getAction());
         } else {
             await persist(getFormData()).then(alert);
             if (getAction() == "Delete") {

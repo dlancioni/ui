@@ -21,7 +21,7 @@ class LogicReport extends Base {
     /* 
     * Create a table
     */
-    function createReport($tableId, $viewId=0, $action="", $pageOffset=0) {
+    function createReport($moduleId, $viewId=0, $action="", $pageOffset=0) {
 
         // General Declaration
         $PAGE_SIZE = 15;
@@ -63,7 +63,7 @@ class LogicReport extends Base {
             if ($viewId != 0) {
                 $tableDef = $this->sqlBuilder->getTableDef($this->cn, 0, $viewId);
             } else {
-                $tableDef = $this->sqlBuilder->getTableDef($this->cn, $tableId, 0);
+                $tableDef = $this->sqlBuilder->getTableDef($this->cn, $moduleId, 0);
             }
             $logUtil->log("query_def.pgsql", $this->sqlBuilder->lastQuery);
 
@@ -90,17 +90,17 @@ class LogicReport extends Base {
             $filter = new Filter("like");
             if ($action == "Filter") {
                 $filter->setFilter($tableDef, $formData);
-                $_SESSION["_FILTER_"][$tableId] = array($formData);
+                $_SESSION["_FILTER_"][$moduleId] = array($formData);
             } else {
-                if (isset($_SESSION["_FILTER_"][$tableId])) {
-                    $filter->setFilter($tableDef, $_SESSION["_FILTER_"][$tableId][0]);
+                if (isset($_SESSION["_FILTER_"][$moduleId])) {
+                    $filter->setFilter($tableDef, $_SESSION["_FILTER_"][$moduleId][0]);
                 }
             }
 
             // Main query
             $this->sqlBuilder->PageSize = $PAGE_SIZE;
             $this->sqlBuilder->PageOffset = $pageOffset;
-            $data = $this->sqlBuilder->executeQuery($this->cn, $tableId, $viewId, $filter->create(), $this->queryType, $tableDef);
+            $data = $this->sqlBuilder->executeQuery($this->cn, $moduleId, $viewId, $filter->create(), $this->queryType, $tableDef);
             $logUtil->log("query_data.pgsql", $this->sqlBuilder->lastQuery);
 
             // Error handling    
@@ -155,7 +155,7 @@ class LogicReport extends Base {
 
             // Get views
             $filter = new Filter();
-            $filter->add("tb_view", "id_table", $tableId);
+            $filter->add("tb_view", "id_module", $moduleId);
             $viewList = $this->sqlBuilder->executeQuery($this->cn, 
                                                         $this->TB_VIEW, 0, 
                                                         $filter->create(), 
@@ -171,12 +171,12 @@ class LogicReport extends Base {
             if ($this->showAction) {
 
                 $filter = new Filter();
-                $filter->add("tb_event", "id_table", $tableId);
+                $filter->add("tb_event", "id_module", $moduleId);
                 $eventList = $this->sqlBuilder->executeQuery($this->cn, 
                                                             $this->TB_EVENT, 0, 
                                                             $filter->create(), 
                                                             $this->sqlBuilder->QUERY_NO_PAGING);                
-                $html .= $eventAction->createButton($tableId, $userId, $eventList, 1);
+                $html .= $eventAction->createButton($moduleId, $userId, $eventList, 1);
             }
 
 

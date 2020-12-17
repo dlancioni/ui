@@ -5,7 +5,7 @@ print_r(array_filter($one));
 
 
 
-$x = array("id_table"=>35);
+$x = array("id_module"=>35);
 echo $x;
 
 

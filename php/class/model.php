@@ -65,7 +65,7 @@
             return $json;
         }
 
-        public function addField($id_table, $label, $name, $id_type, $size, $mask, $id_mandatory, $id_unique, $id_table_fk, $id_field_fk, $domain, $default_value, $id_control, $ordenation) {
+        public function addField($id_module, $label, $name, $id_type, $size, $mask, $id_mandatory, $id_unique, $id_module_fk, $id_field_fk, $domain, $default_value, $id_control, $ordenation) {
 
             // General Declaration
             $json = "";
@@ -75,7 +75,7 @@
             $json = $jsonUtil->setValue($json, "id_group", $this->groupId);
 
             // Create record
-            $json = $jsonUtil->setValue($json, "id_table", $id_table);
+            $json = $jsonUtil->setValue($json, "id_module", $id_module);
             $json = $jsonUtil->setValue($json, "label", $label);
             $json = $jsonUtil->setValue($json, "name", $name);
             $json = $jsonUtil->setValue($json, "id_type", $id_type);
@@ -83,7 +83,7 @@
             $json = $jsonUtil->setValue($json, "mask", $mask);
             $json = $jsonUtil->setValue($json, "id_mandatory", $id_mandatory);
             $json = $jsonUtil->setValue($json, "id_unique", $id_unique);
-            $json = $jsonUtil->setValue($json, "id_table_fk", $id_table_fk);
+            $json = $jsonUtil->setValue($json, "id_module_fk", $id_module_fk);
             $json = $jsonUtil->setValue($json, "id_field_fk", $id_field_fk);
             $json = $jsonUtil->setValue($json, "domain", $domain);
             $json = $jsonUtil->setValue($json, "default_value", $default_value);
@@ -112,7 +112,7 @@
             return $json;
         }
 
-        public function addEvent($id_target, $id_table, $id_field, $id_action, $id_event, $code) {
+        public function addEvent($id_target, $id_module, $id_field, $id_action, $id_event, $code) {
 
             // General Declaration
             $json = "";
@@ -123,7 +123,7 @@
 
             // Create record        
             $json = $jsonUtil->setValue($json, "id_target", $id_target);
-            $json = $jsonUtil->setValue($json, "id_table", $id_table);
+            $json = $jsonUtil->setValue($json, "id_module", $id_module);
             $json = $jsonUtil->setValue($json, "id_field", $id_field);
             $json = $jsonUtil->setValue($json, "id_action", $id_action);
             $json = $jsonUtil->setValue($json, "id_event", $id_event);
@@ -183,7 +183,7 @@
         }
 
 
-        public function addProfileModule($id_profile, $id_table) {
+        public function addProfileModule($id_profile, $id_module) {
 
             // General Declaration
             $json = "";
@@ -194,13 +194,13 @@
 
             // Create record        
             $json = $jsonUtil->setValue($json, "id_profile", $id_profile);
-            $json = $jsonUtil->setValue($json, "id_table", $id_table);
+            $json = $jsonUtil->setValue($json, "id_module", $id_module);
 
             // Return final json
             return $json;
         }
 
-        public function addModuleAction($id_profile, $id_table, $id_action) {
+        public function addModuleAction($id_profile, $id_module, $id_action) {
 
             // General Declaration
             $json = "";
@@ -211,7 +211,7 @@
 
             // Create record        
             $json = $jsonUtil->setValue($json, "id_profile", $id_profile);
-            $json = $jsonUtil->setValue($json, "id_table", $id_table);
+            $json = $jsonUtil->setValue($json, "id_module", $id_module);
             $json = $jsonUtil->setValue($json, "id_action", $id_action);
 
             // Return final json
@@ -305,7 +305,7 @@
             return $json;
         }
 
-        public function addFieldSetup($id_table, $id_field, $column_size) {
+        public function addFieldSetup($id_module, $id_field, $column_size) {
 
             // General Declaration
             $json = "";
@@ -315,7 +315,7 @@
             $json = $jsonUtil->setValue($json, "id_group", $this->groupId);
 
             // Create record        
-            $json = $jsonUtil->setValue($json, "id_table", $id_table);
+            $json = $jsonUtil->setValue($json, "id_module", $id_module);
             $json = $jsonUtil->setValue($json, "id_field", $id_field);
             $json = $jsonUtil->setValue($json, "column_size", $column_size);
 

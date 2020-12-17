@@ -35,8 +35,8 @@
                 }
 
                 // Validate TableFK without field - it causes system crash
-                if ($this->getTable() == $this->TB_FIELD) {
-                    if ($jsonUtil->getValue($new, "id_table_fk") != "0") {
+                if ($this->getModule() == $this->TB_FIELD) {
+                    if ($jsonUtil->getValue($new, "id_module_fk") != "0") {
                         if ($jsonUtil->getValue($new, "id_field_fk") == "0") {
                             $msg = $message->getValue("M9");
                             throw new Exception($msg);

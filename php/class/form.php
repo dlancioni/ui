@@ -20,7 +20,7 @@ class LogicForm extends Base {
     /* 
     * Create new form
     */
-    function createForm($tableId, $id=0, $action) {
+    function createForm($moduleId, $id=0, $action) {
 
         // General Declaration
         $k = "";
@@ -82,8 +82,8 @@ class LogicForm extends Base {
             // Current user
             $userId = $this->sqlBuilder->getUser();
 
-            // Get table structure
-            $tableDef = $this->sqlBuilder->getTableDef($this->cn, $tableId, 0);
+            // Get module structure
+            $tableDef = $this->sqlBuilder->getTableDef($this->cn, $moduleId, 0);
 
             // Prepare the form
             if (count($tableDef) > 0) {
@@ -93,14 +93,14 @@ class LogicForm extends Base {
                 
                 // Do not query database
                 if ($action == "Filter") {
-                    if (isset($_SESSION["_FILTER_"][$tableId])) {
-                        $data = $_SESSION["_FILTER_"][$tableId];
+                    if (isset($_SESSION["_FILTER_"][$moduleId])) {
+                        $data = $_SESSION["_FILTER_"][$moduleId];
                     }                    
                 } else {
                     // Get data
                     $filter = new Filter();
                     $filter->add($tableDef[0]["table_name"], "id", $id);
-                    $data = $this->sqlBuilder->executeQuery($this->cn, $tableId, $viewId, $filter->create());
+                    $data = $this->sqlBuilder->executeQuery($this->cn, $moduleId, $viewId, $filter->create());
                 }
 
                 // Create field Id (rules according to action)
@@ -283,7 +283,7 @@ class LogicForm extends Base {
 
             // Create buttons           
             $filter = new Filter();
-            $filter->add("tb_event", "id_table", $tableId);
+            $filter->add("tb_event", "id_module", $moduleId);
 
             // Back only
             if ($action == "Detail") {
@@ -294,7 +294,7 @@ class LogicForm extends Base {
                                                             $filter->create(), 
                                                             $this->sqlBuilder->QUERY_NO_PAGING);
 
-            $html .= $eventAction->createButton($tableId, $userId, $eventList, 2);
+            $html .= $eventAction->createButton($moduleId, $userId, $eventList, 2);
 
 
             // Add validateForm function

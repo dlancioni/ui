@@ -5,7 +5,7 @@
     $logicReport = "";
     $logicForm = "";
     $logicTabbed = "";
-    $tableId = 0;  
+    $moduleId = 0;  
     $format = 1;
     $html = "";
     $onLoadFunctions = "";
@@ -24,7 +24,7 @@
         include "request.php";
 
         // Create table or form
-        if ($tableId > 0) {
+        if ($moduleId > 0) {
 
             // Create main page
             switch ($format) {
@@ -33,21 +33,21 @@
                 case $TABLE:
                     $logicReport = new LogicReport($cn, $sqlBuilder, $_REQUEST);
                     $logicReport->queryType = $sqlBuilder->QUERY;                    
-                    $html .= $logicReport->createReport($tableId, $viewId, $action, $pageOffset);
+                    $html .= $logicReport->createReport($moduleId, $viewId, $action, $pageOffset);
                     $error = $logicReport->getError();                    
                     break;
 
                 // Single form    
                 case $FORM:
                     $logicForm = new LogicForm($cn, $sqlBuilder);
-                    $html .= $logicForm->createForm($tableId, $id, $action);
+                    $html .= $logicForm->createForm($moduleId, $id, $action);
                     $error = $logicForm->getError();
                     break;
 
                 // Form with many tables (tabbed)    
                 case $TABBED:
                     $logicTabbed = new LogicTabbed($cn, $sqlBuilder);
-                    $html .= $logicTabbed->createTabbed($cn, $tableId, $id);
+                    $html .= $logicTabbed->createTabbed($cn, $moduleId, $id);
                     $error = $logicTabbed->getError();
                     break;
             }
@@ -56,7 +56,7 @@
             if ($error != "") {
                 $html = $element->getAlert("Erro de processamento", $error);
             } else {
-                $sqlBuilder->setTable($tableId);
+                $sqlBuilder->setModule($moduleId);
                 $html .= $eventAction->createJS();
                 //$onLoadFunctions = $eventAction->createFormLoad($pageEvent, $format);
             }

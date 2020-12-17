@@ -1,5 +1,5 @@
 <?php
-    class LogicTable extends Base {
+    class LogicModule extends Base {
 
         // Private members
         private $cn = 0;
@@ -121,7 +121,7 @@
         /*
          * Create standard actions 
          */        
-        private function actionEvent($tableId) {
+        private function actionEvent($moduleId) {
 
             // General Declaration
             $sql = "";
@@ -147,31 +147,31 @@
                     case "New":
                         
                         // New
-                        $json = $model->addEvent($TABLE, $tableId, 0, 1, $EVENT_ONCLICK, 'formNew();');
+                        $json = $model->addEvent($TABLE, $moduleId, 0, 1, $EVENT_ONCLICK, 'formNew();');
                         pg_query($this->cn, "insert into tb_event (field) values ('$json')");
 
                         // Edit
-                        $json = $model->addEvent($TABLE, $tableId, 0, 2, $EVENT_ONCLICK, 'formEdit();');
+                        $json = $model->addEvent($TABLE, $moduleId, 0, 2, $EVENT_ONCLICK, 'formEdit();');
                         pg_query($this->cn, "insert into tb_event (field) values ('$json')");
 
                         // Delete
-                        $json = $model->addEvent($TABLE, $tableId, 0, 3, $EVENT_ONCLICK, 'formDelete();');
+                        $json = $model->addEvent($TABLE, $moduleId, 0, 3, $EVENT_ONCLICK, 'formDelete();');
                         pg_query($this->cn, "insert into tb_event (field) values ('$json')");
 
                         // Confirm
-                        $json = $model->addEvent($FORM, $tableId, 0, 4, $EVENT_ONCLICK, 'confirm();');
+                        $json = $model->addEvent($FORM, $moduleId, 0, 4, $EVENT_ONCLICK, 'confirm();');
                         pg_query($this->cn, "insert into tb_event (field) values ('$json')");
 
                         // Filter
-                        $json = $model->addEvent($TABLE, $tableId, 0, 5, $EVENT_ONCLICK, 'formFilter();');
+                        $json = $model->addEvent($TABLE, $moduleId, 0, 5, $EVENT_ONCLICK, 'formFilter();');
                         pg_query($this->cn, "insert into tb_event (field) values ('$json')");
 
                         // Clear
-                        $json = $model->addEvent($FORM, $tableId, 0, 6, $EVENT_ONCLICK, 'formClear();');
+                        $json = $model->addEvent($FORM, $moduleId, 0, 6, $EVENT_ONCLICK, 'formClear();');
                         pg_query($this->cn, "insert into tb_event (field) values ('$json')");
 
                         // Back
-                        $json = $model->addEvent($FORM, $tableId, 0, 7, $EVENT_ONCLICK, 'reportBack();');
+                        $json = $model->addEvent($FORM, $moduleId, 0, 7, $EVENT_ONCLICK, 'reportBack();');
                         pg_query($this->cn, "insert into tb_event (field) values ('$json')");
 
                         break;
@@ -180,7 +180,7 @@
                         // Remove transaction from Transaction x Function
                         $sql = "";
                         $sql .= " delete from tb_event";
-                        $sql .= " where " . $jsonUtil->condition("tb_event", "id_table", $this->TYPE_INT, "=", $tableId);
+                        $sql .= " where " . $jsonUtil->condition("tb_event", "id_module", $this->TYPE_INT, "=", $moduleId);
                         $rs = pg_query($this->cn, $sql);
                         $affectedRows = pg_affected_rows($rs);
                 }
@@ -198,7 +198,7 @@
         /*
          * Handle fields (delete only)
          */
-        private function field($tableId) {
+        private function field($moduleId) {
 
             // General Declaration
             $sql = "";
@@ -211,7 +211,7 @@
                 // Delete related events
                 if ($this->getAction() == "Delete") {
                     $sql .= " delete from tb_field";
-                    $sql .= " where " . $jsonUtil->condition("tb_field", "id_table", $this->TYPE_INT, "=", $tableId);
+                    $sql .= " where " . $jsonUtil->condition("tb_field", "id_module", $this->TYPE_INT, "=", $moduleId);
                     $rs = pg_query($this->cn, $sql);
                     $affectedRows = pg_affected_rows($rs);
                 }    
@@ -229,7 +229,7 @@
         /*
          * Access control
          */
-        private function profileTransaction($tableId) {
+        private function profileTransaction($moduleId) {
 
             // General Declaration
             $sql = "";
@@ -249,15 +249,15 @@
                     case "New":
 
                         // System
-                        $json = $model->addProfileTable($this->PROFILE_SYSTEM, $tableId);
+                        $json = $model->addProfileModule($this->PROFILE_SYSTEM, $moduleId);
                         pg_query($this->cn, "insert into tb_profile_table (field) values ('$json')");
 
                         // Admin
-                        $json = $model->addProfileTable($this->PROFILE_ADMIN, $tableId);
+                        $json = $model->addProfileModule($this->PROFILE_ADMIN, $moduleId);
                         pg_query($this->cn, "insert into tb_profile_table (field) values ('$json')");
 
                         // User
-                        $json = $model->addProfileTable($this->PROFILE_USER, $tableId);
+                        $json = $model->addProfileModule($this->PROFILE_USER, $moduleId);
                         pg_query($this->cn, "insert into tb_profile_table (field) values ('$json')");
 
                         break;
@@ -267,7 +267,7 @@
                         // Just delete related config
                         $sql = "";
                         $sql .= " delete from tb_profile_table";
-                        $sql .= " where " . $jsonUtil->condition("tb_profile_table", "id_table", $this->TYPE_INT, "=", $tableId);
+                        $sql .= " where " . $jsonUtil->condition("tb_profile_table", "id_module", $this->TYPE_INT, "=", $moduleId);
                         $rs = pg_query($this->cn, $sql);
                         $affectedRows = pg_affected_rows($rs);
                         break;                    
@@ -286,7 +286,7 @@
         /*
          * Access control
          */        
-        private function tableAction($tableId) {
+        private function tableAction($moduleId) {
 
             // General Declaration
             $sql = "";
@@ -308,8 +308,8 @@
                         // Add standard 7 functions (New, Edit, Delete, Confirm, Filter, Clear, Back)
                         for ($i=1; $i<=3; $i++) {
                             for ($j=1; $j<=7; $j++) {
-                                $json = $model->addModuleAction($i, $tableId, $j);
-                                pg_query($this->cn, "insert into tb_table_action (field) values ('$json')");
+                                $json = $model->addModuleAction($i, $moduleId, $j);
+                                pg_query($this->cn, "insert into tb_module_action (field) values ('$json')");
                             }
                         }
                         break;
@@ -319,7 +319,7 @@
                         // Remove transaction from Transaction x Function
                         $sql = "";
                         $sql .= " delete from tb_table_action";
-                        $sql .= " where " . $jsonUtil->condition("tb_table_action", "id_table", $this->TYPE_INT, "=", $tableId);
+                        $sql .= " where " . $jsonUtil->condition("tb_module_action", "id_module", $this->TYPE_INT, "=", $moduleId);
                         $rs = pg_query($this->cn, $sql);
                         $affectedRows = pg_affected_rows($rs);
                 }

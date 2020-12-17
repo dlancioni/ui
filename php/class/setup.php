@@ -5,7 +5,7 @@
         public $cn = "";
         public $error = "";
         public $systemId = 0;
-        public $tableId = 0;
+        public $moduleId = 0;
         public $tableName = "";
 
         // Group info
@@ -66,27 +66,27 @@
 
             $rs = "";
             $sql = "";
-            $tableId = 0;
+            $moduleId = 0;
 
             try {
 
                 // Query fields
                 $sql .= " select";
-                $sql .= " tb_table.id";
-                $sql .= " from tb_table";
-                $sql .= " where (tb_table.field->>'name')::text = " . "'" . $tableName . "'";
+                $sql .= " tb_module.id";
+                $sql .= " from tb_module";
+                $sql .= " where (tb_module.field->>'name')::text = " . "'" . $tableName . "'";
                 
                 $rs = pg_query($this->cn, $sql);
                 while ($row = pg_fetch_row($rs)) {
-                    $tableId = $row[0];
-                    $this->tableId = $tableId;
+                    $moduleId = $row[0];
+                    $this->tableId = $moduleId;
                     break;
                 }
             } catch (Exception $ex) {
                 throw $ex;
             }
 
-            return $tableId;
+            return $moduleId;
         }
 
         /*
@@ -104,7 +104,7 @@
                 $sql .= " select";
                 $sql .= " tb_field.id";
                 $sql .= " from tb_field";
-                $sql .= " where (tb_field.field->>'id_table')::int = " . $this->tableId;
+                $sql .= " where (tb_field.field->>'id_module')::int = " . $this->tableId;
                 $sql .= " and tb_field.field->>'name' = " . "'" . $fieldName . "'";
                 
                 $rs = pg_query($this->cn, $sql);
@@ -120,10 +120,10 @@
             return $fieldId;
         }
 
-        public function setTable($tableName) {
+        public function setModule($tableName) {
             $this->tableName = $tableName;
         }
-        public function getTable() {
+        public function getModule() {
             return $tableName;
         }        
         

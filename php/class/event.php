@@ -61,7 +61,7 @@
             $rs = "";
             $json = "";
             $record = "";
-            $tableId = 0;
+            $moduleId = 0;
             $viewId = 0;
             $affectedRows = 0;
             $jsonUtil = new JsonUtil();
@@ -75,22 +75,22 @@
                     case "New":
 
                         // Get keys
-                        $tableId = $jsonUtil->getValue($new, "id_table");
+                        $moduleId = $jsonUtil->getValue($new, "id_module");
                         $id = $jsonUtil->getValue($new, "id_action");
 
                         // When event is a FUNCTION, grant permission to admin
                         if (intval($id) != 0) {
 
                             // System
-                            $json = $model->addModuleAction($this->PROFILE_SYSTEM, $tableId, $id);
+                            $json = $model->addModuleAction($this->PROFILE_SYSTEM, $moduleId, $id);
                             pg_query($this->cn, "insert into tb_table_action (field) values ('$json')");
 
                             // Administrator
-                            $json = $model->addModuleAction($this->PROFILE_ADMIN, $tableId, $id);
+                            $json = $model->addModuleAction($this->PROFILE_ADMIN, $moduleId, $id);
                             pg_query($this->cn, "insert into tb_table_action (field) values ('$json')");
 
                             // Users
-                            $json = $model->addModuleAction($this->PROFILE_USER, $tableId, $id);
+                            $json = $model->addModuleAction($this->PROFILE_USER, $moduleId, $id);
                             pg_query($this->cn, "insert into tb_table_action (field) values ('$json')");
 
                             break;
@@ -99,15 +99,15 @@
                     case "Delete":
 
                         // Get keys
-                        $tableId = $jsonUtil->getValue($old, "id_table");
+                        $moduleId = $jsonUtil->getValue($old, "id_module");
                         $id = $jsonUtil->getValue($old, "id_action");
 
                         // When event is a FUNCTION, revoke permission from admin
                         if (intval($id) != 0) {                           
                             $sql = "";
                             $sql .= " delete from tb_table_action";
-                            $sql .= " where " . $jsonUtil->condition("tb_table_action", "id_table", $this->TYPE_INT, "=", $tableId);
-                            $sql .= " and " . $jsonUtil->condition("tb_table_action", "id_action", $this->TYPE_INT, "=", $id);
+                            $sql .= " where " . $jsonUtil->condition("tb_module_action", "id_module", $this->TYPE_INT, "=", $moduleId);
+                            $sql .= " and " . $jsonUtil->condition("tb_module_action", "id_action", $this->TYPE_INT, "=", $id);
                             $rs = pg_query($this->cn, $sql);
                             $affectedRows = pg_affected_rows($rs);
                         }
