@@ -552,6 +552,10 @@ class SqlBuilder extends Base {
         $jsonUtil = new JsonUtil();
 
         try {
+
+            // Standard ordenation
+            $sql = " order by id";
+
             if (count($queryDef) > 0) {
                 foreach ($queryDef as $row) {
                     if (isset($row["id_command"])) {
