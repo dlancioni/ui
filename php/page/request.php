@@ -37,6 +37,10 @@
         $_SESSION['_MODULE_'] = intval($moduleId);
     }
 
+    if (isset($_REQUEST["_PAGING_"])) {
+        $pageOffset = intval($_REQUEST["_PAGING_"]);
+    }
+
     if (isset($_REQUEST["_ID_"])) {
         $id = intval($_REQUEST['_ID_']);
         if ($action == "filter") {
@@ -45,8 +49,10 @@
         $_SESSION['_ID_'] = intval($id);
     }
 
-    if (isset($_REQUEST["_PAGING_"])) {
-        $pageOffset = intval($_REQUEST["_PAGING_"]);
+    if (isset($_REQUEST["_PARENT_"])) {
+        if (intval($_REQUEST['_PARENT_']) != 0) {
+            $id = intval($_REQUEST['_PARENT_']);
+        }
     }
 
 ?>

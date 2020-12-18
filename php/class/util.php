@@ -1,5 +1,14 @@
 <?php
 
+    class File {
+
+        public function createDirectory($path) {
+            if (!file_exists($path)) {
+                mkdir($path, 0777, true);
+            }            
+        }
+    }
+
     class OS {
 
         public $WINDOWS = "Windows";
@@ -86,7 +95,7 @@
             try {
 
                 if ($os->getOS() == $os->WINDOWS) {                   
-                    $path = "c:\\temp\\log\\forms\\file"; // Windows
+                    $path = "c:\\temp\\forms\\file\\S20201"; // Windows
                 } else {
                     $path = "/home/storage/8/df/6a/form12/forms/file"; // Linux
                 }
@@ -431,5 +440,6 @@
             // Return main menu
             return $message;
         }
-    }    
+
+    }  // end of class
 ?>

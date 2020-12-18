@@ -36,10 +36,10 @@ function setPaging(value) {
 
 // Current or selected record
 function getId() {
-    return field("_ID_").value;
+    return field("_PARENT_").value;
 }
 function setId(value) {
-    return field("_ID_").value = value;
+    return field("_PARENT_").value = value;
 }
 
 /*

@@ -74,6 +74,15 @@
                 $this->execute($cn, $model->addField($moduleId, "Contato", "contact", $this->TYPE_TEXT, 500, "", $this->YES, $this->NO, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
                 $this->execute($cn, $model->addField($moduleId, "Comentário", "comment", $this->TYPE_TEXT, 5000, "", $this->NO, $this->NO, 0, 0, "", "", $this->INPUT_TEXTAREA, ++$seq));
 
+                // MODULES [ATTACHED]
+                $this->setModule("tb_module");
+                $moduleId = $this->execute($cn, $model->addModule("tb_attach", "Anexos", $this->MODULE_USER, $this->MENU_CAD));
+                $this->setupModule($cn, $moduleId, "tb_attach");
+                $this->setModule("tb_field");
+                $this->execute($cn, $model->addField($moduleId, "Pessoa", "id_entity", $this->TYPE_INT, 0, "", $this->YES, $this->NO, $this->tb("tb_entity"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ($seq=1)));
+                $this->execute($cn, $model->addField($moduleId, "Descrição", "description", $this->TYPE_TEXT, 5000, "", $this->NO, $this->NO, 0, 0, "", "", $this->INPUT_TEXTAREA, ++$seq));
+                $this->execute($cn, $model->addField($moduleId, "Arquivo", "attached", $this->TYPE_BINARY, 0, "", $this->NO, $this->NO, 0, 0, "", "", $this->INPUT_FILE, ++$seq));
+
             } catch (Exception $ex) {
                 throw $ex;
             }

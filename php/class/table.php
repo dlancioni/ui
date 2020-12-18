@@ -50,7 +50,6 @@ class LogicTable extends Base {
             // Create object instances
             $logUtil = new LogUtil();
             $jsonUtil = new jsonUtil();
-            $pathUtil = new PathUtil();
             $eventAction = new EventAction($this->cn);
             $message = new Message($this->cn);
             $this->element = new HTMLElement($this->cn);
@@ -315,6 +314,7 @@ class LogicTable extends Base {
     private function prepareFieldValue($fieldType, $fieldValue, $control) {
 
         $link = "";
+        $pathUtil = new PathUtil();        
         
         // Handle field type (datatype)
         switch ($fieldType) {
@@ -334,6 +334,7 @@ class LogicTable extends Base {
             case $this->INPUT_FILE:
                 if ($fieldValue != null) {
                     $link = $pathUtil->getVirtualPath() . $fieldValue;
+                    //$fieldValue = $this->element->createLink($this->element->createImage($link), $fieldValue, $link, true);
                     $fieldValue = $this->element->createLink($this->element->createImage($link), $fieldValue, $link, true);
                 }
                 break;
@@ -423,7 +424,7 @@ class LogicTable extends Base {
                         if ($command < $this->sqlBuilder->CONDITION) {
 
                             // Create link to parent module
-                            if ($fk != 0 && $fk != 4) {
+                            if ($fk != 0 && $fk != $this->TB_DOMAIN) {
                                 $id = $row["id"];
                                 $fieldValue = "<a href='#' onClick='go($fk, 3, 0, $id)'>" . $fieldValue . "</a>";
                             }
