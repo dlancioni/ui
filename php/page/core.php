@@ -2,7 +2,7 @@
 
     // General declaration      
     $id = 0;
-    $logicReport = "";
+    $logicTable = "";
     $logicForm = "";
     $logicTabbed = "";
     $moduleId = 0;  
@@ -31,10 +31,10 @@
 
                 // Single table
                 case $TABLE:
-                    $logicReport = new LogicReport($cn, $sqlBuilder, $_REQUEST);
-                    $logicReport->queryType = $sqlBuilder->QUERY;                    
-                    $html .= $logicReport->createReport($moduleId, $viewId, $action, $pageOffset);
-                    $error = $logicReport->getError();                    
+                    $logicTable = new LogicTable($cn, $sqlBuilder, $_REQUEST);
+                    $logicTable->queryType = $sqlBuilder->QUERY;                    
+                    $html .= $logicTable->createReport($moduleId, $viewId, $action, $pageOffset);
+                    $error = $logicTable->getError();                    
                     break;
 
                 // Single form    

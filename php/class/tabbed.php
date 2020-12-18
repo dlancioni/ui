@@ -65,17 +65,17 @@ class LogicTabbed extends Base {
                 $name = "link" . trim($module["id_module"]);
 
                 // Prepare page call                
-                $logicReport = new LogicReport($cn, $this->sqlBuilder, $formData);
-                $logicReport->showTitle = false;
-                $logicReport->showAction = false;
-                $logicReport->showPaging = false;
-                $logicReport->queryType = $this->sqlBuilder->QUERY_NO_PAGING;
+                $logicTable = new LogicTable($cn, $this->sqlBuilder, $formData);
+                $logicTable->showTitle = false;
+                $logicTable->showAction = false;
+                $logicTable->showPaging = false;
+                $logicTable->queryType = $this->sqlBuilder->QUERY_NO_PAGING;
 
                 // Create output
                 if ($moduleId != $parentTableId) {
                     if ($lastId != $parentTableId) {
-                        $report .= $logicReport->createReport($parentTableId, 0, "Filter", 0);
-                        $pageTitle = $logicReport->pageTitle;
+                        $report .= $logicTable->createReport($parentTableId, 0, "Filter", 0);
+                        $pageTitle = $logicTable->pageTitle;
                         $tabDef[] = array("name"=>$name, "title"=>$pageTitle, "page"=>$report);
                     }
                 }

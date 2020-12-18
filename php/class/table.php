@@ -1,5 +1,5 @@
 <?php
-class LogicReport extends Base {
+class LogicTable extends Base {
 
     // Public members
     public $queryType = 1; // See SqlBuilder, Paging declaration
@@ -105,7 +105,7 @@ class LogicReport extends Base {
 
             // Error handling    
             if ($this->sqlBuilder->getError() != "") {
-                $this->setError("LogicReport.createReport()", $this->sqlBuilder->getError());
+                $this->setError("LogicTable.createReport()", $this->sqlBuilder->getError());
                 return;
             }
 
@@ -184,7 +184,7 @@ class LogicReport extends Base {
             $html .= $this->element->createPanel($this->createViewList($viewList, $viewId));            
 
         } catch (Exception $ex) {
-            $this->setError("LogicReport.createReport()", $ex->getMessage());
+            $this->setError("LogicTable.createReport()", $ex->getMessage());
         }
 
         // Return report        
