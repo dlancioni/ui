@@ -57,6 +57,7 @@ class LogicTable extends Base {
 
             // Current user
             $userId = $this->sqlBuilder->getUser();
+            $this->setSystem($this->sqlBuilder->getSystem());
 
             // Handle structures
             if ($viewId != 0) {
@@ -313,8 +314,11 @@ class LogicTable extends Base {
      */
     private function prepareFieldValue($fieldType, $fieldValue, $control) {
 
+        // General declaration
         $link = "";
-        $pathUtil = new PathUtil();        
+        $source = "";
+        $target = "";
+        $pathUtil = new PathUtil();
         
         // Handle field type (datatype)
         switch ($fieldType) {
@@ -329,11 +333,25 @@ class LogicTable extends Base {
         // Handle field element (html control)
         switch ($control) {
             case $this->INPUT_PASSWORD:
+
                 $fieldValue = "******";
                 break;
+
             case $this->INPUT_FILE:
+
                 if ($fieldValue != null) {
-                    $link = $pathUtil->getVirtualPath() . $fieldValue;
+
+                    // Prepare to copy
+                    $source = $pathUtil->getUploadPath($this->getSystem()) . $fieldValue;
+                    $target = $pathUtil->getRealPath($this->getSystem()) . $fieldValue;
+
+                    // Copy file to server
+                    copy($source, $target);
+                    
+                    // Prepare link path
+                    $link = $pathUtil->getVirtualPath($this->getSystem()) . $fieldValue;
+
+                    // Create link                  
                     $fieldValue = $this->element->createLink("Baixar", $fieldValue, $link, true);
                 }
                 break;

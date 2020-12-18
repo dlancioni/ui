@@ -41,7 +41,7 @@
         /*
          * Get virtual file path
          */
-        public function getVirtualPath() {
+        public function getVirtualPath($systemId) {
 
             $path = "";
             $os = new OS();
@@ -49,9 +49,32 @@
             try {
 
                 if ($os->getOS() == $os->WINDOWS) {
-                    $path = "/ui/php/files/";
+                    $path = "\\ui\\temp\\" . $systemId . "\\";
                 } else {
-                    $path = "/php/files/";
+                    $path = "/temp/" . $systemId . "/";
+                }
+
+            } catch (Exception $ex) {
+                throw $ex;
+            }
+
+            return $path;
+        }
+
+        /*
+         * Get real file path
+         */
+        public function getRealPath($systemId) {
+
+            $path = "";
+            $os = new OS();
+
+            try {
+
+                if ($os->getOS() == $os->WINDOWS) {
+                    $path = realpath(".") . "\\temp\\" . $systemId . "\\";
+                } else {
+                    $path = realpath(".") . "/temp/" . $systemId . "/";
                 }
 
             } catch (Exception $ex) {
