@@ -86,7 +86,7 @@
         public $EVENT_CLICK = 2;
         public $EVENT_CHANGE = 3;
 
-        // Actions
+        // Actions (see event.js must have equivalent item)
         public $ACTION_NONE = 0;
         public $ACTION_NEW = 1;
         public $ACTION_EDIT = 2;

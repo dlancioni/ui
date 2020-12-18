@@ -86,7 +86,7 @@
                 switch ($this->getAction()) {
                     
                     // Create it
-                    case "New":                        
+                    case $this->ACTION_NEW:
                         $sql = "drop table if exists " . $tableNew;
                         pg_query($this->cn, $sql);
                         $sql = "create table if not exists " . $tableNew . " (id serial, field jsonb);";
@@ -94,7 +94,7 @@
                         break;
 
                     // Rename it
-                    case "Edit":
+                    case $this->ACTION_EDIT:
                         if ($tableOld != $tableNew) {
                             $sql = "alter table " . $tableOld . " rename to " . $tableNew;
                             pg_query($this->cn, $sql);                        
@@ -102,7 +102,7 @@
                         break;
 
                     // Delete it                            
-                    case "Delete":
+                    case $this->ACTION_DELETE:
                         $sql = "drop table if exists " . $tableOld;
                         pg_query($this->cn, $sql);
                         break;                        
@@ -144,7 +144,7 @@
                 // Grant profiles Admin and User
                 switch ($this->getAction()) {
 
-                    case "New":
+                    case $this->ACTION_NEW:
                         
                         // New
                         $json = $model->addEvent($TABLE, $moduleId, 0, 1, $EVENT_ONCLICK, 'formNew();');
@@ -176,7 +176,7 @@
 
                         break;
 
-                    case "Delete":
+                    case $this->ACTION_DELETE:
                         // Remove transaction from Transaction x Function
                         $sql = "";
                         $sql .= " delete from tb_event";
@@ -209,7 +209,7 @@
             try {
 
                 // Delete related events
-                if ($this->getAction() == "Delete") {
+                if ($this->getAction() == $this->ACTION_DELETE) {
                     $sql .= " delete from tb_field";
                     $sql .= " where " . $jsonUtil->condition("tb_field", "id_module", $this->TYPE_INT, "=", $moduleId);
                     $rs = pg_query($this->cn, $sql);
@@ -246,7 +246,7 @@
                 // Grant for system, admin and user
                 switch ($this->getAction()) {
 
-                    case "New":
+                    case $this->ACTION_NEW:
 
                         // System
                         $json = $model->addProfileModule($this->PROFILE_SYSTEM, $moduleId);
@@ -262,7 +262,7 @@
 
                         break;
 
-                    case "Delete":
+                    case $this->ACTION_DELETE:
 
                         // Just delete related config
                         $sql = "";
@@ -303,7 +303,7 @@
                 // Grant profiles Admin and User
                 switch ($this->getAction()) {
 
-                    case "New":
+                    case $this->ACTION_NEW:
 
                         // Add standard 7 functions (New, Edit, Delete, Confirm, Filter, Clear, Back)
                         for ($i=1; $i<=3; $i++) {
@@ -314,7 +314,7 @@
                         }
                         break;
 
-                    case "Delete":
+                    case $this->ACTION_DELETE:
 
                         // Remove transaction from Transaction x Function
                         $sql = "";

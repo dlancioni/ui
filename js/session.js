@@ -37,7 +37,7 @@ function submit(param="form1") {
     form.submit();
 }
 
-function go(module=0, format=1, event="") {
+function go(module=0, format=1, event=0) {
     setModule(module);
     setFormat(format);
     setEvent(event);

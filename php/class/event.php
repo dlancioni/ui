@@ -72,7 +72,7 @@
                 // Grant profiles Admin and User
                 switch ($this->getAction()) {
 
-                    case "New":
+                    case $this->ACTION_NEW:
 
                         // Get keys
                         $moduleId = $jsonUtil->getValue($new, "id_module");
@@ -96,7 +96,7 @@
                             break;
                         }
 
-                    case "Delete":
+                    case $this->ACTION_DELETE:
 
                         // Get keys
                         $moduleId = $jsonUtil->getValue($old, "id_module");

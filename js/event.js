@@ -3,13 +3,17 @@
  * Functions used in system events 
  */
 async function confirm() {
+
+    let actionDelete = 3;
+    let actionFilter = 6;
+
     if (validateForm()) {
-        if (getAction() == "Filter") {
+        if (getAction() == actionFilter) {
             setPaging(0);
             go(getModule(), 1, getAction());
         } else {
             await persist(getFormData()).then(alert);
-            if (getAction() == "Delete") {
+            if (getAction() == actionDelete) {
                 reportBack();
             }
         }
@@ -17,41 +21,41 @@ async function confirm() {
 }
 
 /*
- * Basic operations
+ * See base.php, must have same definition as here
  */
 function formNew() {
     setFormat(2);
-    setEvent("New");
+    setEvent(1);
     submit();
 }
 
 function formEdit() {
     setFormat(2);
-    setEvent("Edit");
+    setEvent(2);
     submit();
 }
 
 function formDelete() {
     setFormat(2);
-    setEvent("Delete");
+    setEvent(3);
     submit();
 }
 
 function formDetail() {
     setFormat(3);
-    setEvent("Detail");
+    setEvent(4);
     submit();
 }
 
 function formFilter() {
     setFormat(2);
-    setEvent("Filter");
+    setEvent(6);
     submit();
 }
 
 function reportBack() {
     setFormat(1);
-    setEvent("Back");
+    setEvent(8);
     submit();
 }
 

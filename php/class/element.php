@@ -1,5 +1,5 @@
 <?php
-    class HTMLElement {
+    class HTMLElement extends Base {
 
         // Private members
         private $cn = 0;
@@ -69,7 +69,7 @@
                     $html .= " disabled";
 
                 if ($fieldEvent)    
-                    $html .= $this->getAction($fieldId, $fieldEvent);
+                    $html .= $this->bindAction($fieldId, $fieldEvent);
 
                 $html .= ">";
 
@@ -95,7 +95,7 @@
                 $html .= " " . $disabled;
 
                 if ($fieldEvent)
-                    $html .= $this->getAction($fieldId, $fieldEvent);
+                    $html .= $this->bindAction($fieldId, $fieldEvent);
 
                 $html .= ">";
                 $html .= $value;
@@ -132,7 +132,7 @@
                     $html .= $function;
 
                 if ($fieldEvent)
-                    $html .= $this->getAction($fieldId, $fieldEvent);
+                    $html .= $this->bindAction($fieldId, $fieldEvent);
                     
                 $html .= " " . $disabled;
                 $html .= ">";
@@ -423,7 +423,7 @@
         /* 
          * Get events to bind on fields (textbox, dropdown, etc)
          */
-        private function getAction($fieldId, $fieldEvent) {
+        private function bindAction($fieldId, $fieldEvent) {
 
             // General declaration
             $html = "";
@@ -491,7 +491,7 @@
             $fieldMask = $stringUtil->dqt($fieldMask);
 
             // Validate mandatory fields
-            if ($action != "Filter") {
+            if ($action != $this->ACTION_FILTER) {
                 $msg = $message->getValue("M1", $fieldLabel);
                 if ($fieldMandatory == 1) {                
                     $js .= "if (!validateMandatory($fieldName, $fk, $msg)) {";

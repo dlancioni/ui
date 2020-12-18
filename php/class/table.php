@@ -88,7 +88,7 @@ class LogicTable extends Base {
 
             // Get data
             $filter = new Filter("like");
-            if ($action == "Filter") {
+            if ($action == $this->ACTION_FILTER) {
                 $filter->setFilter($tableDef, $formData);
                 $_SESSION["_FILTER_"][$moduleId] = array($formData);
             } else {

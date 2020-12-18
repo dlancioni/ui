@@ -98,7 +98,7 @@
                 }
 
                 // Rules for update/delete
-                if ($action == "Edit" || $action == "Delete") {
+                if ($action == $this->ACTION_EDIT || $action == $this->ACTION_DELETE) {
 
                     // Get existing record
                     $filter = new Filter();
@@ -153,7 +153,7 @@
                 }
 
                 // Validate unique fields (when changed)
-                if ($action == "New" || $action == "Edit") {
+                if ($action == $this->ACTION_NEW || $action == $this->ACTION_EDIT) {
                     $filter = new Filter();
                     foreach ($tableDef as $item) {
                         $fieldLabel = $item["field_label"];
@@ -280,16 +280,16 @@
             try {
 
                 switch ($this->getAction()) {
-                    case "New":
+                    case $this->ACTION_NEW:
                         $msg = "M6";                        
                         $sql = "insert into $tableName (field) values ('$new') returning id";                        
                         break;
-                    case "Edit":
+                    case $this->ACTION_EDIT:
                         $msg = "M7";                        
                         $sql .= " update $tableName set field = '$new' ";
                         $sql .= " where " . $jsonUtil->condition($tableName, "id", $this->TYPE_INT, "=", $this->getLastId());
                         break;
-                    case "Delete":
+                    case $this->ACTION_DELETE:
                         $msg = "M8";                        
                         $sql .= " delete from $tableName ";
                         $sql .= " where " . $jsonUtil->condition($tableName, "id", $this->TYPE_INT, "=", $this->getLastId());                        

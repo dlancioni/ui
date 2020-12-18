@@ -71,11 +71,11 @@ class LogicForm extends Base {
         try {
 
             // Handle events
-            if ($action == "Delete" || $action == "Detail") {
+            if ($action == $this->ACTION_DELETE || $action == $this->ACTION_DETAIL) {
                 $disabled = "disabled";
             }
 
-            if ($action == "Filter") {
+            if ($action == $this->ACTION_FILTER) {
                 $id = 0;
             }
 
@@ -92,7 +92,7 @@ class LogicForm extends Base {
                 $pageTitle = $tableDef[0]["title"];                
                 
                 // Do not query database
-                if ($action == "Filter") {
+                if ($action == $this->ACTION_FILTER) {
                     if (isset($_SESSION["_FILTER_"][$moduleId])) {
                         $data = $_SESSION["_FILTER_"][$moduleId];
                     }                    
@@ -259,7 +259,7 @@ class LogicForm extends Base {
                     }
 
                     // Cannot filter on binary fields
-                    if ($action == "Filter") {
+                    if ($action == $this->ACTION_FILTER) {
                         if ($fieldType != $this->TYPE_BINARY) {
                             $controls .= $this->element->createFieldGroup($label, $control);
                         }
@@ -286,7 +286,7 @@ class LogicForm extends Base {
             $filter->add("tb_event", "id_module", $moduleId);
 
             // Back only
-            if ($action == "Detail") {
+            if ($action == $this->ACTION_DETAIL) {
                 $filter->add("tb_event", "id_action", 8);
             }            
             $eventList = $this->sqlBuilder->executeQuery($this->cn, 
@@ -325,15 +325,15 @@ class LogicForm extends Base {
 
         // Control access
         switch ($action) {
-            case "New":
+            case $this->ACTION_NEW:
                 $id = "";
                 $disabled = "disabled";
                 $show = 0;
                 break;                
-            case "Edit":
+            case $this->ACTION_EDIT:
                 $disabled = "disabled";
                 break;                
-            case "Delete":
+            case $this->ACTION_DELETE:
                 $disabled = "disabled";
                 break;
             default:
