@@ -25,6 +25,7 @@
                 // Database objects
                 $this->createSchema($cn);
                 $this->createTable($cn);
+                $this->createUpload($cn);
 
                 // System structure
                 $this->createMenu($cn);
@@ -699,6 +700,33 @@
                 throw $ex;
             }
         }
+
+        /*
+         * Create area to upload files
+         */
+        private function createUpload($cn) {
+
+            // General declaration
+            $path = "";
+            $fileUtil = new FileUtil();
+            $pathUtil = new PathUtil();
+            $model = new Model($this->groupId);
+            
+            try {
+
+                // Get base path
+                $path = $pathUtil->getUploadPath($this->getSystem());
+
+                // If not exists, create it
+                $fileUtil->createDirectory($path);
+                
+            } catch (Exception $ex) {
+                throw $ex;
+            }
+        }
+
+
+
         
     } // End of class
 ?>

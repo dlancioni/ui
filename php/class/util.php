@@ -1,6 +1,6 @@
 <?php
 
-    class File {
+    class FileUtil {
 
         public function createDirectory($path) {
             if (!file_exists($path)) {
@@ -87,17 +87,19 @@
         /*
          * Get upload path for windows or linux
          */
-        public function getUploadPath() {
+        public function getUploadPath($systemId) {
 
+            // General declaration
             $path = "";
             $os = new OS();
 
             try {
 
+                // Return path to upload files
                 if ($os->getOS() == $os->WINDOWS) {                   
-                    $path = "c:\\temp\\forms\\file\\S20201"; // Windows
+                    $path = "c:\\temp\\forms\\upload\\" . $systemId . "\\";
                 } else {
-                    $path = "/home/storage/8/df/6a/form12/forms/file"; // Linux
+                    $path = "/home/storage/8/df/6a/form12/forms/upload/" . $systemId . "/";
                 }
 
             } catch (Exception $ex) {

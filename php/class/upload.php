@@ -17,7 +17,7 @@
         /*
          * Upload files
          */
-        public function uploadFiles($files) {
+        public function uploadFiles($files, $systemId) {
 
             // General Declaration
             $sql = "";
@@ -32,7 +32,7 @@
                 foreach($_FILES as $file) {
 
                     // Extract file attributes
-                    $this->destination = $pathUtil->getUploadPath();
+                    $this->destination = $pathUtil->getUploadPath($systemId);
                     $this->tempFile = $file['tmp_name'];
                     $this->fileName = $file['name'];
                     $this->fileSize = $file['size'];

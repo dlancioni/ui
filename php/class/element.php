@@ -567,7 +567,7 @@
         /* 
          * Create link
          */
-        public function createLink($image, $label, $path, $download=false) {
+        public function createLink($title, $label, $path, $download=false) {
 
             $html = "";
             $stringUtil = new StringUtil();
@@ -581,7 +581,7 @@
                 }
 
                 $html .= ">";
-                $html .= $image;
+                $html .= $title;
                 $html .= "</a>";
 
             } catch (Exception $ex) {

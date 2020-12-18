@@ -334,8 +334,7 @@ class LogicTable extends Base {
             case $this->INPUT_FILE:
                 if ($fieldValue != null) {
                     $link = $pathUtil->getVirtualPath() . $fieldValue;
-                    //$fieldValue = $this->element->createLink($this->element->createImage($link), $fieldValue, $link, true);
-                    $fieldValue = $this->element->createLink($this->element->createImage($link), $fieldValue, $link, true);
+                    $fieldValue = $this->element->createLink("Baixar", $fieldValue, $link, true);
                 }
                 break;
             default:
