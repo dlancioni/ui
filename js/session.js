@@ -50,10 +50,10 @@ function submit(param="form1") {
     form.submit();
 }
 
-function go(module=0, format=1, event=0, id=0) {
+function go(module=0, format=1, action=0, id=0) {
     setModule(module);
     setFormat(format);
-    setEvent(event);
+    setEvent(action);
     setId(id);
     setPaging(0);
     submit();

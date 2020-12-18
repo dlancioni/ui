@@ -74,7 +74,7 @@ class LogicTabbed extends Base {
                 // Create output
                 if ($moduleId != $parentTableId) {
                     if ($lastId != $parentTableId) {
-                        $report .= $logicTable->createReport($parentTableId, 0, $this->ACTION_FILTER, 0);
+                        $report .= $logicTable->createReport($parentTableId, 0, $this->ACTION_DETAIL, 0);
                         $pageTitle = $logicTable->pageTitle;
                         $tabDef[] = array("name"=>$name, "title"=>$pageTitle, "page"=>$report);
                     }

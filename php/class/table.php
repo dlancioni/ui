@@ -90,7 +90,11 @@ class LogicTable extends Base {
             $filter = new Filter("like");
             if ($action == $this->ACTION_FILTER) {
                 $filter->setFilter($tableDef, $formData);
-                $_SESSION["_FILTER_"][$moduleId] = array($formData);
+                // Do not keep filters when creating tabs
+                if ($action != $this->ACTION_DETAIL) {
+                    $_SESSION["_FILTER_"][$moduleId] = array($formData);
+                }
+
             } else {
                 if (isset($_SESSION["_FILTER_"][$moduleId])) {
                     $filter->setFilter($tableDef, $_SESSION["_FILTER_"][$moduleId][0]);
@@ -347,7 +351,7 @@ class LogicTable extends Base {
 
         if (isset($row["id"])) {
             $cols == "" ? $checked = "checked" : $checked = "";
-            $radio = $this->element->createRadio("selection", $row["id"], $checked);
+            $radio = $this->element->createRadio("_ID_", $row["id"], $checked);
 
             if ($this->showAction) {
                 $cols = $this->element->createTableCol($radio);
@@ -417,6 +421,12 @@ class LogicTable extends Base {
 
                         // Print it
                         if ($command < $this->sqlBuilder->CONDITION) {
+
+                            // Create link to parent module
+                            if ($fk != 0 && $fk != 4) {
+                                $id = $row["id"];
+                                $fieldValue = "<a href='#' onClick='go($fk, 3, 0, $id)'>" . $fieldValue . "</a>";
+                            }
                             $cols .= $this->element->createTableCol($fieldValue, $columnSize);
                         }
 

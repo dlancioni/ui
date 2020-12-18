@@ -37,8 +37,8 @@
         $_SESSION['_MODULE_'] = intval($moduleId);
     }
 
-    if (isset($_REQUEST["selection"])) {
-        $id = intval($_REQUEST['selection']);
+    if (isset($_REQUEST["_ID_"])) {
+        $id = intval($_REQUEST['_ID_']);
         if ($action == "filter") {
             $id = 0;
         }
