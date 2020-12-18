@@ -13,13 +13,14 @@
             $affectedRows = 0;
             $jsonUtil = new JsonUtil();
             $pathUtil = new PathUtil();
-            $this->systemId = $systemId;
-            $this->setSystem($systemId);
 
             try {
 
                 // Open connection
                 $cn = $this->cn;
+
+                // Set base system
+                $this->setSystem($systemId);                
 
                 // Database objects
                 $this->createSchema($cn);
@@ -62,7 +63,7 @@
             try {
 
                 // Create schema for clientes
-                $schemaName = $this->systemId;
+                $schemaName = $this->getSystem();
                 pg_query($cn, "drop schema if exists $schemaName cascade");
                 pg_query($cn, "create schema if not exists $schemaName");
                 pg_query($cn, "set search_path to $schemaName");

@@ -28,6 +28,14 @@
         public $PROFILE_ADMIN = 2;
         public $PROFILE_PUBLIC = 3;
 
+        // Boolean
+        public $YES = 1;
+        public $NO = 2;
+
+        // Module type
+        public $MODULE_SYSTEM = 1;
+        public $MODULE_USER = 2;
+
         // Constructor
         function __construct($cn) {
             $this->cn = $cn;
@@ -120,12 +128,59 @@
             return $fieldId;
         }
 
+        /*
+         * Create events for specific transaction
+         */
+        public function setupModule($cn, $moduleId, $tableName) {
+
+            // General declaration
+            $i = 0;
+            $TABLE = 1;
+            $FORM = 2;
+            $model = new Model($this->groupId);
+
+            try {
+
+                // Related table
+                pg_query($cn, "drop table if exists $tableName cascade;");
+                pg_query($cn, "create table if not exists $tableName (id serial, field jsonb);");
+
+                // Setup events
+                $this->setModule("tb_event");
+                $this->execute($cn, $model->addEvent($TABLE, $moduleId, 0, 1, $this->EVENT_CLICK, "formNew();"));
+                $this->execute($cn, $model->addEvent($TABLE, $moduleId, 0, 2, $this->EVENT_CLICK, "formEdit();"));
+                $this->execute($cn, $model->addEvent($TABLE, $moduleId, 0, 3, $this->EVENT_CLICK, "formDelete();"));
+                $this->execute($cn, $model->addEvent($TABLE, $moduleId, 0, 4, $this->EVENT_CLICK, "formDetail();"));
+                $this->execute($cn, $model->addEvent($FORM,  $moduleId, 0, 5, $this->EVENT_CLICK, "confirm();"));
+                $this->execute($cn, $model->addEvent($TABLE, $moduleId, 0, 6, $this->EVENT_CLICK, "formFilter();"));
+                $this->execute($cn, $model->addEvent($FORM,  $moduleId, 0, 7, $this->EVENT_CLICK, "formClear();"));
+                $this->execute($cn, $model->addEvent($FORM,  $moduleId, 0, 8, $this->EVENT_CLICK, "reportBack();"));
+
+                // Setup permissions (profiles)
+                $this->setModule("tb_profile_table");
+                $this->execute($cn, $model->addProfileModule($this->PROFILE_SYSTEM, $moduleId));
+                $this->execute($cn, $model->addProfileModule($this->PROFILE_ADMIN, $moduleId));
+                $this->execute($cn, $model->addProfileModule($this->PROFILE_USER, $moduleId));
+
+                // Setup permissions (actions)
+                $this->setModule("tb_module_action");
+                for ($j=1; $j<=$this->TOTAL_ACTION; $j++) {
+                    $this->execute($cn, $model->addModuleAction($this->PROFILE_SYSTEM, $moduleId, $j));
+                    $this->execute($cn, $model->addModuleAction($this->PROFILE_ADMIN, $moduleId, $j));
+                    $this->execute($cn, $model->addModuleAction($this->PROFILE_USER, $moduleId, $j));
+                }
+
+            } catch (Exception $ex) {
+                throw $ex;
+            }
+        }
+
         public function setModule($tableName) {
             $this->tableName = $tableName;
         }
         public function getModule() {
             return $tableName;
-        }        
-        
+        }
+
     } // End of class
 ?>
