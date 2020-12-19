@@ -33,8 +33,12 @@
         public $NO = 2;
 
         // Module type
-        public $MODULE_SYSTEM = 1;
-        public $MODULE_USER = 2;
+        public $TYPE_SYSTEM = 1;
+        public $TYPE_USER = 2;
+
+        // Module type
+        public $STYLE_TABLE = 1;
+        public $STYLE_FORM = 2;        
 
         // Constructor
         function __construct($cn) {

@@ -146,34 +146,30 @@
             // General declaration
             $model = new Model($this->groupId);            
 
-            // Module type
-            $TYPE_SYSTEM = 1;
-            $TYPE_USER = 2;
-
             try {
 
                 // Define target table
                 $this->setModule("tb_module");
 
                 // CORE
-                $this->TB_MENU = $this->execute($cn, $model->addModule("tb_menu", "Menus", $TYPE_SYSTEM, $this->MENU_SYS));
-                $this->TB_MODULE = $this->execute($cn, $model->addModule("tb_module", "Módulos", $TYPE_SYSTEM, $this->MENU_SYS));
-                $this->TB_FIELD = $this->execute($cn, $model->addModule("tb_field", "Campos", $TYPE_SYSTEM, $this->MENU_SYS));
-                $this->TB_DOMAIN = $this->execute($cn, $model->addModule( "tb_domain", "Domínios", $TYPE_SYSTEM, $this->MENU_SYS));
-                $this->TB_EVENT = $this->execute($cn, $model->addModule("tb_event", "Eventos", $TYPE_SYSTEM, $this->MENU_SYS));
-                $this->TB_ACTION = $this->execute($cn, $model->addModule("tb_action", "Ações", $TYPE_SYSTEM, $this->MENU_SYS));
-                $this->TB_CODE = $this->execute($cn, $model->addModule("tb_code", "Programação", $TYPE_SYSTEM, $this->MENU_SYS));
-                $this->TB_VIEW = $this->execute($cn, $model->addModule("tb_view","Visão", $TYPE_SYSTEM,  $this->MENU_SYS));
-                $this->TB_VIEW_FIELD = $this->execute($cn, $model->addModule("tb_view_field", "Visão x Campos", $TYPE_SYSTEM, $this->MENU_SYS));
+                $this->TB_MENU = $this->execute($cn, $model->addModule("tb_menu", "Menus", $this->TYPE_SYSTEM, $this->STYLE_TABLE, $this->MENU_SYS));
+                $this->TB_MODULE = $this->execute($cn, $model->addModule("tb_module", "Módulos", $this->TYPE_SYSTEM, $this->STYLE_TABLE, $this->MENU_SYS));
+                $this->TB_FIELD = $this->execute($cn, $model->addModule("tb_field", "Campos", $this->TYPE_SYSTEM, $this->STYLE_TABLE, $this->MENU_SYS));
+                $this->TB_DOMAIN = $this->execute($cn, $model->addModule( "tb_domain", "Domínios", $this->TYPE_SYSTEM, $this->STYLE_TABLE, $this->MENU_SYS));
+                $this->TB_EVENT = $this->execute($cn, $model->addModule("tb_event", "Eventos", $this->TYPE_SYSTEM, $this->STYLE_TABLE, $this->MENU_SYS));
+                $this->TB_ACTION = $this->execute($cn, $model->addModule("tb_action", "Ações", $this->TYPE_SYSTEM, $this->STYLE_TABLE, $this->MENU_SYS));
+                $this->TB_CODE = $this->execute($cn, $model->addModule("tb_code", "Programação", $this->TYPE_SYSTEM, $this->STYLE_TABLE, $this->MENU_SYS));
+                $this->TB_VIEW = $this->execute($cn, $model->addModule("tb_view","Visão", $this->TYPE_SYSTEM,  $this->STYLE_TABLE, $this->MENU_SYS));
+                $this->TB_VIEW_FIELD = $this->execute($cn, $model->addModule("tb_view_field", "Visão x Campos", $this->TYPE_SYSTEM, $this->STYLE_TABLE, $this->MENU_SYS));
                 
                 // ACCESS CONTROL
-                $this->TB_PROFILE = $this->execute($cn, $model->addModule("tb_profile", "Perfil", $TYPE_SYSTEM, $this->MENU_AC));
-                $this->TB_PROFILE_TABLE = $this->execute($cn, $model->addModule("tb_profile_table", "Perfil x Módulo", $TYPE_SYSTEM, $this->MENU_AC));
-                $this->TB_MODULE_ACTION = $this->execute($cn, $model->addModule("tb_module_action", "Módulo x Função", $TYPE_SYSTEM, $this->MENU_AC));
-                $this->TB_USER = $this->execute($cn, $model->addModule("tb_user", "Usuários", $TYPE_SYSTEM, $this->MENU_AC));
-                $this->TB_USER_PROFILE = $this->execute($cn, $model->addModule("tb_user_profile", "Usuários x Pefil", $TYPE_SYSTEM, $this->MENU_AC));
-                $this->TB_GROUP = $this->execute($cn, $model->addModule("tb_group", "Grupos", $TYPE_SYSTEM, $this->MENU_AC));
-                $this->TB_USER_GROUP = $this->execute($cn, $model->addModule("tb_user_group", "Usuários x Grupos", $TYPE_SYSTEM, $this->MENU_AC));
+                $this->TB_PROFILE = $this->execute($cn, $model->addModule("tb_profile", "Perfil", $this->TYPE_SYSTEM, $this->STYLE_TABLE, $this->MENU_AC));
+                $this->TB_PROFILE_TABLE = $this->execute($cn, $model->addModule("tb_profile_table", "Perfil x Módulo", $this->TYPE_SYSTEM, $this->STYLE_TABLE, $this->MENU_AC));
+                $this->TB_MODULE_ACTION = $this->execute($cn, $model->addModule("tb_module_action", "Módulo x Função", $this->TYPE_SYSTEM, $this->STYLE_TABLE, $this->MENU_AC));
+                $this->TB_USER = $this->execute($cn, $model->addModule("tb_user", "Usuários", $this->TYPE_SYSTEM, $this->STYLE_TABLE, $this->MENU_AC));
+                $this->TB_USER_PROFILE = $this->execute($cn, $model->addModule("tb_user_profile", "Usuários x Pefil", $this->TYPE_SYSTEM, $this->STYLE_TABLE, $this->MENU_AC));
+                $this->TB_GROUP = $this->execute($cn, $model->addModule("tb_group", "Grupos", $this->TYPE_SYSTEM, $this->STYLE_TABLE, $this->MENU_AC));
+                $this->TB_USER_GROUP = $this->execute($cn, $model->addModule("tb_user_group", "Usuários x Grupos", $this->TYPE_SYSTEM, $this->STYLE_TABLE, $this->MENU_AC));
 
                 // Used to grant access in batch
                 $this->TOTAL_MODULE = 16;
@@ -217,6 +213,7 @@
                 $this->execute($cn, $model->addField($this->TB_MODULE, "Titulo", "title", $this->TYPE_TEXT, 50, "", $YES, $NO, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
                 $this->execute($cn, $model->addField($this->TB_MODULE, "Menu", "id_menu", $this->TYPE_INT, 0, "", $YES, $NO, $this->tb("tb_menu"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
                 $this->execute($cn, $model->addField($this->TB_MODULE, "Tipo", "id_type", $this->TYPE_INT, 0, "", $YES, $NO, $this->tb("tb_domain"), $this->fd("value"), "tb_module_type", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_MODULE, "Estilo", "id_style", $this->TYPE_INT, 0, "", $YES, $NO, $this->tb("tb_domain"), $this->fd("value"), "tb_module_style", "", $this->INPUT_DROPDOWN, ++$seq));
                 $this->execute($cn, $model->addField($this->TB_MODULE, "Tabela", "name", $this->TYPE_TEXT, 50, "", $YES, $YES, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
 
                 // tb_field
@@ -284,7 +281,7 @@
                 $this->execute($cn, $model->addField($this->TB_PROFILE_TABLE, "Perfil", "id_profile", $this->TYPE_INT, 0, "", $YES, $YES, $this->tb("tb_profile"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
                 $this->execute($cn, $model->addField($this->TB_PROFILE_TABLE, "Módulo", "id_module", $this->TYPE_INT, 0, "", $YES, $YES, $this->tb("tb_module"), $this->fd("title"), "", "", $this->INPUT_DROPDOWN, ++$seq));
 
-                // tb_table_action.
+                // tb_module_action.
                 $seq = 0;
                 $this->execute($cn, $model->addField($this->TB_MODULE_ACTION, "Perfil", "id_profile", $this->TYPE_INT, 0, "", $YES, $YES, $this->tb("tb_profile"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
                 $this->execute($cn, $model->addField($this->TB_MODULE_ACTION, "Módulo", "id_module", $this->TYPE_INT, 0, "", $YES, $YES, $this->tb("tb_module"), $this->fd("title"), "", "", $this->INPUT_DROPDOWN, ++$seq));
@@ -325,9 +322,13 @@
                 // Define module name
                 $this->setModule("tb_domain");
 
-                // tb_table_type
+                // tb_module_type
                 $this->execute($cn, $model->addDomain($this->groupId, 1, "Sistema", "tb_module_type"));
                 $this->execute($cn, $model->addDomain($this->groupId, 2, "Usuário", "tb_module_type"));
+
+                // tb_module_style
+                $this->execute($cn, $model->addDomain($this->groupId, 1, "Tabela", "tb_module_style"));
+                $this->execute($cn, $model->addDomain($this->groupId, 2, "Formulário", "tb_module_style"));
 
                 // tb_bool
                 $this->execute($cn, $model->addDomain($this->groupId, 1, "Sim", "tb_bool"));

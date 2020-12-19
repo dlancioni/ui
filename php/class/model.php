@@ -46,7 +46,7 @@
             return $json;
         }
 
-        public function addModule($name, $title, $id_type, $id_menu) {
+        public function addModule($name, $title, $id_type, $id_style, $id_menu) {
 
             // General Declaration
             $json = "";
@@ -59,6 +59,7 @@
             $json = $jsonUtil->setValue($json, "name", $name);
             $json = $jsonUtil->setValue($json, "title", $title);
             $json = $jsonUtil->setValue($json, "id_type", $id_type);
+            $json = $jsonUtil->setValue($json, "id_style", $id_style);
             $json = $jsonUtil->setValue($json, "id_menu", $id_menu);
             
             // Return final json

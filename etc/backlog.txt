@@ -6,11 +6,11 @@ Pendentes
 		Nao permitir funcao agregada (sum, avg, etc) em campos string ou tipo - OK
 		Adicionar condicoes as views		
 		Controle de paginacao na visao
-
-
 	2) Criar solucao para apresentar graficos
 	3) Criar tela para alterar senha	
-	4) Criar conceito parent nas telas (tabs)	
+	5) Criar modulo sem tabela
+	6) Criar codigo personalizado e senha forte
+
 
 Bugs
 	1) Adicionar codigo do sistema na tela de recuperar senha
@@ -34,3 +34,4 @@ Finalizados
 	Criar tela para registrar cliente
 	Organizar pasta de uploads fora do projeto
 	Criar submenu
+	Criar conceito parent nas telas (tabs)
