@@ -289,8 +289,10 @@ class LogicForm extends Base {
             // Finalize form
             $html .= $this->element->createForm("form1", $controls);
 
-            // Create buttons           
-            $html .= $eventAction->createButton($moduleId, $userId, 2);
+            // Create buttons
+            if ($action != $this->ACTION_DETAIL) {
+                $html .= $eventAction->createButton($moduleId, $userId, 2);
+            }
 
             // Add validateForm function
             $html .= $this->element->createScript($js);
