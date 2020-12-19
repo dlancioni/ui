@@ -41,7 +41,8 @@ function formDelete() {
     submit();
 }
 
-function formDetail() {
+function formDetail(id) {
+    setId(id);
     setFormat(3);
     setEvent(4);
     submit();

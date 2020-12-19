@@ -39,7 +39,7 @@ function getId() {
     return field("_PARENT_").value;
 }
 function setId(value) {
-    return field("_PARENT_").value = value;
+    field("_PARENT_").value = value;
 }
 
 /*

@@ -8,7 +8,6 @@ Pendentes
 		Controle de paginacao na visao
 	2) Criar solucao para apresentar graficos
 	3) Criar tela para alterar senha	
-	5) Criar modulo sem tabela
 	6) Criar codigo personalizado e senha forte
 
 
@@ -35,3 +34,4 @@ Finalizados
 	Organizar pasta de uploads fora do projeto
 	Criar submenu
 	Criar conceito parent nas telas (tabs)
+	Criar modulo sem tabela

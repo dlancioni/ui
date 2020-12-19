@@ -23,34 +23,3 @@ include "php/page/core.php";
     </form>
 </body>
 </html>
-
-
-
-<!--
-<div class='tab'>
-
-    <ul class='nav nav-tabs'>   
-        <li class='nav-item'>
-            <a href='#home' class='nav-link active' data-toggle='tab'>Home</a>
-        </li>
-        <li class='nav-item'>
-            <a href='#profile' class='nav-link' data-toggle='tab'>Profile</a>
-        </li>
-        <li class='nav-item'>
-            <a href='#messages' class='nav-link' data-toggle='tab'>Messages</a>
-        </li>
-    </ul>
-
-    <div class='tab-content'>
-        <div class='tab-pane fade show active' id='home'>
-            <p>1234</p>
-        </div>
-        <div class='tab-pane fade' id='profile'>
-            <p>5678</p>
-        </div>
-        <div class='tab-pane fade' id='messages'>
-            <p>90</p>
-        </div>
-    </div>
-</div>
--->

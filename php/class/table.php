@@ -399,6 +399,7 @@ class LogicTable extends Base {
 
                 // Start new column
                 $cols = "";
+                $count = 0;
 
                 // Create radio for selection
                 $cols = $this->prepareRadio($row);
@@ -432,9 +433,13 @@ class LogicTable extends Base {
                         if ($command < $this->sqlBuilder->CONDITION) {
 
                             // Create link to parent module
+                            $id = $row["id"];                            
                             if ($fk != 0 && $fk != $this->TB_DOMAIN) {
-                                $id = $row["id"];
                                 $fieldValue = "<a href='#' onClick='go($fk, 3, 0, $id)'>" . $fieldValue . "</a>";
+                            } else {
+                                if ($count == 1) {
+                                    $fieldValue = "<a href='#' onClick='formDetail($id)'>" . $fieldValue . "</a>";
+                                }
                             }
                             $cols .= $this->element->createTableCol($fieldValue, $columnSize);
                         }

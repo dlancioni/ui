@@ -15,7 +15,7 @@
 
         // Totals
         public $TOTAL_MODULE = 0; 
-        public $TOTAL_EVENT = 8;
+        public $TOTAL_EVENT = 7;
 
         // Menus
         public $MENU_ADM = 101;

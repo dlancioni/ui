@@ -57,6 +57,7 @@
         public $TB_USER_PROFILE = 14;
         public $TB_GROUP = 15;
         public $TB_USER_GROUP = 16;
+        public $TB_UPD_PWD = 17;
 
         // Access Control
         public $TB_CUSTOMER = 17;

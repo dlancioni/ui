@@ -170,9 +170,10 @@
                 $this->TB_USER_PROFILE = $this->execute($cn, $model->addModule("tb_user_profile", "Usuários x Pefil", $this->TYPE_SYSTEM, $this->STYLE_TABLE, $this->MENU_AC));
                 $this->TB_GROUP = $this->execute($cn, $model->addModule("tb_group", "Grupos", $this->TYPE_SYSTEM, $this->STYLE_TABLE, $this->MENU_AC));
                 $this->TB_USER_GROUP = $this->execute($cn, $model->addModule("tb_user_group", "Usuários x Grupos", $this->TYPE_SYSTEM, $this->STYLE_TABLE, $this->MENU_AC));
+                $this->TB_UPD_PWD = $this->execute($cn, $model->addModule("", "Alterar senha", $this->TYPE_SYSTEM, $this->STYLE_FORM, $this->MENU_AC));
 
                 // Used to grant access in batch
-                $this->TOTAL_MODULE = 16;
+                $this->TOTAL_MODULE = 17;
 
             } catch (Exception $ex) {
                 throw $ex;
@@ -299,6 +300,12 @@
                 $seq = 0;
                 $this->execute($cn, $model->addField($this->TB_USER_GROUP, "Usuário", "id_user", $this->TYPE_INT, 0, "", $YES, $NO, $this->tb("tb_user"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
                 $this->execute($cn, $model->addField($this->TB_USER_GROUP, "Grupo", "id_grp", $this->TYPE_INT, 0, "", $YES, $NO, $this->tb("tb_group"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
+
+                // tb_user
+                $seq = 0;
+                $this->execute($cn, $model->addField($this->TB_UPD_PWD, "Informe a nova atual", "current", $this->TYPE_TEXT, 50, "", $YES, $NO, 0, 0, "", "", $this->INPUT_PASSWORD, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_UPD_PWD, "Informe a nova senha", "new", $this->TYPE_TEXT, 50, "", $YES, $NO, 0, 0, "", "", $this->INPUT_PASSWORD, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_UPD_PWD, "Confirme a nova senha", "confirm", $this->TYPE_TEXT, 50, "", $YES, $NO, 0, 0, "", "", $this->INPUT_PASSWORD, ++$seq));
 
             } catch (Exception $ex) {
                 throw $ex;
@@ -440,11 +447,11 @@
                 $this->execute($cn, $model->addEvent($TABLE, "Novo", $this->EVENT_CLICK, 0, 0, "formNew();"));
                 $this->execute($cn, $model->addEvent($TABLE, "Editar", $this->EVENT_CLICK, 0, 0, "formEdit();"));
                 $this->execute($cn, $model->addEvent($TABLE, "Apagar", $this->EVENT_CLICK, 0, 0, "formDelete();"));
-                $this->execute($cn, $model->addEvent($TABLE, "Detalhe", $this->EVENT_CLICK, 0, 0, "formDetail();"));
                 $this->execute($cn, $model->addEvent($FORM, "Confirmar", $this->EVENT_CLICK, 0, 0, "confirm();"));
                 $this->execute($cn, $model->addEvent($TABLE, "Filtrar", $this->EVENT_CLICK, 0, 0, "formFilter();"));
                 $this->execute($cn, $model->addEvent($FORM, "Limpar", $this->EVENT_CLICK, 0, 0, "formClear();"));
                 $this->execute($cn, $model->addEvent($FORM, "Voltar", $this->EVENT_CLICK, 0, 0, "reportBack();"));
+                $this->execute($cn, $model->addEvent($FORM, "Alterar senha", $this->EVENT_CLICK, 0, 0, "updatePassword();")); // id 8
                 
                 // Custon events
                 $this->execute($cn, $model->addEvent($FORM, "", $this->EVENT_CHANGE, $this->tb("tb_module"), $this->fd("name"), "this.value = validateTableName(this.value);"));
@@ -594,14 +601,10 @@
                     $this->execute($cn, $model->addProfileModule($this->PROFILE_SYSTEM, $i));
                 }
 
-                // ADMIN
-                $this->execute($cn, $model->addProfileModule($this->PROFILE_ADMIN, $this->TB_PROFILE));
-                $this->execute($cn, $model->addProfileModule($this->PROFILE_ADMIN, $this->TB_PROFILE_TABLE));
-                $this->execute($cn, $model->addProfileModule($this->PROFILE_ADMIN, $this->TB_MODULE_EVENT));
-                $this->execute($cn, $model->addProfileModule($this->PROFILE_ADMIN, $this->TB_USER));
-                $this->execute($cn, $model->addProfileModule($this->PROFILE_ADMIN, $this->TB_USER_PROFILE));
-                $this->execute($cn, $model->addProfileModule($this->PROFILE_ADMIN, $this->TB_GROUP));
-                $this->execute($cn, $model->addProfileModule($this->PROFILE_ADMIN, $this->TB_USER_GROUP));
+                // ADMIN has Access Control only (10...17)
+                for ($i=10; $i<=$this->TOTAL_MODULE; $i++) {
+                    $this->execute($cn, $model->addProfileModule($this->PROFILE_ADMIN, $i));
+                }                
 
             } catch (Exception $ex) {
                 throw $ex;
@@ -616,6 +619,8 @@
             // General declaration
             $i = 0;
             $j = 0;
+            $EVENT_CLEAR = 6;
+            $EVENT_CHANGE_PASSWORD = 8;
             $model = new Model($this->groupId);
 
             try {
@@ -625,18 +630,27 @@
 
                 // SYSTEM has all permissions
                 for ($i=1; $i<=$this->TOTAL_MODULE; $i++) {
-                    for ($j=1; $j<=$this->TOTAL_EVENT; $j++) {
-                        $this->execute($cn, $model->addModuleEvent($this->PROFILE_SYSTEM, $i, $j));
+                    if ($i != $this->TB_UPD_PWD) {
+                        for ($j=1; $j<=$this->TOTAL_EVENT; $j++) {
+                            $this->execute($cn, $model->addModuleEvent($this->PROFILE_SYSTEM, $i, $j));
+                        }
                     }
                 }
 
-                // ADMIN has Access Control only (11 ... 17)
-                for ($i=11; $i<=$this->TOTAL_MODULE; $i++) {
-                    for ($j=1; $j<=$this->TOTAL_EVENT; $j++) {
-                        $this->execute($cn, $model->addModuleEvent($this->PROFILE_ADMIN, $i, $j));
+                // ADMIN has access control only (10...17)
+                for ($i=10; $i<=$this->TOTAL_MODULE; $i++) {
+                    if ($i != $this->TB_UPD_PWD) {
+                        for ($j=1; $j<=$this->TOTAL_EVENT; $j++) {
+                            $this->execute($cn, $model->addModuleEvent($this->PROFILE_ADMIN, $i, $j));
+                        }
                     }
                 }
-               
+
+                // Custon for change password screen
+                $this->execute($cn, $model->addModuleEvent($this->PROFILE_SYSTEM, $this->TB_UPD_PWD, $EVENT_CHANGE_PASSWORD));
+                $this->execute($cn, $model->addModuleEvent($this->PROFILE_ADMIN, $this->TB_UPD_PWD, $EVENT_CHANGE_PASSWORD));
+                $this->execute($cn, $model->addModuleEvent($this->PROFILE_USER, $this->TB_UPD_PWD, $EVENT_CHANGE_PASSWORD));
+
             } catch (Exception $ex) {
                 throw $ex;
             }
