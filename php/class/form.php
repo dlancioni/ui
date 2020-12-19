@@ -54,13 +54,12 @@ class LogicForm extends Base {
         $defaultValue = "";
         $userId = 0;
 
-        $tableDef = array();
         $label = "";
         $control = "";
         $controls = "";
-        $cascade = array();
         $pageTitle = "";
-        $eventList = array();
+        $cascade = array();
+        $tableDef = array();        
 
         $control = "";
         $jsonUtil = "";
@@ -291,20 +290,7 @@ class LogicForm extends Base {
             $html .= $this->element->createForm("form1", $controls);
 
             // Create buttons           
-            $filter = new Filter();
-            $filter->add("tb_event", "id_module", $moduleId);
-
-            // Back only
-            if ($action == $this->ACTION_DETAIL) {
-                $filter->add("tb_event", "id_action", 8);
-            }            
-            $eventList = $this->sqlBuilder->executeQuery($this->cn, 
-                                                            $this->sqlBuilder->TB_EVENT, 0, 
-                                                            $filter->create(), 
-                                                            $this->sqlBuilder->QUERY_NO_PAGING);
-
-            $html .= $eventAction->createButton($moduleId, $userId, $eventList, 2);
-
+            $html .= $eventAction->createButton($moduleId, $userId, 2);
 
             // Add validateForm function
             $html .= $this->element->createScript($js);

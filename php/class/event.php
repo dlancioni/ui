@@ -82,15 +82,15 @@
                         if (intval($id) != 0) {
 
                             // System
-                            $json = $model->addModuleAction($this->PROFILE_SYSTEM, $moduleId, $id);
+                            $json = $model->addModuleEvent($this->PROFILE_SYSTEM, $moduleId, $id);
                             pg_query($this->cn, "insert into tb_table_action (field) values ('$json')");
 
                             // Administrator
-                            $json = $model->addModuleAction($this->PROFILE_ADMIN, $moduleId, $id);
+                            $json = $model->addModuleEvent($this->PROFILE_ADMIN, $moduleId, $id);
                             pg_query($this->cn, "insert into tb_table_action (field) values ('$json')");
 
                             // Users
-                            $json = $model->addModuleAction($this->PROFILE_USER, $moduleId, $id);
+                            $json = $model->addModuleEvent($this->PROFILE_USER, $moduleId, $id);
                             pg_query($this->cn, "insert into tb_table_action (field) values ('$json')");
 
                             break;
@@ -106,8 +106,8 @@
                         if (intval($id) != 0) {                           
                             $sql = "";
                             $sql .= " delete from tb_table_action";
-                            $sql .= " where " . $jsonUtil->condition("tb_module_action", "id_module", $this->TYPE_INT, "=", $moduleId);
-                            $sql .= " and " . $jsonUtil->condition("tb_module_action", "id_action", $this->TYPE_INT, "=", $id);
+                            $sql .= " where " . $jsonUtil->condition("tb_module_event", "id_module", $this->TYPE_INT, "=", $moduleId);
+                            $sql .= " and " . $jsonUtil->condition("tb_module_event", "id_action", $this->TYPE_INT, "=", $id);
                             $rs = pg_query($this->cn, $sql);
                             $affectedRows = pg_affected_rows($rs);
                         }

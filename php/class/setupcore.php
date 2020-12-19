@@ -34,7 +34,7 @@
                 $this->createDomain($cn);
                 $this->createEvent($cn);
                 $this->createCode($cn);
-                $this->createAction($cn);
+                //$this->createAction($cn);
 
                 // Access control                
                 $this->createGroup($cn);
@@ -43,7 +43,7 @@
                 $this->createProfile($cn);
                 $this->createUserGroup($cn);
                 $this->createProfileModule($cn);
-                $this->createTableAction($cn);
+                $this->createModuleEvent($cn);
 
 
             } catch (Exception $ex) {
@@ -97,7 +97,7 @@
                 array_push($module, "tb_view_field");
                 array_push($module, "tb_profile");
                 array_push($module, "tb_profile_table");
-                array_push($module, "tb_module_action");
+                array_push($module, "tb_module_event");
                 array_push($module, "tb_user");
                 array_push($module, "tb_user_profile");
                 array_push($module, "tb_user_group");
@@ -165,7 +165,7 @@
                 // ACCESS CONTROL
                 $this->TB_PROFILE = $this->execute($cn, $model->addModule("tb_profile", "Perfil", $this->TYPE_SYSTEM, $this->STYLE_TABLE, $this->MENU_AC));
                 $this->TB_PROFILE_TABLE = $this->execute($cn, $model->addModule("tb_profile_table", "Perfil x Módulo", $this->TYPE_SYSTEM, $this->STYLE_TABLE, $this->MENU_AC));
-                $this->TB_MODULE_ACTION = $this->execute($cn, $model->addModule("tb_module_action", "Módulo x Ação", $this->TYPE_SYSTEM, $this->STYLE_TABLE, $this->MENU_AC));
+                $this->TB_MODULE_EVENT = $this->execute($cn, $model->addModule("tb_module_event", "Módulo x Evento", $this->TYPE_SYSTEM, $this->STYLE_TABLE, $this->MENU_AC));
                 $this->TB_USER = $this->execute($cn, $model->addModule("tb_user", "Usuários", $this->TYPE_SYSTEM, $this->STYLE_TABLE, $this->MENU_AC));
                 $this->TB_USER_PROFILE = $this->execute($cn, $model->addModule("tb_user_profile", "Usuários x Pefil", $this->TYPE_SYSTEM, $this->STYLE_TABLE, $this->MENU_AC));
                 $this->TB_GROUP = $this->execute($cn, $model->addModule("tb_group", "Grupos", $this->TYPE_SYSTEM, $this->STYLE_TABLE, $this->MENU_AC));
@@ -250,17 +250,13 @@
                 $this->execute($cn, $model->addField($this->TB_VIEW_FIELD, "Operador", "id_operator", $this->TYPE_INT, 0, "", $NO, $NO, $this->tb("tb_domain"), $this->fd("value"), "tb_operator", "", $this->INPUT_DROPDOWN, ++$seq));
                 $this->execute($cn, $model->addField($this->TB_VIEW_FIELD, "Valor", "value", $this->TYPE_TEXT, 5000, "", $NO, $NO, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
 
-                // tb_action
-                $seq = 0;
-                $this->execute($cn, $model->addField($this->TB_ACTION, "Nome", "name", $this->TYPE_TEXT, 50, "", $YES, $YES, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
-
                 // tb_event
                 $seq = 0;
+                $this->execute($cn, $model->addField($this->TB_EVENT, "Tela", "id_target", $this->TYPE_INT, 0, "", $YES, $NO, $this->tb("tb_domain"), $this->fd("value"), "tb_target", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_EVENT, "Name", "name", $this->TYPE_TEXT, 50, "", $NO, $NO, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_EVENT, "Evento", "id_event", $this->TYPE_INT, 0, "", $NO, $NO, $this->tb("tb_domain"), $this->fd("value"), "tb_event", "", $this->INPUT_DROPDOWN, ++$seq));
                 $this->execute($cn, $model->addField($this->TB_EVENT, "Módulo", "id_module", $this->TYPE_INT, 0, "", $YES, $NO, $this->tb("tb_module"), $this->fd("title"), "", "", $this->INPUT_DROPDOWN, ++$seq));
                 $this->execute($cn, $model->addField($this->TB_EVENT, "Campo", "id_field", $this->TYPE_INT, 0, "", $NO, $NO, $this->tb("tb_field"), $this->fd("label"), "", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_EVENT, "Tela", "id_target", $this->TYPE_INT, 0, "", $YES, $NO, $this->tb("tb_domain"), $this->fd("value"), "tb_target", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_EVENT, "Ação", "id_action", $this->TYPE_INT, 0, "", $NO, $NO, $this->tb("tb_action"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_EVENT, "Evento", "id_event", $this->TYPE_INT, 0, "", $NO, $NO, $this->tb("tb_domain"), $this->fd("value"), "tb_event", "", $this->INPUT_DROPDOWN, ++$seq));
                 $this->execute($cn, $model->addField($this->TB_EVENT, "Código", "code", $this->TYPE_TEXT, 10000, "", $YES, $NO, 0, 0, "", "", $this->INPUT_TEXTAREA, ++$seq));
 
                 // tb_code
@@ -281,11 +277,11 @@
                 $this->execute($cn, $model->addField($this->TB_PROFILE_TABLE, "Perfil", "id_profile", $this->TYPE_INT, 0, "", $YES, $YES, $this->tb("tb_profile"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
                 $this->execute($cn, $model->addField($this->TB_PROFILE_TABLE, "Módulo", "id_module", $this->TYPE_INT, 0, "", $YES, $YES, $this->tb("tb_module"), $this->fd("title"), "", "", $this->INPUT_DROPDOWN, ++$seq));
 
-                // tb_module_action.
+                // tb_module_event
                 $seq = 0;
-                $this->execute($cn, $model->addField($this->TB_MODULE_ACTION, "Perfil", "id_profile", $this->TYPE_INT, 0, "", $YES, $YES, $this->tb("tb_profile"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_MODULE_ACTION, "Módulo", "id_module", $this->TYPE_INT, 0, "", $YES, $YES, $this->tb("tb_module"), $this->fd("title"), "", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_MODULE_ACTION, "Action", "id_action", $this->TYPE_INT, 0, "", $YES, $YES, $this->tb("tb_action"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_MODULE_EVENT, "Perfil", "id_profile", $this->TYPE_INT, 0, "", $YES, $YES, $this->tb("tb_profile"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_MODULE_EVENT, "Módulo", "id_module", $this->TYPE_INT, 0, "", $YES, $YES, $this->tb("tb_module"), $this->fd("title"), "", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_MODULE_EVENT, "Evento", "id_event", $this->TYPE_INT, 0, "", $YES, $YES, $this->tb("tb_event"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
 
                 // tb_user
                 $seq = 0;
@@ -441,55 +437,21 @@
                 $this->setModule("tb_event");
 
                 // Create standard events
-                for ($i=1; $i<=$this->TOTAL_MODULE; $i++) {
-                    $this->execute($cn, $model->addEvent($TABLE, $i, 0, 1, $this->EVENT_CLICK, "formNew();"));
-                    $this->execute($cn, $model->addEvent($TABLE, $i, 0, 2, $this->EVENT_CLICK, "formEdit();"));
-                    $this->execute($cn, $model->addEvent($TABLE, $i, 0, 3, $this->EVENT_CLICK, "formDelete();"));
-                    $this->execute($cn, $model->addEvent($TABLE, $i, 0, 4, $this->EVENT_CLICK, "formDetail();"));
-                    $this->execute($cn, $model->addEvent($FORM,  $i, 0, 5, $this->EVENT_CLICK, "confirm();"));
-                    $this->execute($cn, $model->addEvent($TABLE, $i, 0, 6, $this->EVENT_CLICK, "formFilter();"));
-                    $this->execute($cn, $model->addEvent($FORM,  $i, 0, 7, $this->EVENT_CLICK, "formClear();"));
-                    $this->execute($cn, $model->addEvent($FORM,  $i, 0, 8, $this->EVENT_CLICK, "reportBack();"));
-                }
+                $this->execute($cn, $model->addEvent($TABLE, "Novo", $this->EVENT_CLICK, 0, 0, "formNew();"));
+                $this->execute($cn, $model->addEvent($TABLE, "Editar", $this->EVENT_CLICK, 0, 0, "formEdit();"));
+                $this->execute($cn, $model->addEvent($TABLE, "Apagar", $this->EVENT_CLICK, 0, 0, "formDelete();"));
+                $this->execute($cn, $model->addEvent($TABLE, "Detalhe", $this->EVENT_CLICK, 0, 0, "formDetail();"));
+                $this->execute($cn, $model->addEvent($FORM, "Confirmar", $this->EVENT_CLICK, 0, 0, "confirm();"));
+                $this->execute($cn, $model->addEvent($TABLE, "Filtrar", $this->EVENT_CLICK, 0, 0, "formFilter();"));
+                $this->execute($cn, $model->addEvent($FORM, "Limpar", $this->EVENT_CLICK, 0, 0, "formClear();"));
+                $this->execute($cn, $model->addEvent($FORM, "Voltar", $this->EVENT_CLICK, 0, 0, "reportBack();"));
                 
                 // Custon events
-                $this->execute($cn, $model->addEvent($FORM, $this->tb("tb_module"), $this->fd("name"), $this->ACTION_NONE, $this->EVENT_CHANGE, "this.value = validateTableName(this.value);"));
-                $this->execute($cn, $model->addEvent($FORM, $this->tb("tb_field"), $this->fd("id_field_fk"), $this->ACTION_NONE, $this->EVENT_CHANGE, "cascade(''id_field_fk'', ''id_module'', this.value, ''tb_field'', ''id'', ''label'');"));
-                $this->execute($cn, $model->addEvent($FORM, $this->tb("tb_event"), $this->fd("id_field"), $this->ACTION_NONE, $this->EVENT_CHANGE, "cascade(''id_field'', ''id_module'', this.value, ''tb_field'', ''id'', ''label'');"));
-                $this->execute($cn, $model->addEvent($FORM, $this->TB_CODE, 0, $this->ACTION_TEST, $this->EVENT_CLICK, "eval(field(''code'').value);"));
+                $this->execute($cn, $model->addEvent($FORM, "", $this->EVENT_CHANGE, $this->tb("tb_module"), $this->fd("name"), "this.value = validateTableName(this.value);"));
+                $this->execute($cn, $model->addEvent($FORM, "", $this->EVENT_CHANGE, $this->tb("tb_field"), $this->fd("id_field_fk"), "cascade(''id_field_fk'', ''id_module'', this.value, ''tb_field'', ''id'', ''label'');"));
+                $this->execute($cn, $model->addEvent($FORM, "", $this->EVENT_CHANGE, $this->tb("tb_event"), $this->fd("id_field"), "cascade(''id_field'', ''id_module'', this.value, ''tb_field'', ''id'', ''label'');"));
+                $this->execute($cn, $model->addEvent($FORM, "Testar", $this->EVENT_CLICK, 0, 0, "eval(field(''code'').value);"));
 
-            } catch (Exception $ex) {
-                throw $ex;
-            }
-        }
-
-        /*
-         * Create function
-         */
-        private function createAction($cn) {
-
-            // General declaration
-            $model = new Model($this->groupId);
-
-            try {
-
-                // Define module name
-                $this->setModule("tb_action");
-
-                // Create actions
-                $this->execute($cn, $model->addFunction("Novo"));
-                $this->execute($cn, $model->addFunction("Editar"));
-                $this->execute($cn, $model->addFunction("Apagar"));
-                $this->execute($cn, $model->addFunction("Detalhe"));
-                $this->execute($cn, $model->addFunction("Confirmar"));
-                $this->execute($cn, $model->addFunction("Filtrar"));
-                $this->execute($cn, $model->addFunction("Limpar"));
-                $this->execute($cn, $model->addFunction("Voltar"));
-                $this->execute($cn, $model->addFunction("Testar"));
-
-                // Test used in code screen only, that is why 8 
-                $this->TOTAL_ACTION = 8;
-                
             } catch (Exception $ex) {
                 throw $ex;
             }
@@ -635,7 +597,7 @@
                 // ADMIN
                 $this->execute($cn, $model->addProfileModule($this->PROFILE_ADMIN, $this->TB_PROFILE));
                 $this->execute($cn, $model->addProfileModule($this->PROFILE_ADMIN, $this->TB_PROFILE_TABLE));
-                $this->execute($cn, $model->addProfileModule($this->PROFILE_ADMIN, $this->TB_MODULE_ACTION));
+                $this->execute($cn, $model->addProfileModule($this->PROFILE_ADMIN, $this->TB_MODULE_EVENT));
                 $this->execute($cn, $model->addProfileModule($this->PROFILE_ADMIN, $this->TB_USER));
                 $this->execute($cn, $model->addProfileModule($this->PROFILE_ADMIN, $this->TB_USER_PROFILE));
                 $this->execute($cn, $model->addProfileModule($this->PROFILE_ADMIN, $this->TB_GROUP));
@@ -649,7 +611,7 @@
         /*
          * Create events
          */
-        private function createTableAction($cn) {
+        private function createModuleEvent($cn) {
 
             // General declaration
             $i = 0;
@@ -659,19 +621,19 @@
             try {
 
                 // Define module name
-                $this->setModule("tb_module_action");
+                $this->setModule("tb_module_event");
 
                 // SYSTEM has all permissions
                 for ($i=1; $i<=$this->TOTAL_MODULE; $i++) {
-                    for ($j=1; $j<=$this->TOTAL_ACTION; $j++) {
-                        $this->execute($cn, $model->addModuleAction($this->PROFILE_SYSTEM, $i, $j));
+                    for ($j=1; $j<=$this->TOTAL_EVENT; $j++) {
+                        $this->execute($cn, $model->addModuleEvent($this->PROFILE_SYSTEM, $i, $j));
                     }
                 }
 
                 // ADMIN has Access Control only (11 ... 17)
                 for ($i=11; $i<=$this->TOTAL_MODULE; $i++) {
-                    for ($j=1; $j<=$this->TOTAL_ACTION; $j++) {
-                        $this->execute($cn, $model->addModuleAction($this->PROFILE_ADMIN, $i, $j));
+                    for ($j=1; $j<=$this->TOTAL_EVENT; $j++) {
+                        $this->execute($cn, $model->addModuleEvent($this->PROFILE_ADMIN, $i, $j));
                     }
                 }
                

@@ -12,45 +12,32 @@
         /* 
         * Get event list and isolate function calls related to buttons
         */
-        function createButton($moduleId, $userId, $pageEvent, $format) {
+        function createButton($moduleId, $userId, $target) {
 
             // General declaration
             $html = "";
             $name = "";
             $filter = "";
             $element = "";
-            $permission = array();
+            $events = array();
+            $element = new HTMLElement($this->cn);
 
             try {
-                // Create objects
-                $element = new HTMLElement($this->cn);
 
-                // Get access control
-                $permission = $this->getFunctionByProfileUser($moduleId, $userId);
+                // Get related events
+                $events = $this->getEventByModule($moduleId, $userId, $target);
 
                 // Create event list
-                $html .= "<br>";                
-                if (is_array($pageEvent) && is_array($permission)) {
-                    foreach ($pageEvent as $event) {
-                        if ($event["id_target"] == $format) {
-                            if ($event["id_action"] != 0) {
-                                foreach ($permission as $item) {
-                                    if ($event["id_action"] == $item["id"]) {
-                                        $name = "btn" . $event["id_module"] . $event["id"];
-                                        $html .= $element->createButton($name, $event["action"], $event["event"], $event["code"]);
-                                        break;
-                                    }
-                                }
-                            }
-                        }                        
-                    }
+                $html .= "<br>";
+                foreach ($events as $event) {                   
+                    $name = "btn" . $moduleId . $event["id"];
+                    $html .= $element->createButton($name, $event["name"], $event["event"], $event["code"]);
                 }
 
             } catch (Exception $ex) {                    
                 throw $ex;
             }
 
-            // Return to main function
             return $html;
         }
 
@@ -116,7 +103,7 @@
        /*
         * Get module function by profile user
         */
-        private function getFunctionByProfileUser($moduleId, $userId) {
+        private function getEventByModule($moduleId, $userId, $target) {
 
             // General declaration    
             $rs = "";
@@ -132,22 +119,27 @@
                 // Query menus and modules
                 $sql .= " select distinct" . $lb; 
                 $sql .= " tb_user_profile.field->>'id_profile' id_profile," . $lb; 
-                $sql .= " tb_action.id," . $lb; 
-                $sql .= " tb_action.field->>'name' as name" . $lb; 
+                $sql .= " tb_event.id," . $lb; 
+                $sql .= " tb_event.field->>'name' as name," . $lb;
+                $sql .= " tb_event.field->>'code' as code," . $lb;
+                $sql .= " tb_domain.field->>'value' as event" . $lb;
                 $sql .= " from tb_user_profile" . $lb; 
-                $sql .= " inner join tb_module_action on (tb_module_action.field->>'id_profile')::int = (tb_user_profile.field->>'id_profile')::int" . $lb; 
-                $sql .= " inner join tb_action on (tb_module_action.field->>'id_action')::int = tb_action.id" . $lb; 
-                $sql .= " where (tb_module_action.field->>'id_module')::int = " . $moduleId . $lb;
+                $sql .= " inner join tb_module_event on (tb_module_event.field->>'id_profile')::int = (tb_user_profile.field->>'id_profile')::int" . $lb; 
+                $sql .= " inner join tb_event on (tb_module_event.field->>'id_event')::int = tb_event.id" . $lb; 
+                $sql .= " inner join tb_domain on (tb_event.field->>'id_event')::int = (tb_domain.field->>'key')::int and (tb_domain.field->>'domain')::text = 'tb_event'" . $lb; 
+                $sql .= " where (tb_module_event.field->>'id_module')::int = " . $moduleId . $lb;
                 $sql .= " and (tb_user_profile.field->>'id_user')::int = " . $userId . $lb;
-                $sql .= " order by tb_action.id" . $lb;
+                $sql .= " and (tb_event.field->>'id_target')::int = " . $target . $lb;
+                $sql .= " and (tb_event.field->>'name')::text <> ''" . $lb;
+                $sql .= " order by tb_event.id" . $lb;
 
                 // Execute query
                 $rs = $db->queryJson($this->cn, $sql);
 
             } catch (Exception $ex) {
 
-                // Set error
-                $this->setError("QueryBuilder.getFunctionByProfileUser()", $ex->getMessage());
+                $this->setError("QueryBuilder.getEventByModule()", $ex->getMessage());
+                throw $ex;
             }
 
             // Return data

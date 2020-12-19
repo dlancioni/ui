@@ -15,7 +15,7 @@
 
         // Totals
         public $TOTAL_MODULE = 0; 
-        public $TOTAL_ACTION = 8;
+        public $TOTAL_EVENT = 8;
 
         // Menus
         public $MENU_ADM = 101;
@@ -141,17 +141,6 @@
                 pg_query($cn, "drop table if exists $tableName cascade;");
                 pg_query($cn, "create table if not exists $tableName (id serial, field jsonb);");
 
-                // Setup events
-                $this->setModule("tb_event");
-                $this->execute($cn, $model->addEvent($TABLE, $moduleId, 0, 1, $this->EVENT_CLICK, "formNew();"));
-                $this->execute($cn, $model->addEvent($TABLE, $moduleId, 0, 2, $this->EVENT_CLICK, "formEdit();"));
-                $this->execute($cn, $model->addEvent($TABLE, $moduleId, 0, 3, $this->EVENT_CLICK, "formDelete();"));
-                $this->execute($cn, $model->addEvent($TABLE, $moduleId, 0, 4, $this->EVENT_CLICK, "formDetail();"));
-                $this->execute($cn, $model->addEvent($FORM,  $moduleId, 0, 5, $this->EVENT_CLICK, "confirm();"));
-                $this->execute($cn, $model->addEvent($TABLE, $moduleId, 0, 6, $this->EVENT_CLICK, "formFilter();"));
-                $this->execute($cn, $model->addEvent($FORM,  $moduleId, 0, 7, $this->EVENT_CLICK, "formClear();"));
-                $this->execute($cn, $model->addEvent($FORM,  $moduleId, 0, 8, $this->EVENT_CLICK, "reportBack();"));
-
                 // Setup permissions (profiles)
                 $this->setModule("tb_profile_table");
                 $this->execute($cn, $model->addProfileModule($this->PROFILE_SYSTEM, $moduleId));
@@ -159,11 +148,11 @@
                 $this->execute($cn, $model->addProfileModule($this->PROFILE_USER, $moduleId));
 
                 // Setup permissions (actions)
-                $this->setModule("tb_module_action");
-                for ($j=1; $j<=$this->TOTAL_ACTION; $j++) {
-                    $this->execute($cn, $model->addModuleAction($this->PROFILE_SYSTEM, $moduleId, $j));
-                    $this->execute($cn, $model->addModuleAction($this->PROFILE_ADMIN, $moduleId, $j));
-                    $this->execute($cn, $model->addModuleAction($this->PROFILE_USER, $moduleId, $j));
+                $this->setModule("tb_module_event");
+                for ($j=1; $j<=$this->TOTAL_EVENT; $j++) {
+                    $this->execute($cn, $model->addModuleEvent($this->PROFILE_SYSTEM, $moduleId, $j));
+                    $this->execute($cn, $model->addModuleEvent($this->PROFILE_ADMIN, $moduleId, $j));
+                    $this->execute($cn, $model->addModuleEvent($this->PROFILE_USER, $moduleId, $j));
                 }
 
             } catch (Exception $ex) {

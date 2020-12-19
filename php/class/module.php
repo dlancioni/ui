@@ -343,8 +343,8 @@
                         // Add standard 7 functions (New, Edit, Delete, Confirm, Filter, Clear, Back)
                         for ($i=1; $i<=3; $i++) {
                             for ($j=1; $j<=7; $j++) {
-                                $json = $model->addModuleAction($i, $moduleId, $j);
-                                pg_query($this->cn, "insert into tb_module_action (field) values ('$json')");
+                                $json = $model->addModuleEvent($i, $moduleId, $j);
+                                pg_query($this->cn, "insert into tb_module_event (field) values ('$json')");
                             }
                         }
                         break;
@@ -354,7 +354,7 @@
                         // Remove transaction from Transaction x Function
                         $sql = "";
                         $sql .= " delete from tb_table_action";
-                        $sql .= " where " . $jsonUtil->condition("tb_module_action", "id_module", $this->TYPE_INT, "=", $moduleId);
+                        $sql .= " where " . $jsonUtil->condition("tb_module_event", "id_module", $this->TYPE_INT, "=", $moduleId);
                         $rs = pg_query($this->cn, $sql);
                         $affectedRows = pg_affected_rows($rs);
                 }

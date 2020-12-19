@@ -43,7 +43,6 @@ class LogicTable extends Base {
 
         $data = array();
         $viewList = array();
-        $eventList = array();
 
         try {
 
@@ -173,16 +172,8 @@ class LogicTable extends Base {
 
             // Create buttons
             if ($this->showAction) {
-
-                $filter = new Filter();
-                $filter->add("tb_event", "id_module", $moduleId);
-                $eventList = $this->sqlBuilder->executeQuery($this->cn, 
-                                                            $this->TB_EVENT, 0, 
-                                                            $filter->create(), 
-                                                            $this->sqlBuilder->QUERY_NO_PAGING);                
-                $html .= $eventAction->createButton($moduleId, $userId, $eventList, 1);
+                $html .= $eventAction->createButton($moduleId, $userId, 1);
             }
-
 
             // Prepare view list
             $html .= $this->element->createPanel($this->createViewList($viewList, $viewId));            

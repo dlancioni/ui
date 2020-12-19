@@ -113,7 +113,7 @@
             return $json;
         }
 
-        public function addEvent($id_target, $id_module, $id_field, $id_action, $id_event, $code) {
+        public function addEvent($id_target, $name, $id_event, $id_module, $id_field, $code) {
 
             // General Declaration
             $json = "";
@@ -124,10 +124,10 @@
 
             // Create record        
             $json = $jsonUtil->setValue($json, "id_target", $id_target);
-            $json = $jsonUtil->setValue($json, "id_module", $id_module);
-            $json = $jsonUtil->setValue($json, "id_field", $id_field);
-            $json = $jsonUtil->setValue($json, "id_action", $id_action);
+            $json = $jsonUtil->setValue($json, "name", $name);
             $json = $jsonUtil->setValue($json, "id_event", $id_event);
+            $json = $jsonUtil->setValue($json, "id_module", $id_module);
+            $json = $jsonUtil->setValue($json, "id_field", $id_field);            
             $json = $jsonUtil->setValue($json, "code", $code);
 
             // Return final json
@@ -201,7 +201,7 @@
             return $json;
         }
 
-        public function addModuleAction($id_profile, $id_module, $id_action) {
+        public function addModuleEvent($id_profile, $id_module, $id_event) {
 
             // General Declaration
             $json = "";
@@ -213,7 +213,7 @@
             // Create record        
             $json = $jsonUtil->setValue($json, "id_profile", $id_profile);
             $json = $jsonUtil->setValue($json, "id_module", $id_module);
-            $json = $jsonUtil->setValue($json, "id_action", $id_action);
+            $json = $jsonUtil->setValue($json, "id_event", $id_event);
 
             // Return final json
             return $json;
