@@ -165,7 +165,7 @@
                 // ACCESS CONTROL
                 $this->TB_PROFILE = $this->execute($cn, $model->addModule("tb_profile", "Perfil", $this->TYPE_SYSTEM, $this->STYLE_TABLE, $this->MENU_AC));
                 $this->TB_PROFILE_TABLE = $this->execute($cn, $model->addModule("tb_profile_table", "Perfil x Módulo", $this->TYPE_SYSTEM, $this->STYLE_TABLE, $this->MENU_AC));
-                $this->TB_MODULE_ACTION = $this->execute($cn, $model->addModule("tb_module_action", "Módulo x Função", $this->TYPE_SYSTEM, $this->STYLE_TABLE, $this->MENU_AC));
+                $this->TB_MODULE_ACTION = $this->execute($cn, $model->addModule("tb_module_action", "Módulo x Ação", $this->TYPE_SYSTEM, $this->STYLE_TABLE, $this->MENU_AC));
                 $this->TB_USER = $this->execute($cn, $model->addModule("tb_user", "Usuários", $this->TYPE_SYSTEM, $this->STYLE_TABLE, $this->MENU_AC));
                 $this->TB_USER_PROFILE = $this->execute($cn, $model->addModule("tb_user_profile", "Usuários x Pefil", $this->TYPE_SYSTEM, $this->STYLE_TABLE, $this->MENU_AC));
                 $this->TB_GROUP = $this->execute($cn, $model->addModule("tb_group", "Grupos", $this->TYPE_SYSTEM, $this->STYLE_TABLE, $this->MENU_AC));
