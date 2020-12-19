@@ -118,7 +118,7 @@
                             if (!isset($array["children"])) {
 
                                 // Add single item
-                                $this->append($this->addMenuItem($id, $v));
+                                $this->append($this->addMenuItem($id, $v, $array["id_style"]));
 
                                 // Add menu break;
                                 $this->count ++;
@@ -179,7 +179,7 @@
         /*
          * Create menu item
          */
-        private function addMenuItem($id, $label) {
+        private function addMenuItem($id, $label, $format) {
 
             // General Declaration
             $html = "";
@@ -187,7 +187,7 @@
             $lb = $stringUtil->lb();
 
             // Create menu item
-            $html .= "<button class='dropdown-item' type='button' onclick='go($id, 1)'>$label</button>" . $lb;
+            $html .= "<button class='dropdown-item' type='button' onclick='go($id, $format)'>$label</button>" . $lb;
 
             // Just return it
             return $html;
@@ -229,7 +229,8 @@
                     $sql .= " select" . $lb;
                     $sql .= " tb_module.id," . $lb;
                     $sql .= " (tb_module.field->>'id_menu')::int as id_parent," . $lb;
-                    $sql .= " tb_module.field->>'title' as name" . $lb;
+                    $sql .= " tb_module.field->>'title' as name," . $lb;
+                    $sql .= " tb_module.field->>'id_style' as id_style" . $lb;
                     $sql .= " from tb_module" . $lb;
                     $sql .= $join;
 
@@ -239,7 +240,8 @@
                     $sql .= " select" . $lb;
                     $sql .= " tb_menu.id," . $lb;
                     $sql .= " (field->>'id_parent')::int as id_parent," . $lb;
-                    $sql .= " (field->>'name')::text as name" . $lb;
+                    $sql .= " (field->>'name')::text as name," . $lb;
+                    $sql .= " '0' as id_style" . $lb;
                     $sql .= " from tb_menu" . $lb;
                     $sql .= " where tb_menu.id in" . $lb;
                     $sql .= " (" . $lb;
