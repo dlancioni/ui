@@ -743,6 +743,7 @@ class SqlBuilder extends Base {
         $sql .= " (tb_module.field->>'name')::text as table_name," . $lb;
         $sql .= " (tb_module.field->>'title')::text as title," . $lb;
         $sql .= " (tb_module.field->>'id_view')::text as id_view," . $lb;
+        $sql .= " (tb_module.field->>'id_style')::text as id_style," . $lb;
 
         // tb_field        
         $sql .= " (tb_field.field->>'label')::text as field_label," . $lb;

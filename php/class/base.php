@@ -132,7 +132,7 @@
             return $this->moduleId;
         }
         public function setModule($moduleId) {
-            $this->tableId = $moduleId;
+            $this->moduleId = $moduleId;
         }
         public function getUser() {
             return $this->userId;

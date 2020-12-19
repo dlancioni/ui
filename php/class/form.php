@@ -66,6 +66,7 @@ class LogicForm extends Base {
         $jsonUtil = "";
         $jsonUtil = new jsonUtil();
         $numberUtil = new NumberUtil();
+        $message = new Message($this->cn);
         $eventAction = new EventAction($this->cn);
 
         try {
@@ -89,7 +90,7 @@ class LogicForm extends Base {
             if (count($tableDef) > 0) {
 
                 // Keep page title
-                $pageTitle = $tableDef[0]["title"];                
+                $pageTitle = $tableDef[0]["title"];
                 
                 // Do not query database
                 if ($action == $this->ACTION_FILTER) {
@@ -104,7 +105,15 @@ class LogicForm extends Base {
                 }
 
                 // Create field Id (rules according to action)
-                $controls .= $this->createId($data, $placeHolder, $disabled, $action);
+                if (!$tableDef[0]["id_style"] == $this->STYLE_FORM) {
+                    $controls .= $this->createId($data, $placeHolder, $disabled, $action);
+                }
+
+            } else {
+
+                // Module not defined
+                $msg = $message->getValue("M19");
+                throw new Exception($msg);
             }
 
             // Keep cascade info for current transaction
