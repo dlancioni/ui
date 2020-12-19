@@ -16,8 +16,6 @@
             $error = "";
             $cn = "";
 
-            /// ftp form12/David@Locaweb1
-
             try {
 
                 // Locaweb

@@ -1,0 +1,7 @@
+Credenciais cpanel
+    Usuario: dlancioni
+    Senha: David@Locaweb
+
+Credenciais FTP
+    Usuario: form12
+    Senha: David@Locaweb1
