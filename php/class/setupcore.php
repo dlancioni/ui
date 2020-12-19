@@ -378,6 +378,7 @@
                 $this->execute($cn, $model->addDomain($this->groupId, "M22", "Função Média só é válidas para campos do tipo numérico (inteiro e decimal)", "tb_message"));
                 $this->execute($cn, $model->addDomain($this->groupId, "M23", "Operador e Valor devem estar vazios para usar o comando Seleção", "tb_message"));
                 $this->execute($cn, $model->addDomain($this->groupId, "M24", "Comando Condição selecionado, Operador e Valor são obrigatórios", "tb_message"));
+                $this->execute($cn, $model->addDomain($this->groupId, "M25", "Módulos de estilo tabela com nome de tabela inválido ou vazio", "tb_message"));
 
                 // tb_cascade
                 $this->execute($cn, $model->addDomain($this->groupId, "tb_field.id_module_fk", "id_field_fk; tb_field; id; label", "tb_cascade"));

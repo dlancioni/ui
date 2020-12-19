@@ -32,14 +32,6 @@
         public $YES = 1;
         public $NO = 2;
 
-        // Module type
-        public $TYPE_SYSTEM = 1;
-        public $TYPE_USER = 2;
-
-        // Module type
-        public $STYLE_TABLE = 1;
-        public $STYLE_FORM = 2;        
-
         // Constructor
         function __construct($cn) {
             $this->cn = $cn;

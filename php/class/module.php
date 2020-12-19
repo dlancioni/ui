@@ -16,10 +16,26 @@
          */
         public function before($old, $new) {
 
+            // General declaration
+            $msg = "";
+            $data = "";
+            $message = "";
+            $jsonUtil = new JsonUtil();
+            $message = new Message($this->cn);
+
             try {
 
-            } catch (Exception $ex) {
+                // Validate date fields missing mask
+                if ($jsonUtil->getValue($new, "id_style") == $this->STYLE_TABLE) {
+                    if (trim($jsonUtil->getValue($new, "name")) == "") {
+                        $msg = $message->getValue("M25");
+                        throw new Exception($msg);
+                    }
+                }
 
+
+            } catch (Exception $ex) {
+                
                 // Rethrow error only
                 throw $ex;
             }
@@ -36,7 +52,7 @@
                 $this->table($old, $new);
 
                 // Action and events
-                $this->actionEvent($id);
+                $this->actionEvent($id, $new);
 
                 // Delete fields
                 $this->field($id);
@@ -45,7 +61,7 @@
                 $this->profileTransaction($id);
 
                 // Transaction x Function
-                $this->tableAction($id);
+                $this->tableAction($id, $new);
 
             } catch (Exception $ex) {
 
@@ -64,8 +80,16 @@
             $json = "";
             $tableOld = "";
             $tableNew = "";
+            $jsonUtil = new JsonUtil();
 
             try {
+
+                // Handle forms without table
+                if ($jsonUtil->getValue($new, "id_style") == $this->STYLE_FORM) {
+                    if (trim($jsonUtil->getValue($new, "name")) == "") {
+                        return true;
+                    }
+                }
 
                 // Figure out table name   
                 if (trim($old) != "") {
@@ -121,7 +145,7 @@
         /*
          * Create standard actions 
          */        
-        private function actionEvent($moduleId) {
+        private function actionEvent($moduleId, $new) {
 
             // General Declaration
             $sql = "";
@@ -134,12 +158,16 @@
             $jsonUtil = new JsonUtil();
             $model = new Model($this->getGroup());
 
-            $TABLE = 1;
-            $FORM = 2;
-
             $EVENT_ONCLICK = 2;
 
             try {
+
+                // Do not create standard actions when form
+                if ($jsonUtil->getValue($new, "id_style") == $this->STYLE_FORM) {
+                    if (trim($jsonUtil->getValue($new, "name")) == "") {
+                        return true;
+                    }
+                }
 
                 // Grant profiles Admin and User
                 switch ($this->getAction()) {
@@ -147,31 +175,31 @@
                     case $this->ACTION_NEW:
                         
                         // New
-                        $json = $model->addEvent($TABLE, $moduleId, 0, 1, $EVENT_ONCLICK, 'formNew();');
+                        $json = $model->addEvent($this->STYLE_TABLE, $moduleId, 0, 1, $EVENT_ONCLICK, 'formNew();');
                         pg_query($this->cn, "insert into tb_event (field) values ('$json')");
 
                         // Edit
-                        $json = $model->addEvent($TABLE, $moduleId, 0, 2, $EVENT_ONCLICK, 'formEdit();');
+                        $json = $model->addEvent($this->STYLE_TABLE, $moduleId, 0, 2, $EVENT_ONCLICK, 'formEdit();');
                         pg_query($this->cn, "insert into tb_event (field) values ('$json')");
 
                         // Delete
-                        $json = $model->addEvent($TABLE, $moduleId, 0, 3, $EVENT_ONCLICK, 'formDelete();');
+                        $json = $model->addEvent($this->STYLE_TABLE, $moduleId, 0, 3, $EVENT_ONCLICK, 'formDelete();');
                         pg_query($this->cn, "insert into tb_event (field) values ('$json')");
 
                         // Confirm
-                        $json = $model->addEvent($FORM, $moduleId, 0, 4, $EVENT_ONCLICK, 'confirm();');
+                        $json = $model->addEvent($this->STYLE_FORM, $moduleId, 0, 4, $EVENT_ONCLICK, 'confirm();');
                         pg_query($this->cn, "insert into tb_event (field) values ('$json')");
 
                         // Filter
-                        $json = $model->addEvent($TABLE, $moduleId, 0, 5, $EVENT_ONCLICK, 'formFilter();');
+                        $json = $model->addEvent($this->STYLE_TABLE, $moduleId, 0, 5, $EVENT_ONCLICK, 'formFilter();');
                         pg_query($this->cn, "insert into tb_event (field) values ('$json')");
 
                         // Clear
-                        $json = $model->addEvent($FORM, $moduleId, 0, 6, $EVENT_ONCLICK, 'formClear();');
+                        $json = $model->addEvent($this->STYLE_FORM, $moduleId, 0, 6, $EVENT_ONCLICK, 'formClear();');
                         pg_query($this->cn, "insert into tb_event (field) values ('$json')");
 
                         // Back
-                        $json = $model->addEvent($FORM, $moduleId, 0, 7, $EVENT_ONCLICK, 'reportBack();');
+                        $json = $model->addEvent($this->STYLE_FORM, $moduleId, 0, 7, $EVENT_ONCLICK, 'reportBack();');
                         pg_query($this->cn, "insert into tb_event (field) values ('$json')");
 
                         break;
@@ -286,7 +314,7 @@
         /*
          * Access control
          */        
-        private function tableAction($moduleId) {
+        private function tableAction($moduleId, $new) {
 
             // General Declaration
             $sql = "";
@@ -299,6 +327,13 @@
             $jsonUtil = new JsonUtil();
 
             try {
+
+                // Do not create standard actions when form
+                if ($jsonUtil->getValue($new, "id_style") == $this->STYLE_FORM) {
+                    if (trim($jsonUtil->getValue($new, "name")) == "") {
+                        return true;
+                    }
+                }                
 
                 // Grant profiles Admin and User
                 switch ($this->getAction()) {

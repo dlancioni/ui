@@ -71,6 +71,14 @@
         public $PROFILE_ADMIN = 2;
         public $PROFILE_USER = 3;
 
+        // Module type
+        public $TYPE_SYSTEM = 1;
+        public $TYPE_USER = 2;
+
+        // Module type
+        public $STYLE_TABLE = 1;
+        public $STYLE_FORM = 2;        
+
         // Aggregation
         public $SELECTION = 1;
         public $COUNT = 2;
@@ -121,7 +129,7 @@
             $this->systemId = $systemId;
         }
         public function getModule() {
-            return $this->tableId;
+            return $this->moduleId;
         }
         public function setModule($moduleId) {
             $this->tableId = $moduleId;
