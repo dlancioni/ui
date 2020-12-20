@@ -88,7 +88,8 @@ async function register(name, email) {
  * Autenticate and login
  */
 async function changePassword() {
-    
+
+    // General declaration
     let currentPassword = field("current").value;
     let newPassword = field("new").value;
     let confirmPassword = field("confirm").value;
@@ -99,12 +100,11 @@ async function changePassword() {
     formData.append('_NEW_', newPassword);
     formData.append('_CONFIRM_', confirmPassword);
     
+    // Execute backend
     let info = await execute('async/changepassword.php', formData);
     info = JSON.parse(info);
     
-    if (info.status > 1) {
-        alert(info.message);
-    }
-    
-    submit();
+    // Inform user
+    alert(info.message);
+
 }
