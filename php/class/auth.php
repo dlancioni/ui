@@ -306,6 +306,56 @@
             }
         }
 
+        /*
+         * Change password
+         */
+        public function changePassword($userId, $current, $new, $confirm) {
+
+            // General Declaration
+            $rs = "";
+            $sql = "";
+            $msg = "";
+            $data = "";
+            $filter = "";
+            $userId = 0;
+            $viewId = 0;
+            $affectedRows = 0;
+            $jsonUtil = new JsonUtil();
+            $pathUtil = new PathUtil();
+            $message = new Message($this->cn);
+
+            try {
+
+                // Validate the username
+                $filter = new Filter();
+                $filter->addCondition("tb_user", "username", $this->TYPE_TEXT, "=", $username);
+                $data = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_USER, $viewId, $filter->create(), $this->sqlBuilder->QUERY_NO_JOIN);
+                if (count($data) <= 0) {
+                    $msg = $message->getValue("M13");
+                    throw new Exception($msg);
+                } else {
+                    $userId = $data[0]["id"];
+                }
+
+                // Authenticate the password
+                $filter = new Filter();
+                $filter->addCondition("tb_user", "username", $this->TYPE_TEXT, "=", $username);
+                $filter->addCondition("tb_user", "password", $this->TYPE_TEXT, "=", $password);
+                $data = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_USER, $viewId, $filter->create(), $this->sqlBuilder->QUERY_NO_JOIN);
+                if (count($data) <= 0) {
+                    $msg = $message->getValue("M17");
+                    throw new Exception($msg);
+                }
+
+            } catch (Exception $ex) {
+
+                // Fail to authenticate     
+                $this->sqlBuilder->setError("LogicAuth.authenticate()", $ex->getMessage());
+                $this->message = $ex->getMessage();
+            }
+        }
+
+
 
     } // End of class
 ?>
