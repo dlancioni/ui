@@ -366,11 +366,17 @@
                 $filter = new Filter();
                 $filter->addCondition("tb_user", "id", $this->TYPE_TEXT, "=", $userId);
                 $filter->addCondition("tb_user", "password", $this->TYPE_TEXT, "=", $current);
-                $data = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_USER, $viewId, $filter->create(), $this->sqlBuilder->QUERY_NO_JOIN);
+                $data = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_USER, $viewId, $filter->create(), $this->sqlBuilder->QUERY_FIELD);
                 if (count($data) <= 0) {
                     $msg = $message->getValue("M28");
                     throw new Exception($msg);
                 }
+
+                // Set new password
+                $new = $jsonUtil->dqt($new);
+
+                // Final update
+                pg_query("update tb_user set field = jsonb_set(field, '{password}', '$new') where id = $userId;");
 
                 // Success
                 $this->message = $message->getValue("M26");;

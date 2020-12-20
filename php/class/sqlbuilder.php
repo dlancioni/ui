@@ -7,6 +7,7 @@ class SqlBuilder extends Base {
     public $QUERY = 1;
     public $QUERY_NO_JOIN = 2;
     public $QUERY_NO_PAGING = 3;
+    public $QUERY_FIELD = 4;
 
     /*
      * Paging
@@ -266,13 +267,18 @@ class SqlBuilder extends Base {
             $sql .= "select " . $lb;
 
             // Count over pagination
-            if ($this->aggregatedQuery($queryDef)) {
-                $sql .= $jsonUtil->select($tableName, "id_group", $this->TYPE_INT, "id_group") . $lb;
+            if ($queryType == $this->QUERY_FIELD) {
+                $sql .= $tableName . ".field";
+                $queryDef = array();
             } else {
-                $sql .= "count(*) over() as record_count," . $lb;
-                $sql .= $jsonUtil->select($tableName, "id_group", $this->TYPE_INT, "id_group") . "," . $lb;
-                $sql .= $tableName . ".id" . $lb;
-            }
+                if ($this->aggregatedQuery($queryDef)) {
+                    $sql .= $jsonUtil->select($tableName, "id_group", $this->TYPE_INT, "id_group") . $lb;
+                } else {
+                    $sql .= "count(*) over() as record_count," . $lb;
+                    $sql .= $jsonUtil->select($tableName, "id_group", $this->TYPE_INT, "id_group") . "," . $lb;
+                    $sql .= $tableName . ".id" . $lb;
+                }
+            }   
 
             // Field list
             foreach ($queryDef as $row) {

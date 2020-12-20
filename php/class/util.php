@@ -215,11 +215,16 @@
         }
 
         /*
-         * Set value in specific tag
+         * Set value for specific tag in given json or array json
          */
         public function setValue($json, $field, $value) {
-            $json = json_decode($json, true);
 
+            // String to array
+            if (!is_array($json)) {
+                $json = json_decode($json, true);
+            }
+
+            // Set value
             if (is_numeric($value)) {
                 if (is_int($value)) {
                     $json[$field] = intval($value);
@@ -230,7 +235,10 @@
                 $json[$field] = strval($value);
             }
 
+            // Array to string
             $json = json_encode($json);
+
+            // Return it
             return $json;
         }
 
