@@ -56,10 +56,10 @@
         $logicAuth->changePassword($userId, $current, $new, $confirm);
 
         // Success
-        $json = $message->getStatus(1, $logicAuth->message);
+        $json = $message->getStatus(1, $logicAuth->getMessage(), $logicAuth->getField());
 
     } catch (Exception $ex) {
-        $json = $message->getStatus(2, $ex->getMessage());
+        $json = $message->getStatus(2, $ex->getMessage(), $logicAuth->getField());
     }
 
     // Return results

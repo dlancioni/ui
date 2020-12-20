@@ -325,6 +325,10 @@
 
             try {
 
+                // Reset values
+                $this->setField("");
+                $this->setMessage("");
+
                 // Validate mandatory fields
                 if ($userId == 0) {
                     $msg = $message->getValue("M1");
@@ -332,16 +336,19 @@
                     throw new Exception($msg);
                 }
                 if (trim($current) == "") {
+                    $this->setField("current");
                     $msg = $message->getValue("M1");
                     $msg = str_replace("%", "senha atual", $msg);
                     throw new Exception($msg);
                 }
                 if (trim($new) == "") {
+                    $this->setField("new");
                     $msg = $message->getValue("M1");
                     $msg = str_replace("%", "nova senha", $msg);
                     throw new Exception($msg);
                 }
                 if (trim($confirm) == "") {
+                    $this->setField("confirm");
                     $msg = $message->getValue("M1");
                     $msg = str_replace("%", "confirmar nova senha", $msg);
                     throw new Exception($msg);
@@ -349,6 +356,7 @@
 
                 // Specific rules
                 if (trim($new) != trim($confirm)) {
+                    $this->setField("confirm");                    
                     $msg = $message->getValue("M27");
                     throw new Exception($msg);
                 }
@@ -358,6 +366,7 @@
                 $filter->addCondition("tb_user", "id", $this->TYPE_TEXT, "=", $userId);
                 $data = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_USER, $viewId, $filter->create(), $this->sqlBuilder->QUERY_NO_JOIN);
                 if (count($data) <= 0) {
+                    $this->setField("current");
                     $msg = $message->getValue("M13");
                     throw new Exception($msg);
                 }
@@ -368,6 +377,7 @@
                 $filter->addCondition("tb_user", "password", $this->TYPE_TEXT, "=", $current);
                 $data = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_USER, $viewId, $filter->create(), $this->sqlBuilder->QUERY_FIELD);
                 if (count($data) <= 0) {
+                    $this->setField("confirm");
                     $msg = $message->getValue("M28");
                     throw new Exception($msg);
                 }
@@ -379,12 +389,12 @@
                 pg_query("update tb_user set field = jsonb_set(field, '{password}', '$new') where id = $userId;");
 
                 // Success
-                $this->message = $message->getValue("M26");;
+                $this->setMessage($message->getValue("M26"));
 
             } catch (Exception $ex) {
 
                 // Fail
-                $this->message = $ex->getMessage();
+                $this->setMessage($ex->getMessage());
             }
         }
 

@@ -303,8 +303,8 @@
 
                 // tb_user
                 $seq = 0;
-                $this->execute($cn, $model->addField($this->TB_UPD_PWD, "Informe a nova atual", "current", $this->TYPE_TEXT, 50, "", $YES, $NO, 0, 0, "", "", $this->INPUT_PASSWORD, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_UPD_PWD, "Informe a nova senha", "new", $this->TYPE_TEXT, 50, "", $YES, $NO, 0, 0, "", "", $this->INPUT_PASSWORD, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_UPD_PWD, "Senha atual", "current", $this->TYPE_TEXT, 50, "", $YES, $NO, 0, 0, "", "", $this->INPUT_PASSWORD, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_UPD_PWD, "Nova senha", "new", $this->TYPE_TEXT, 50, "", $YES, $NO, 0, 0, "", "", $this->INPUT_PASSWORD, ++$seq));
                 $this->execute($cn, $model->addField($this->TB_UPD_PWD, "Confirme a nova senha", "confirm", $this->TYPE_TEXT, 50, "", $YES, $NO, 0, 0, "", "", $this->INPUT_PASSWORD, ++$seq));
 
             } catch (Exception $ex) {

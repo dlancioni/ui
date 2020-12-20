@@ -423,7 +423,7 @@
             $this->cn = $cn;
         }
 
-        public function getStatus($status=0, $message) {
+        public function getStatus($status=0, $message="", $field="") {
 
             $json = "";
             $jsonUtil = new JsonUtil();
@@ -436,6 +436,9 @@
             // 0 - Fail
             // 1 - Success
             $json = $jsonUtil->setValue($json, "message", $message);
+
+            // Field name, to set focous on validation for example
+            $json = $jsonUtil->setValue($json, "field", trim($field));
 
             // Return it
             return $json;

@@ -107,4 +107,9 @@ async function changePassword() {
     // Inform user
     alert(info.message);
 
+    // Set focus
+    if (info.field != "") {
+        field(info.field).focus();
+    }
+
 }

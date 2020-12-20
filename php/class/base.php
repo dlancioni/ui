@@ -13,6 +13,9 @@
         // Error Handling
         private $error = "";
         private $message = "";
+        private $field = "";
+
+        // Other ids
         private $lastId = 0;
         private $viewId = 0;
 
@@ -158,12 +161,19 @@
         }
 
         // Message handling for success or warning
-        function setMessage($value) {
+        public function setMessage($value) {
             if ($value != "")
             $this->message = $value;
         }
-        function getMessage() {
+        public function getMessage() {
             return $this->message;
+        }
+        public function setField($value) {
+            if ($value != "")
+            $this->field = $value;
+        }
+        public function getField() {
+            return $this->field;
         }
 
         // Last ID
