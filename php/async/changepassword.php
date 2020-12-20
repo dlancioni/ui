@@ -16,8 +16,10 @@
     $stringUtil = "";
     $systemId = "";
     $userId = 0;
+    $groupId = 0;
+    $sqlBuilder = "";
     $stringUtil = new StringUtil();
-    
+
     // Core code
     try {
 
@@ -28,12 +30,16 @@
         if (isset($_SESSION["_USER_"])) {
             $userId = $stringUtil->RemoveSpecialChar($_SESSION["_USER_"]);
         }
+        if (isset($_SESSION["_GROUP_"])) {
+            $groupId = $stringUtil->RemoveSpecialChar($_SESSION["_GROUP_"]);
+        }        
 
         // Create instances
         $db = new Db();
         $cn = $db->getConnection($systemId);
-        $logicAuth = new LogicAuth($cn);
         $message = new Message($cn);
+        $sqlBuilder = new SqlBuilder($systemId, 0, $userId, $groupId);
+        $logicAuth = new LogicAuth($cn, $sqlBuilder);
 
         // Authentication related variables
         if (isset($_REQUEST["_CURRENT_"])) {

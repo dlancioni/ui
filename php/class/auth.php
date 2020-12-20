@@ -353,15 +353,23 @@
                     throw new Exception($msg);
                 }
 
-                // Validate the username
+                // Validate user id
                 $filter = new Filter();
                 $filter->addCondition("tb_user", "id", $this->TYPE_TEXT, "=", $userId);
                 $data = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_USER, $viewId, $filter->create(), $this->sqlBuilder->QUERY_NO_JOIN);
                 if (count($data) <= 0) {
                     $msg = $message->getValue("M13");
                     throw new Exception($msg);
-                } else {
-                    $userId = $data[0]["id"];
+                }
+
+                // Validate current password
+                $filter = new Filter();
+                $filter->addCondition("tb_user", "id", $this->TYPE_TEXT, "=", $userId);
+                $filter->addCondition("tb_user", "password", $this->TYPE_TEXT, "=", $current);
+                $data = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_USER, $viewId, $filter->create(), $this->sqlBuilder->QUERY_NO_JOIN);
+                if (count($data) <= 0) {
+                    $msg = $message->getValue("M28");
+                    throw new Exception($msg);
                 }
 
                 // Success
