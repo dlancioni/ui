@@ -256,7 +256,7 @@
                 $this->execute($cn, $model->addField($this->TB_EVENT, "Tela", "id_target", $this->TYPE_INT, 0, "", $YES, $NO, $this->tb("tb_domain"), $this->fd("value"), "tb_target", "", $this->INPUT_DROPDOWN, ++$seq));
                 $this->execute($cn, $model->addField($this->TB_EVENT, "Name", "name", $this->TYPE_TEXT, 50, "", $NO, $NO, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
                 $this->execute($cn, $model->addField($this->TB_EVENT, "Evento", "id_event", $this->TYPE_INT, 0, "", $NO, $NO, $this->tb("tb_domain"), $this->fd("value"), "tb_event", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_EVENT, "Módulo", "id_module", $this->TYPE_INT, 0, "", $YES, $NO, $this->tb("tb_module"), $this->fd("title"), "", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_EVENT, "Módulo", "id_module", $this->TYPE_INT, 0, "", $NO, $NO, $this->tb("tb_module"), $this->fd("title"), "", "", $this->INPUT_DROPDOWN, ++$seq));
                 $this->execute($cn, $model->addField($this->TB_EVENT, "Campo", "id_field", $this->TYPE_INT, 0, "", $NO, $NO, $this->tb("tb_field"), $this->fd("label"), "", "", $this->INPUT_DROPDOWN, ++$seq));
                 $this->execute($cn, $model->addField($this->TB_EVENT, "Código", "code", $this->TYPE_TEXT, 10000, "", $YES, $NO, 0, 0, "", "", $this->INPUT_TEXTAREA, ++$seq));
 
@@ -383,6 +383,7 @@
                 $this->execute($cn, $model->addDomain($this->groupId, "M24", "Comando Condição selecionado, Operador e Valor são obrigatórios", "tb_message"));
                 $this->execute($cn, $model->addDomain($this->groupId, "M25", "Módulos de estilo tabela com nome de tabela inválido ou vazio", "tb_message"));
                 $this->execute($cn, $model->addDomain($this->groupId, "M26", "Senha alterada com sucesso", "tb_message"));
+                $this->execute($cn, $model->addDomain($this->groupId, "M27", "Nova senha não está confirmada corretamente", "tb_message"));
 
                 // tb_cascade
                 $this->execute($cn, $model->addDomain($this->groupId, "tb_field.id_module_fk", "id_field_fk; tb_field; id; label", "tb_cascade"));
@@ -452,7 +453,7 @@
                 $this->execute($cn, $model->addEvent($TABLE, "Filtrar", $this->EVENT_CLICK, 0, 0, "formFilter();"));
                 $this->execute($cn, $model->addEvent($FORM, "Limpar", $this->EVENT_CLICK, 0, 0, "formClear();"));
                 $this->execute($cn, $model->addEvent($FORM, "Voltar", $this->EVENT_CLICK, 0, 0, "reportBack();"));
-                $this->execute($cn, $model->addEvent($FORM, "Alterar senha", $this->EVENT_CLICK, 0, 0, "updatePassword();")); // id 8
+                $this->execute($cn, $model->addEvent($FORM, "Alterar senha", $this->EVENT_CLICK, 0, 0, "changePassword();")); // id 8
                 
                 // Custon events
                 $this->execute($cn, $model->addEvent($FORM, "", $this->EVENT_CHANGE, $this->tb("tb_module"), $this->fd("name"), "this.value = validateTableName(this.value);"));
@@ -605,7 +606,9 @@
                 // ADMIN has Access Control only (10...17)
                 for ($i=10; $i<=$this->TOTAL_MODULE; $i++) {
                     $this->execute($cn, $model->addProfileModule($this->PROFILE_ADMIN, $i));
-                }                
+                }
+
+                $this->execute($cn, $model->addProfileModule($this->PROFILE_USER, $this->TB_UPD_PWD));
 
             } catch (Exception $ex) {
                 throw $ex;

@@ -72,8 +72,9 @@ class SqlBuilder extends Base {
                 $this->setError("sqlbuilder.queryJson()", $error);
             }
 
-        } catch (exception $ex) {                
+        } catch (exception $ex) {
             $this->setError("sqlbuilder.queryJson()", $ex->getMessage());
+            throw $ex;
         }
 
         // Handle empty json
@@ -227,6 +228,7 @@ class SqlBuilder extends Base {
 
         } catch (Exception $ex) {
             $this->setError("QueryBuilder.query()", $ex->getMessage());
+            throw $ex;
         }
 
         // Return sql
@@ -743,7 +745,7 @@ class SqlBuilder extends Base {
         $sql .= " (tb_module.field->>'name')::text as table_name," . $lb;
         $sql .= " (tb_module.field->>'title')::text as title," . $lb;
         $sql .= " (tb_module.field->>'id_view')::text as id_view," . $lb;
-        $sql .= " (tb_module.field->>'id_style')::text as id_style," . $lb;
+        $sql .= " (tb_module.field->>'id_style')::int as id_style," . $lb;
 
         // tb_field        
         $sql .= " (tb_field.field->>'label')::text as field_label," . $lb;

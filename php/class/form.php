@@ -97,10 +97,13 @@ class LogicForm extends Base {
                         $data = $_SESSION["_FILTER_"][$moduleId];
                     }                    
                 } else {
-                    // Get data
-                    $filter = new Filter();
-                    $filter->add($tableDef[0]["table_name"], "id", $id);
-                    $data = $this->sqlBuilder->executeQuery($this->cn, $moduleId, $viewId, $filter->create());
+
+                    // No table name for style form, so no data
+                    if ($tableDef[0]["id_style"] != $this->STYLE_FORM) {                    
+                        $filter = new Filter();
+                        $filter->add($tableDef[0]["table_name"], "id", $id);
+                        $data = $this->sqlBuilder->executeQuery($this->cn, $moduleId, $viewId, $filter->create());
+                    }
                 }
 
                 // Create field Id (rules according to action)

@@ -317,7 +317,6 @@
             $msg = "";
             $data = "";
             $filter = "";
-            $userId = 0;
             $viewId = 0;
             $affectedRows = 0;
             $jsonUtil = new JsonUtil();
@@ -326,9 +325,37 @@
 
             try {
 
+                // Validate mandatory fields
+                if ($userId == 0) {
+                    $msg = $message->getValue("M1");
+                    $msg = str_replace("%", "usuário", $msg);
+                    throw new Exception($msg);
+                }
+                if (trim($current) == "") {
+                    $msg = $message->getValue("M1");
+                    $msg = str_replace("%", "senha atual", $msg);
+                    throw new Exception($msg);
+                }
+                if (trim($new) == "") {
+                    $msg = $message->getValue("M1");
+                    $msg = str_replace("%", "nova senha", $msg);
+                    throw new Exception($msg);
+                }
+                if (trim($confirm) == "") {
+                    $msg = $message->getValue("M1");
+                    $msg = str_replace("%", "confirmar nova senha", $msg);
+                    throw new Exception($msg);
+                }
+
+                // Specific rules
+                if (trim($new) != trim($confirm)) {
+                    $msg = $message->getValue("M27");
+                    throw new Exception($msg);
+                }
+
                 // Validate the username
                 $filter = new Filter();
-                $filter->addCondition("tb_user", "username", $this->TYPE_TEXT, "=", $username);
+                $filter->addCondition("tb_user", "id", $this->TYPE_TEXT, "=", $userId);
                 $data = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_USER, $viewId, $filter->create(), $this->sqlBuilder->QUERY_NO_JOIN);
                 if (count($data) <= 0) {
                     $msg = $message->getValue("M13");
@@ -337,20 +364,12 @@
                     $userId = $data[0]["id"];
                 }
 
-                // Authenticate the password
-                $filter = new Filter();
-                $filter->addCondition("tb_user", "username", $this->TYPE_TEXT, "=", $username);
-                $filter->addCondition("tb_user", "password", $this->TYPE_TEXT, "=", $password);
-                $data = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_USER, $viewId, $filter->create(), $this->sqlBuilder->QUERY_NO_JOIN);
-                if (count($data) <= 0) {
-                    $msg = $message->getValue("M17");
-                    throw new Exception($msg);
-                }
+                // Success
+                $this->message = $message->getValue("M26");;
 
             } catch (Exception $ex) {
 
-                // Fail to authenticate     
-                $this->sqlBuilder->setError("LogicAuth.authenticate()", $ex->getMessage());
+                // Fail
                 $this->message = $ex->getMessage();
             }
         }

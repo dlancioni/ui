@@ -83,3 +83,28 @@ async function register(name, email) {
     // Alert user
     alert(info.message);
 }
+
+/*
+ * Autenticate and login
+ */
+async function changePassword() {
+    
+    let currentPassword = field("current").value;
+    let newPassword = field("new").value;
+    let confirmPassword = field("confirm").value;
+    let formData = new FormData();
+
+    // Set commands to end session
+    formData.append('_CURRENT_', currentPassword);
+    formData.append('_NEW_', newPassword);
+    formData.append('_CONFIRM_', confirmPassword);
+    
+    let info = await execute('async/changepassword.php', formData);
+    info = JSON.parse(info);
+    
+    if (info.status > 1) {
+        alert(info.message);
+    }
+    
+    submit();
+}
