@@ -433,7 +433,7 @@ class LogicTable extends Base {
                         if ($command < $this->sqlBuilder->CONDITION) {
 
                             // Create link to parent module
-                            $id = $row["id"];                            
+                            $id = $row["id"];
                             if ($fk != 0 && $fk != $this->TB_DOMAIN) {
                                 $fieldValue = "<a href='#' onClick='go($fk, 3, 0, $id)'>" . $fieldValue . "</a>";
                             } else {

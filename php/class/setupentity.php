@@ -103,9 +103,9 @@
                 $this->setModule("tb_domain");
 
                 // tb_entity_type
-                $this->execute($cn, $model->addDomain($this->groupId, 1, "Clientes", "tb_entity_type"));
-                $this->execute($cn, $model->addDomain($this->groupId, 2, "Fornecedores", "tb_entity_type"));
-                $this->execute($cn, $model->addDomain($this->groupId, 3, "Funcionários", "tb_entity_type"));
+                $this->execute($cn, $model->addDomain($this->groupId, 1, "Cliente", "tb_entity_type"));
+                $this->execute($cn, $model->addDomain($this->groupId, 2, "Fornecedor", "tb_entity_type"));
+                $this->execute($cn, $model->addDomain($this->groupId, 3, "Funcionário", "tb_entity_type"));
 
                 // tb_person_type
                 $this->execute($cn, $model->addDomain($this->groupId, 1, "Física", "tb_person_type"));

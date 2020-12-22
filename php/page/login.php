@@ -3,19 +3,20 @@
     // General declaration
     $os = new OS();
 
-    // Standard user for development
-    if ($os->getOS() == $os->WINDOWS) {
-        $systemId = "S20201";
-        $username = "system";
-        $password = "123";
-    } else {
-        $systemId = "";
-        $username = "";
-        $password = "";
-    }
-
-    // Create screen
+    // Before login
     if (isset($_SESSION["_AUTH_"]) == false || $_SESSION["_AUTH_"] == 0) {
+
+        // Standard user for development
+        if ($os->getOS() == $os->WINDOWS) {
+            $systemId = "S20201";
+            $username = "system";
+            $password = "123";
+        } else {
+            $systemId = "";
+            $username = "";
+            $password = "";
+        }
+
         ?>  
             <!-- Left side itens -->        
             <div class="col-12 text-right">
@@ -118,17 +119,24 @@
     } else {
 
         ?>    
-
         <!-- Left side itens -->        
         <div class="col-12 text-right">
-
             <a href="#" class="" data-toggle="modal" data-target="#modalPanel">Painel</a>
-            &nbsp;&nbsp;&nbsp;            
-
-            <?php echo trim($db->environment) . trim($systemId) ?>
             &nbsp;
-            <?php echo $username ?>
-            &nbsp;&nbsp;&nbsp;
+            <?php
+                // Print system Id
+                if ($os->getOS() == $os->WINDOWS) {
+                    echo $db->environment . $systemId;
+                } else {
+                    echo $systemId;
+                }
+             ?>
+            &nbsp;
+            <?php 
+                // Current user
+                echo $username 
+            ?>
+            &nbsp;
             <a href="#" onclick="logout()">Encerrar</a>
         </div>
 
