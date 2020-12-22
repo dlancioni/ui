@@ -1,7 +1,20 @@
 <?php
 
-  $systemId = "S20201"; // temporario apagar
+    // General declaration
+    $os = new OS();
 
+    // Standard user for development
+    if ($os->getOS() == $os->WINDOWS) {
+        $systemId = "S20201";
+        $username = "system";
+        $password = "123";
+    } else {
+        $systemId = "";
+        $username = "";
+        $password = "";
+    }
+
+    // Create screen
     if (isset($_SESSION["_AUTH_"]) == false || $_SESSION["_AUTH_"] == 0) {
         ?>  
             <!-- Left side itens -->        
@@ -103,6 +116,7 @@
         <?php
 
     } else {
+
         ?>    
 
         <!-- Left side itens -->        
