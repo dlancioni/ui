@@ -125,7 +125,7 @@ class LogicTable extends Base {
                 // Standard report view
                 case $this->REPORT:
                     $tableRow .= $this->createTableHeader($viewId, $data, $tableDef, $this->sqlBuilder->CONDITION);
-                    $tableRow .= $this->createTableData($tableDef, $data);
+                    $tableRow .= $this->createTableData($tableDef, $data, $action);
                     $html .= $this->element->createTable($tableRow);
                     break;
 
@@ -152,7 +152,7 @@ class LogicTable extends Base {
                 // Standard report view                    
                 default:
                     $tableRow .= $this->createTableHeader($viewId, $data, $tableDef, $this->sqlBuilder->CONDITION);
-                    $tableRow .= $this->createTableData($tableDef, $data);
+                    $tableRow .= $this->createTableData($tableDef, $data, $action);
                     $html .= $this->element->createTable($tableRow);
             }
 
@@ -374,7 +374,7 @@ class LogicTable extends Base {
         return $cols;
     }
 
-    private function createTableData($tableDef, $data) {
+    private function createTableData($tableDef, $data, $action) {
 
         // General declaration
         $fk = 0;
@@ -432,15 +432,19 @@ class LogicTable extends Base {
                         // Print it
                         if ($command < $this->sqlBuilder->CONDITION) {
 
-                            // Create link to parent module
-                            $id = $row["id"];
-                            if ($fk != 0 && $fk != $this->TB_DOMAIN) {
-                                $fieldValue = "<a href='#' onClick='go($fk, 3, 0, $id)'>" . $fieldValue . "</a>";
-                            } else {
-                                if ($count == 1) {
-                                    $fieldValue = "<a href='#' onClick='formDetail($id)'>" . $fieldValue . "</a>";
+                            // Create link to parent module                                
+                            if ($action == 0) {
+                                $id = $row["id"];
+                                if ($fk != 0 && $fk != $this->TB_DOMAIN) {
+                                    $fieldValue = "<a href='#' onClick='go($fk, 3, 0, $id)'>" . $fieldValue . "</a>";
+                                } else {
+                                    if ($count == 1) {
+                                        $fieldValue = "<a href='#' onClick='formDetail($id)'>" . $fieldValue . "</a>";
+                                    }
                                 }
                             }
+
+                            // Add value
                             $cols .= $this->element->createTableCol($fieldValue, $columnSize);
                         }
 
