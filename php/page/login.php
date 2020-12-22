@@ -125,7 +125,7 @@
             <a href="#" class="" data-toggle="modal" data-target="#modalPanel">Painel</a>
             &nbsp;&nbsp;&nbsp;            
 
-            <?php echo $db->environment . $systemId ?>
+            <?php echo trim($db->environment) . trim($systemId) ?>
             &nbsp;
             <?php echo $username ?>
             &nbsp;&nbsp;&nbsp;
