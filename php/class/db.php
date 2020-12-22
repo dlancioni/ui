@@ -23,11 +23,10 @@
 
                 // Connect to database
                 if ($os->getOS() == $os->WINDOWS) {
-                    //$cn = pg_connect("postgres://forms_dev:d4a1v21i@form1db.postgresql.dbaas.com.br/forms_dev");
-                    $cn = pg_connect("postgres://form1db:d4a1v21i@form1db.postgresql.dbaas.com.br/form1db");
+                    $cn = pg_connect("postgres://forms_dev:d4a1v21i@forms_dev.postgresql.dbaas.com.br/forms_dev");
                     $this->environment = "DEV_";
                 } else {
-                    //$cn = pg_connect("postgres://forms_prod:d4a1v21i@form1db.postgresql.dbaas.com.br/forms_prod");
+                    $cn = pg_connect("postgres://forms_prod:d4a1v21i@forms_prod.postgresql.dbaas.com.br/forms_prod");
                     $this->environment = "";
                 }
 

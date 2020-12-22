@@ -47,7 +47,7 @@ class LogicTabbed extends Base {
 
             // Keep parent field
             $parentField = str_replace("tb_", "id_", $logicForm->tableName);
-            $formData = array($parentField=>$id);            
+            $formData = array($parentField=>$id);
 
             // Get child reports
             $parentModule = $this->getParent($cn, $this->sqlBuilder, $moduleId);
