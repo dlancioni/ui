@@ -111,7 +111,7 @@
             <a href="#" class="" data-toggle="modal" data-target="#modalPanel">Painel</a>
             &nbsp;&nbsp;&nbsp;            
 
-            <?php echo $systemId ?>
+            <?php echo $db->environment . $systemId ?>
             &nbsp;
             <?php echo $username ?>
             &nbsp;&nbsp;&nbsp;

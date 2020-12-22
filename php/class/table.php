@@ -87,7 +87,7 @@ class LogicTable extends Base {
 
             // Get data
             $filter = new Filter("like");
-            if ($action == $this->ACTION_FILTER) {
+            if ($action == $this->ACTION_FILTER || $action == $this->ACTION_DETAIL) {
                 $filter->setFilter($tableDef, $formData);
                 // Do not keep filters when creating tabs
                 if ($action != $this->ACTION_DETAIL) {
