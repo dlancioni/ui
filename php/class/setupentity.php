@@ -49,7 +49,7 @@
                 $moduleId = $this->execute($cn, $model->addModule("tb_address", "Endereços", $this->TYPE_USER, $this->STYLE_TABLE, $this->MENU_CAD));
                 $this->setupModule($cn, $moduleId, "tb_address");
                 $this->setModule("tb_field");
-                $this->execute($cn, $model->addField($moduleId, "Pessoa", "id_entity", $this->TYPE_INT, 0, "", $this->YES, $this->NO, $this->tb("tb_entity"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ($seq=1)));
+                $this->execute($cn, $model->addField($moduleId, "Nome", "id_entity", $this->TYPE_INT, 0, "", $this->YES, $this->NO, $this->tb("tb_entity"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ($seq=1)));
                 $this->execute($cn, $model->addField($moduleId, "Tipo", "id_address_type", $this->TYPE_INT, 0, "", $this->YES, $this->NO, $this->tb("tb_domain"), $this->fd("value"), "tb_address_type", "", $this->INPUT_DROPDOWN, ++$seq));
                 $this->execute($cn, $model->addField($moduleId, "Logradouro", "street", $this->TYPE_TEXT, 500, "", $this->YES, $this->NO, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
                 $this->execute($cn, $model->addField($moduleId, "Número", "number", $this->TYPE_TEXT, 10, "", $this->YES, $this->NO, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
@@ -61,7 +61,7 @@
                 $moduleId = $this->execute($cn, $model->addModule("tb_document", "Documentos", $this->TYPE_USER, $this->STYLE_TABLE, $this->MENU_CAD));
                 $this->setupModule($cn, $moduleId, "tb_document");
                 $this->setModule("tb_field");
-                $this->execute($cn, $model->addField($moduleId, "Pessoa", "id_entity", $this->TYPE_INT, 0, "", $this->YES, $this->NO, $this->tb("tb_entity"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ($seq=1)));
+                $this->execute($cn, $model->addField($moduleId, "Nome", "id_entity", $this->TYPE_INT, 0, "", $this->YES, $this->NO, $this->tb("tb_entity"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ($seq=1)));
                 $this->execute($cn, $model->addField($moduleId, "Tipo", "id_document_type", $this->TYPE_INT, 0, "", $this->YES, $this->NO, $this->tb("tb_domain"), $this->fd("value"), "tb_document_type", "", $this->INPUT_DROPDOWN, ++$seq));
                 $this->execute($cn, $model->addField($moduleId, "Número", "number", $this->TYPE_TEXT, 50, "", $this->YES, $this->NO, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
 
@@ -70,7 +70,7 @@
                 $moduleId = $this->execute($cn, $model->addModule("tb_contact", "Contatos", $this->TYPE_USER, $this->STYLE_TABLE, $this->MENU_CAD));
                 $this->setupModule($cn, $moduleId, "tb_contact");
                 $this->setModule("tb_field");
-                $this->execute($cn, $model->addField($moduleId, "Pessoa", "id_entity", $this->TYPE_INT, 0, "", $this->YES, $this->NO, $this->tb("tb_entity"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ($seq=1)));
+                $this->execute($cn, $model->addField($moduleId, "Nome", "id_entity", $this->TYPE_INT, 0, "", $this->YES, $this->NO, $this->tb("tb_entity"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ($seq=1)));
                 $this->execute($cn, $model->addField($moduleId, "Tipo", "id_contact_type", $this->TYPE_INT, 0, "", $this->YES, $this->NO, $this->tb("tb_domain"), $this->fd("value"), "tb_contact_type", "", $this->INPUT_DROPDOWN, ++$seq));
                 $this->execute($cn, $model->addField($moduleId, "Contato", "contact", $this->TYPE_TEXT, 500, "", $this->YES, $this->NO, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
                 $this->execute($cn, $model->addField($moduleId, "Comentário", "comment", $this->TYPE_TEXT, 5000, "", $this->NO, $this->NO, 0, 0, "", "", $this->INPUT_TEXTAREA, ++$seq));
@@ -80,7 +80,7 @@
                 $moduleId = $this->execute($cn, $model->addModule("tb_attach", "Anexos", $this->TYPE_USER, $this->STYLE_TABLE, $this->MENU_CAD));
                 $this->setupModule($cn, $moduleId, "tb_attach");
                 $this->setModule("tb_field");
-                $this->execute($cn, $model->addField($moduleId, "Pessoa", "id_entity", $this->TYPE_INT, 0, "", $this->YES, $this->NO, $this->tb("tb_entity"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ($seq=1)));
+                $this->execute($cn, $model->addField($moduleId, "Nome", "id_entity", $this->TYPE_INT, 0, "", $this->YES, $this->NO, $this->tb("tb_entity"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ($seq=1)));
                 $this->execute($cn, $model->addField($moduleId, "Descrição", "description", $this->TYPE_TEXT, 5000, "", $this->NO, $this->NO, 0, 0, "", "", $this->INPUT_TEXTAREA, ++$seq));
                 $this->execute($cn, $model->addField($moduleId, "Arquivo", "attached", $this->TYPE_BINARY, 0, "", $this->NO, $this->NO, 0, 0, "", "", $this->INPUT_FILE, ++$seq));
 
