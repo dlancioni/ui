@@ -46,11 +46,13 @@
                                 <input type="text" id="name" name="name" class="form-control" placeholder="Informe seu nome" value="">
                                 <br>
                                 <input type="text" id="email" name="email" class="form-control" placeholder="Informe seu e-mail" value="">
+                                <br>
+                                <input type="text" id="system" name="system" class="form-control" placeholder="Informe o nome do seu projeto" value="">
                             </div>
                         </div>
                         <!-- Footer -->
                         <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" onclick="register(document.getElementById('name').value, document.getElementById('email').value)" data-dismiss="modal">Ok</button>
+                        <button type="button" class="btn btn-primary" onclick="register(field('name').value, field('email').value, field('system').value)" data-dismiss="modal">Ok</button>
                         </div>
                     </div>
                 </div>
@@ -77,7 +79,7 @@
                         </div>
                         <!-- Footer -->
                         <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" onclick="retrieveCredential(document.getElementById('mail').value)" data-dismiss="modal">Ok</button>
+                        <button type="button" class="btn btn-primary" onclick="retrieveCredential(field('mail').value)" data-dismiss="modal">Ok</button>
                         </div>
                     </div>
                 </div>

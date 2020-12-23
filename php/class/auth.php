@@ -138,7 +138,7 @@
             // General Declaration
             $msg = "";
             $userId = 0;
-            $username = "joao";
+            $username = "";
             $password = "";
             $subject = "";
             $body = "";
@@ -178,7 +178,7 @@
                 $sql .= "select" . $stringUtil->lb();
                 $sql .= "field->>'username' as username," . $stringUtil->lb();
                 $sql .= "field->>'password' as password" . $stringUtil->lb();
-                $sql .= "from s20201.tb_user" . $stringUtil->lb();
+                $sql .= "from tb_user" . $stringUtil->lb();
                 $sql .= "where field->>'username' = '$username'" . $stringUtil->lb();
                 $rs = pg_query($cn, $sql);
 
@@ -205,7 +205,7 @@
         /*
          * Register new user
          */
-        public function register($name, $email) {
+        public function register($name, $email, $systemId) {
 
             // General Declaration
             $id = 0;
@@ -215,7 +215,6 @@
             $msg = "";
             $date = "";
 
-            $systemId = "";
             $setupCore = "";
             $setupEntity = "";
             $affectedRows = 0;
@@ -244,10 +243,15 @@
                     throw new Exception($msg);
                 }
 
+                // Validate access code
+                if (trim($systemId) == "") {
+                    $msg .= "Informe seu codigo de acesso (somente letras e números)";
+                    throw new Exception($msg);
+                }                
+
                 // Validate the system id
                 $sql = "";
-                $sql .= " select";
-                $sql .= " email";
+                $sql .= " select *";
                 $sql .= " from home.tb_client";
                 $sql .= " where email = " . "'" . trim($email) . "'";
                 $rs = pg_query($cn, $sql);
@@ -255,37 +259,32 @@
                     throw new Exception("Email já cadastrado");
                 }
 
+                // Validate the system id
+                $sql = "";
+                $sql .= " select *";
+                $sql .= " from home.tb_client";
+                $sql .= " where id_system = " . "'" . trim($systemId) . "'";
+                $rs = pg_query($cn, $sql);
+                if (pg_fetch_row($rs)) {
+                    throw new Exception("Código de acesso [$systemId] já em uso por outro usuário");
+                }                
+
                 // Calculate expire date
                 $date = new DateTime();
                 $date->add(new DateInterval('P3M'));
                 $expireDate = $date->format('Y-m-d');
 
                 // Insert new client
-                $sql = "insert into home.tb_client (name, email, expire_date, id_system) values ('$name', '$email', '$expireDate', '') returning id";
+                $sql = "insert into home.tb_client (name, email, expire_date, id_system) values ('$name', '$email', '$expireDate', '$systemId') returning id";
                 $rs = pg_query($cn, $sql);
                 if (!$rs) {
                     throw new Exception(pg_last_error($cn));
                 }
 
-                // Keep rows affected
-                $affectedRows = pg_affected_rows($rs);
-
-                // Get inserted ID
-                while ($row = pg_fetch_array($rs)) {
-                    $id = $row['id'];
-                }
-
-                // Insert new client
-                $systemId = "S" . date("Y") . $id;
-                $sql = "update home.tb_client set id_system = '$systemId' where id = $id";
-                $rs = pg_query($cn, $sql);
-
                 // Keep instance of SqlBuilder for current session
                 $sqlBuilder = new SqlBuilder($systemId, 0, 0, 0);
-
                 $setupCore = new SetupCore($cn, $sqlBuilder);
                 $setupCore->setup($systemId);
-
                 $setupEntity = new SetupEntity($cn, $sqlBuilder);
                 $setupEntity->setup($systemId);
 

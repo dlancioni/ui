@@ -68,13 +68,14 @@ async function retrieveCredential(email) {
 /*
  * Register new user
  */
-async function register(name, email) {
+async function register(name, email, system) {
     
     let formData = new FormData();
 
     // Set data to be registered
     formData.append('_NAME_', name);
     formData.append('_EMAIL_', email);
+    formData.append('_SYSTEM_', system);
     
     // Register it
     let info = await execute('async/register.php', formData);

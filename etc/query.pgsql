@@ -1,4 +1,6 @@
--- select * from information_schema.tables where table_schema = 's20201'
 set search_path to S20201;
 
-select * from tb_contact
+drop schema demo cascade
+
+select schema_name from information_schema.schemata
+select * from home.tb_client

@@ -6,13 +6,14 @@
     include "../page/include.php";
 
     // General declaration
+    $db = "";    
+    $msg = "";    
     $name = "";
     $email = "";
-    $msg = "";
-    $db = "";
-    $stringUtil = "";
-    $logicAuth = "";
+    $system = "";
     $message = "";
+    $logicAuth = "";
+    $stringUtil = "";    
     
     // Core code
     try {
@@ -33,8 +34,12 @@
             $email = $stringUtil->RemoveSpecialChar($_REQUEST["_EMAIL_"]);
         }
 
+        if (isset($_REQUEST["_SYSTEM_"])) {
+            $system = $stringUtil->RemoveSpecialChar($_REQUEST["_SYSTEM_"]);
+        }
+
         // Create new user
-        $logicAuth->register($name, $email);
+        $logicAuth->register($name, $email, $system);
 
         // Handle return
         if ($logicAuth->getError() == "") {

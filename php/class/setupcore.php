@@ -58,6 +58,7 @@
         public function createSchema($cn) {
 
             // General declaration
+            $error = "";
             $systemId = "";
             $schemaName = "";
 
@@ -70,7 +71,8 @@
                 pg_query($cn, "set search_path to $schemaName");
 
             } catch (Exception $ex) {
-                throw $ex;
+                $error = "Código de acesso inválido. Use letras e números, sem caractéres especiais ou espaços. Ex.: cadcli, abcbank, loja5";
+                throw new Exception($error);
             }
         }
 
@@ -506,8 +508,7 @@
                 // Create User
                 $this->execute($cn, $model->addUser($this->groupId, "System", "system@form1.com.br", "system", "123"));
                 $this->execute($cn, $model->addUser($this->groupId, "Administrador", "admin@form1.com.br", "admin", "123"));
-                $this->execute($cn, $model->addUser($this->public, "João", "joao@form1.com.br", "joao", "123"));
-                $this->execute($cn, $model->addUser($this->public, "Maria", "maria@form1.com.br", "maria", "123"));
+                $this->execute($cn, $model->addUser($this->public, "demo", "demo@form1.com.br", "joao", "123"));
                 
             } catch (Exception $ex) {
                 throw $ex;
