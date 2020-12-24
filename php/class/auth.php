@@ -138,13 +138,13 @@
             // General Declaration
             $msg = "";
             $userId = 0;
-            $username = "";
+            $username = "demo";
             $password = "";
             $subject = "";
             $body = "";
             $mail = new Mail();
-            $stringUtil = new StringUtil();
             $message = new Message();
+            $stringUtil = new StringUtil();            
             $lb = $stringUtil->lb();
 
             try {
@@ -178,7 +178,7 @@
                 $sql .= "select" . $stringUtil->lb();
                 $sql .= "field->>'username' as username," . $stringUtil->lb();
                 $sql .= "field->>'password' as password" . $stringUtil->lb();
-                $sql .= "from tb_user" . $stringUtil->lb();
+                $sql .= "from $systemId.tb_user" . $stringUtil->lb();
                 $sql .= "where field->>'username' = '$username'" . $stringUtil->lb();
                 $rs = pg_query($cn, $sql);
 
@@ -214,11 +214,15 @@
             $sql = "";
             $msg = "";
             $date = "";
-
+            $tmp = "";
             $setupCore = "";
-            $setupEntity = "";
-            $affectedRows = 0;
+            $setupEntity = "";            
             $expireDate = "";
+            $uniqueId = "";
+            $username = "";
+            $password = "123";
+            $affectedRows = 0;            
+
             $mail = new Mail();
             $jsonUtil = new JsonUtil();
 
@@ -280,13 +284,29 @@
                 if (!$rs) {
                     throw new Exception(pg_last_error($cn));
                 }
-
+                
                 // Keep instance of SqlBuilder for current session
                 $sqlBuilder = new SqlBuilder($systemId, 0, 0, 0);
                 $setupCore = new SetupCore($cn, $sqlBuilder);
                 $setupCore->setup($systemId);
                 $setupEntity = new SetupEntity($cn, $sqlBuilder);
                 $setupEntity->setup($systemId);
+
+                // Update tb_user with new username and password
+                $uniqueId = uniqid();
+                if (strlen($uniqueId) == 13) {
+                    $password = substr($uniqueId, 9, 13);
+                }
+
+                // Set final password
+                $tmp = $jsonUtil->dqt($password);
+                $sql = "update tb_user set field = jsonb_set(field, '{password}', '$tmp') where field->>'username' = 'demo'";
+                $rs = pg_query($cn, $sql);
+
+                // Set final email
+                $tmp = $jsonUtil->dqt($email);
+                $sql = "update tb_user set field = jsonb_set(field, '{email}', '$tmp') where field->>'username' = 'demo'";
+                $rs = pg_query($cn, $sql);
 
                 // Commit transaction
                 pg_query($cn, "commit");
@@ -297,11 +317,10 @@
             } catch (Exception $ex) {
 
                 // Rollback transaction
-                pg_query($cn, "rollback");                
+                pg_query($cn, "rollback");    
 
                 // Keep error message
-                $this->setError("LogicAuth.retrieveCredential()", $ex->getMessage());                
-
+                $this->setError("LogicAuth.retrieveCredential()", $ex->getMessage());
             }
         }
 
@@ -385,7 +404,8 @@
                 $new = $jsonUtil->dqt($new);
 
                 // Final update
-                pg_query("update tb_user set field = jsonb_set(field, '{password}', '$new') where id = $userId;");
+                $sql = "update tb_user set field = jsonb_set(field, '{password}', '$new') where id = $userId;";
+                pg_query($sql);
 
                 // Success
                 $this->setMessage($message->getValue("M26"));

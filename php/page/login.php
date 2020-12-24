@@ -47,7 +47,7 @@
                                 <br>
                                 <input type="text" id="email" name="email" class="form-control" placeholder="Informe seu e-mail" value="">
                                 <br>
-                                <input type="text" id="system" name="system" class="form-control" placeholder="Informe o nome do seu projeto" value="">
+                                <input type="text" id="system" name="system" class="form-control" placeholder="Crie um código de acesso" value="">
                             </div>
                         </div>
                         <!-- Footer -->
