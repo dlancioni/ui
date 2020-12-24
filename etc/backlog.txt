@@ -1,17 +1,11 @@
 Pendentes
-	1) Criar solucao para view 
-		Query customizada sobrepor viewdef	- OK
-		Criar tela tipo painel para exibir campo view - OK
-		Ao apagar view, apagar view def tb - OK
-		Nao permitir funcao agregada (sum, avg, etc) em campos string ou tipo - OK
-		Adicionar condicoes as views		
-		Controle de paginacao na visao
-	2) Criar solucao para apresentar graficos
+    Adicionar condicoes as views		
+	Controle de paginacao na visao
+	Criar solucao para apresentar graficos
+	Nao permitir mesmo usuario logar diferentes maquinas
 
 Bugs
-	1) Adicionar codigo do sistema na tela de recuperar senha
 	2) Form/load nao esta funcionando
-
 
 Nice to have
 	Revisar tratamento erros na chamada de sql, etc	
@@ -34,3 +28,8 @@ Finalizados
 	Criar modulo sem tabela
 	Criar tela para alterar senha		
 	Criar codigo personalizado e senha forte
+	Query customizada sobrepor viewdef
+	Criar tela tipo painel para exibir campo view
+	Ao apagar view, apagar view def tb
+	Nao permitir funcao agregada (sum, avg, etc) em campos string ou tipo
+	Adicionar codigo do sistema na tela de recuperar senha
