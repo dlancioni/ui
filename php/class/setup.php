@@ -167,5 +167,14 @@
             return $tableName;
         }
 
+        public function setGroup($value) {
+            $this->groupId = $value;
+        }
+        public function getGroup() {
+            return $this->groupId;
+        }
+
+
+
     } // End of class
 ?>

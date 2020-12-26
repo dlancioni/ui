@@ -17,22 +17,32 @@
         /*
          * Upload files
          */
-        public function uploadFiles($files, $systemId) {
+        public function uploadFiles($files, $systemId, $groupId) {
 
             // General Declaration
-            $sql = "";
             $rs = "";
+            $sql = "";
+            $path = "";
             $affectedRows = 0;
             $jsonUtil = new JsonUtil();
             $pathUtil = new PathUtil();
+            $fileUtil = new FileUtil();
 
             try {
+
+                // Upload area on server (out of project structure)
+                $path = $pathUtil->getUploadPath($systemId, $groupId);
+                $fileUtil->createDirectory($path);                
+
+                // Download area (inside web server)
+                $path = $pathUtil->getDownloadPath($systemId, $groupId);
+                $fileUtil->createDirectory($path);                
 
                 // Handle uploads
                 foreach($_FILES as $file) {
 
                     // Extract file attributes
-                    $this->destination = $pathUtil->getUploadPath($systemId);
+                    $this->destination = $pathUtil->getUploadPath($systemId, $groupId);
                     $this->tempFile = $file['tmp_name'];
                     $this->fileName = $file['name'];
                     $this->fileSize = $file['size'];

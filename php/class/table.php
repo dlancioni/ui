@@ -57,6 +57,7 @@ class LogicTable extends Base {
             // Current user
             $userId = $this->sqlBuilder->getUser();
             $this->setSystem($this->sqlBuilder->getSystem());
+            $this->setGroup($this->sqlBuilder->getGroup());
 
             // Handle structures
             if ($viewId != 0) {
@@ -250,29 +251,18 @@ class LogicTable extends Base {
 
         $size = 0;
         switch ($columnCount) {
-            case 4:
-                if ($column == 4) {
-                    $size = 50;
-                }
-                break;
-
-            case 3:
-                if ($column == 3) {
-                    $size = 65;
-                }
-                break;
-
-            case 2:
-                if ($column == 2) {
-                    $size = 80;
-                }
-                break;
 
             case 1:
                 if ($column == 1) {
                     $size = 95;
                 }
                 break;                
+
+            case 2:
+                if ($column == 2) {
+                    $size = 80;
+                }
+                break;
         }
 
         return $size;
@@ -343,14 +333,14 @@ class LogicTable extends Base {
                 if ($fieldValue != null) {
 
                     // Prepare to copy
-                    $source = $pathUtil->getUploadPath($this->getSystem()) . $fieldValue;
-                    $target = $pathUtil->getRealPath($this->getSystem()) . $fieldValue;
+                    $source = $pathUtil->getUploadPath($this->getSystem(), $this->getGroup()) . $fieldValue;
+                    $target = $pathUtil->getRealPath($this->getSystem(), $this->getGroup()) . $fieldValue;
 
                     // Copy file to server
                     copy($source, $target);
                     
                     // Prepare link path
-                    $link = $pathUtil->getVirtualPath($this->getSystem()) . $fieldValue;
+                    $link = $pathUtil->getVirtualPath($this->getSystem(), $this->getGroup()) . $fieldValue;
 
                     // Create link                  
                     $fieldValue = $this->element->createLink("Baixar", $fieldValue, $link, true);

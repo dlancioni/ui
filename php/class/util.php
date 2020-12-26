@@ -38,10 +38,8 @@
 
     class PathUtil {
 
-        /*
-         * Get virtual file path
-         */
-        public function getVirtualPath($systemId) {
+        // Get virtual file path
+        public function getVirtualPath($systemId, $groupId) {
 
             $path = "";
             $os = new OS();
@@ -49,9 +47,9 @@
             try {
 
                 if ($os->getOS() == $os->WINDOWS) {
-                    $path = "\\ui\\temp\\" . $systemId . "\\";
+                    $path = "\\ui\\temp\\" . $systemId . "\\" . $groupId . "\\";
                 } else {
-                    $path = "/temp/" . $systemId . "/";
+                    $path = "/temp/" . $systemId . "/" . $groupId . "/";
                 }
 
             } catch (Exception $ex) {
@@ -61,10 +59,8 @@
             return $path;
         }
 
-        /*
-         * Get real file path
-         */
-        public function getRealPath($systemId) {
+        // Get real file path
+        public function getRealPath($systemId, $groupId) {
 
             $path = "";
             $os = new OS();
@@ -72,9 +68,9 @@
             try {
 
                 if ($os->getOS() == $os->WINDOWS) {
-                    $path = realpath(".") . "\\temp\\" . $systemId . "\\";
+                    $path = realpath(".") . "\\temp\\" . $systemId . "\\" . $groupId . "\\";
                 } else {
-                    $path = realpath(".") . "/temp/" . $systemId . "/";
+                    $path = realpath(".") . "/temp/" . $systemId . "/" . "/" . $groupId . "/";
                 }
 
             } catch (Exception $ex) {
@@ -84,9 +80,7 @@
             return $path;
         }
 
-        /*
-         * Get log path
-         */
+        // Get log path
         public function getLogPath($fileName) {
 
             $path = "";
@@ -110,7 +104,7 @@
         /*
          * Get upload path for windows or linux
          */
-        public function getUploadPath($systemId) {
+        public function getUploadPath($systemId, $groupId) {
 
             // General declaration
             $path = "";
@@ -120,15 +114,40 @@
 
                 // Return path to upload files
                 if ($os->getOS() == $os->WINDOWS) {                   
-                    $path = "c:\\temp\\forms\\upload\\" . $systemId . "\\";
+                    $path = "c:\\temp\\forms\\upload\\" . $systemId . "\\" . $groupId . "\\";
                 } else {
-                    $path = "/home/storage/8/df/6a/form12/forms/upload/" . $systemId . "/";
+                    $path = "/home/storage/8/df/6a/form12/forms/upload/" . $systemId . "/" . $groupId . "/";
                 }
 
             } catch (Exception $ex) {
                 throw $ex;
             }
 
+            return $path;
+        }
+
+       /*
+        * Get download path for windows or linux
+        */
+        public function getDownloadPath($systemId, $groupId) {
+
+            // General declaration
+            $path = "";
+            $os = new OS();
+    
+            try {
+    
+                // Return path to upload files
+                if ($os->getOS() == $os->WINDOWS) {                   
+                    $path = "c:\\Users\\david\\xampp\\htdocs\\ui\\temp\\" . $systemId . "\\" . $groupId . "\\";
+                } else {
+                    $path = "/home/storage/8/df/6a/form12/public_html/temp/" . $systemId . "/" . $groupId . "/";
+                }
+    
+            } catch (Exception $ex) {
+                throw $ex;
+            }
+    
             return $path;
         }
     }

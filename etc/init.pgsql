@@ -1,4 +1,5 @@
 drop schema if exists demo cascade;
+drop schema if exists empresa cascade;
 drop schema if exists home cascade;
 create schema home;
 create table home.tb_client (

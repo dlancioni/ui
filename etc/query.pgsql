@@ -1,4 +1,4 @@
-set search_path to demo;
+set search_path to empresa;
 
 
-select * from demo.tb_user
+select * from empresa.tb_user

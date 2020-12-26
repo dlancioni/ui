@@ -138,7 +138,7 @@
             // General Declaration
             $msg = "";
             $userId = 0;
-            $username = "demo";
+            $username = "usuario";
             $password = "";
             $subject = "";
             $body = "";
@@ -300,12 +300,12 @@
 
                 // Set final password
                 $tmp = $jsonUtil->dqt($password);
-                $sql = "update tb_user set field = jsonb_set(field, '{password}', '$tmp') where field->>'username' = 'demo'";
+                $sql = "update tb_user set field = jsonb_set(field, '{password}', '$tmp') where field->>'username' = 'usuario'";
                 $rs = pg_query($cn, $sql);
 
                 // Set final email
                 $tmp = $jsonUtil->dqt($email);
-                $sql = "update tb_user set field = jsonb_set(field, '{email}', '$tmp') where field->>'username' = 'demo'";
+                $sql = "update tb_user set field = jsonb_set(field, '{email}', '$tmp') where field->>'username' = 'usuario'";
                 $rs = pg_query($cn, $sql);
 
                 // Commit transaction

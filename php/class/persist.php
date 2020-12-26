@@ -123,7 +123,7 @@
                 if ($action == $this->ACTION_NEW || $action == $this->ACTION_EDIT) {
                     if (count($_FILES) > 0) {
                         $logicUpload = new LogicUpload($cn);
-                        $logicUpload->uploadFiles($_FILES, $systemId);
+                        $logicUpload->uploadFiles($_FILES, $systemId, $groupId);
                     }
                 }
                 

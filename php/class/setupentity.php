@@ -171,9 +171,7 @@
                 throw $ex;
             }
         }
-
-  
-        // Create demo
+ 
         private function addEntity($name, $id_entity_type, $id_person_type) {
 
             // General Declaration

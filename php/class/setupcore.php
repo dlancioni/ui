@@ -25,7 +25,7 @@
                 // Database objects
                 $this->createSchema($cn);
                 $this->createTable($cn);
-                $this->createUpload($cn);
+                $this->createFolder($cn);
 
                 // System structure
                 $this->createMenu($cn);
@@ -510,7 +510,7 @@
                 // Create User
                 $this->execute($cn, $model->addUser($this->groupId, "System", "system@form1.com.br", "system", "system@forms"));
                 $this->execute($cn, $model->addUser($this->groupId, "Administrador", "admin@form1.com.br", "admin", "admin@forms"));
-                $this->execute($cn, $model->addUser($this->public, "demo", "demo@form1.com.br", "demo", "user#forms"));
+                $this->execute($cn, $model->addUser($this->public, "Usuário", "usuario@form1.com.br", "usuario", ""));
                 
             } catch (Exception $ex) {
                 throw $ex;
@@ -690,20 +690,18 @@
         /*
          * Create area to upload files
          */
-        private function createUpload($cn) {
+        private function createFolder($cn) {
 
             // General declaration
             $path = "";
             $fileUtil = new FileUtil();
             $pathUtil = new PathUtil();
-            $model = new Model($this->groupId);
+            $model = new Model($this->getGroup());
             
             try {
 
-                // Get base path
-                $path = $pathUtil->getUploadPath($this->getSystem());
-
-                // If not exists, create it
+                // Log folder 
+                $path = $pathUtil->getLogPath("");
                 $fileUtil->createDirectory($path);
                 
             } catch (Exception $ex) {
