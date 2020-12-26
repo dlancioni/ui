@@ -1,5 +1,5 @@
 Pendentes
-    Adicionar condicoes as views		
+    Adicionar condicoes as views
 	Criar solucao para apresentar graficos
 	Nao permitir mesmo usuario logar diferentes maquinas
 

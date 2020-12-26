@@ -73,13 +73,11 @@
 
                 // Validate key fields
                 if ($moduleId == 0) {
-                    $error = $message->getValue("M1");
-                    $error = str_replace("%", "Tabela", $error);
+                    $error = $message->getValue("M1", "Tabela");
                 }
 
                 if ($fieldId == 0) {
-                    $error = $message->getValue("M1");
-                    $error = str_replace("%", "Campo", $error);
+                    $error = $message->getValue("M1", "Campo");
                 }                
 
                 // Figure out field type

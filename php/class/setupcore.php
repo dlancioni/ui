@@ -388,6 +388,7 @@
                 $this->execute($cn, $model->addDomain($this->groupId, "M26", "Senha alterada com sucesso", "tb_message"));
                 $this->execute($cn, $model->addDomain($this->groupId, "M27", "Nova senha não está confirmada corretamente", "tb_message"));
                 $this->execute($cn, $model->addDomain($this->groupId, "M28", "Senha atual informada inválida", "tb_message"));
+                $this->execute($cn, $model->addDomain($this->groupId, "M29", "Usuário % já está logado no sistema", "tb_message"));
 
                 // tb_cascade
                 $this->execute($cn, $model->addDomain($this->groupId, "tb_field.id_module_fk", "id_field_fk; tb_field; id; label", "tb_cascade"));

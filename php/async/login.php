@@ -11,16 +11,15 @@
     $sql = "";
     $json = "";
     $msg = "";
-    $jsonUtil = "";
-
-    // Sign in info
+    $error = "";
+    $email = "";
+    $token = "";    
     $systemId = "";
     $username = "";
     $password = "";
-    $email = "";
+    $jsonUtil = "";
     $stringUtil = new StringUtil();
     
-    // Core code
     try {
 
         // Authentication related variables
@@ -46,6 +45,16 @@
         $message = new Message($cn);
         $logicAuth = new LogicAuth($cn, $sqlBuilder);
 
+        // Current user to control unique login
+        $token = strtoupper($systemId . "_" . $username);
+
+        if (isset($_GLOBAL[$token])) {
+            if ($_GLOBAL[$token] == $token) {
+                $error = $message->getValue("M29", $username);
+                throw new Exception($error);
+            }
+        }        
+
         // Authenticate user
         $logicAuth->authenticate($systemId, $username, $password);
 
@@ -66,6 +75,9 @@
             $_SESSION['_PAGE_ACTION_'] = "";
             $_SESSION['_TABLEDEF_'] = "";
             $_SESSION['_VIEWDEF_'] = "";
+
+            // Control unique access
+            $_GLOBAL[$token] = $token;
 
         } else {
 

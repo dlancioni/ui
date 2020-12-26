@@ -28,8 +28,7 @@
                 // Validate date fields missing mask
                 if ($jsonUtil->getValue($new, "id_type") == $this->TYPE_DATE) {
                     if (trim($jsonUtil->getValue($new, "mask")) == "") {
-                        $msg = $message->getValue("M10");
-                        $msg = str_replace("%", $jsonUtil->getValue($new, "label"), $msg);
+                        $msg = $message->getValue("M10", $jsonUtil->getValue($new, "label"));
                         throw new Exception($msg);
                     }
                 }

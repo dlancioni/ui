@@ -349,26 +349,22 @@
 
                 // Validate mandatory fields
                 if ($userId == 0) {
-                    $msg = $message->getValue("M1");
-                    $msg = str_replace("%", "usuário", $msg);
+                    $msg = $message->getValue("M1", "usuário");
                     throw new Exception($msg);
                 }
                 if (trim($current) == "") {
                     $this->setField("current");
-                    $msg = $message->getValue("M1");
-                    $msg = str_replace("%", "senha atual", $msg);
+                    $msg = $message->getValue("M1", "senha atual");
                     throw new Exception($msg);
                 }
                 if (trim($new) == "") {
                     $this->setField("new");
-                    $msg = $message->getValue("M1");
-                    $msg = str_replace("%", "nova senha", $msg);
+                    $msg = $message->getValue("M1", "nova senha");
                     throw new Exception($msg);
                 }
                 if (trim($confirm) == "") {
                     $this->setField("confirm");
-                    $msg = $message->getValue("M1");
-                    $msg = str_replace("%", "confirmar nova senha", $msg);
+                    $msg = $message->getValue("M1", "confirmar nova senha");
                     throw new Exception($msg);
                 }
 
