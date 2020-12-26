@@ -48,13 +48,6 @@
         // Current user to control unique login
         $token = strtoupper($systemId . "_" . $username);
 
-        if (isset($_GLOBAL[$token])) {
-            if ($_GLOBAL[$token] == $token) {
-                $error = $message->getValue("M29", $username);
-                throw new Exception($error);
-            }
-        }        
-
         // Authenticate user
         $logicAuth->authenticate($systemId, $username, $password);
 
