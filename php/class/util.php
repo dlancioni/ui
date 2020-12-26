@@ -450,7 +450,6 @@
             $html = "";
             $message = "";
             $viewId = 0;
-            $stringUtil = new StringUtil();
             $sqlBuilder = new SqlBuilder();
 
             try {
@@ -465,7 +464,7 @@
                 foreach ($data as $row) {
                     $message = $row["value"];
                     if (trim($value) != "" ) {
-                        $message = $stringUtil->dqt(str_replace("%", $value, $message));
+                        $message = str_replace("%", $value, $message);
                     }
                 }
 
