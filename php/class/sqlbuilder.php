@@ -745,7 +745,8 @@ class SqlBuilder extends Base {
             $sql .= " (tb_view.field->>'sql')::text as sql," . $lb;
             $sql .= " (tb_view.field->>'name')::text as view_name," . $lb;
             $sql .= " (tb_view.field->>'id_type')::text as view_type," . $lb;
-        }        
+            $sql .= " (tb_view.field->>'paged')::int as paged," . $lb;
+        }
 
         // tb_module
         $sql .= " (tb_module.field->>'name')::text as table_name," . $lb;

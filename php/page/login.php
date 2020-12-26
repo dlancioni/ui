@@ -8,9 +8,9 @@
 
         // Standard user for development
         if ($os->getOS() == $os->WINDOWS) {
-            $systemId = "S20201";
-            $username = "system";
-            $password = "123";
+            $systemId = "demo";
+            $username = "demo";
+            $password = "1c5b";
         } else {
             $systemId = "";
             $username = "";

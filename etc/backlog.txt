@@ -1,6 +1,5 @@
 Pendentes
     Adicionar condicoes as views		
-	Controle de paginacao na visao
 	Criar solucao para apresentar graficos
 	Nao permitir mesmo usuario logar diferentes maquinas
 
@@ -33,3 +32,4 @@ Finalizados
 	Ao apagar view, apagar view def tb
 	Nao permitir funcao agregada (sum, avg, etc) em campos string ou tipo
 	Adicionar codigo do sistema na tela de recuperar senha
+	Controle de paginacao na visao

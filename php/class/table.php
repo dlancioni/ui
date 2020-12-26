@@ -77,6 +77,14 @@ class LogicTable extends Base {
             } else {
                 $pageTitle = $tableDef[0]["view_name"];
                 $viewType = $tableDef[0]["view_type"];
+
+                // Enable or desable paging on views (reports cannot page)
+                if ($tableDef[0]["paged"] == 1) {
+                    $this->queryType = $this->sqlBuilder->QUERY;
+                } else {
+                    $this->queryType = $this->sqlBuilder->QUERY_NO_PAGING;
+                }
+
             }
 
             // Create page title
@@ -166,8 +174,10 @@ class LogicTable extends Base {
 
 
             // Create paging
-            if ($this->showPaging) {
-                $html .= $this->element->createPaging($recordCount, $this->sqlBuilder->PageSize, $this->sqlBuilder->PageOffset);
+            if ($this->queryType != $this->sqlBuilder->QUERY_NO_PAGING) {
+                if ($this->showPaging) {
+                    $html .= $this->element->createPaging($recordCount, $this->sqlBuilder->PageSize, $this->sqlBuilder->PageOffset);
+                }
             }
 
             // Create buttons

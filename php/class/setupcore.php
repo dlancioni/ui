@@ -241,6 +241,7 @@
                 $this->execute($cn, $model->addField($this->TB_VIEW, "Módulo", "id_module", $this->TYPE_INT, 0, "", $YES, $YES, $this->tb("tb_module"), $this->fd("title"), "", "", $this->INPUT_DROPDOWN, ++$seq));
                 $this->execute($cn, $model->addField($this->TB_VIEW, "Nome", "name", $this->TYPE_TEXT, 50, "", $YES, $YES, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
                 $this->execute($cn, $model->addField($this->TB_VIEW, "Tipo", "id_type", $this->TYPE_INT, 0, "", $YES, $NO, $this->tb("tb_domain"), $this->fd("value"), "tb_view_type", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_VIEW, "Paginação", "paged", $this->TYPE_INT, 0, "", $YES, $NO, $this->tb("tb_domain"), $this->fd("value"), "tb_bool", "", $this->INPUT_DROPDOWN, ++$seq));
                 $this->execute($cn, $model->addField($this->TB_VIEW, "SQL", "sql", $this->TYPE_TEXT, 10000, "", $NO, $NO, 0, 0, "", "", $this->INPUT_TEXTAREA, ++$seq));
 
                 // tb_view_field
@@ -506,9 +507,9 @@
                 $this->setModule("tb_user");
 
                 // Create User
-                $this->execute($cn, $model->addUser($this->groupId, "System", "system@form1.com.br", "system", "123"));
-                $this->execute($cn, $model->addUser($this->groupId, "Administrador", "admin@form1.com.br", "admin", "123"));
-                $this->execute($cn, $model->addUser($this->public, "demo", "demo@form1.com.br", "demo", "123"));
+                $this->execute($cn, $model->addUser($this->groupId, "System", "system@form1.com.br", "system", "system@forms"));
+                $this->execute($cn, $model->addUser($this->groupId, "Administrador", "admin@form1.com.br", "admin", "admin@forms"));
+                $this->execute($cn, $model->addUser($this->public, "demo", "demo@form1.com.br", "demo", "user#forms"));
                 
             } catch (Exception $ex) {
                 throw $ex;
