@@ -21,7 +21,7 @@ class LogicTable extends Base {
     /* 
     * Create a table
     */
-    function createReport($moduleId, $viewId=0, $action="", $pageOffset=0) {
+    function createReport($moduleId, $viewId=0, $event="", $pageOffset=0) {
 
         // General Declaration
         $PAGE_SIZE = 15;
@@ -96,10 +96,10 @@ class LogicTable extends Base {
 
             // Get data
             $filter = new Filter("like");
-            if ($action == $this->ACTION_FILTER || $action == $this->ACTION_DETAIL) {
+            if ($event == $this->ACTION_FILTER || $event == $this->ACTION_DETAIL) {
                 $filter->setFilter($tableDef, $formData);
                 // Do not keep filters when creating tabs
-                if ($action != $this->ACTION_DETAIL) {
+                if ($event != $this->ACTION_DETAIL) {
                     $_SESSION["_FILTER_"][$moduleId] = array($formData);
                 }
 
@@ -134,7 +134,7 @@ class LogicTable extends Base {
                 // Standard report view
                 case $this->REPORT:
                     $tableRow .= $this->createTableHeader($viewId, $data, $tableDef, $this->sqlBuilder->CONDITION);
-                    $tableRow .= $this->createTableData($tableDef, $data, $action);
+                    $tableRow .= $this->createTableData($tableDef, $data, $event);
                     $html .= $this->element->createTable($tableRow);
                     break;
 
@@ -161,7 +161,7 @@ class LogicTable extends Base {
                 // Standard report view                    
                 default:
                     $tableRow .= $this->createTableHeader($viewId, $data, $tableDef, $this->sqlBuilder->CONDITION);
-                    $tableRow .= $this->createTableData($tableDef, $data, $action);
+                    $tableRow .= $this->createTableData($tableDef, $data, $event);
                     $html .= $this->element->createTable($tableRow);
             }
 
@@ -183,7 +183,7 @@ class LogicTable extends Base {
 
             // Create buttons
             if ($this->showAction) {
-                $html .= $eventAction->createButton($moduleId, $userId, 1, $action);
+                $html .= $eventAction->createButton($moduleId, $userId, 1, $event);
             }
 
             // Prepare view list
@@ -374,7 +374,7 @@ class LogicTable extends Base {
         return $cols;
     }
 
-    private function createTableData($tableDef, $data, $action) {
+    private function createTableData($tableDef, $data, $event) {
 
         // General declaration
         $fk = 0;
@@ -433,7 +433,7 @@ class LogicTable extends Base {
                         if ($command < $this->sqlBuilder->CONDITION) {
 
                             // Create link to parent module                                
-                            if ($action == 0 || $action == 8) {
+                            if ($event == 0 || $event == 8) {
                                 $id = $row["id"];
                                 if ($fk != 0 && $fk != $this->TB_DOMAIN) {
                                     $fieldValue = "<a href='#' onClick='go($fk, 3, 0, $id)'>" . $fieldValue . "</a>";

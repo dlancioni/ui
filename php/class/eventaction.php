@@ -12,7 +12,7 @@
         /* 
         * Get event list and isolate function calls related to buttons
         */
-        function createButton($moduleId, $userId, $target, $action) {
+        function createButton($moduleId, $userId, $target, $event) {
 
             // General declaration
             $html = "";
@@ -25,7 +25,7 @@
             try {
 
                 // Get related events
-                $events = $this->getEventByModule($moduleId, $userId, $target, $action);
+                $events = $this->getEventByModule($moduleId, $userId, $target, $event);
 
                 // Create event list
                 $html .= "<br>";
@@ -106,7 +106,7 @@
        /*
         * Get module function by profile user
         */
-        private function getEventByModule($moduleId, $userId, $target, $action) {
+        private function getEventByModule($moduleId, $userId, $target, $event) {
 
             // General declaration    
             $rs = "";
@@ -135,7 +135,7 @@
                 $sql .= " and (tb_event.field->>'id_target')::int = " . $target . $lb;
                 $sql .= " and (tb_event.field->>'name')::text <> ''" . $lb;
 
-                if ($action == $this->ACTION_DETAIL) {
+                if ($event == $this->ACTION_DETAIL) {
                     $sql .= " and tb_event.id = " . $this->ACTION_CLEAR . $lb;
                 }
 

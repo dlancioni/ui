@@ -18,7 +18,7 @@
             try {
 
                 // Delete it
-                switch ($this->getAction()) {
+                switch ($this->getEvent()) {
                     case $this->ACTION_NEW:
                     case $this->ACTION_EDIT:
                         $this->validateViewField($new);

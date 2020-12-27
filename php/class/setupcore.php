@@ -34,7 +34,6 @@
                 $this->createDomain($cn);
                 $this->createEvent($cn);
                 $this->createCode($cn);
-                //$this->createAction($cn);
 
                 // Access control                
                 $this->createGroup($cn);
@@ -92,7 +91,6 @@
                 array_push($module, "tb_field");
                 array_push($module, "tb_domain");
                 array_push($module, "tb_event");
-                array_push($module, "tb_action");
                 array_push($module, "tb_code");
                 array_push($module, "tb_group");
                 array_push($module, "tb_view");
@@ -159,7 +157,6 @@
                 $this->TB_FIELD = $this->execute($cn, $model->addModule("tb_field", "Campos", $this->TYPE_SYSTEM, $this->STYLE_TABLE, $this->MENU_SYS));
                 $this->TB_DOMAIN = $this->execute($cn, $model->addModule( "tb_domain", "Domínios", $this->TYPE_SYSTEM, $this->STYLE_TABLE, $this->MENU_SYS));
                 $this->TB_EVENT = $this->execute($cn, $model->addModule("tb_event", "Eventos", $this->TYPE_SYSTEM, $this->STYLE_TABLE, $this->MENU_SYS));
-                $this->TB_ACTION = $this->execute($cn, $model->addModule("tb_action", "Ações", $this->TYPE_SYSTEM, $this->STYLE_TABLE, $this->MENU_SYS));
                 $this->TB_CODE = $this->execute($cn, $model->addModule("tb_code", "Programação", $this->TYPE_SYSTEM, $this->STYLE_TABLE, $this->MENU_SYS));
                 $this->TB_VIEW = $this->execute($cn, $model->addModule("tb_view","Visão", $this->TYPE_SYSTEM,  $this->STYLE_TABLE, $this->MENU_SYS));
                 $this->TB_VIEW_FIELD = $this->execute($cn, $model->addModule("tb_view_field", "Visão x Campos", $this->TYPE_SYSTEM, $this->STYLE_TABLE, $this->MENU_SYS));
@@ -458,7 +455,7 @@
                 $this->execute($cn, $model->addEvent($TABLE, "Filtrar", $this->EVENT_CLICK, 0, 0, "formFilter();"));
                 $this->execute($cn, $model->addEvent($FORM, "Limpar", $this->EVENT_CLICK, 0, 0, "formClear();"));
                 $this->execute($cn, $model->addEvent($FORM, "Voltar", $this->EVENT_CLICK, 0, 0, "reportBack();"));
-                $this->execute($cn, $model->addEvent($FORM, "Alterar senha", $this->EVENT_CLICK, 0, 0, "changePassword();")); // id 8
+                $this->execute($cn, $model->addEvent($FORM, "Alterar senha", $this->EVENT_CLICK, 0, 0, "changePassword();"));
                 
                 // Custon events
                 $this->execute($cn, $model->addEvent($FORM, "", $this->EVENT_CHANGE, $this->tb("tb_module"), $this->fd("name"), "this.value = validateTableName(this.value);"));

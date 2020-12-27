@@ -16,7 +16,7 @@
     $userId = 0;
     $groupId = 0; 
     $pageOffset = 0;
-    $action = 0;
+    $event = 0;
     $username = "";
     $password = "";    
     $filter = array();

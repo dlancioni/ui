@@ -36,7 +36,7 @@
                 $viewId = $jsonUtil->getValue($old, "id");
 
                 // Delete it
-                switch ($this->getAction()) {
+                switch ($this->getEvent()) {
                     case $this->ACTION_DELETE:
                         $this->deleteViewField($viewId);
                 }

@@ -33,14 +33,14 @@
                 case $TABLE:
                     $logicTable = new LogicTable($cn, $sqlBuilder, $_REQUEST);
                     $logicTable->queryType = $sqlBuilder->QUERY;                    
-                    $html .= $logicTable->createReport($moduleId, $viewId, $action, $pageOffset);
+                    $html .= $logicTable->createReport($moduleId, $viewId, $event, $pageOffset);
                     $error = $logicTable->getError();                    
                     break;
 
                 // Single form    
                 case $FORM:
                     $logicForm = new LogicForm($cn, $sqlBuilder);
-                    $html .= $logicForm->createForm($moduleId, $id, $action);
+                    $html .= $logicForm->createForm($moduleId, $id, $event);
                     $error = $logicForm->getError();
                     break;
 

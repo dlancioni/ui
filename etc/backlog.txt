@@ -13,7 +13,6 @@ Nice to have
 Finalizados
 	Deixar na memoria por transacao, listar todas e filtrar form ou report na apresentacao
 	ExecuteQuery nao chamar getTableDef toda hora
-	Renomear getEvent() to getAction()
 	Nao mostrar campo binary nas consultas
 	Ordenar campos por configuracao
 	Criar campo hidden

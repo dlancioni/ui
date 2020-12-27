@@ -51,7 +51,7 @@
 
 
         /*
-         * Once new action is created, need to grant access
+         * Once new event is created, need to grant access
          */
         private function tableAction($old, $new) {
 
@@ -70,7 +70,7 @@
             try {
 
                 // Grant profiles Admin and User
-                switch ($this->getAction()) {
+                switch ($this->getEvent()) {
 
                     case $this->ACTION_NEW:
 

@@ -24,7 +24,7 @@
             $jsonUtil = "";
             $unique = "";    
             $output = "";
-            $action = "";
+            $event = "";
             $fieldName = "";       
             $fieldType = "";
             $sqlBuilder = "";    
@@ -64,8 +64,8 @@
                     $this->setLastId("0");            
                 }
                 // Handle Action
-                if (isset($session["_ACTION_"])) {
-                    $this->setAction($session["_ACTION_"]);
+                if (isset($session["_EVENT_"])) {
+                    $this->setEvent($session["_EVENT_"]);
                 }
 
                 // Validate properties above
@@ -76,7 +76,7 @@
                 $moduleId = $this->getModule();
                 $userId = $this->getUser();
                 $groupId = $this->getGroup();
-                $action = $this->getAction();
+                $event = $this->getEvent();
 
                 // Open connection
                 $db = new Db();
@@ -98,7 +98,7 @@
                 }
 
                 // Rules for update/delete
-                if ($action == $this->ACTION_EDIT || $action == $this->ACTION_DELETE) {
+                if ($event == $this->ACTION_EDIT || $event == $this->ACTION_DELETE) {
 
                     // Get existing record
                     $filter = new Filter();
@@ -120,7 +120,7 @@
                 }
 
                 // Upload files on insert only
-                if ($action == $this->ACTION_NEW || $action == $this->ACTION_EDIT) {
+                if ($event == $this->ACTION_NEW || $event == $this->ACTION_EDIT) {
                     if (count($_FILES) > 0) {
                         $logicUpload = new LogicUpload($cn);
                         $logicUpload->uploadFiles($_FILES, $systemId, $groupId);
@@ -155,7 +155,7 @@
                 }
 
                 // Validate unique fields (when changed)
-                if ($action == $this->ACTION_NEW || $action == $this->ACTION_EDIT) {
+                if ($event == $this->ACTION_NEW || $event == $this->ACTION_EDIT) {
                     $filter = new Filter();
                     foreach ($tableDef as $item) {
                         $fieldLabel = $item["field_label"];
@@ -271,17 +271,17 @@
             if ($logic) {
 
                 // Set important keys
-                $logic->setAction($this->getAction());
+                $logic->setEvent($this->getEvent());
                 $logic->setGroup($this->getGroup());
 
                 // Trigger before
                 $logic->before($old, $new);
             }
 
-            // Prepare sql string according to the action
+            // Prepare sql string according to the event
             try {
 
-                switch ($this->getAction()) {
+                switch ($this->getEvent()) {
                     case $this->ACTION_NEW:
                         $msg = "M6";                        
                         $sql = "insert into $tableName (field) values ('$new') returning id";                        

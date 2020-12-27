@@ -16,9 +16,9 @@
         $_SESSION['_FORMAT_'] = intval($format);
     }
 
-    if (isset($_REQUEST["_ACTION_"])) {
-        $action = $_REQUEST["_ACTION_"];
-        $_SESSION['_ACTION_'] = $action;
+    if (isset($_REQUEST["_EVENT_"])) {
+        $event = $_REQUEST["_EVENT_"];
+        $_SESSION['_EVENT_'] = $event;
     }
 
     if (isset($_REQUEST["_VIEW_"])) {
@@ -43,7 +43,7 @@
 
     if (isset($_REQUEST["_ID_"])) {
         $id = intval($_REQUEST['_ID_']);
-        if ($action == "filter") {
+        if ($event == "filter") {
             $id = 0;
         }
         $_SESSION['_ID_'] = intval($id);

@@ -9,5 +9,5 @@ create table home.tb_client (
     expire_date date
 );
 select * from home.tb_client;
-select * from empresa.tb_user;
+--select * from empresa.tb_user;
 

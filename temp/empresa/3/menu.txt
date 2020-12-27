@@ -1,0 +1,17 @@
+<li class='nav-item dropdown'>
+<a class='nav-link dropdown-toggle' tabindex='0' data-toggle='dropdown' data-submenu>Administração</a>
+<div class='dropdown-menu'>
+<div class='dropdown dropright dropdown-submenu'>
+<div class='dropdown dropright dropdown-submenu'>
+<button class='dropdown-item dropdown-toggle' type='button'>Controle de Acesso</button>
+<div class='dropdown-menu'>
+<button class='dropdown-item' type='button' onclick='go(16, 2)'>Alterar senha</button>
+</div></div><li class='nav-item dropdown'>
+<a class='nav-link dropdown-toggle' tabindex='0' data-toggle='dropdown' data-submenu>Cadastros</a>
+<div class='dropdown-menu'>
+<div class='dropdown dropright dropdown-submenu'>
+<button class='dropdown-item' type='button' onclick='go(17, 1)'>Pessoas</button>
+<button class='dropdown-item' type='button' onclick='go(18, 1)'>Endereços</button>
+<button class='dropdown-item' type='button' onclick='go(19, 1)'>Documentos</button>
+<button class='dropdown-item' type='button' onclick='go(20, 1)'>Contatos</button>
+<button class='dropdown-item' type='button' onclick='go(21, 1)'>Anexos</button>

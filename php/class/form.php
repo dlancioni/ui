@@ -20,7 +20,7 @@ class LogicForm extends Base {
     /* 
     * Create new form
     */
-    function createForm($moduleId, $id=0, $action) {
+    function createForm($moduleId, $id=0, $event) {
 
         // General Declaration
         $k = "";
@@ -71,11 +71,11 @@ class LogicForm extends Base {
         try {
 
             // Handle events
-            if ($action == $this->ACTION_DELETE || $action == $this->ACTION_DETAIL) {
+            if ($event == $this->ACTION_DELETE || $event == $this->ACTION_DETAIL) {
                 $disabled = "disabled";
             }
 
-            if ($action == $this->ACTION_FILTER) {
+            if ($event == $this->ACTION_FILTER) {
                 $id = 0;
             }
 
@@ -92,7 +92,7 @@ class LogicForm extends Base {
                 $pageTitle = $tableDef[0]["title"];
                 
                 // Do not query database
-                if ($action == $this->ACTION_FILTER) {
+                if ($event == $this->ACTION_FILTER) {
                     if (isset($_SESSION["_FILTER_"][$moduleId])) {
                         $data = $_SESSION["_FILTER_"][$moduleId];
                     }                    
@@ -106,9 +106,9 @@ class LogicForm extends Base {
                     }
                 }
 
-                // Create field Id (rules according to action)
+                // Create field Id (rules according to event)
                 if (!$tableDef[0]["id_style"] == $this->STYLE_FORM) {
-                    $controls .= $this->createId($data, $placeHolder, $disabled, $action);
+                    $controls .= $this->createId($data, $placeHolder, $disabled, $event);
                 }
 
             } else {
@@ -179,7 +179,7 @@ class LogicForm extends Base {
                                                     $fieldMask, 
                                                     $fieldMandatory, 
                                                     $fk, 
-                                                    $action);
+                                                    $event);
                     
                     // Add label                
                     $label = $this->element->createLabel($fieldLabel, $fieldName);
@@ -269,7 +269,7 @@ class LogicForm extends Base {
                     }
 
                     // Cannot filter on binary fields
-                    if ($action == $this->ACTION_FILTER) {
+                    if ($event == $this->ACTION_FILTER) {
                         if ($fieldType != $this->TYPE_BINARY) {
                             $controls .= $this->element->createFieldGroup($label, $control);
                         }
@@ -292,7 +292,7 @@ class LogicForm extends Base {
             $html .= $this->element->createForm("form1", $controls);
 
             // Create buttons
-            $html .= $eventAction->createButton($moduleId, $userId, 2, $action);
+            $html .= $eventAction->createButton($moduleId, $userId, 2, $event);
 
             // Add validateForm function
             $html .= $this->element->createScript($js);
@@ -308,7 +308,7 @@ class LogicForm extends Base {
     /*
      * Create field ID
      */
-    private function createId($data, $placeHolder, $disabled, $action) {
+    private function createId($data, $placeHolder, $disabled, $event) {
         // General declaration
         $id = "";
         $fieldId = "_id_";
@@ -321,7 +321,7 @@ class LogicForm extends Base {
         }
 
         // Control access
-        switch ($action) {
+        switch ($event) {
             case $this->ACTION_NEW:
                 $id = "";
                 $disabled = "disabled";

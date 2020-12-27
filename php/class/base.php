@@ -2,7 +2,7 @@
     class Base {
 
         // Other
-        private $action = "";
+        private $event = "";
 
         // Current session
         private $systemId = 0;
@@ -47,20 +47,19 @@
         public $TB_FIELD = 3;
         public $TB_DOMAIN = 4;
         public $TB_EVENT = 5;
-        public $TB_ACTION = 6;
-        public $TB_CODE = 7;
-        public $TB_VIEW = 8;
-        public $TB_VIEW_FIELD = 9;
+        public $TB_CODE = 6;
+        public $TB_VIEW = 7;
+        public $TB_VIEW_FIELD = 8;
 
         // Access Control
-        public $TB_PROFILE = 10;
-        public $TB_PROFILE_TABLE = 11;
-        public $TB_MODULE_EVENT = 12;
-        public $TB_USER = 13;
-        public $TB_USER_PROFILE = 14;
-        public $TB_GROUP = 15;
-        public $TB_USER_GROUP = 16;
-        public $TB_UPD_PWD = 17;
+        public $TB_PROFILE = 9;
+        public $TB_PROFILE_TABLE = 10;
+        public $TB_MODULE_EVENT = 11;
+        public $TB_USER = 12;
+        public $TB_USER_PROFILE = 13;
+        public $TB_GROUP = 14;
+        public $TB_USER_GROUP = 15;
+        public $TB_UPD_PWD = 16;
 
         // Access Control
         public $TB_CUSTOMER = 17;
@@ -104,12 +103,12 @@
         public $ACTION_NEW = 1;
         public $ACTION_EDIT = 2;
         public $ACTION_DELETE = 3;
-        public $ACTION_DETAIL = 4;
-        public $ACTION_CONFIRM = 5;
-        public $ACTION_FILTER = 6;
-        public $ACTION_CLEAR = 7;
-        public $ACTION_BACK = 8;
-        public $ACTION_TEST = 9;
+        public $ACTION_CONFIRM = 4;
+        public $ACTION_FILTER = 5;
+        public $ACTION_CLEAR = 6;
+        public $ACTION_BACK = 7;
+        public $ACTION_TEST = 8;
+        public $ACTION_DETAIL = 9;
 
         // View type
         public $REPORT = 1;
@@ -194,11 +193,11 @@
         }
 
         // Action (new, edit, etc)
-        public function getAction() {
-            return $this->action;
+        public function getEvent() {
+            return $this->event;
         }
-        public function setAction($action) {
-            $this->action = $action;
+        public function setEvent($event) {
+            $this->event = $event;
         }        
 
     }

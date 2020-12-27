@@ -8,12 +8,12 @@ async function confirm() {
     let actionFilter = 6;
 
     if (validateForm()) {
-        if (getAction() == actionFilter) {
+        if (getEvent() == actionFilter) {
             setPaging(0);
-            go(getModule(), 1, getAction());
+            go(getModule(), 1, getEvent());
         } else {
             await persist(getFormData()).then(alert);
-            if (getAction() == actionDelete) {
+            if (getEvent() == actionDelete) {
                 reportBack();
             }
         }

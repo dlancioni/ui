@@ -117,7 +117,7 @@
             $key = "";
             $value = "";
             $selected = "";
-            $action = "";
+            $event = "";
             $stringUtil = new StringUtil();
 
             try {
@@ -233,7 +233,7 @@
         /* 
          * Create button
          */
-        public function createButton($name, $value, $action, $code) {
+        public function createButton($name, $value, $event, $code) {
             $html = "";
             $stringUtil = new StringUtil();
             try {
@@ -241,7 +241,7 @@
                 $html .= " type=" . $stringUtil->dqt("button"); 
                 $html .= " name=" . $stringUtil->dqt($name); 
                 $html .= " value=" . $stringUtil->dqt($value); 
-                $html .= " " . $action . "=" . $stringUtil->dqt($code);
+                $html .= " " . $event . "=" . $stringUtil->dqt($code);
                 $html .= " class=" . $stringUtil->dqt("btn btn-primary");                 
                 $html .= ">";
                 $html .= "&nbsp;";
@@ -254,7 +254,7 @@
         /* 
          * Create radio
          */
-        public function createRadio($name, $value, $checked="", $action="") {
+        public function createRadio($name, $value, $checked="", $event="") {
             $html = "";
             $stringUtil = new StringUtil();
             try {
@@ -263,7 +263,7 @@
                 $html .= " name=" . $stringUtil->dqt($name); 
                 $html .= " value=" . $stringUtil->dqt($value);                 
                 $html .= " " . $checked; 
-                $html .= " " . $stringUtil->dqt($action); 
+                $html .= " " . $stringUtil->dqt($event); 
                 $html .= ">";
             } catch (Exception $ex) {
                 throw $ex;
@@ -436,13 +436,13 @@
 
                     // Figure out same field
                     if ($fieldId == $item["id_field"]) {
-                        $action = $item["event"] . "=" . $stringUtil->dqt($item["code"]) . " ";
+                        $event = $item["event"] . "=" . $stringUtil->dqt($item["code"]) . " ";
                     } else {
-                        $action = "";
+                        $event = "";
                     }
 
                     // Bind field
-                    ($action != "") ? $html .= " " . $action : "";
+                    ($event != "") ? $html .= " " . $event : "";
                 }
             }
             
@@ -478,7 +478,7 @@
        /*
         * Javascript generation
         */
-        public function createJs($fieldLabel, $fieldName, $fieldType, $fieldValue, $fieldMask, $fieldMandatory, $fk, $action) {
+        public function createJs($fieldLabel, $fieldName, $fieldType, $fieldValue, $fieldMask, $fieldMandatory, $fk, $event) {
 
             // General declaration
             $js = "";
@@ -491,7 +491,7 @@
             $fieldMask = $stringUtil->dqt($fieldMask);
 
             // Validate mandatory fields
-            if ($action != $this->ACTION_FILTER) {
+            if ($event != $this->ACTION_FILTER) {
                 $msg = $stringUtil->dqt($message->getValue("M1", $fieldLabel));
                 if ($fieldMandatory == 1) {                
                     $js .= "if (!validateMandatory($fieldName, $fk, $msg)) {";

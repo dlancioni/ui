@@ -107,7 +107,7 @@
                 }
 
                 // Take action on tables according to current event
-                switch ($this->getAction()) {
+                switch ($this->getEvent()) {
                     
                     // Create it
                     case $this->ACTION_NEW:
@@ -170,7 +170,7 @@
                 }
 
                 // Grant profiles Admin and User
-                switch ($this->getAction()) {
+                switch ($this->getEvent()) {
 
                     case $this->ACTION_NEW:
                         
@@ -237,7 +237,7 @@
             try {
 
                 // Delete related events
-                if ($this->getAction() == $this->ACTION_DELETE) {
+                if ($this->getEvent() == $this->ACTION_DELETE) {
                     $sql .= " delete from tb_field";
                     $sql .= " where " . $jsonUtil->condition("tb_field", "id_module", $this->TYPE_INT, "=", $moduleId);
                     $rs = pg_query($this->cn, $sql);
@@ -272,7 +272,7 @@
             try {
 
                 // Grant for system, admin and user
-                switch ($this->getAction()) {
+                switch ($this->getEvent()) {
 
                     case $this->ACTION_NEW:
 
@@ -336,7 +336,7 @@
                 }                
 
                 // Grant profiles Admin and User
-                switch ($this->getAction()) {
+                switch ($this->getEvent()) {
 
                     case $this->ACTION_NEW:
 

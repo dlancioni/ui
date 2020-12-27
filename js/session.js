@@ -18,12 +18,12 @@ function setFormat(value) {
     return field("_FORMAT_").value = value;
 }
 
-// Current action (New, Edit, Delete)
-function getAction() {
-    return field("_ACTION_").value;
+// Current event (New, Edit, Delete)
+function getEvent() {
+    return field("_EVENT_").value;
 }
 function setEvent(value) {
-    return field("_ACTION_").value = value;
+    return field("_EVENT_").value = value;
 }
 
 // Current page
@@ -50,10 +50,10 @@ function submit(param="form1") {
     form.submit();
 }
 
-function go(module=0, format=1, action=0, id=0) {
+function go(module=0, format=1, event=0, id=0) {
     setModule(module);
     setFormat(format);
-    setEvent(action);
+    setEvent(event);
     setId(id);
     setPaging(0);
     submit();
