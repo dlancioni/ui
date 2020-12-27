@@ -44,26 +44,29 @@
         /* 
         * Get event list and isolate function calls related to buttons
         */
-        function createFormLoad($pageEvent, $format) {
+        function createFormLoad($moduleId, $target) {
 
             // General declaration
             $html = "";
-            $name = "";
-            $element = "";
+            $filter = "";
+            $event = array();
+            $sqlBuilder = "";
 
             try {
 
+                $sqlBuilder = new SqlBuilder();                
+                $filter = new Filter();
+                $filter->add("tb_event", "id_module", $moduleId);
+                $filter->add("tb_event", "id_target", $target);
+                $filter->add("tb_event", "id_event", $this->EVENT_LOAD);
+                $event = $sqlBuilder->executeQuery($this->cn, $this->TB_EVENT, 0, $filter->create(), $sqlBuilder->QUERY_NO_PAGING);
+
                 // Create event list
-                foreach ($pageEvent as $item) {
-                    if ($item["id_target"] == $format) {
-                        if ($item["id_event"] == 1) {
-                            $html .= $item["code"];
-                        }
-                    }
+                foreach ($event as $item) {
+                    $html .= $item["code"];
                 }
 
             } catch (Exception $ex) {                    
-                // Error handler
                 throw $ex;
             }
 

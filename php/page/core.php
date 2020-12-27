@@ -2,21 +2,21 @@
 
     // General declaration      
     $id = 0;
+    $format = 1;
+    $moduleId = 0;
+
+    $html = "";
+    $error = "";
     $logicTable = "";
     $logicForm = "";
     $logicTabbed = "";
-    $moduleId = 0;  
-    $format = 1;
-    $html = "";
     $onLoadFunctions = "";
-    $error = "";
-    $parent = array();
-    $parentField = "";
 
     // Screen formats
     $TABLE = 1;
     $FORM = 2;
     $TABBED = 3;
+    $events = array();    
     
     try {
         
@@ -52,13 +52,15 @@
                     break;
             }
 
+            // Get load events
+            $onLoadFunctions = $eventAction->createFormLoad($moduleId, $format);
+
             // Handle error
             if ($error != "") {
                 $html = $element->getAlert("Erro de processamento", $error);
             } else {
                 $sqlBuilder->setModule($moduleId);
                 $html .= $eventAction->createJS();
-                //$onLoadFunctions = $eventAction->createFormLoad($pageEvent, $format);
             }
         }
 
@@ -69,5 +71,6 @@
     // Close connection
     if ($cn) {
         pg_close($cn); 
-    }    
+    }
+
 ?>

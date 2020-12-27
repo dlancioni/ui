@@ -256,10 +256,10 @@
 
                 // tb_event
                 $seq = 0;
+                $this->execute($cn, $model->addField($this->TB_EVENT, "Módulo", "id_module", $this->TYPE_INT, 0, "", $NO, $NO, $this->tb("tb_module"), $this->fd("title"), "", "", $this->INPUT_DROPDOWN, ++$seq));                
                 $this->execute($cn, $model->addField($this->TB_EVENT, "Tela", "id_target", $this->TYPE_INT, 0, "", $YES, $NO, $this->tb("tb_domain"), $this->fd("value"), "tb_target", "", $this->INPUT_DROPDOWN, ++$seq));
                 $this->execute($cn, $model->addField($this->TB_EVENT, "Name", "name", $this->TYPE_TEXT, 50, "", $NO, $NO, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
                 $this->execute($cn, $model->addField($this->TB_EVENT, "Evento", "id_event", $this->TYPE_INT, 0, "", $NO, $NO, $this->tb("tb_domain"), $this->fd("value"), "tb_event", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_EVENT, "Módulo", "id_module", $this->TYPE_INT, 0, "", $NO, $NO, $this->tb("tb_module"), $this->fd("title"), "", "", $this->INPUT_DROPDOWN, ++$seq));
                 $this->execute($cn, $model->addField($this->TB_EVENT, "Campo", "id_field", $this->TYPE_INT, 0, "", $NO, $NO, $this->tb("tb_field"), $this->fd("label"), "", "", $this->INPUT_DROPDOWN, ++$seq));
                 $this->execute($cn, $model->addField($this->TB_EVENT, "Código", "code", $this->TYPE_TEXT, 10000, "", $YES, $NO, 0, 0, "", "", $this->INPUT_TEXTAREA, ++$seq));
 

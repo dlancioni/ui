@@ -95,6 +95,7 @@
         public $ORDERING_DESC = 9;
 
         // Events
+        public $EVENT_LOAD = 1;
         public $EVENT_CLICK = 2;
         public $EVENT_CHANGE = 3;
 

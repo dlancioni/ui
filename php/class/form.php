@@ -113,9 +113,8 @@ class LogicForm extends Base {
 
             } else {
 
-                // Module not defined
-                $msg = $message->getValue("M19");
-                throw new Exception($msg);
+                // Forms can be created by javascript, definition is not mandatory.
+                return "";
             }
 
             // Keep cascade info for current transaction
