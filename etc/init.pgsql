@@ -1,4 +1,3 @@
-drop schema if exists demo cascade;
 drop schema if exists empresa cascade;
 drop schema if exists home cascade;
 create schema home;
@@ -10,3 +9,5 @@ create table home.tb_client (
     expire_date date
 );
 select * from home.tb_client;
+select * from empresa.tb_user;
+

@@ -183,7 +183,7 @@ class LogicTable extends Base {
 
             // Create buttons
             if ($this->showAction) {
-                $html .= $eventAction->createButton($moduleId, $userId, 1);
+                $html .= $eventAction->createButton($moduleId, $userId, 1, $action);
             }
 
             // Prepare view list
@@ -433,7 +433,7 @@ class LogicTable extends Base {
                         if ($command < $this->sqlBuilder->CONDITION) {
 
                             // Create link to parent module                                
-                            if ($action == 0) {
+                            if ($action == 0 || $action == 8) {
                                 $id = $row["id"];
                                 if ($fk != 0 && $fk != $this->TB_DOMAIN) {
                                     $fieldValue = "<a href='#' onClick='go($fk, 3, 0, $id)'>" . $fieldValue . "</a>";
