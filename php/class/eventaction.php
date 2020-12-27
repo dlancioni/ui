@@ -136,7 +136,7 @@
                 $sql .= " and (tb_event.field->>'name')::text <> ''" . $lb;
 
                 if ($event == $this->ACTION_DETAIL) {
-                    $sql .= " and tb_event.id = " . $this->ACTION_CLEAR . $lb;
+                    $sql .= " and tb_event.id = " . $this->ACTION_BACK . $lb;
                 }
 
                 $sql .= " order by tb_event.id" . $lb;

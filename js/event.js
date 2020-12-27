@@ -4,16 +4,16 @@
  */
 async function confirm() {
 
-    let actionDelete = 3;
-    let actionFilter = 6;
+    let eventDelete = 3;
+    let eventFilter = 5;
 
     if (validateForm()) {
-        if (getEvent() == actionFilter) {
+        if (getEvent() == eventFilter) {
             setPaging(0);
             go(getModule(), 1, getEvent());
         } else {
             await persist(getFormData()).then(alert);
-            if (getEvent() == actionDelete) {
+            if (getEvent() == eventDelete) {
                 reportBack();
             }
         }
@@ -41,22 +41,22 @@ function formDelete() {
     submit();
 }
 
-function formDetail(id) {
-    setId(id);
-    setFormat(3);
-    setEvent(4);
-    submit();
-}
-
 function formFilter() {
     setFormat(2);
-    setEvent(6);
+    setEvent(5);
     submit();
 }
 
 function reportBack() {
     setFormat(1);
-    setEvent(8);
+    setEvent(7);
+    submit();
+}
+
+function formDetail(id) {
+    setId(id);
+    setFormat(3);
+    setEvent(9);
     submit();
 }
 
