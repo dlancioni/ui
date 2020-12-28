@@ -107,9 +107,9 @@ class LogicForm extends Base {
                 }
 
                 // Create field Id (rules according to event)
-                //if (!$tableDef[0]["id_style"] == $this->STYLE_FORM) {
+                if ($tableDef[0]["id_style"] != $this->STYLE_FORM) {
                     $controls .= $this->createId($data, $placeHolder, $disabled, $event);
-                //}
+                }
 
             } else {
 
