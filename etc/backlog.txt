@@ -2,8 +2,7 @@ Pendentes
     Adicionar condicoes as views
 	Criar solucao para apresentar graficos
 Bugs
-	Form/load nao esta funcionando
-	Nao permitir mesmo usuario logar diferentes maquinas		
+	Nao permitir mesmo usuario logar diferentes maquinas
 
 Nice to have
 	Revisar tratamento erros na chamada de sql, etc	
@@ -31,3 +30,4 @@ Finalizados
 	Nao permitir funcao agregada (sum, avg, etc) em campos string ou tipo
 	Adicionar codigo do sistema na tela de recuperar senha
 	Controle de paginacao na visao
+	Form/load nao esta funcionando

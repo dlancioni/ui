@@ -118,6 +118,8 @@
 
         <?php
 
+        include "custom/home.php";
+
     } else {
 
         ?>    
