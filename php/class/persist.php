@@ -367,6 +367,7 @@
             $error = "";
             $filter = "";
             $tableName = "";
+            $fieldName = "";
             $title = "";
             $message = "";
             $data = array();
@@ -382,6 +383,9 @@
                 // Check if ID exists in parent modules
                 foreach ($modules as $module) {
 
+                    // Keep key field name
+                    $fieldName = $module["name"];
+
                     // Figure out table name for fk
                     $filter = new Filter();
                     $filter->add("tb_module", "id", $module["id_module"]);
@@ -393,7 +397,7 @@
 
                     // Check for data
                     $filter = new Filter();
-                    $filter->add($tableName, "id", $id);
+                    $filter->add($tableName, $fieldName, $id);
                     $data = $this->sqlBuilder->executeQuery($this->cn, $module["id_module"], $viewId, $filter->create());
                     if (count($data) > 0) {
                         $message = new Message($this->cn);
