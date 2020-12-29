@@ -1,61 +1,22 @@
-<!DOCTYPE html>
-<html>
-<body>
+<div class="container-fluid">
+    <div class="row">
 
-<br>
-<br>
-<br>
+        <!-- Left side -->
+        <div id="left1" class="col-sm-4">
+        </div>
 
-<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-      <h1 class="display-4">Preços</h1>
-      <p class="lead">Todos os planos incluem os módulos de controle de pessoas (clientes, fornecedores e funcionários), bem como a opção de fazer upload e download de documentos.</p>
-      <p class="lead">Para os planos pagos, os valores são mensais e por usuário.</p>
+        <!-- Middle center -->        
+        <div id="center1" class="col-sm-7">
+          <div class="starter-template">
+            <h1>Seja bem vindo ao Forms</h1>
+            <p class="lead">O unico sistema capaz de aprender o negócio da sua empresa.</p>
+            <p class="lead"><img src="img/js.png"></p>
+          </div>
+        </div>    
+
+        <!-- Left side -->
+        <div id="right1" class="col-sm-1">
+        </div>        
+
+    </div>
 </div>
-
-<div class="container">
-      <div class="card-deck mb-3 text-center">
-        <div class="card mb-4 box-shadow">
-          <div class="card-header">
-            <h4 class="my-0 font-weight-normal">Grátis</h4>
-          </div>
-          <div class="card-body">
-            <h1 class="card-title pricing-card-title">R$0 <small class="text-muted">/ mês</small></h1>
-            <ul class="list-unstyled mt-3 mb-4">
-              <li>1 usuário</li>
-              <li>Módulos pronto para usar</li>
-              <li>Permite customizações</li>
-            </ul>
-          </div>
-        </div>
-        <div class="card mb-4 box-shadow">
-          <div class="card-header">
-            <h4 class="my-0 font-weight-normal">Profissional</h4>
-          </div>
-          <div class="card-body">
-            <h1 class="card-title pricing-card-title">R$100 <small class="text-muted">/ mês</small></h1>
-            <ul class="list-unstyled mt-3 mb-4">
-              <li>Usuários ilimitados</li>
-              <li>Controle de Acesso</li>
-              <li>Permite customizações</li>
-            </ul>
-          </div>
-        </div>
-        <div class="card mb-4 box-shadow">
-          <div class="card-header">
-            <h4 class="my-0 font-weight-normal">Desenvolvedor</h4>
-          </div>
-          <div class="card-body">
-            <h1 class="card-title pricing-card-title">R$500 <small class="text-muted">/ mês</small></h1>
-            <ul class="list-unstyled mt-3 mb-4">
-              <li>Acesso completo</li>
-              <li><u>Módulos de desenvolvimento</u></li>
-              <li>&nbsp;</li>
-              <li></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-        * Preço mensal por usuário
-
-</body>
-</html>
