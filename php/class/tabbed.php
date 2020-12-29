@@ -117,7 +117,6 @@ class LogicTabbed extends Base {
             $filter = new Filter();
             $filter->add("tb_field", "id_module_fk", $moduleId);
             $data = $sqlBuilder->executeQuery($cn, $sqlBuilder->TB_FIELD, $viewId, $filter->create());
-            $logUtil->log("detail.pgsql", $sqlBuilder->lastQuery);
 
         } catch (Exception $ex) {        
             throw $ex;

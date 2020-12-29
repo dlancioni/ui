@@ -87,14 +87,23 @@
                 $jsonUtil = new JsonUtil();
                 $stringUtil = new StringUtil();
                 $numberUtil = new NumberUtil();
-                $message = new Message($cn);                
+                $message = new Message($cn);
                 $sqlBuilder = new SqlBuilder($systemId, $moduleId, $userId, $groupId);
+
+                // Keep important objects
+                $this->cn = $cn;
+                $this->sqlBuilder = $sqlBuilder;
 
                 // Get module structure
                 $tableDef = $sqlBuilder->getTableDef($cn, $moduleId, $viewId);
                 $logUtil->log("table_def.pgsql", $sqlBuilder->lastQuery);
                 if ($tableDef) {
                     $tableName = $tableDef[0]["table_name"];
+                }
+
+                // Check fks before delete
+                if ($event == $this->ACTION_DELETE) {
+                    $this->validateFkOnDelete($moduleId, $this->getLastId());
                 }
 
                 // Rules for update/delete
@@ -343,6 +352,55 @@
         public function add($cn, $tableName, $record) {
             try {
                 $this->persist($cn, $tableName, "", $record);
+            } catch (Exception $ex) {
+                throw $ex;
+            }
+        }
+
+        /*
+         * Validate fk on delete
+         */
+        private function validateFkOnDelete($moduleId, $id) {
+
+            // General declaration
+            $viewId = 0;
+            $error = "";
+            $filter = "";
+            $tableName = "";
+            $title = "";
+            $message = "";
+            $data = array();
+            $modules = array();
+
+            try {
+
+                // Get parent modules
+                $filter = new Filter();
+                $filter->add("tb_field", "id_module_fk", $moduleId);
+                $modules = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_FIELD, $viewId, $filter->create(), $this->sqlBuilder->QUERY_NO_JOIN);
+
+                // Check if ID exists in parent modules
+                foreach ($modules as $module) {
+
+                    // Figure out table name for fk
+                    $filter = new Filter();
+                    $filter->add("tb_module", "id", $module["id_module"]);
+                    $data = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_MODULE, $viewId, $filter->create(), $this->sqlBuilder->QUERY_NO_JOIN);
+                    if (count($data) > 0) {
+                        $tableName = $data[0]["name"];
+                        $title = $data[0]["title"];
+                    }
+
+                    // Check for data
+                    $filter = new Filter();
+                    $filter->add($tableName, "id", $id);
+                    $data = $this->sqlBuilder->executeQuery($this->cn, $module["id_module"], $viewId, $filter->create());
+                    if (count($data) > 0) {
+                        $message = new Message($this->cn);
+                        $error = $message->getValue("M30", $title);
+                        throw new Exception($error);
+                    }
+                }
             } catch (Exception $ex) {
                 throw $ex;
             }
