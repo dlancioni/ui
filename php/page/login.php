@@ -18,15 +18,6 @@
         }
 
         ?>  
-            <!-- Left side itens -->        
-            <div class="col-12 text-right">
-                <a href="#" class="" data-toggle="modal" data-target="#modalRegister">Cadastre-se</a>
-                &nbsp;&nbsp;&nbsp;
-                <a href="#" class="" data-toggle="modal" data-target="#modalRetrieveCredential">Esqueci a senha</a>
-                &nbsp;&nbsp;&nbsp;
-                <a href="#" class="" data-toggle="modal" data-target="#modalLogin">Entrar</a>
-            </div>
-
             <!-- Register -->
             <div class="modal fade" id="modalRegister" tabindex="-1" role="dialog">
                 <div class="modal-dialog modal-dialog-centered" role="document">
@@ -65,7 +56,7 @@
                         <!-- Header -->
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLongTitle">
-                                Cadastre-se e recebe os dados de acesso em seu e-mail
+                                Informe o seu endereço de email
                             </h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>

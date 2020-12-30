@@ -10,6 +10,26 @@
         <span class="navbar-toggler-icon"></span>
     </button>
 
+    <?php 
+    if (!isset($_SESSION["_MENU_"])) {
+    ?>    
+        <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-toggle="modal" data-target="#modalRegister">Cadastre-se</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-toggle="modal" data-target="#modalRetrieveCredential">Esqueci a senha</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-toggle="modal" data-target="#modalLogin">Login</a>
+                </li>            
+            </ul>
+        </div>
+    <?php    
+    }
+    ?>
+
     <!-- Menu -->
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">       
