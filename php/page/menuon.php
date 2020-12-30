@@ -9,7 +9,7 @@
         <span class="navbar-toggler-icon"></span>
     </button>
 
-    <!-- Menu -->
+    <!-- Menu items (modules)-->
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">       
             <?php 
@@ -17,5 +17,4 @@
             ?>
         </ul>
     </div>
-
 </nav>

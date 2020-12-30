@@ -3,6 +3,7 @@
     <!-- Title/Logo -->
     <a class="navbar-brand" href="#"><b>Forms</b></a>
 
+    <!-- Hamburger on right side -->
     <ul class="navbar-nav ml-auto">
         <li class="nav-item">    
             <div class="mx-auto order-0">            
@@ -11,7 +12,9 @@
                 </button>
             </div>        
         </li>
-    </ul>        
+    </ul>
+    
+    <!-- Menu items -->    
     <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
