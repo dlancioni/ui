@@ -10,7 +10,7 @@
         if ($os->getOS() == $os->WINDOWS) {
             $systemId = "empresa";
             $username = "usuario";
-            $password = "fa0e";
+            $password = "123";
         } else {
             $systemId = "";
             $username = "";
