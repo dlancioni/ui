@@ -87,8 +87,8 @@
 
                 // Validate if profile has transactions
                 $filter = new Filter();
-                $filter->addCondition("tb_profile_table", "id_profile", $this->TYPE_INT, "=", $profileId);
-                $data = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_PROFILE_TABLE, $viewId, $filter->create(), $this->sqlBuilder->QUERY_NO_JOIN);
+                $filter->addCondition("tb_module_event", "id_profile", $this->TYPE_INT, "=", $profileId);
+                $data = $this->sqlBuilder->executeQuery($this->cn, $this->sqlBuilder->TB_MODULE_EVENT, $viewId, $filter->create(), $this->sqlBuilder->QUERY_NO_JOIN);
                 if (count($data) <= 0) {
                     $msg = $message->getValue("M16");
                     throw new Exception($msg);

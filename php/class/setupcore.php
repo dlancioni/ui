@@ -372,7 +372,7 @@
                 $this->execute($cn, $model->addDomain($this->groupId, "M13", "Usuário não cadastrado ou não informado", "tb_message"));
                 $this->execute($cn, $model->addDomain($this->groupId, "M14", "Usuário não está associado a nenhum perfil", "tb_message"));
                 $this->execute($cn, $model->addDomain($this->groupId, "M15", "Usuário não está associado a nenhum grupo", "tb_message"));
-                $this->execute($cn, $model->addDomain($this->groupId, "M16", "Perfil do usuário não possui transações associadas", "tb_message"));
+                $this->execute($cn, $model->addDomain($this->groupId, "M16", "Perfil do usuário não possui módulos associadas", "tb_message"));
                 $this->execute($cn, $model->addDomain($this->groupId, "M17", "Senha inválida ou não informada", "tb_message"));
                 $this->execute($cn, $model->addDomain($this->groupId, "M18", "Autenticado com sucesso, seja bem vindo", "tb_message"));
                 $this->execute($cn, $model->addDomain($this->groupId, "M19", "Módulo não tem nenhum campo associado", "tb_message"));
