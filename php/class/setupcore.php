@@ -463,12 +463,6 @@
                 $this->execute($cn, $model->addEvent($FORM, "", $this->EVENT_CHANGE, $this->tb("tb_module"), $this->fd("name"), "this.value = validateTableName(this.value);"));
                 $this->execute($cn, $model->addEvent($FORM, "Testar", $this->EVENT_CLICK, 0, 0, "eval(field(''code'').value);"));
 
-                /*
-                $this->execute($cn, $model->addEvent($FORM, "", $this->EVENT_CHANGE, $this->tb("tb_field"), $this->fd("id_field_fk"), "cascade(''id_field_fk'', ''id_module'', this.value, ''tb_field'', ''id'', ''label'');"));
-                $this->execute($cn, $model->addEvent($FORM, "", $this->EVENT_CHANGE, $this->tb("tb_event"), $this->fd("id_field"), "cascade(''id_field'', ''id_module'', this.value, ''tb_field'', ''id'', ''label'');"));
-                $this->execute($cn, $model->addEvent($FORM, "", $this->EVENT_CHANGE, $this->tb("tb_profile_field"), $this->fd("id_field"), "cascade(''id_field'', ''id_module'', this.value, ''tb_field'', ''id'', ''label'');"));                
-                */
-
             } catch (Exception $ex) {
                 throw $ex;
             }
