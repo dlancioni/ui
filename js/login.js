@@ -18,9 +18,10 @@ async function login() {
     
     if (info.status > 1) {
         alert(info.message);
+    } else {
+        submit();
     }
-    
-    submit();
+
 }
 
 /*

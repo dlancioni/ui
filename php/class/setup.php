@@ -141,14 +141,8 @@
                 pg_query($cn, "drop table if exists $tableName cascade;");
                 pg_query($cn, "create table if not exists $tableName (id serial, field jsonb);");
 
-                // Setup permissions (profiles)
-                $this->setModule("tb_profile_table");
-                $this->execute($cn, $model->addProfileModule($this->PROFILE_SYSTEM, $moduleId));
-                $this->execute($cn, $model->addProfileModule($this->PROFILE_ADMIN, $moduleId));
-                $this->execute($cn, $model->addProfileModule($this->PROFILE_USER, $moduleId));
-
                 // Setup permissions (actions)
-                $this->setModule("tb_module_event");
+                $this->setModule("tb_profile_module");
                 for ($j=1; $j<=$this->TOTAL_EVENT; $j++) {
                     $this->execute($cn, $model->addModuleEvent($this->PROFILE_SYSTEM, $moduleId, $j));
                     $this->execute($cn, $model->addModuleEvent($this->PROFILE_ADMIN, $moduleId, $j));

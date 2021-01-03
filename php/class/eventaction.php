@@ -127,10 +127,10 @@
                 $sql .= " tb_event.field->>'code' as code," . $lb;
                 $sql .= " tb_domain.field->>'value' as event" . $lb;
                 $sql .= " from tb_user_profile" . $lb; 
-                $sql .= " inner join tb_module_event on (tb_module_event.field->>'id_profile')::int = (tb_user_profile.field->>'id_profile')::int" . $lb; 
-                $sql .= " inner join tb_event on (tb_module_event.field->>'id_event')::int = tb_event.id" . $lb; 
+                $sql .= " inner join tb_profile_module on (tb_profile_module.field->>'id_profile')::int = (tb_user_profile.field->>'id_profile')::int" . $lb; 
+                $sql .= " inner join tb_event on (tb_profile_module.field->>'id_event')::int = tb_event.id" . $lb; 
                 $sql .= " inner join tb_domain on (tb_event.field->>'id_event')::int = (tb_domain.field->>'key')::int and (tb_domain.field->>'domain')::text = 'tb_event'" . $lb; 
-                $sql .= " where (tb_module_event.field->>'id_module')::int = " . $moduleId . $lb;
+                $sql .= " where (tb_profile_module.field->>'id_module')::int = " . $moduleId . $lb;
                 $sql .= " and (tb_user_profile.field->>'id_user')::int = " . $userId . $lb;
                 $sql .= " and (tb_event.field->>'id_target')::int = " . $target . $lb;
                 $sql .= " and (tb_event.field->>'name')::text <> ''" . $lb;

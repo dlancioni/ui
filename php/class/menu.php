@@ -216,8 +216,8 @@
             try {
 
                 // Join used in both queries
-                $join .= " inner join tb_module_event on (tb_module_event.field->>'id_module')::int = tb_module.id" . $lb;
-                $join .= " inner join tb_profile on (tb_module_event.field->>'id_profile')::int = tb_profile.id" . $lb;
+                $join .= " inner join tb_profile_module on (tb_profile_module.field->>'id_module')::int = tb_module.id" . $lb;
+                $join .= " inner join tb_profile on (tb_profile_module.field->>'id_profile')::int = tb_profile.id" . $lb;
                 $join .= " inner join tb_user_profile on (tb_user_profile.field->>'id_profile')::int = tb_profile.id" . $lb;
                 $join .= " where (tb_user_profile.field->>'id_user')::int = " . $userId . $lb;
 

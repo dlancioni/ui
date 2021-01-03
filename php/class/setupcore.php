@@ -96,7 +96,7 @@
                 array_push($module, "tb_view_field");
                 array_push($module, "tb_profile");
                 array_push($module, "tb_profile_field");
-                array_push($module, "tb_module_event");
+                array_push($module, "tb_profile_module");
                 array_push($module, "tb_user");
                 array_push($module, "tb_user_profile");
                 array_push($module, "tb_user_group");
@@ -162,12 +162,12 @@
                 
                 // ACCESS CONTROL
                 $this->TB_PROFILE = $this->execute($cn, $model->addModule("tb_profile", "Perfil", $this->TYPE_SYSTEM, $this->STYLE_TABLE, $this->MENU_AC));
-                $this->TB_PROFILE_FIELD = $this->execute($cn, $model->addModule("tb_profile_field", "Perfil x Módulo", $this->TYPE_SYSTEM, $this->STYLE_TABLE, $this->MENU_AC));
-                $this->TB_MODULE_EVENT = $this->execute($cn, $model->addModule("tb_module_event", "Módulo x Evento", $this->TYPE_SYSTEM, $this->STYLE_TABLE, $this->MENU_AC));
+                $this->TB_PROFILE_MODULE = $this->execute($cn, $model->addModule("tb_profile_module", "Perfil x Módulo", $this->TYPE_SYSTEM, $this->STYLE_TABLE, $this->MENU_AC));
                 $this->TB_USER = $this->execute($cn, $model->addModule("tb_user", "Usuários", $this->TYPE_SYSTEM, $this->STYLE_TABLE, $this->MENU_AC));
                 $this->TB_USER_PROFILE = $this->execute($cn, $model->addModule("tb_user_profile", "Usuários x Pefil", $this->TYPE_SYSTEM, $this->STYLE_TABLE, $this->MENU_AC));
                 $this->TB_GROUP = $this->execute($cn, $model->addModule("tb_group", "Grupos", $this->TYPE_SYSTEM, $this->STYLE_TABLE, $this->MENU_AC));
                 $this->TB_USER_GROUP = $this->execute($cn, $model->addModule("tb_user_group", "Usuários x Grupos", $this->TYPE_SYSTEM, $this->STYLE_TABLE, $this->MENU_AC));
+                $this->TB_PROFILE_FIELD = $this->execute($cn, $model->addModule("tb_profile_field", "Perfil x Campos", $this->TYPE_SYSTEM, $this->STYLE_TABLE, $this->MENU_AC));                                
                 $this->TB_UPD_PWD = $this->execute($cn, $model->addModule("", "Alterar senha", $this->TYPE_SYSTEM, $this->STYLE_FORM, $this->MENU_AC));
 
                 // Used to grant access in batch
@@ -278,11 +278,11 @@
                 $this->execute($cn, $model->addField($this->TB_PROFILE_FIELD, "Módulo", "id_module", $this->TYPE_INT, 0, "", $YES, $YES, $this->tb("tb_module"), $this->fd("title"), "", "", $this->INPUT_DROPDOWN, ++$seq));
                 $this->execute($cn, $model->addField($this->TB_PROFILE_FIELD, "Campo", "id_field", $this->TYPE_INT, 0, "", $NO, $NO, $this->tb("tb_field"), $this->fd("label"), "", "", $this->INPUT_DROPDOWN, ++$seq));
 
-                // tb_module_event
+                // tb_profile_module
                 $seq = 0;
-                $this->execute($cn, $model->addField($this->TB_MODULE_EVENT, "Perfil", "id_profile", $this->TYPE_INT, 0, "", $YES, $YES, $this->tb("tb_profile"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_MODULE_EVENT, "Módulo", "id_module", $this->TYPE_INT, 0, "", $YES, $YES, $this->tb("tb_module"), $this->fd("title"), "", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_MODULE_EVENT, "Evento", "id_event", $this->TYPE_INT, 0, "", $YES, $YES, $this->tb("tb_event"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_PROFILE_MODULE, "Perfil", "id_profile", $this->TYPE_INT, 0, "", $YES, $YES, $this->tb("tb_profile"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_PROFILE_MODULE, "Módulo", "id_module", $this->TYPE_INT, 0, "", $YES, $YES, $this->tb("tb_module"), $this->fd("title"), "", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_PROFILE_MODULE, "Evento", "id_event", $this->TYPE_INT, 0, "", $YES, $YES, $this->tb("tb_event"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
 
                 // tb_user
                 $seq = 0;
@@ -601,7 +601,7 @@
             try {
 
                 // Define module name
-                $this->setModule("tb_module_event");
+                $this->setModule("tb_profile_module");
 
                 // SYSTEM has all permissions
                 for ($i=1; $i<=$this->TOTAL_MODULE; $i++) {

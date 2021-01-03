@@ -106,8 +106,8 @@
                         if (intval($id) != 0) {                           
                             $sql = "";
                             $sql .= " delete from tb_table_action";
-                            $sql .= " where " . $jsonUtil->condition("tb_module_event", "id_module", $this->TYPE_INT, "=", $moduleId);
-                            $sql .= " and " . $jsonUtil->condition("tb_module_event", "id_action", $this->TYPE_INT, "=", $id);
+                            $sql .= " where " . $jsonUtil->condition("tb_profile_module", "id_module", $this->TYPE_INT, "=", $moduleId);
+                            $sql .= " and " . $jsonUtil->condition("tb_profile_module", "id_action", $this->TYPE_INT, "=", $id);
                             $rs = pg_query($this->cn, $sql);
                             $affectedRows = pg_affected_rows($rs);
                         }

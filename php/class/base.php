@@ -53,12 +53,12 @@
 
         // Access Control
         public $TB_PROFILE = 9;
-        public $TB_PROFILE_FIELD = 10;
-        public $TB_MODULE_EVENT = 11;
-        public $TB_USER = 12;
-        public $TB_USER_PROFILE = 13;
-        public $TB_GROUP = 14;
-        public $TB_USER_GROUP = 15;
+        public $TB_PROFILE_MODULE = 10;
+        public $TB_USER = 11;
+        public $TB_USER_PROFILE = 12;
+        public $TB_GROUP = 13;
+        public $TB_USER_GROUP = 14;
+        public $TB_PROFILE_FIELD = 15;
         public $TB_UPD_PWD = 16;
 
         // Access Control
