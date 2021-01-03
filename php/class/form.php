@@ -120,7 +120,7 @@ class LogicForm extends Base {
             // Keep cascade info for current transaction
             $filter = new Filter();
             $filter->add("tb_domain", "domain", "tb_cascade");
-            $cascade = $this->sqlBuilder->executeQuery($this->cn, $this->TB_DOMAIN, $viewId, $filter->create());            
+            $cascade = $this->sqlBuilder->executeQuery($this->cn, $this->TB_DOMAIN, $viewId, $filter->create());
 
             // Create base form
             if (is_array($tableDef)) {

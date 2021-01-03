@@ -392,6 +392,7 @@
                 $this->execute($cn, $model->addDomain($this->groupId, "tb_field.id_module_fk", "id_field_fk; tb_field; id; label", "tb_cascade"));
                 $this->execute($cn, $model->addDomain($this->groupId, "tb_event.id_module", "id_field; tb_field; id; label", "tb_cascade"));
                 $this->execute($cn, $model->addDomain($this->groupId, "tb_view_field.id_module", "id_field; tb_field; id; label", "tb_cascade"));
+                $this->execute($cn, $model->addDomain($this->groupId, "tb_profile_field.id_module", "id_field; tb_field; id; label", "tb_cascade"));
 
                 // tb_control
                 $this->execute($cn, $model->addDomain($this->groupId, 1, "Textbox", "tb_control"));
@@ -460,10 +461,13 @@
                 
                 // Custon events
                 $this->execute($cn, $model->addEvent($FORM, "", $this->EVENT_CHANGE, $this->tb("tb_module"), $this->fd("name"), "this.value = validateTableName(this.value);"));
+                $this->execute($cn, $model->addEvent($FORM, "Testar", $this->EVENT_CLICK, 0, 0, "eval(field(''code'').value);"));
+
+                /*
                 $this->execute($cn, $model->addEvent($FORM, "", $this->EVENT_CHANGE, $this->tb("tb_field"), $this->fd("id_field_fk"), "cascade(''id_field_fk'', ''id_module'', this.value, ''tb_field'', ''id'', ''label'');"));
                 $this->execute($cn, $model->addEvent($FORM, "", $this->EVENT_CHANGE, $this->tb("tb_event"), $this->fd("id_field"), "cascade(''id_field'', ''id_module'', this.value, ''tb_field'', ''id'', ''label'');"));
-                $this->execute($cn, $model->addEvent($FORM, "", $this->EVENT_CHANGE, $this->tb("tb_profile_field"), $this->fd("id_field"), "cascade(''id_field'', ''id_module'', this.value, ''tb_field'', ''id'', ''label'');"));
-                $this->execute($cn, $model->addEvent($FORM, "Testar", $this->EVENT_CLICK, 0, 0, "eval(field(''code'').value);"));
+                $this->execute($cn, $model->addEvent($FORM, "", $this->EVENT_CHANGE, $this->tb("tb_profile_field"), $this->fd("id_field"), "cascade(''id_field'', ''id_module'', this.value, ''tb_field'', ''id'', ''label'');"));                
+                */
 
             } catch (Exception $ex) {
                 throw $ex;
