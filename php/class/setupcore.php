@@ -554,8 +554,7 @@
                 // create User Profile
                 $this->execute($cn, $model->addUserProfile($this->groupId, 1, 1)); // system-system
                 $this->execute($cn, $model->addUserProfile($this->groupId, 2, 2)); // admin-administrador
-                $this->execute($cn, $model->addUserProfile($this->public, 3, 3));  // joao-usuario
-                $this->execute($cn, $model->addUserProfile($this->public, 4, 3));  // maria-usuario 
+                $this->execute($cn, $model->addUserProfile($this->public, 3, 3));  // usuario-usuario
                 
             } catch (Exception $ex) {
                 throw $ex;
