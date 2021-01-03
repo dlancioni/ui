@@ -632,6 +632,7 @@ class SqlBuilder extends Base {
         
         // General declaration
         $sql = "";
+        $userId = $this->getUser();
         $lb = $this->lb;
 
         // Prepare query on table
@@ -642,6 +643,18 @@ class SqlBuilder extends Base {
 
         // Base table
         $sql .= " from tb_field" . $lb;
+
+        // Join permission on fields (must change to transaction type user)
+        if ($moduleId >= $this->TB_CUSTOMER) {
+            $sql .= " inner join tb_profile_field on (tb_profile_field.field->>'id_field')::text = (tb_field.id)::text" . $lb;
+            $sql .= " and tb_profile_field.field->>'id_profile' in " . $lb;
+            $sql .= " (" . $lb;
+                $sql .= " select " . $lb;
+                $sql .= " tb_user_profile.field->>'id_profile'" . $lb;
+                $sql .= " from tb_user_profile" . $lb;
+                $sql .= " where tb_user_profile.field->>'id_user' = '$userId'" . $lb;
+            $sql .= " )" . $lb;
+        }
 
         // Join module
         $sql .= " inner join tb_module on (tb_field.field->>'id_module')::text = (tb_module.id)::text" . $lb;

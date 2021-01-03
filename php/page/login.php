@@ -131,8 +131,6 @@
                 // Current user
                 echo $username 
             ?>
-            &nbsp;
-            <a href="#" onclick="logout()">Sair</a>
         </div>
 
         <?php    

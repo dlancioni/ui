@@ -17,4 +17,13 @@
             ?>
         </ul>
     </div>
+
+    <!-- Right alined -->    
+    <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a href="#" class="nav-link" data-toggle="modal" onclick="logout()"><b>Logout</b></a>
+            </li>
+        </ul>
+    </div>
 </nav>

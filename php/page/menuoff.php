@@ -24,7 +24,7 @@
                 <a href="#" class="nav-link" data-toggle="modal" data-target="#modalRetrieveCredential">Esqueci a senha</a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link" data-toggle="modal" data-target="#modalLogin">Entrar</a>
+                <a href="#" class="nav-link" data-toggle="modal" data-target="#modalLogin">Login</a>
             </li>   
         </ul>
     </div>

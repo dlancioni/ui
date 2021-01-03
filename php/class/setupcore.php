@@ -276,7 +276,7 @@
                 $seq = 0;
                 $this->execute($cn, $model->addField($this->TB_PROFILE_FIELD, "Perfil", "id_profile", $this->TYPE_INT, 0, "", $YES, $YES, $this->tb("tb_profile"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
                 $this->execute($cn, $model->addField($this->TB_PROFILE_FIELD, "Módulo", "id_module", $this->TYPE_INT, 0, "", $YES, $YES, $this->tb("tb_module"), $this->fd("title"), "", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_PROFILE_FIELD, "Campo", "id_field", $this->TYPE_INT, 0, "", $NO, $NO, $this->tb("tb_field"), $this->fd("label"), "", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_PROFILE_FIELD, "Campo", "id_field", $this->TYPE_INT, 0, "", $YES, $YES, $this->tb("tb_field"), $this->fd("label"), "", "", $this->INPUT_DROPDOWN, ++$seq));
 
                 // tb_profile_module
                 $seq = 0;
@@ -375,7 +375,7 @@
                 $this->execute($cn, $model->addDomain($this->groupId, "M16", "Perfil do usuário não possui módulos associadas", "tb_message"));
                 $this->execute($cn, $model->addDomain($this->groupId, "M17", "Senha inválida ou não informada", "tb_message"));
                 $this->execute($cn, $model->addDomain($this->groupId, "M18", "Autenticado com sucesso, seja bem vindo", "tb_message"));
-                $this->execute($cn, $model->addDomain($this->groupId, "M19", "Módulo não tem nenhum campo associado", "tb_message"));
+                $this->execute($cn, $model->addDomain($this->groupId, "M19", "Módulo não tem nenhum campo associado ou permissionado", "tb_message"));
                 $this->execute($cn, $model->addDomain($this->groupId, "M20", "Não foi possível executar a consulta dinamica", "tb_message"));
                 $this->execute($cn, $model->addDomain($this->groupId, "M21", "Funções Soma, Máximo e Mínimo só são válidas para campos do tipo inteiro, decimal e data", "tb_message"));
                 $this->execute($cn, $model->addDomain($this->groupId, "M22", "Função Média só é válidas para campos do tipo numérico (inteiro e decimal)", "tb_message"));
@@ -462,6 +462,7 @@
                 $this->execute($cn, $model->addEvent($FORM, "", $this->EVENT_CHANGE, $this->tb("tb_module"), $this->fd("name"), "this.value = validateTableName(this.value);"));
                 $this->execute($cn, $model->addEvent($FORM, "", $this->EVENT_CHANGE, $this->tb("tb_field"), $this->fd("id_field_fk"), "cascade(''id_field_fk'', ''id_module'', this.value, ''tb_field'', ''id'', ''label'');"));
                 $this->execute($cn, $model->addEvent($FORM, "", $this->EVENT_CHANGE, $this->tb("tb_event"), $this->fd("id_field"), "cascade(''id_field'', ''id_module'', this.value, ''tb_field'', ''id'', ''label'');"));
+                $this->execute($cn, $model->addEvent($FORM, "", $this->EVENT_CHANGE, $this->tb("tb_profile_field"), $this->fd("id_field"), "cascade(''id_field'', ''id_module'', this.value, ''tb_field'', ''id'', ''label'');"));
                 $this->execute($cn, $model->addEvent($FORM, "Testar", $this->EVENT_CLICK, 0, 0, "eval(field(''code'').value);"));
 
             } catch (Exception $ex) {

@@ -1,3 +1,3 @@
-set search_path to empresa;
+set search_path to lancioni;
 
-select * from tb_profile_field
+select * from tb_user
