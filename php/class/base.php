@@ -53,7 +53,7 @@
 
         // Access Control
         public $TB_PROFILE = 9;
-        public $TB_PROFILE_TABLE = 10;
+        public $TB_PROFILE_FIELD = 10;
         public $TB_MODULE_EVENT = 11;
         public $TB_USER = 12;
         public $TB_USER_PROFILE = 13;

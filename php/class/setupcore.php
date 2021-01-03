@@ -41,7 +41,6 @@
                 $this->createUserProfile($cn);
                 $this->createProfile($cn);
                 $this->createUserGroup($cn);
-                $this->createProfileModule($cn);
                 $this->createModuleEvent($cn);
 
 
@@ -96,7 +95,7 @@
                 array_push($module, "tb_view");
                 array_push($module, "tb_view_field");
                 array_push($module, "tb_profile");
-                array_push($module, "tb_profile_table");
+                array_push($module, "tb_profile_field");
                 array_push($module, "tb_module_event");
                 array_push($module, "tb_user");
                 array_push($module, "tb_user_profile");
@@ -163,7 +162,7 @@
                 
                 // ACCESS CONTROL
                 $this->TB_PROFILE = $this->execute($cn, $model->addModule("tb_profile", "Perfil", $this->TYPE_SYSTEM, $this->STYLE_TABLE, $this->MENU_AC));
-                $this->TB_PROFILE_TABLE = $this->execute($cn, $model->addModule("tb_profile_table", "Perfil x Módulo", $this->TYPE_SYSTEM, $this->STYLE_TABLE, $this->MENU_AC));
+                $this->TB_PROFILE_FIELD = $this->execute($cn, $model->addModule("tb_profile_field", "Perfil x Módulo", $this->TYPE_SYSTEM, $this->STYLE_TABLE, $this->MENU_AC));
                 $this->TB_MODULE_EVENT = $this->execute($cn, $model->addModule("tb_module_event", "Módulo x Evento", $this->TYPE_SYSTEM, $this->STYLE_TABLE, $this->MENU_AC));
                 $this->TB_USER = $this->execute($cn, $model->addModule("tb_user", "Usuários", $this->TYPE_SYSTEM, $this->STYLE_TABLE, $this->MENU_AC));
                 $this->TB_USER_PROFILE = $this->execute($cn, $model->addModule("tb_user_profile", "Usuários x Pefil", $this->TYPE_SYSTEM, $this->STYLE_TABLE, $this->MENU_AC));
@@ -273,10 +272,11 @@
                 $seq = 0;
                 $this->execute($cn, $model->addField($this->TB_PROFILE, "Nome", "name", $this->TYPE_TEXT, 50, "", $YES, $YES, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
 
-                // tb_profile_table
+                // tb_profile_field
                 $seq = 0;
-                $this->execute($cn, $model->addField($this->TB_PROFILE_TABLE, "Perfil", "id_profile", $this->TYPE_INT, 0, "", $YES, $YES, $this->tb("tb_profile"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
-                $this->execute($cn, $model->addField($this->TB_PROFILE_TABLE, "Módulo", "id_module", $this->TYPE_INT, 0, "", $YES, $YES, $this->tb("tb_module"), $this->fd("title"), "", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_PROFILE_FIELD, "Perfil", "id_profile", $this->TYPE_INT, 0, "", $YES, $YES, $this->tb("tb_profile"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_PROFILE_FIELD, "Módulo", "id_module", $this->TYPE_INT, 0, "", $YES, $YES, $this->tb("tb_module"), $this->fd("title"), "", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($this->TB_PROFILE_FIELD, "Campo", "id_field", $this->TYPE_INT, 0, "", $NO, $NO, $this->tb("tb_field"), $this->fd("label"), "", "", $this->INPUT_DROPDOWN, ++$seq));
 
                 // tb_module_event
                 $seq = 0;
@@ -585,37 +585,6 @@
                 throw $ex;
             }
         }        
-
-        /*
-         * Create Profile x Modules
-         */
-        private function createProfileModule($cn) {
-
-            // General declaration            
-            $i = 0;
-            $model = new Model($this->groupId);
-
-            try {
-
-                // Define module name
-                $this->setModule("tb_profile_table");
-
-                // SYSTEM
-                for ($i=1; $i<=$this->TOTAL_MODULE; $i++) {
-                    $this->execute($cn, $model->addProfileModule($this->PROFILE_SYSTEM, $i));
-                }
-
-                // ADMIN has Access Control only (10...17)
-                for ($i=10; $i<=$this->TOTAL_MODULE; $i++) {
-                    $this->execute($cn, $model->addProfileModule($this->PROFILE_ADMIN, $i));
-                }
-
-                $this->execute($cn, $model->addProfileModule($this->PROFILE_USER, $this->TB_UPD_PWD));
-
-            } catch (Exception $ex) {
-                throw $ex;
-            }
-        }
 
         /*
          * Create events

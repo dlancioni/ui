@@ -57,9 +57,6 @@
                 // Delete fields
                 $this->field($id);
 
-                // Profile x Transaction
-                $this->profileTransaction($id);
-
                 // Transaction x Function
                 $this->tableAction($id, $new);
 
@@ -248,63 +245,6 @@
 
                 // Keep source and error                
                 $this->setError("TableLogic.field()", $ex->getMessage());
-
-                // Rethrow it
-                throw $ex;
-            }
-        }
-
-        /*
-         * Access control
-         */
-        private function profileTransaction($moduleId) {
-
-            // General Declaration
-            $sql = "";
-            $rs = "";
-            $json = "";
-            $record = "";
-            $viewId = 0;
-            $affectedRows = 0;
-            $jsonUtil = new JsonUtil();
-            $model = new Model($this->getGroup());            
-
-            try {
-
-                // Grant for system, admin and user
-                switch ($this->getEvent()) {
-
-                    case $this->ACTION_NEW:
-
-                        // System
-                        $json = $model->addProfileModule($this->PROFILE_SYSTEM, $moduleId);
-                        pg_query($this->cn, "insert into tb_profile_table (field) values ('$json')");
-
-                        // Admin
-                        $json = $model->addProfileModule($this->PROFILE_ADMIN, $moduleId);
-                        pg_query($this->cn, "insert into tb_profile_table (field) values ('$json')");
-
-                        // User
-                        $json = $model->addProfileModule($this->PROFILE_USER, $moduleId);
-                        pg_query($this->cn, "insert into tb_profile_table (field) values ('$json')");
-
-                        break;
-
-                    case $this->ACTION_DELETE:
-
-                        // Just delete related config
-                        $sql = "";
-                        $sql .= " delete from tb_profile_table";
-                        $sql .= " where " . $jsonUtil->condition("tb_profile_table", "id_module", $this->TYPE_INT, "=", $moduleId);
-                        $rs = pg_query($this->cn, $sql);
-                        $affectedRows = pg_affected_rows($rs);
-                        break;                    
-                }
-
-            } catch (Exception $ex) {
-
-                // Keep source and error                
-                $this->sqlBuilder->setError("TableLogic.profileTransaction()", $ex->getMessage());
 
                 // Rethrow it
                 throw $ex;
