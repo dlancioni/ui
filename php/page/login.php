@@ -132,7 +132,7 @@
                 echo $username 
             ?>
             &nbsp;
-            <a href="#" onclick="logout()">Encerrar</a>
+            <a href="#" onclick="logout()">Sair</a>
         </div>
 
         <?php    

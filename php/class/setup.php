@@ -44,6 +44,9 @@
 
             $id = 0;
             $rs = "";
+            $moduleId = 0;
+            $model = new Model($this->groupId);
+            $jsonUtil = new JsonUtil();
 
             try {
 
@@ -53,6 +56,25 @@
                 // Get inserted ID
                 while ($row = pg_fetch_array($rs)) {
                    $id = $row['id'];
+                }
+
+                // Grant permission for new field
+                if (trim($this->tableName) == "tb_field") {
+                    $moduleId = $jsonUtil->getValue($json, "id_module");
+
+                    // System profile can see everything
+                    pg_query($cn, "insert into tb_profile_field (field) values ('" . $model->addProfileField($this->PROFILE_SYSTEM, $moduleId, $id) . "')");
+
+                    // User profile has no access to access control
+                    if ($moduleId >= $this->TB_PROFILE) {
+                        pg_query($cn, "insert into tb_profile_field (field) values ('" . $model->addProfileField($this->PROFILE_ADMIN, $moduleId, $id) . "')");
+                    }
+
+                    // User profile has no access to admin or access control
+                    if ($moduleId >= $this->TB_CUSTOMER) {
+                        pg_query($cn, "insert into tb_profile_field (field) values ('" . $model->addProfileField($this->PROFILE_PUBLIC, $moduleId, $id) . "')");
+                    }
+
                 }
 
             } catch (Exception $ex) {

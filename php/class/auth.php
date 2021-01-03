@@ -110,7 +110,7 @@
                 // Authenticate successfuly                
                 $this->authenticated = 1;
                 $this->userId = $userId;
-                $this->userName = $username;               
+                $this->userName = $username;
                 $this->profileId = $profileId;
                 $this->groupId = $groupId;
                 $this->message = $message->getValue("M18");

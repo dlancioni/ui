@@ -27,7 +27,7 @@
             // General declaration
             $seq = 0;
             $moduleId = 0;
-            $model = new Model($this->groupId);            
+            $model = new Model($this->groupId);
 
             try {
 

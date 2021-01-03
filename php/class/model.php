@@ -184,7 +184,7 @@
         }
 
 
-        public function addProfileModule($id_profile, $id_module) {
+        public function addProfileField($id_profile, $id_module, $id_field) {
 
             // General Declaration
             $json = "";
@@ -196,6 +196,7 @@
             // Create record        
             $json = $jsonUtil->setValue($json, "id_profile", $id_profile);
             $json = $jsonUtil->setValue($json, "id_module", $id_module);
+            $json = $jsonUtil->setValue($json, "id_field", $id_field);
 
             // Return final json
             return $json;

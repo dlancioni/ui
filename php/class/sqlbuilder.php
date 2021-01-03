@@ -643,7 +643,7 @@ class SqlBuilder extends Base {
         // Base table
         $sql .= " from tb_field" . $lb;
 
-        // Join table
+        // Join module
         $sql .= " inner join tb_module on (tb_field.field->>'id_module')::text = (tb_module.id)::text" . $lb;
 
         // Join inner table
