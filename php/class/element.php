@@ -274,17 +274,19 @@
         /* 
          * Create table
          */
-        public function createTable($value) {
+        public function table($value) {
 
             $html = "";
             $stringUtil = new StringUtil();
 
             try {
-                $html .="<div style='overflow-x:auto;'>";
-                $html .= "<table class=" . $stringUtil->dqt("table table-borderless table-hover table-sm"); 
+
+                $html .= "<div style='overflow-x:auto;'>";
+                $html .= "<table class=" . $stringUtil->dqt("table table-borderless table-hover table-sm");
                 $html .= $value;
-                $html .="</table>";
-                $html .="</div>";
+                $html .= "</table>";
+                $html .= "</div>";
+
             } catch (Exception $ex) {
                 throw $ex;
             }
@@ -292,58 +294,132 @@
         }
 
         /* 
-         * Create row
+         * Add header
          */
-        public function createTableRow($value) {
-            $html = "";
+        public function th($value) {
+
+            // General Declaration
+            $lb = "";
+            $tab = "";
+            $html = "";            
+            $stringUtil = new StringUtil();
+
             try {
-                $html .= "<tr>";
-                $html .= $value;
-                $html .= "</tr>";
+
+                $lb = $stringUtil->lb();
+                $tab = $stringUtil->repeat(" ", 12);
+                $html .= $tab . "<th scope=" . $stringUtil->dqt("col") . ">" . $value . "</th>" . $lb;
+
             } catch (Exception $ex) {
                 throw $ex;
             }
-            return $html;            
+
+            return $html;
         }
 
         /* 
-         * Create header
-         */
-        public function createTableHeader($value) {
-            $html = "";
+         * Set table header
+         */        
+        public function thead($value) {
+
+            // General Declaration
+            $lb = "";
+            $tab = "";
+            $html = "";            
+            $stringUtil = new StringUtil();            
+
             try {
-                $html .= "<th>";
+
+                $lb = $stringUtil->lb();
+                $tab = $stringUtil->repeat(" ", 4);
+
+                $html .= $tab . "<thead>" . $lb;
                 $html .= $value;
-                $html .= "</th>";
+                $html .= $tab . "</thead>" . $lb;
+
             } catch (Exception $ex) {
                 throw $ex;
             }
+
+            return $html;
+        }
+
+        /* 
+         * Set table body
+         */
+        public function tbody($value) {
+
+            // General Declaration
+            $lb = "";
+            $tab = "";
+            $html = "";            
+            $stringUtil = new StringUtil();            
+
+            try {
+
+                $lb = $stringUtil->lb();
+                $tab = $stringUtil->repeat(" ", 4);
+
+                $html .= $tab . "<tbody>" . $lb;
+                $html .= $value;
+                $html .= $tab . "</tbody>" . $lb;
+
+            } catch (Exception $ex) {
+                throw $ex;
+            }
+
+            return $html;
+        }
+
+        /* 
+         * Create line
+         */        
+        public function tr($value) {
+
+            // General Declaration
+            $lb = "";
+            $tab = "";
+            $html = "";            
+            $stringUtil = new StringUtil();            
+
+            try {
+
+                $lb = $stringUtil->lb();
+                $tab = $stringUtil->repeat(" ", 8);
+
+                $html .= $tab . "<tr style='white-space:nowrap;'>" . $lb;
+                $html .= $value;
+                $html .= $tab . "</tr>" . $lb;
+
+            } catch (Exception $ex) {
+                throw $ex;
+            }
+            
             return $html;
         }
 
         /* 
          * Create column
          */
-        public function createTableCol($value, $width="") {
+        public function td($value) {
 
-            $html = "";
+            // General Declaration
+            $lb = "";
+            $tab = "";
+            $html = "";            
             $stringUtil = new StringUtil();
-            try {
-                $html .= "<td ";
 
-                if ($width != "") {
-                    $width = "width: " . $width . "%";
-                    $html .= "style=" . $stringUtil->dqt($width);
-                }
-                
-                $html .= ">";
-                $html .= $value;
-                $html .= "</td>";
+            try {
+
+                $lb = $stringUtil->lb();
+                $tab = $stringUtil->repeat(" ", 12);
+                $html .= $tab . "<td style='white-space:nowrap;'>" . $value . "</td>" . $lb;
 
             } catch (Exception $ex) {
                 throw $ex;
             }
-            return $html;            
+            
+            return $html;
         }
 
         /* 

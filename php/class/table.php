@@ -135,7 +135,7 @@ class LogicTable extends Base {
                 case $this->REPORT:
                     $tableRow .= $this->createTableHeader($viewId, $data, $tableDef, $this->sqlBuilder->CONDITION);
                     $tableRow .= $this->createTableData($tableDef, $data, $event);
-                    $html .= $this->element->createTable($tableRow);
+                    $html .= $this->element->table($tableRow);
                     break;
 
                 // Line chart
@@ -158,11 +158,12 @@ class LogicTable extends Base {
                     $html .= $this->createChart("pie", $tableDef, $data);
                     break;
 
-                // Standard report view                    
+                // Standard view
                 default:
                     $tableRow .= $this->createTableHeader($viewId, $data, $tableDef, $this->sqlBuilder->CONDITION);
                     $tableRow .= $this->createTableData($tableDef, $data, $event);
-                    $html .= $this->element->createTable($tableRow);
+                    $html .= $this->element->table($tableRow);
+                    break;                    
             }
 
             // Get views
@@ -204,14 +205,17 @@ class LogicTable extends Base {
 
         // General Declaration
         $cols = "";
+        $html = "";
         $fieldName = "";
         $fieldLabel = "";
         $command = 0;
-
+        $stringUtil = new StringUtil();
+        $lb = $stringUtil->lb();
+        
         // Create checkbox columns
         if (isset($data[0]["id"]) || count($data) == 0) {
-            $cols = $this->element->createTableHeader("");
-            $cols .= $this->element->createTableHeader("Id");
+            $cols = $this->element->th("") . $lb;
+            $cols .= $this->element->th("Id") . $lb;
         }
 
         // Create header
@@ -237,11 +241,14 @@ class LogicTable extends Base {
 
             // Add columns where both def and data exists
             if ($fieldLabel != "") {
-                $cols .= $this->element->createTableHeader($fieldLabel);
+                $cols .= $this->element->th($fieldLabel);
             }
         }
 
-        return $this->element->createTableRow($cols);
+        $html = $this->element->tr($cols);
+        $html = $this->element->thead($cols);
+
+        return $html;
     }
 
     /*
@@ -363,12 +370,12 @@ class LogicTable extends Base {
             $radio = $this->element->createRadio("_ID_", $row["id"], $checked);
 
             if ($this->showAction) {
-                $cols = $this->element->createTableCol($radio);
+                $cols = $this->element->td($radio);
             } else {
-                $cols = $this->element->createTableCol("");                
+                $cols = $this->element->td("");                
             }
             
-            $cols .= $this->element->createTableCol($row["id"]);
+            $cols .= $this->element->td($row["id"]);
         }
 
         return $cols;
@@ -445,24 +452,27 @@ class LogicTable extends Base {
                             }
 
                             // Add value
-                            $cols .= $this->element->createTableCol($fieldValue, $columnSize);
+                            $cols .= $this->element->td($fieldValue);
                         }
 
                     } else {
                         
                         // Discard unselected columns on views
                         if ($command < $this->sqlBuilder->CONDITION) {
-                            $cols .= $this->element->createTableCol("", $columnSize);
+                            $cols .= $this->element->td("");
                         }
                     }
                 }
 
-                $tableRow .= $this->element->createTableRow($cols);
+                $tableRow .= $this->element->tr($cols);
             }
 
         } catch (Exception $ex) {
             throw $ex;
         }
+
+        // Set row as table body
+        $tableRow = $this->element->tbody($tableRow);
 
         // Return table contents
         return $tableRow;

@@ -206,8 +206,14 @@
          */
         function RemoveSpecialChar($record) {
             return str_replace("'", "''", $record);
-        }        
+        }
 
+        /*
+         * Replicate given string
+         */        
+        function repeat($value, $qtt) {
+            return str_repeat($value, $qtt);
+        }        
     }
     
     class JsonUtil extends StringUtil {
