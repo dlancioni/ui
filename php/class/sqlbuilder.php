@@ -500,6 +500,7 @@ class SqlBuilder extends Base {
         $fieldName = "";
         $fieldType = "";
         $fieldAlias = "";
+        $fieldDomain = "";
         $tableFk = "";
         $fieldFk = "";
         $lb = $this->lb;
@@ -525,14 +526,23 @@ class SqlBuilder extends Base {
                             $fieldType = $row["field_type"];
                             $tableFk = $row["table_fk"];
                             $fieldFk = $row["field_fk"];
+                            $fieldDomain = $row["field_domain"];
                             $fieldAlias = $this->NO_ALIAS;
                             $sql .= ", " . $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias) . $lb;
 
+                            // Fk and domain has specific rules on table name (joins)
                             if ($row["id_fk"] != 0) {
                                 $sql .= ", ";
-                                $tableName = $tableFk . "_" . $fieldName;
-                                $fieldName = $fieldFk;
-                                $fieldType = $this->TYPE_TEXT;
+                                if ($row["id_fk"] == $this->TB_DOMAIN) {
+                                    $tableName = $fieldDomain . "_" . $fieldName;
+                                    $fieldName = "value";
+                                    $fieldType = $this->TYPE_TEXT;
+                                } else {
+                                    $tableName = $tableFk . "_" . $fieldName;
+                                    $fieldName = $fieldFk;
+                                    $fieldType = $this->TYPE_TEXT;
+                                }
+
                                 $sql .= $jsonUtil->select($tableName, $fieldName, $fieldType, $fieldAlias) . $lb;
                             }
 
@@ -561,8 +571,10 @@ class SqlBuilder extends Base {
 
         try {
 
-            // Standard ordenation
-            $sql = " order by id";
+            // Standard ordenation for regular tables (no view)
+            if (!$this->aggregatedQuery($queryDef)) {
+                $sql = " order by id";
+            }
 
             if (count($queryDef) > 0) {
                 foreach ($queryDef as $row) {

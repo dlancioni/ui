@@ -439,14 +439,17 @@ class LogicTable extends Base {
                         // Print it
                         if ($command < $this->sqlBuilder->CONDITION) {
 
-                            // Create link to parent module                                
-                            if ($event == $this->ACTION_NONE || $event == $this->ACTION_BACK) {
-                                $id = $row["id"];
-                                if ($fk != 0 && $fk != $this->TB_DOMAIN) {
-                                    $fieldValue = "<a href='#' onClick='go($fk, 3, 0, $id)'>" . $fieldValue . "</a>";
-                                } else {
-                                    if ($count == 1) {
-                                        $fieldValue = "<a href='#' onClick='formDetail($id)'>" . $fieldValue . "</a>";
+                            // No link for views    
+                            if (isset($row["id"])) {
+                                // Create link to parent module                            
+                                if ($event == $this->ACTION_NONE || $event == $this->ACTION_BACK) {
+                                    $id = $row["id"];
+                                    if ($fk != 0 && $fk != $this->TB_DOMAIN) {
+                                        $fieldValue = "<a href='#' onClick='go($fk, 3, 0, $id)'>" . $fieldValue . "</a>";
+                                    } else {
+                                        if ($count == 1) {
+                                            $fieldValue = "<a href='#' onClick='formDetail($id)'>" . $fieldValue . "</a>";
+                                        }
                                     }
                                 }
                             }
