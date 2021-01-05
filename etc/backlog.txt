@@ -1,8 +1,11 @@
 Pendentes
     Adicionar condicoes as views
-	Criar solucao para apresentar graficos
+  	Criar solucao para apresentar graficos
+    Renomear constantes ACTION_ PARA EVENT_
+    Remover coluna "id_entity" do grid no detalhe    
 Bugs
 	Nao permitir mesmo usuario logar diferentes maquinas
+  Sair nao aparece no celular
 
 Nice to have
 	Revisar tratamento erros na chamada de sql, etc	
@@ -33,36 +36,3 @@ Finalizados
 	Form/load nao esta funcionando
 
 
-
-
-
-	<table class="table table-borderless table-hover table-sm">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">First</th>
-      <th scope="col">Last</th>
-      <th scope="col">Handle</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Ottkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkko</td>
-      <td>@mdo</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>Larry</td>
-      <td>the Bird</td>
-      <td>@twitter</td>
-    </tr>
-  </tbody>
-</table>
