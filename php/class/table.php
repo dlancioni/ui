@@ -8,7 +8,9 @@ class LogicTable extends Base {
     private $cn = 0;
     private $sqlBuilder = "";
     private $element = "";
-    public $formData = array();    
+    private $field1M = "";
+
+    public $formData = array();        
 
     // Constructor
     function __construct($cn, $sqlBuilder, $formData) {
@@ -106,6 +108,13 @@ class LogicTable extends Base {
             } else {
                 if (isset($_SESSION["_FILTER_"][$moduleId])) {
                     $filter->setFilter($tableDef, $_SESSION["_FILTER_"][$moduleId][0]);
+                }
+            }
+
+            // Keep relationship field
+            if ($event == $this->ACTION_DETAIL) {
+                foreach ($formData as $key => $value) {
+                    $this->field1M = $key;
                 }
             }
 
@@ -227,6 +236,11 @@ class LogicTable extends Base {
                 $command = $item["id_command"];
             }
 
+            // Skip 1:M base record
+            if ($fieldName == $this->field1M) {
+                continue;
+            }
+
             // For view, fields may does not exists in data            
             if ($viewId > 0) {
                 if (trim($item["field_label_view"]) != "") {
@@ -239,7 +253,7 @@ class LogicTable extends Base {
                 $fieldLabel = "";
             }
 
-            // Add columns where both def and data exists
+            // Add columns where both def and data exists              
             if ($fieldLabel != "") {
                 $cols .= $this->element->th($fieldLabel);
             }
@@ -424,11 +438,21 @@ class LogicTable extends Base {
                     $fieldType = $col["field_type"];
                     $fk = $col["id_fk"];
                     $control = $col["id_control"];
-                    $columnSize = $this->getSize(count($tableDef), $count);
-                    $fieldName = $this->prepareFieldName($col, $fieldName, $fk);
+
+                    // Skip 1:M base record
+                    if ($fieldName == $this->field1M) {
+                        continue;
+                    }
+
+                    // Keep command
                     if (isset($col["id_command"])) {
                         $command = $col["id_command"];
                     }
+
+                    // Prepare info
+                    $columnSize = $this->getSize(count($tableDef), $count);
+                    $fieldName = $this->prepareFieldName($col, $fieldName, $fk);
+
 
                     // Prepare grid
                     if (isset($row[$fieldName])) {
