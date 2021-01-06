@@ -381,14 +381,14 @@ class LogicTable extends Base {
 
         if (isset($row["id"])) {
             $cols == "" ? $checked = "checked" : $checked = "";
-            $radio = $this->element->createRadio("_ID_", $row["id"], $checked);
-
-            $radio .= $stringUtil->repeat("&nbsp;", 3) . $row["id"];
 
             if ($this->showAction) {
+                $radio = $this->element->createRadio("_ID_", $row["id"], $checked);
+                $radio .= $stringUtil->repeat("&nbsp;", 6) . $row["id"];                
                 $cols = $this->element->td($radio);
             } else {
-                $cols = $this->element->td("");                
+                $cols .= $stringUtil->repeat("&nbsp;", 6) . $row["id"];
+                $cols = $this->element->td($cols);
             }
         }
 

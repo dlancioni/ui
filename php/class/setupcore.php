@@ -508,7 +508,7 @@
                 // Create User
                 $this->execute($cn, $model->addUser($this->groupId, "System", "system@form1.com.br", "system", "system@forms"));
                 $this->execute($cn, $model->addUser($this->groupId, "Administrador", "admin@form1.com.br", "admin", "admin@forms"));
-                $this->execute($cn, $model->addUser($this->public, "Demo user", "demo@form1.com.br", "demo", "123"));
+                $this->execute($cn, $model->addUser($this->public, "Demo user", "demo@form1.com.br", "demo", ""));
                 
             } catch (Exception $ex) {
                 throw $ex;

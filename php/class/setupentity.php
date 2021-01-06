@@ -8,6 +8,7 @@
 
             try {
 
+                $this->setGroup($this->public);
                 $this->setSystem($systemId);
                 $this->createDomain($this->cn);
                 $this->createModule($this->cn);
@@ -90,7 +91,7 @@
 
                 // MODULES [ATTACHED]
                 $this->setModule("tb_module");
-                $moduleId = $this->execute($cn, $model->addModule("tb_attach", "Outros anexos", $this->TYPE_USER, $this->STYLE_TABLE, $this->MENU_ETD));
+                $moduleId = $this->execute($cn, $model->addModule("tb_attach", "Anexos", $this->TYPE_USER, $this->STYLE_TABLE, $this->MENU_ETD));
                 $this->setupModule($cn, $moduleId, "tb_attach");
                 $this->setModule("tb_field");
                 $this->execute($cn, $model->addField($moduleId, "Nome", "id_entity", $this->TYPE_INT, 0, "", $this->YES, $this->NO, $this->tb("tb_entity"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ($seq=1)));
@@ -162,9 +163,9 @@
 
                 // Address
                 $this->setModule("tb_address");
-                $this->execute($cn, $this->addAddress(1, 1, "Av. Paulista", "1200", "2And 202", "São Paulo", 5, "01021-020"));
-                $this->execute($cn, $this->addAddress(2, 2, "Av. Rio Branco", "5405", "", "São Paulo", 5, "01001-020"));
-                $this->execute($cn, $this->addAddress(3, 1, "Rua Antonio Carlos de Souza", "22", "", "São Paulo", 5, "08001-020"));
+                $this->execute($cn, $this->addAddress(1, 1, "Av. Paulista", "1200", "2And 202", "São Paulo", 4, "01021-020"));
+                $this->execute($cn, $this->addAddress(2, 2, "Av. Rio Branco", "5405", "", "São Paulo", 4, "01001-020"));
+                $this->execute($cn, $this->addAddress(3, 1, "Rua Antonio Carlos de Souza", "22", "", "São Paulo", 4, "08001-020"));
 
                 // Document
                 $this->setModule("tb_document");
@@ -237,7 +238,7 @@
             // Create key
             $json = $jsonUtil->setValue($json, "id_group", $this->groupId);
 
-            // Create record        
+            // Create record
             $json = $jsonUtil->setValue($json, "id_entity", $id_entity);
             $json = $jsonUtil->setValue($json, "id_address_type", $id_address_type);
             $json = $jsonUtil->setValue($json, "street", $street);

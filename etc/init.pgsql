@@ -9,5 +9,7 @@ create table home.tb_client (
     expire_date date
 );
 select * from home.tb_client;
+
 -- select field->>'username', field->>'password' from demo.tb_user;
 
+ -- SELECT current_database();
