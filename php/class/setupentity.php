@@ -162,9 +162,9 @@
 
                 // Address
                 $this->setModule("tb_address");
-                $this->execute($cn, $this->addAddress(1, 1, "Av. Paulista", "1200", "2And 202", "01021-020"));
-                $this->execute($cn, $this->addAddress(2, 2, "Av. Rio Branco", "5405", "", "01001-020"));
-                $this->execute($cn, $this->addAddress(3, 1, "Rua Antonio Carlos de Souza", "22", "", "08001-020"));
+                $this->execute($cn, $this->addAddress(1, 1, "Av. Paulista", "1200", "2And 202", "São Paulo", 5, "01021-020"));
+                $this->execute($cn, $this->addAddress(2, 2, "Av. Rio Branco", "5405", "", "São Paulo", 5, "01001-020"));
+                $this->execute($cn, $this->addAddress(3, 1, "Rua Antonio Carlos de Souza", "22", "", "São Paulo", 5, "08001-020"));
 
                 // Document
                 $this->setModule("tb_document");
@@ -228,7 +228,7 @@
             return $json;
         }
 
-        private function addAddress($id_entity, $id_address_type, $street, $number, $compl, $zipcode) {
+        private function addAddress($id_entity, $id_address_type, $street, $number, $compl, $city, $state, $zipcode) {
 
             // General Declaration
             $json = "";
@@ -243,6 +243,8 @@
             $json = $jsonUtil->setValue($json, "street", $street);
             $json = $jsonUtil->setValue($json, "number", $number);
             $json = $jsonUtil->setValue($json, "compl", $compl);
+            $json = $jsonUtil->setValue($json, "city", $city);
+            $json = $jsonUtil->setValue($json, "state", $state);
             $json = $jsonUtil->setValue($json, "zipcode", $zipcode);
 
             // Return final json
