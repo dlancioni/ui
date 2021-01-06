@@ -223,8 +223,7 @@ class LogicTable extends Base {
         
         // Create checkbox columns
         if (isset($data[0]["id"]) || count($data) == 0) {
-            $cols = $this->element->th("") . $lb;
-            $cols .= $this->element->th("Id") . $lb;
+            $cols .= $this->element->th($stringUtil->repeat("&nbsp;", 6) . "Id") . $lb;
         }
 
         // Create header
@@ -378,18 +377,19 @@ class LogicTable extends Base {
         $radio = "";
         $cols = "";
         $checked = "";
+        $stringUtil = new StringUtil();
 
         if (isset($row["id"])) {
             $cols == "" ? $checked = "checked" : $checked = "";
             $radio = $this->element->createRadio("_ID_", $row["id"], $checked);
+
+            $radio .= $stringUtil->repeat("&nbsp;", 3) . $row["id"];
 
             if ($this->showAction) {
                 $cols = $this->element->td($radio);
             } else {
                 $cols = $this->element->td("");                
             }
-            
-            $cols .= $this->element->td($row["id"]);
         }
 
         return $cols;

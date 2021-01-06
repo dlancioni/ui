@@ -2,7 +2,7 @@
 
     // General declaration      
     $id = 0;
-    //$format = 1;
+    $format = 1;
     //$moduleId = 0;
 
     $html = "";
