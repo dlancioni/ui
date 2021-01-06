@@ -34,11 +34,11 @@
                         <!-- Body -->
                         <div class="modal-body">
                             <div class="form-group">
+                                <input type="text" id="system" name="system" class="form-control" placeholder="Crie um código de acesso" value="">
+                                <br>
                                 <input type="text" id="name" name="name" class="form-control" placeholder="Informe seu nome" value="">
                                 <br>
                                 <input type="text" id="email" name="email" class="form-control" placeholder="Informe seu e-mail" value="">
-                                <br>
-                                <input type="text" id="system" name="system" class="form-control" placeholder="Crie um código de acesso" value="">
                             </div>
                         </div>
                         <!-- Footer -->
@@ -90,14 +90,14 @@
                         <!-- Body -->
                         <div class="modal-body">
                             <div class="form-group">
+                                <input type="text" id="_SYSTEM_" name="_SYSTEM_" class="form-control" placeholder="Cód. Assinante" value="<?php echo $systemId ?>">
+                            </div>
+                            <div class="form-group">
                                 <input type="text" id="_USERNAME_" name="_USERNAME_" class="form-control" placeholder="Usuário" value="<?php echo $username ?>">
                             </div>
                             <div class="form-group">
                                 <input type="password" id="_PASSWORD_" name="_PASSWORD_" class="form-control" placeholder="Senha" value="<?php echo $password ?>">
                             </div>
-                            <div class="form-group">
-                                <input type="text" id="_SYSTEM_" name="_SYSTEM_" class="form-control" placeholder="Cód. Assinante" value="<?php echo $systemId ?>">
-                            </div>                            
                         </div>
                         <!-- Footer -->
                         <div class="modal-footer">

@@ -37,14 +37,6 @@
                 $this->execute($cn, $model->addMenu("Entidades", $this->MENU_CAD));
                 $this->execute($cn, $model->addMenu("Outros", $this->MENU_CAD));
 
-                // MODULES [STATE]
-                $this->setModule("tb_module");
-                $moduleId = $this->execute($cn, $model->addModule("tb_state", "Estados", $this->TYPE_USER, $this->STYLE_TABLE, $this->MENU_OTH));
-                $this->setupModule($cn, $moduleId, "tb_state");                
-                $this->setModule("tb_field");
-                $this->execute($cn, $model->addField($moduleId, "Código", "code", $this->TYPE_TEXT, 2, "", $this->YES, $this->NO, 0, 0, "", "", $this->INPUT_TEXTBOX, ($seq=1)));
-                $this->execute($cn, $model->addField($moduleId, "Nome", "name", $this->TYPE_TEXT, 100, "", $this->YES, $this->NO, 0, 0, "", "", $this->INPUT_TEXTBOX, ($seq=1)));
-
                 // MODULES [ENTITY]
                 $this->setModule("tb_module");
                 $moduleId = $this->execute($cn, $model->addModule("tb_entity", "Entidade", $this->TYPE_USER, $this->STYLE_TABLE, $this->MENU_ETD));
@@ -65,7 +57,7 @@
                 $this->execute($cn, $model->addField($moduleId, "Número", "number", $this->TYPE_TEXT, 10, "", $this->YES, $this->NO, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
                 $this->execute($cn, $model->addField($moduleId, "Compl.", "compl", $this->TYPE_TEXT, 500, "", $this->NO, $this->NO, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
                 $this->execute($cn, $model->addField($moduleId, "Cidade", "city", $this->TYPE_TEXT, 500, "", $this->NO, $this->NO, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
-                $this->execute($cn, $model->addField($moduleId, "Estado", "id_state", $this->TYPE_INT, 0, "", $this->YES, $this->NO, $this->tb("tb_state"), $this->fd("code"), "", "", $this->INPUT_DROPDOWN, ++$seq));
+                $this->execute($cn, $model->addField($moduleId, "Estado", "id_state", $this->TYPE_INT, 0, "", $this->YES, $this->NO, $this->tb("tb_domain"), $this->fd("value"), "tb_state", "", $this->INPUT_DROPDOWN, ++$seq));
                 $this->execute($cn, $model->addField($moduleId, "Cep", "zipcode", $this->TYPE_TEXT, 10, "", $this->NO, $this->NO, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
                 $this->execute($cn, $model->addField($moduleId, "Comprovante", "attached", $this->TYPE_BINARY, 0, "", $this->NO, $this->NO, 0, 0, "", "", $this->INPUT_FILE, ++$seq));
 
@@ -109,6 +101,7 @@
         private function createDomain($cn) {
 
             // General declaration
+            $seq = 0;
             $model = new Model($this->groupId);        
 
             try {
@@ -140,6 +133,35 @@
                 $this->execute($cn, $model->addDomain($this->groupId, 1, "Telefone", "tb_contact_type"));
                 $this->execute($cn, $model->addDomain($this->groupId, 2, "Email", "tb_contact_type"));
 
+                // tb_state
+                $this->execute($cn, $model->addDomain($this->groupId, ++$seq, "AC", "tb_state"));
+                $this->execute($cn, $model->addDomain($this->groupId, ++$seq, "AL", "tb_state"));
+                $this->execute($cn, $model->addDomain($this->groupId, ++$seq, "AP", "tb_state"));
+                $this->execute($cn, $model->addDomain($this->groupId, ++$seq, "AM", "tb_state"));
+                $this->execute($cn, $model->addDomain($this->groupId, ++$seq, "BA", "tb_state"));
+                $this->execute($cn, $model->addDomain($this->groupId, ++$seq, "CE", "tb_state"));
+                $this->execute($cn, $model->addDomain($this->groupId, ++$seq, "DF", "tb_state"));
+                $this->execute($cn, $model->addDomain($this->groupId, ++$seq, "ES", "tb_state"));
+                $this->execute($cn, $model->addDomain($this->groupId, ++$seq, "GO", "tb_state"));
+                $this->execute($cn, $model->addDomain($this->groupId, ++$seq, "MA", "tb_state"));
+                $this->execute($cn, $model->addDomain($this->groupId, ++$seq, "MT", "tb_state"));
+                $this->execute($cn, $model->addDomain($this->groupId, ++$seq, "MS", "tb_state"));
+                $this->execute($cn, $model->addDomain($this->groupId, ++$seq, "MG", "tb_state"));
+                $this->execute($cn, $model->addDomain($this->groupId, ++$seq, "PA", "tb_state"));
+                $this->execute($cn, $model->addDomain($this->groupId, ++$seq, "PB", "tb_state"));
+                $this->execute($cn, $model->addDomain($this->groupId, ++$seq, "PR", "tb_state"));
+                $this->execute($cn, $model->addDomain($this->groupId, ++$seq, "PE", "tb_state"));
+                $this->execute($cn, $model->addDomain($this->groupId, ++$seq, "PI", "tb_state"));
+                $this->execute($cn, $model->addDomain($this->groupId, ++$seq, "RJ", "tb_state"));
+                $this->execute($cn, $model->addDomain($this->groupId, ++$seq, "RN", "tb_state"));
+                $this->execute($cn, $model->addDomain($this->groupId, ++$seq, "RS", "tb_state"));
+                $this->execute($cn, $model->addDomain($this->groupId, ++$seq, "RO", "tb_state"));
+                $this->execute($cn, $model->addDomain($this->groupId, ++$seq, "RR", "tb_state"));
+                $this->execute($cn, $model->addDomain($this->groupId, ++$seq, "SC", "tb_state"));
+                $this->execute($cn, $model->addDomain($this->groupId, ++$seq, "SP", "tb_state"));
+                $this->execute($cn, $model->addDomain($this->groupId, ++$seq, "SE", "tb_state"));
+                $this->execute($cn, $model->addDomain($this->groupId, ++$seq, "TO", "tb_state"));
+
             } catch (Exception $ex) {
                 throw $ex;
             }
@@ -151,10 +173,10 @@
         private function addData($cn) {
 
             // General declaration
-            $model = new Model($this->groupId);        
+            $model = new Model($this->groupId);
 
             try {
-                
+
                 // Entity
                 $this->setModule("tb_entity");
                 $this->execute($cn, $this->addEntity("João Carlos da Silva", 1, 1));
@@ -163,9 +185,9 @@
 
                 // Address
                 $this->setModule("tb_address");
-                $this->execute($cn, $this->addAddress(1, 1, "Av. Paulista", "1200", "2And 202", "São Paulo", "4", "01021-020"));
-                $this->execute($cn, $this->addAddress(2, 2, "Av. Rio Branco", "5405", "", "São Paulo", "4", "01001-020"));
-                $this->execute($cn, $this->addAddress(3, 1, "Rua Antonio Carlos de Souza", "22", "", "São Paulo", "4", "08001-020"));
+                $this->execute($cn, $this->addAddress(1, 1, "Av. Paulista", "1200", "2And 202", "São Paulo", "25", "01021-020"));
+                $this->execute($cn, $this->addAddress(2, 2, "Av. Rio Branco", "5405", "", "São Paulo", "25", "01001-020"));
+                $this->execute($cn, $this->addAddress(3, 1, "Rua Antonio Carlos de Souza", "22", "", "São Paulo", "25", "08001-020"));
 
                 // Document
                 $this->setModule("tb_document");
@@ -181,34 +203,9 @@
                 $this->execute($cn, $this->addContact(2, 2, "atendimento@loja.com.br", ""));
                 $this->execute($cn, $this->addContact(3, 1, "(11) 9 8483-9088", ""));
 
-                // State
-                $this->setModule("tb_state");
-                $this->execute($cn, $this->addState("RS", "Rio Grande do Sul"));
-                $this->execute($cn, $this->addState("SC", "Santa Catarina"));
-                $this->execute($cn, $this->addState("PR", "Paraná"));
-                $this->execute($cn, $this->addState("SP", "São Paulo"));
-                $this->execute($cn, $this->addState("RJ", "Rio de Janeiro"));
-
             } catch (Exception $ex) {
                 throw $ex;
             }
-        }
-
-        private function addState($code, $name) {
-
-            // General Declaration
-            $json = "";
-            $jsonUtil = new JsonUtil();
-
-            // Create key
-            $json = $jsonUtil->setValue($json, "id_group", $this->groupId);
-
-            // Create record        
-            $json = $jsonUtil->setValue($json, "code", $code);
-            $json = $jsonUtil->setValue($json, "name", $name);
-
-            // Return final json
-            return $json;
         }
 
         private function addEntity($name, $id_entity_type, $id_person_type) {
@@ -245,7 +242,7 @@
             $json = $jsonUtil->setValue($json, "number", $number);
             $json = $jsonUtil->setValue($json, "compl", $compl);
             $json = $jsonUtil->setValue($json, "city", $city);
-            $json = $jsonUtil->setValue($json, "state", $state);
+            $json = $jsonUtil->setValue($json, "id_state", $state);
             $json = $jsonUtil->setValue($json, "zipcode", $zipcode);
 
             // Return final json
