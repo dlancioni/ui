@@ -90,14 +90,14 @@
                         <!-- Body -->
                         <div class="modal-body">
                             <div class="form-group">
-                                <input type="text" id="_SYSTEM_" name="_SYSTEM_" class="form-control" placeholder="Cód. Assinante" value="<?php echo $systemId ?>">
-                            </div>
-                            <div class="form-group">
                                 <input type="text" id="_USERNAME_" name="_USERNAME_" class="form-control" placeholder="Usuário" value="<?php echo $username ?>">
                             </div>
                             <div class="form-group">
                                 <input type="password" id="_PASSWORD_" name="_PASSWORD_" class="form-control" placeholder="Senha" value="<?php echo $password ?>">
                             </div>
+                            <div class="form-group">
+                                <input type="text" id="_SYSTEM_" name="_SYSTEM_" class="form-control" placeholder="Cód. Assinante" value="<?php echo $systemId ?>">
+                            </div>                            
                         </div>
                         <!-- Footer -->
                         <div class="modal-footer">

@@ -179,7 +179,7 @@
                 $sql .= "field->>'username' as username," . $stringUtil->lb();
                 $sql .= "field->>'password' as password" . $stringUtil->lb();
                 $sql .= "from $systemId.tb_user" . $stringUtil->lb();
-                $sql .= "where field->>'username' = '$username'" . $stringUtil->lb();
+                $sql .= "where field->>'username' = 'demo'" . $stringUtil->lb();
                 $rs = pg_query($cn, $sql);
 
                 while ($row = pg_fetch_row($rs)) {
@@ -265,7 +265,7 @@
 
                 // Validate the system id
                 $sql = "";
-                $sql .= " select *";
+                $sql .= " select 1";
                 $sql .= " from home.tb_client";
                 $sql .= " where id_system = " . "'" . trim($systemId) . "'";
                 $rs = pg_query($cn, $sql);
@@ -300,12 +300,12 @@
 
                 // Set final password
                 $tmp = $jsonUtil->dqt($password);
-                $sql = "update tb_user set field = jsonb_set(field, '{password}', '$tmp') where field->>'username' = 'usuario'";
+                $sql = "update tb_user set field = jsonb_set(field, '{password}', '$tmp') where field->>'username' = 'demo'";
                 $rs = pg_query($cn, $sql);
 
                 // Set final email
                 $tmp = $jsonUtil->dqt($email);
-                $sql = "update tb_user set field = jsonb_set(field, '{email}', '$tmp') where field->>'username' = 'usuario'";
+                $sql = "update tb_user set field = jsonb_set(field, '{email}', '$tmp') where field->>'username' = 'demo'";
                 $rs = pg_query($cn, $sql);
 
                 // Commit transaction

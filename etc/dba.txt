@@ -1,3 +1,5 @@
 -- select * from information_schema.tables where table_schema = 'demo'
 -- select schema_name from information_schema.schemata
 -- SELECT current_database();
+
+rollback

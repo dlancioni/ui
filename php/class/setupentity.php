@@ -163,9 +163,9 @@
 
                 // Address
                 $this->setModule("tb_address");
-                $this->execute($cn, $this->addAddress(1, 1, "Av. Paulista", "1200", "2And 202", "São Paulo", 4, "01021-020"));
-                $this->execute($cn, $this->addAddress(2, 2, "Av. Rio Branco", "5405", "", "São Paulo", 4, "01001-020"));
-                $this->execute($cn, $this->addAddress(3, 1, "Rua Antonio Carlos de Souza", "22", "", "São Paulo", 4, "08001-020"));
+                $this->execute($cn, $this->addAddress(1, 1, "Av. Paulista", "1200", "2And 202", "São Paulo", "4", "01021-020"));
+                $this->execute($cn, $this->addAddress(2, 2, "Av. Rio Branco", "5405", "", "São Paulo", "4", "01001-020"));
+                $this->execute($cn, $this->addAddress(3, 1, "Rua Antonio Carlos de Souza", "22", "", "São Paulo", "4", "08001-020"));
 
                 // Document
                 $this->setModule("tb_document");
