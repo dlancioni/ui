@@ -22,6 +22,7 @@
         public $MENU_SYS = 102;
         public $MENU_AC = 103;
         public $MENU_CAD = 104;
+        public $MENU_ETD = 105;
 
         // Profiles
         public $PROFILE_SYSTEM = 1;

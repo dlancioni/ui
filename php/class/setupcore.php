@@ -130,6 +130,7 @@
                 $this->execute($cn, $model->addMenu("Administração", 0));
                 $this->execute($cn, $model->addMenu("Sistema", $this->MENU_ADM));
                 $this->execute($cn, $model->addMenu("Controle de Acesso", $this->MENU_ADM));
+                $this->execute($cn, $model->addMenu("Cadastros", 0));
 
             } catch (Exception $ex) {
                 throw $ex;
