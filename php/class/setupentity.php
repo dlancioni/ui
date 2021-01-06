@@ -34,6 +34,15 @@
                 // MENU
                 $this->setModule("tb_menu");
                 $this->execute($cn, $model->addMenu("Entidades", $this->MENU_CAD));
+                $this->execute($cn, $model->addMenu("Outros", $this->MENU_CAD));
+
+                // MODULES [STATE]
+                $this->setModule("tb_module");
+                $moduleId = $this->execute($cn, $model->addModule("tb_state", "Estados", $this->TYPE_USER, $this->STYLE_TABLE, $this->MENU_OTH));
+                $this->setupModule($cn, $moduleId, "tb_state");                
+                $this->setModule("tb_field");
+                $this->execute($cn, $model->addField($moduleId, "Código", "code", $this->TYPE_TEXT, 2, "", $this->YES, $this->NO, 0, 0, "", "", $this->INPUT_TEXTBOX, ($seq=1)));
+                $this->execute($cn, $model->addField($moduleId, "Nome", "name", $this->TYPE_TEXT, 100, "", $this->YES, $this->NO, 0, 0, "", "", $this->INPUT_TEXTBOX, ($seq=1)));
 
                 // MODULES [ENTITY]
                 $this->setModule("tb_module");
@@ -54,7 +63,10 @@
                 $this->execute($cn, $model->addField($moduleId, "Logradouro", "street", $this->TYPE_TEXT, 500, "", $this->YES, $this->NO, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
                 $this->execute($cn, $model->addField($moduleId, "Número", "number", $this->TYPE_TEXT, 10, "", $this->YES, $this->NO, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
                 $this->execute($cn, $model->addField($moduleId, "Compl.", "compl", $this->TYPE_TEXT, 500, "", $this->NO, $this->NO, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
+                $this->execute($cn, $model->addField($moduleId, "Cidade", "city", $this->TYPE_TEXT, 500, "", $this->NO, $this->NO, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
+                $this->execute($cn, $model->addField($moduleId, "Estado", "id_state", $this->TYPE_INT, 0, "", $this->YES, $this->NO, $this->tb("tb_state"), $this->fd("code"), "", "", $this->INPUT_DROPDOWN, ++$seq));
                 $this->execute($cn, $model->addField($moduleId, "Cep", "zipcode", $this->TYPE_TEXT, 10, "", $this->NO, $this->NO, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
+                $this->execute($cn, $model->addField($moduleId, "Comprovante", "attached", $this->TYPE_BINARY, 0, "", $this->NO, $this->NO, 0, 0, "", "", $this->INPUT_FILE, ++$seq));
 
                 // MODULES [DOCTOS]
                 $this->setModule("tb_module");
@@ -64,6 +76,7 @@
                 $this->execute($cn, $model->addField($moduleId, "Nome", "id_entity", $this->TYPE_INT, 0, "", $this->YES, $this->NO, $this->tb("tb_entity"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ($seq=1)));
                 $this->execute($cn, $model->addField($moduleId, "Tipo", "id_document_type", $this->TYPE_INT, 0, "", $this->YES, $this->NO, $this->tb("tb_domain"), $this->fd("value"), "tb_document_type", "", $this->INPUT_DROPDOWN, ++$seq));
                 $this->execute($cn, $model->addField($moduleId, "Número", "number", $this->TYPE_TEXT, 50, "", $this->YES, $this->NO, 0, 0, "", "", $this->INPUT_TEXTBOX, ++$seq));
+                $this->execute($cn, $model->addField($moduleId, "Arquivo", "attached", $this->TYPE_BINARY, 0, "", $this->NO, $this->NO, 0, 0, "", "", $this->INPUT_FILE, ++$seq));
 
                 // MODULES [CONTACT]
                 $this->setModule("tb_module");
@@ -77,7 +90,7 @@
 
                 // MODULES [ATTACHED]
                 $this->setModule("tb_module");
-                $moduleId = $this->execute($cn, $model->addModule("tb_attach", "Anexos", $this->TYPE_USER, $this->STYLE_TABLE, $this->MENU_ETD));
+                $moduleId = $this->execute($cn, $model->addModule("tb_attach", "Outros anexos", $this->TYPE_USER, $this->STYLE_TABLE, $this->MENU_ETD));
                 $this->setupModule($cn, $moduleId, "tb_attach");
                 $this->setModule("tb_field");
                 $this->execute($cn, $model->addField($moduleId, "Nome", "id_entity", $this->TYPE_INT, 0, "", $this->YES, $this->NO, $this->tb("tb_entity"), $this->fd("name"), "", "", $this->INPUT_DROPDOWN, ($seq=1)));
@@ -167,11 +180,36 @@
                 $this->execute($cn, $this->addContact(2, 2, "atendimento@loja.com.br", ""));
                 $this->execute($cn, $this->addContact(3, 1, "(11) 9 8483-9088", ""));
 
+                // State
+                $this->setModule("tb_state");
+                $this->execute($cn, $this->addState("RS", "Rio Grande do Sul"));
+                $this->execute($cn, $this->addState("SC", "Santa Catarina"));
+                $this->execute($cn, $this->addState("PR", "Paraná"));
+                $this->execute($cn, $this->addState("SP", "São Paulo"));
+                $this->execute($cn, $this->addState("RJ", "Rio de Janeiro"));
+
             } catch (Exception $ex) {
                 throw $ex;
             }
         }
- 
+
+        private function addState($code, $name) {
+
+            // General Declaration
+            $json = "";
+            $jsonUtil = new JsonUtil();
+
+            // Create key
+            $json = $jsonUtil->setValue($json, "id_group", $this->groupId);
+
+            // Create record        
+            $json = $jsonUtil->setValue($json, "code", $code);
+            $json = $jsonUtil->setValue($json, "name", $name);
+
+            // Return final json
+            return $json;
+        }
+
         private function addEntity($name, $id_entity_type, $id_person_type) {
 
             // General Declaration

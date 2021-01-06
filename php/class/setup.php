@@ -23,7 +23,8 @@
         public $MENU_AC = 103;
         public $MENU_CAD = 104;
         public $MENU_ETD = 105;
-
+        public $MENU_OTH = 106;
+        
         // Profiles
         public $PROFILE_SYSTEM = 1;
         public $PROFILE_ADMIN = 2;
