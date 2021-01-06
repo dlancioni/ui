@@ -623,9 +623,9 @@
                 $this->execute($cn, $model->addModuleEvent($this->PROFILE_ADMIN, $this->TB_UPD_PWD, $this->EVENT_CHANGE_PASSWORD));
                 $this->execute($cn, $model->addModuleEvent($this->PROFILE_USER, $this->TB_UPD_PWD, $this->EVENT_CHANGE_PASSWORD));
 
-                $this->execute($cn, $model->addModuleEvent($this->PROFILE_SYSTEM, $this->TB_UPD_PWD, $this->EVENT_BACK));
-                $this->execute($cn, $model->addModuleEvent($this->PROFILE_ADMIN, $this->TB_UPD_PWD, $this->EVENT_BACK));
-                $this->execute($cn, $model->addModuleEvent($this->PROFILE_USER, $this->TB_UPD_PWD, $this->EVENT_BACK));
+                // $this->execute($cn, $model->addModuleEvent($this->PROFILE_SYSTEM, $this->TB_UPD_PWD, $this->EVENT_BACK));
+                // $this->execute($cn, $model->addModuleEvent($this->PROFILE_ADMIN, $this->TB_UPD_PWD, $this->EVENT_BACK));
+                // $this->execute($cn, $model->addModuleEvent($this->PROFILE_USER, $this->TB_UPD_PWD, $this->EVENT_BACK));
 
             } catch (Exception $ex) {
                 throw $ex;
