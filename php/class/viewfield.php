@@ -19,8 +19,8 @@
 
                 // Delete it
                 switch ($this->getEvent()) {
-                    case $this->ACTION_NEW:
-                    case $this->ACTION_EDIT:
+                    case $this->EVENT_NEW:
+                    case $this->EVENT_EDIT:
                         $this->validateViewField($new);
                         break;
                 }

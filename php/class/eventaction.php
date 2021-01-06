@@ -135,8 +135,8 @@
                 $sql .= " and (tb_event.field->>'id_target')::int = " . $target . $lb;
                 $sql .= " and (tb_event.field->>'name')::text <> ''" . $lb;
 
-                if ($event == $this->ACTION_DETAIL) {
-                    $sql .= " and tb_event.id = " . $this->ACTION_BACK . $lb;
+                if ($event == $this->EVENT_DETAIL) {
+                    $sql .= " and tb_event.id = " . $this->EVENT_BACK . $lb;
                 }
 
                 $sql .= " order by tb_event.id" . $lb;

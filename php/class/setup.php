@@ -155,8 +155,6 @@
 
             // General declaration
             $i = 0;
-            $TABLE = 1;
-            $FORM = 2;
             $model = new Model($this->groupId);
 
             try {

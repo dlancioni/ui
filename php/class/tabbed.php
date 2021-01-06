@@ -40,7 +40,7 @@ class LogicTabbed extends Base {
             $logicForm->showAction = false;
 
             // Get main form (disabled)
-            $form .= $logicForm->createForm($moduleId, $id, $this->ACTION_DETAIL);
+            $form .= $logicForm->createForm($moduleId, $id, $this->EVENT_DETAIL);
             $pageTitle = $logicForm->pageTitle;
             $html .= $pageTitle;
             $html .= $form;
@@ -74,7 +74,7 @@ class LogicTabbed extends Base {
                 // Create output
                 if ($moduleId != $parentTableId) {
                     if ($lastId != $parentTableId) {
-                        $report .= $logicTable->createReport($parentTableId, 0, $this->ACTION_DETAIL, 0);
+                        $report .= $logicTable->createReport($parentTableId, 0, $this->EVENT_DETAIL, 0);
                         $pageTitle = $logicTable->pageTitle;
                         $tabDef[] = array("name"=>$name, "title"=>$pageTitle, "page"=>$report);
                     }

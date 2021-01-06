@@ -80,7 +80,8 @@
 
         // Module type
         public $STYLE_TABLE = 1;
-        public $STYLE_FORM = 2;        
+        public $STYLE_FORM = 2;
+        public $STYLE_TABBED = 2;        
 
         // Aggregation
         public $SELECTION = 1;
@@ -99,16 +100,17 @@
         public $EVENT_CHANGE = 3;
 
         // Actions (see event.js must have equivalent item)
-        public $ACTION_NONE = 0;
-        public $ACTION_NEW = 1;
-        public $ACTION_EDIT = 2;
-        public $ACTION_DELETE = 3;
-        public $ACTION_CONFIRM = 4;
-        public $ACTION_FILTER = 5;
-        public $ACTION_CLEAR = 6;
-        public $ACTION_BACK = 7;
-        public $ACTION_TEST = 8;
-        public $ACTION_DETAIL = 9;
+        public $EVENT_NONE = 0;
+        public $EVENT_NEW = 1;
+        public $EVENT_EDIT = 2;
+        public $EVENT_DELETE = 3;
+        public $EVENT_CONFIRM = 4;
+        public $EVENT_FILTER = 5;
+        public $EVENT_CLEAR = 6;
+        public $EVENT_BACK = 7;
+        public $EVENT_CHANGE_PASSWORD = 8;
+        public $EVENT_DETAIL = 9;
+        public $EVENT_TEST = 10;
 
         // View type
         public $REPORT = 1;

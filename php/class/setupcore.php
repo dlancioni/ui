@@ -441,8 +441,6 @@
 
             // General declaration
             $i = 0;
-            $TABLE = 1;
-            $FORM = 2;
             $model = new Model($this->groupId);
 
             try {
@@ -450,19 +448,21 @@
                 // Define module name
                 $this->setModule("tb_event");
 
-                // Create standard events
-                $this->execute($cn, $model->addEvent($TABLE, "Novo", $this->EVENT_CLICK, 0, 0, "formNew();"));
-                $this->execute($cn, $model->addEvent($TABLE, "Editar", $this->EVENT_CLICK, 0, 0, "formEdit();"));
-                $this->execute($cn, $model->addEvent($TABLE, "Apagar", $this->EVENT_CLICK, 0, 0, "formDelete();"));
-                $this->execute($cn, $model->addEvent($FORM, "Confirmar", $this->EVENT_CLICK, 0, 0, "confirm();"));
-                $this->execute($cn, $model->addEvent($TABLE, "Filtrar", $this->EVENT_CLICK, 0, 0, "formFilter();"));
-                $this->execute($cn, $model->addEvent($FORM, "Limpar", $this->EVENT_CLICK, 0, 0, "formClear();"));
-                $this->execute($cn, $model->addEvent($FORM, "Voltar", $this->EVENT_CLICK, 0, 0, "reportBack();"));
-                $this->execute($cn, $model->addEvent($FORM, "Alterar senha", $this->EVENT_CLICK, 0, 0, "changePassword();"));
-                
+                // System events
+                $this->execute($cn, $model->addEvent($this->STYLE_TABLE, "Novo", $this->EVENT_CLICK, 0, 0, "formNew();"));
+                $this->execute($cn, $model->addEvent($this->STYLE_TABLE, "Editar", $this->EVENT_CLICK, 0, 0, "formEdit();"));
+                $this->execute($cn, $model->addEvent($this->STYLE_TABLE, "Apagar", $this->EVENT_CLICK, 0, 0, "formDelete();"));
+                $this->execute($cn, $model->addEvent($this->STYLE_FORM, "Confirmar", $this->EVENT_CLICK, 0, 0, "confirm();"));
+                $this->execute($cn, $model->addEvent($this->STYLE_TABLE, "Filtrar", $this->EVENT_CLICK, 0, 0, "formFilter();"));
+                $this->execute($cn, $model->addEvent($this->STYLE_FORM, "Limpar", $this->EVENT_CLICK, 0, 0, "formClear();"));
+                $this->execute($cn, $model->addEvent($this->STYLE_FORM, "Voltar", $this->EVENT_CLICK, 0, 0, "reportBack();"));
+                $this->execute($cn, $model->addEvent($this->STYLE_FORM, "Alterar senha", $this->EVENT_CLICK, 0, 0, "changePassword();"));
+                $this->execute($cn, $model->addEvent($this->STYLE_TABLE, "Detalhe", $this->EVENT_CLICK, 0, 0, "temp();"));
+                $this->execute($cn, $model->addEvent($this->STYLE_FORM, "Testar", $this->EVENT_CLICK, 0, 0, "eval(field(''code'').value);"));
+
                 // Custon events
-                $this->execute($cn, $model->addEvent($FORM, "", $this->EVENT_CHANGE, $this->tb("tb_module"), $this->fd("name"), "this.value = validateTableName(this.value);"));
-                $this->execute($cn, $model->addEvent($FORM, "Testar", $this->EVENT_CLICK, 0, 0, "eval(field(''code'').value);"));
+                $this->execute($cn, $model->addEvent($this->STYLE_FORM, "", $this->EVENT_CHANGE, $this->tb("tb_module"), $this->fd("name"), "this.value = validateTableName(this.value);"));                
+                
 
             } catch (Exception $ex) {
                 throw $ex;
@@ -508,7 +508,7 @@
                 // Create User
                 $this->execute($cn, $model->addUser($this->groupId, "System", "system@form1.com.br", "system", "system@forms"));
                 $this->execute($cn, $model->addUser($this->groupId, "Administrador", "admin@form1.com.br", "admin", "admin@forms"));
-                $this->execute($cn, $model->addUser($this->public, "Usuário", "usuario@form1.com.br", "usuario", ""));
+                $this->execute($cn, $model->addUser($this->public, "Demo user", "demo@form1.com.br", "demo", "123"));
                 
             } catch (Exception $ex) {
                 throw $ex;
@@ -593,8 +593,6 @@
             // General declaration
             $i = 0;
             $j = 0;
-            $EVENT_CLEAR = 6;
-            $EVENT_CHANGE_PASSWORD = 8;
             $model = new Model($this->groupId);
 
             try {
@@ -621,9 +619,13 @@
                 }
 
                 // Custon for change password screen
-                $this->execute($cn, $model->addModuleEvent($this->PROFILE_SYSTEM, $this->TB_UPD_PWD, $EVENT_CHANGE_PASSWORD));
-                $this->execute($cn, $model->addModuleEvent($this->PROFILE_ADMIN, $this->TB_UPD_PWD, $EVENT_CHANGE_PASSWORD));
-                $this->execute($cn, $model->addModuleEvent($this->PROFILE_USER, $this->TB_UPD_PWD, $EVENT_CHANGE_PASSWORD));
+                $this->execute($cn, $model->addModuleEvent($this->PROFILE_SYSTEM, $this->TB_UPD_PWD, $this->EVENT_CHANGE_PASSWORD));
+                $this->execute($cn, $model->addModuleEvent($this->PROFILE_ADMIN, $this->TB_UPD_PWD, $this->EVENT_CHANGE_PASSWORD));
+                $this->execute($cn, $model->addModuleEvent($this->PROFILE_USER, $this->TB_UPD_PWD, $this->EVENT_CHANGE_PASSWORD));
+
+                $this->execute($cn, $model->addModuleEvent($this->PROFILE_SYSTEM, $this->TB_UPD_PWD, $this->EVENT_BACK));
+                $this->execute($cn, $model->addModuleEvent($this->PROFILE_ADMIN, $this->TB_UPD_PWD, $this->EVENT_BACK));
+                $this->execute($cn, $model->addModuleEvent($this->PROFILE_USER, $this->TB_UPD_PWD, $this->EVENT_BACK));
 
             } catch (Exception $ex) {
                 throw $ex;

@@ -102,12 +102,12 @@
                 }
 
                 // Check fks before delete
-                if ($event == $this->ACTION_DELETE) {
+                if ($event == $this->EVENT_DELETE) {
                     $this->validateFkOnDelete($moduleId, $this->getLastId());
                 }
 
                 // Rules for update/delete
-                if ($event == $this->ACTION_EDIT || $event == $this->ACTION_DELETE) {
+                if ($event == $this->EVENT_EDIT || $event == $this->EVENT_DELETE) {
 
                     // Get existing record
                     $filter = new Filter();
@@ -129,7 +129,7 @@
                 }
 
                 // Upload files on insert only
-                if ($event == $this->ACTION_NEW || $event == $this->ACTION_EDIT) {
+                if ($event == $this->EVENT_NEW || $event == $this->EVENT_EDIT) {
                     if (count($_FILES) > 0) {
                         $logicUpload = new LogicUpload($cn);
                         $logicUpload->uploadFiles($_FILES, $systemId, $groupId);
@@ -164,7 +164,7 @@
                 }
 
                 // Validate unique fields (when changed)
-                if ($event == $this->ACTION_NEW || $event == $this->ACTION_EDIT) {
+                if ($event == $this->EVENT_NEW || $event == $this->EVENT_EDIT) {
                     $filter = new Filter();
                     foreach ($tableDef as $item) {
                         $fieldLabel = $item["field_label"];
@@ -291,16 +291,16 @@
             try {
 
                 switch ($this->getEvent()) {
-                    case $this->ACTION_NEW:
+                    case $this->EVENT_NEW:
                         $msg = "M6";                        
                         $sql = "insert into $tableName (field) values ('$new') returning id";                        
                         break;
-                    case $this->ACTION_EDIT:
+                    case $this->EVENT_EDIT:
                         $msg = "M7";                        
                         $sql .= " update $tableName set field = '$new' ";
                         $sql .= " where " . $jsonUtil->condition($tableName, "id", $this->TYPE_INT, "=", $this->getLastId());
                         break;
-                    case $this->ACTION_DELETE:
+                    case $this->EVENT_DELETE:
                         $msg = "M8";                        
                         $sql .= " delete from $tableName ";
                         $sql .= " where " . $jsonUtil->condition($tableName, "id", $this->TYPE_INT, "=", $this->getLastId());                        

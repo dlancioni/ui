@@ -37,7 +37,7 @@
 
                 // Delete it
                 switch ($this->getEvent()) {
-                    case $this->ACTION_DELETE:
+                    case $this->EVENT_DELETE:
                         $this->deleteViewField($viewId);
                 }
 

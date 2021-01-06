@@ -567,7 +567,7 @@
             $fieldMask = $stringUtil->dqt($fieldMask);
 
             // Validate mandatory fields
-            if ($event != $this->ACTION_FILTER) {
+            if ($event != $this->EVENT_FILTER) {
                 $msg = $stringUtil->dqt($message->getValue("M1", $fieldLabel));
                 if ($fieldMandatory == 1) {                
                     $js .= "if (!validateMandatory($fieldName, $fk, $msg)) {";

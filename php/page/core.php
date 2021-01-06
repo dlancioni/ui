@@ -2,8 +2,8 @@
 
     // General declaration      
     $id = 0;
-    $format = 1;
-    $moduleId = 0;
+    //$format = 1;
+    //$moduleId = 0;
 
     $html = "";
     $error = "";
@@ -12,11 +12,8 @@
     $logicTabbed = "";
     $onLoadFunctions = "";
 
-    // Screen formats
-    $TABLE = 1;
-    $FORM = 2;
-    $TABBED = 3;
-    $events = array();    
+    $events = array();
+    $base = new Base();
     
     try {
         
@@ -29,23 +26,22 @@
             // Create main page
             switch ($format) {
 
-                // Single table
-                case $TABLE:
+                // Table
+                case 1:
                     $logicTable = new LogicTable($cn, $sqlBuilder, $_REQUEST);
                     $logicTable->queryType = $sqlBuilder->QUERY;                    
                     $html .= $logicTable->createReport($moduleId, $viewId, $event, $pageOffset);
                     $error = $logicTable->getError();                    
                     break;
 
-                // Single form    
-                case $FORM:
+                 // Form    
+                case 2:
                     $logicForm = new LogicForm($cn, $sqlBuilder);
                     $html .= $logicForm->createForm($moduleId, $id, $event);
                     $error = $logicForm->getError();
                     break;
-
-                // Form with many tables (tabbed)    
-                case $TABBED:
+                // Tabbed
+                case 3:
                     $logicTabbed = new LogicTabbed($cn, $sqlBuilder);
                     $html .= $logicTabbed->createTabbed($cn, $moduleId, $id);
                     $error = $logicTabbed->getError();

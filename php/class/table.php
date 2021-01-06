@@ -98,10 +98,10 @@ class LogicTable extends Base {
 
             // Get data
             $filter = new Filter("like");
-            if ($event == $this->ACTION_FILTER || $event == $this->ACTION_DETAIL) {
+            if ($event == $this->EVENT_FILTER || $event == $this->EVENT_DETAIL) {
                 $filter->setFilter($tableDef, $formData);
                 // Do not keep filters when creating tabs
-                if ($event != $this->ACTION_DETAIL) {
+                if ($event != $this->EVENT_DETAIL) {
                     $_SESSION["_FILTER_"][$moduleId] = array($formData);
                 }
 
@@ -112,7 +112,7 @@ class LogicTable extends Base {
             }
 
             // Keep relationship field
-            if ($event == $this->ACTION_DETAIL) {
+            if ($event == $this->EVENT_DETAIL) {
                 foreach ($formData as $key => $value) {
                     $this->field1M = $key;
                 }
@@ -466,7 +466,7 @@ class LogicTable extends Base {
                             // No link for views    
                             if (isset($row["id"])) {
                                 // Create link to parent module                            
-                                if ($event == $this->ACTION_NONE || $event == $this->ACTION_BACK) {
+                                if ($event == $this->EVENT_NONE || $event == $this->EVENT_BACK) {
                                     $id = $row["id"];
                                     if ($fk != 0 && $fk != $this->TB_DOMAIN) {
                                         $fieldValue = "<a href='#' onClick='go($fk, 3, 0, $id)'>" . $fieldValue . "</a>";

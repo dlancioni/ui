@@ -1,4 +1,4 @@
-drop schema if exists empresa cascade;
+drop schema if exists demo cascade;
 drop schema if exists home cascade;
 create schema home;
 create table home.tb_client (
@@ -9,5 +9,5 @@ create table home.tb_client (
     expire_date date
 );
 select * from home.tb_client;
---select field->>'password' from empresa.tb_user;
+-- select field->>'username', field->>'password' from demo.tb_user;
 

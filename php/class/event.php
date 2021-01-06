@@ -72,7 +72,7 @@
                 // Grant profiles Admin and User
                 switch ($this->getEvent()) {
 
-                    case $this->ACTION_NEW:
+                    case $this->EVENT_NEW:
 
                         // Get keys
                         $moduleId = $jsonUtil->getValue($new, "id_module");
@@ -96,7 +96,7 @@
                             break;
                         }
 
-                    case $this->ACTION_DELETE:
+                    case $this->EVENT_DELETE:
 
                         // Get keys
                         $moduleId = $jsonUtil->getValue($old, "id_module");

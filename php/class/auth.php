@@ -138,7 +138,7 @@
             // General Declaration
             $msg = "";
             $userId = 0;
-            $username = "usuario";
+            $username = "";
             $password = "";
             $subject = "";
             $body = "";

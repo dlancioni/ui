@@ -71,11 +71,11 @@ class LogicForm extends Base {
         try {
 
             // Handle events
-            if ($event == $this->ACTION_DELETE || $event == $this->ACTION_DETAIL) {
+            if ($event == $this->EVENT_DELETE || $event == $this->EVENT_DETAIL) {
                 $disabled = "disabled";
             }
 
-            if ($event == $this->ACTION_FILTER) {
+            if ($event == $this->EVENT_FILTER) {
                 $id = 0;
             }
 
@@ -92,7 +92,7 @@ class LogicForm extends Base {
                 $pageTitle = $tableDef[0]["title"];
                 
                 // Do not query database
-                if ($event == $this->ACTION_FILTER) {
+                if ($event == $this->EVENT_FILTER) {
                     if (isset($_SESSION["_FILTER_"][$moduleId])) {
                         $data = $_SESSION["_FILTER_"][$moduleId];
                     }                    
@@ -269,7 +269,7 @@ class LogicForm extends Base {
                     }
 
                     // Cannot filter on binary fields
-                    if ($event == $this->ACTION_FILTER) {
+                    if ($event == $this->EVENT_FILTER) {
                         if ($fieldType != $this->TYPE_BINARY) {
                             $controls .= $this->element->createFieldGroup($label, $control);
                         }
@@ -322,15 +322,15 @@ class LogicForm extends Base {
 
         // Control access
         switch ($event) {
-            case $this->ACTION_NEW:
+            case $this->EVENT_NEW:
                 $id = "";
                 $disabled = "disabled";
                 $show = 0;
                 break;                
-            case $this->ACTION_EDIT:
+            case $this->EVENT_EDIT:
                 $disabled = "disabled";
                 break;                
-            case $this->ACTION_DELETE:
+            case $this->EVENT_DELETE:
                 $disabled = "disabled";
                 break;
             default:
