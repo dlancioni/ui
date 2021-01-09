@@ -17,7 +17,7 @@
     try {
 
         // Request query
-        $sql = $_REQUEST["param"];
+        $sql = $_REQUEST["_SQL_"];
 
         // DB interface
         $db = new Db();       
