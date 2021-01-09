@@ -49,7 +49,7 @@ async function logout() {
 }
 
 /*
- * forgetPassword
+ * Recover email from given account
  */
 async function retrieveCredential(email) {
     
@@ -59,7 +59,7 @@ async function retrieveCredential(email) {
     formData.append('_EMAIL_', email);
     
     // Just retrieve it
-    let info = await execute('async/retrieve.mail.php', formData);
+    let info = await execute('async/retrievemail.php', formData);
     info = JSON.parse(info);
     
     // Report the user
