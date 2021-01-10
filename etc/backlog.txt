@@ -1,8 +1,5 @@
 Pendentes
     Adicionar condicoes as views
-  	Criar solucao para apresentar graficos
-    Renomear constantes ACTION_ PARA EVENT_
-    Remover coluna "id_entity" do grid no detalhe    
 Bugs
 	Nao permitir mesmo usuario logar diferentes maquinas
   Sair nao aparece no celular
@@ -34,5 +31,7 @@ Finalizados
 	Adicionar codigo do sistema na tela de recuperar senha
 	Controle de paginacao na visao
 	Form/load nao esta funcionando
-
+  	Criar solucao para apresentar graficos
+    Renomear constantes ACTION_ PARA EVENT_
+    Remover coluna "id_entity" do grid no detalhe    
 
